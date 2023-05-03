@@ -1,0 +1,40 @@
+import 'package:flutter/material.dart';
+
+const blackColor = Color(0xFF000000);
+const whiteColor = Color(0xFFFFFFFF);
+const primaryColor = Color(0xFF088542);
+const lightPrimaryColor = Color(0xFFDFF2EE);
+const darkPrimaryColor = Color(0xFF004B34);
+const textColor = Color(0xFF231F20);
+const borderColor = Color(0xFFC0BABC);
+const hintColor = Color(0xFFA19B9D);
+
+// GRAY
+const gray29 = Color(0xFF292929);
+const gray8c = Color(0xFF8C8C8C);
+const gray15 = Color(0xFF151516);
+const gray33 = Color(0xFF333333);
+const gray39 = Color(0xFF393939);
+const gray3D = Color(0xFF3D3F43);
+const gray46 = Color(0xFF464646);
+const gray4D = Color(0xFF4D4D4D);
+const gray55 = Color(0xFF555555);
+const gray61 = Color(0xFF616161);
+const gray6C = Color(0xFF6C6C6C);
+const gray7A = Color(0xFF7A7A7A);
+const gray85 = Color(0xFF858585);
+const gray89 = Color(0xFF898989);
+const gray98 = Color(0xFF989898);
+const gray9E = Color(0xFF9E9E9E);
+const grayA0 = Color(0xFFA0A0A0);
+const grayC0 = Color(0xFFC0C0C0);
+const grayD1 = Color(0xFFD1D1D1);
+const grayD7 = Color(0xFFD7D7D7);
+const grayD9 = Color(0xFFD9D9D9);
+const grayDB = Color(0xFFDBDBDB);
+const grayE3 = Color(0xFFE3E3E3);
+const grayEB = Color(0xFFEBEBEB);
+const grayF0 = Color(0xFFF0F0F0);
+const grayF5 = Color(0xFFF5F5F5);
+const grayF9 = Color(0xFFF9F9F9);
+const gray45 = Color(0xFF45597A);

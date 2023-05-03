@@ -7,7 +7,27 @@
 
 # The following line activates a set of recommended lints for Flutter apps,
 # packages, and plugins designed to encourage good coding practices.
-include: package:flutter_lints/flutter.yaml
+include: package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  errors:
+    always_use_package_imports: error
+    file_names: error
+    library_names: error
+    valid_regexps: error
+    require_trailing_commas: error
+    prefer_single_quotes: error
+    prefer_const_constructors: error
+    unnecessary_lambdas: error
+    unnecessary_parenthesis: error
+
+  exclude:
+    - lib/generated/*
+    - lib/widgets/circular_bottom_navigation.dart
+    - lib/read_more/*
+    - lib/**.freezed.dart
+    - lib/**.g.dart
+    - test/*
 
 linter:
   # The lint rules applied to this project can be customized in the
@@ -24,6 +44,10 @@ linter:
   rules:
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
+    public_member_api_docs: false
+    lines_longer_than_80_chars: false
+    sort_pub_dependencies: false
+    cascade_invocations: false
 
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

@@ -1,0 +1,15 @@
+{
+  "appName" : "PIF",
+  "home" : "Home",
+  "drink" : "Drinks",
+  "booking" : "Bookings",
+  "social" : "Social",
+  "spaceBooking" : "Space Booking",
+  "search" : "Search",
+  "building" : "Building",
+  "floor" : "Floor",
+  "videoConferencing" : "Video conferencing",
+  "book" : "Book",
+  "instanceBooking" : "Instant Book",
+  "scanToBook" : "Scan to book"
+}
