@@ -12,7 +12,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   SpaceBookingNotifier({required this.ref}) : super(SpaceBookingState.initial());
   final Ref ref;
 
-  getSpaceData() {
+  void getSpaceData() {
     final lstData = <SpaceBookingModel>[];
     lstData.add(
       SpaceBookingModel(

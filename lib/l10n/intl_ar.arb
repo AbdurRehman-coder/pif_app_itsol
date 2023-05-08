@@ -11,5 +11,18 @@
   "videoConferencing" : "Video conferencing",
   "book" : "Book",
   "instanceBooking" : "Instant Book",
-  "scanToBook" : "Scan to book"
+  "scanToBook" : "Scan to book",
+  "filterBy": "Filter by",
+  "datesAndRepeat": "Dates & Repeat",
+  "selectDates": "Select Dates",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "duration": "Duration",
+  "capacity": "Capacity",
+  "resetFilter": "Rest filters",
+  "resultFound": "results found",
+  "noRoomToShow": "NO ROOMS TO SHOW",
+  "cantFindMatchingResult": "Oops! We can’t find matching results ",
+  "selectTime" : "Select time",
+  "to" : "to"
 }
