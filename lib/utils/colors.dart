@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 const blackColor = Color(0xFF000000);
 const whiteColor = Color(0xFFFFFFFF);
 const primaryColor = Color(0xFF088542);
-const lightPrimaryColor = Color(0xFFDFF2EE);
+const lightPrimaryColor = Color(0xFFE6F6EC);
 const darkPrimaryColor = Color(0xFF004B34);
 const textColor = Color(0xFF231F20);
+const darkTextColor = Color(0xFF272627);
 const borderColor = Color(0xFFC0BABC);
 const hintColor = Color(0xFFA19B9D);
 const grayTextColor = Color(0xFF635F60);
@@ -13,6 +14,10 @@ const lightGrayBgColor = Color(0xFFFAFAFA);
 const grayBorderColor = Color(0xFFE3DEDF);
 const goldenColor = Color(0xFFB37C4C);
 const darkBorderColor = Color(0xFF777374);
+const lightGoldenColor = Color(0xFFE7E3DA);
+const silverTextColor = Color(0xFF565556);
+const lineColor = Color(0xFFE6E4EA);
+const redColor = Color(0xFFBF0000);
 
 // GRAY
 const gray29 = Color(0xFF292929);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pif_flutter/extensions/context_extensions.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class Style {
@@ -62,7 +63,7 @@ class Style {
     double? hintFontSize = 16,
     Widget? prefixIcon,
   }) {
-    var inputBorder = const OutlineInputBorder(
+    const inputBorder = OutlineInputBorder(
       borderSide: BorderSide.none,
     );
 
@@ -80,6 +81,20 @@ class Style {
       border: inputBorder,
       suffixIcon: suffixIcon,
       prefixIcon: prefixIcon,
+    );
+  }
+
+  static ButtonStyle primaryButtonStyle({required BuildContext context}) {
+    return ElevatedButton.styleFrom(
+      elevation: 0,
+      fixedSize: Size(context.screenWidth.w, 45.h),
+      foregroundColor: whiteColor,
+      backgroundColor: primaryColor,
+      textStyle: Style.commonTextStyle(
+        color: whiteColor,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+      ),
     );
   }
 }

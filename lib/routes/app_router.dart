@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/booking/booking_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
@@ -20,6 +21,8 @@ class AppRouter {
         return _setPage(page: const HomePage(), settings: settings);
       case Routes.spaceBookingScreen:
         return _setPage(page: const SpaceBookingPage(), settings: settings);
+      case Routes.bookingScreen:
+        return _setPage(page: const BookingPage(), settings: settings);
       default:
         return _errorRoute();
     }
