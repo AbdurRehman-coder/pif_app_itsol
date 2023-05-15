@@ -18,6 +18,9 @@ const lightGoldenColor = Color(0xFFE7E3DA);
 const silverTextColor = Color(0xFF565556);
 const lineColor = Color(0xFFE6E4EA);
 const redColor = Color(0xFFBF0000);
+const dateBgColor = Color(0xFFC4E9D0);
+const dayTextColor = Color(0xFF444041);
+const inactiveTrackColor = Color(0xFFF2ECED);
 
 // GRAY
 const gray29 = Color(0xFF292929);

@@ -24,6 +24,7 @@ mixin _$BookingState {
   bool get isOpenDatePicker => throw _privateConstructorUsedError;
   bool get isOpenStartTimePicker => throw _privateConstructorUsedError;
   bool get isOpenEndTimePicker => throw _privateConstructorUsedError;
+  List<DayHeaderModel> get lstDays => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookingStateCopyWith<BookingState> get copyWith =>
@@ -44,7 +45,8 @@ abstract class $BookingStateCopyWith<$Res> {
       DateTime endTime,
       bool isOpenDatePicker,
       bool isOpenStartTimePicker,
-      bool isOpenEndTimePicker});
+      bool isOpenEndTimePicker,
+      List<DayHeaderModel> lstDays});
 }
 
 /// @nodoc
@@ -68,6 +70,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? isOpenDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
+    Object? lstDays = null,
   }) {
     return _then(_value.copyWith(
       bookingTitle: null == bookingTitle
@@ -102,6 +105,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.isOpenEndTimePicker
           : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
               as bool,
+      lstDays: null == lstDays
+          ? _value.lstDays
+          : lstDays // ignore: cast_nullable_to_non_nullable
+              as List<DayHeaderModel>,
     ) as $Val);
   }
 }
@@ -122,7 +129,8 @@ abstract class _$$_BookingStateCopyWith<$Res>
       DateTime endTime,
       bool isOpenDatePicker,
       bool isOpenStartTimePicker,
-      bool isOpenEndTimePicker});
+      bool isOpenEndTimePicker,
+      List<DayHeaderModel> lstDays});
 }
 
 /// @nodoc
@@ -144,6 +152,7 @@ class __$$_BookingStateCopyWithImpl<$Res>
     Object? isOpenDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
+    Object? lstDays = null,
   }) {
     return _then(_$_BookingState(
       bookingTitle: null == bookingTitle
@@ -178,6 +187,10 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value.isOpenEndTimePicker
           : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
               as bool,
+      lstDays: null == lstDays
+          ? _value._lstDays
+          : lstDays // ignore: cast_nullable_to_non_nullable
+              as List<DayHeaderModel>,
     ));
   }
 }
@@ -193,8 +206,10 @@ class _$_BookingState implements _BookingState {
       required this.endTime,
       required this.isOpenDatePicker,
       required this.isOpenStartTimePicker,
-      required this.isOpenEndTimePicker})
-      : _selectedDates = selectedDates;
+      required this.isOpenEndTimePicker,
+      required final List<DayHeaderModel> lstDays})
+      : _selectedDates = selectedDates,
+        _lstDays = lstDays;
 
   @override
   final String bookingTitle;
@@ -218,10 +233,17 @@ class _$_BookingState implements _BookingState {
   final bool isOpenStartTimePicker;
   @override
   final bool isOpenEndTimePicker;
+  final List<DayHeaderModel> _lstDays;
+  @override
+  List<DayHeaderModel> get lstDays {
+    if (_lstDays is EqualUnmodifiableListView) return _lstDays;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lstDays);
+  }
 
   @override
   String toString() {
-    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker)';
+    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays)';
   }
 
   @override
@@ -243,7 +265,8 @@ class _$_BookingState implements _BookingState {
             (identical(other.isOpenStartTimePicker, isOpenStartTimePicker) ||
                 other.isOpenStartTimePicker == isOpenStartTimePicker) &&
             (identical(other.isOpenEndTimePicker, isOpenEndTimePicker) ||
-                other.isOpenEndTimePicker == isOpenEndTimePicker));
+                other.isOpenEndTimePicker == isOpenEndTimePicker) &&
+            const DeepCollectionEquality().equals(other._lstDays, _lstDays));
   }
 
   @override
@@ -256,7 +279,8 @@ class _$_BookingState implements _BookingState {
       endTime,
       isOpenDatePicker,
       isOpenStartTimePicker,
-      isOpenEndTimePicker);
+      isOpenEndTimePicker,
+      const DeepCollectionEquality().hash(_lstDays));
 
   @JsonKey(ignore: true)
   @override
@@ -274,7 +298,8 @@ abstract class _BookingState implements BookingState {
       required final DateTime endTime,
       required final bool isOpenDatePicker,
       required final bool isOpenStartTimePicker,
-      required final bool isOpenEndTimePicker}) = _$_BookingState;
+      required final bool isOpenEndTimePicker,
+      required final List<DayHeaderModel> lstDays}) = _$_BookingState;
 
   @override
   String get bookingTitle;
@@ -292,6 +317,8 @@ abstract class _BookingState implements BookingState {
   bool get isOpenStartTimePicker;
   @override
   bool get isOpenEndTimePicker;
+  @override
+  List<DayHeaderModel> get lstDays;
   @override
   @JsonKey(ignore: true)
   _$$_BookingStateCopyWith<_$_BookingState> get copyWith =>

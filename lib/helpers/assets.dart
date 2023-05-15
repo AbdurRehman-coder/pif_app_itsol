@@ -37,4 +37,5 @@ class Assets {
   static const String user = 'assets/svg/ic_user.svg';
   static const String userPlaceHolder = 'assets/svg/ic_user_placeholder.svg';
   static const String cancelBtn = 'assets/svg/ic_cancel_btn.svg';
+  static const String bookingBlockedBg = 'assets/svg/ic_block_booking_bg.svg';
 }
