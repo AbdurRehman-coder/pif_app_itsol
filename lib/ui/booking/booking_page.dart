@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -71,146 +69,147 @@ class _BookingPageState extends ConsumerState<BookingPage> {
       body: Stack(
         children: [
           SizedBox(
-            height: Platform.isIOS ? 280.h : 240.h,
+            height: context.topHeaderHeight.h,
             child: Stack(
               children: [
                 PageView.builder(
                   controller: _controller,
                   itemCount: 3,
+                  physics: const ClampingScrollPhysics(),
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
-                      height: Platform.isIOS ? 280.h : 240.h,
+                      height: context.topHeaderHeight.h,
                       padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 12.h),
                       decoration: const BoxDecoration(
                         image: DecorationImage(image: AssetImage(Assets.spaceBg1), fit: BoxFit.fill),
                       ),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: context.statusBarHeight.h,
-                          ),
-                          SizedBox(
-                            height: 30.h,
-                          ),
-                          Text(
-                            'Building 2  -  Floor 1',
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            'Al Multaqa 301',
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                Assets.chair,
-                                height: 16.h,
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Text(
-                                '2 seats huddle',
-                                style: Style.commonTextStyle(
-                                  color: whiteColor,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                Assets.videoConf,
-                                height: 18.h,
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Text(
-                                'Video conferencing',
-                                style: Style.commonTextStyle(
-                                  color: whiteColor,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 6.w,
-                              ),
-                              Container(
-                                height: 10.h,
-                                width: 1.w,
-                                color: whiteColor,
-                              ),
-                              SizedBox(
-                                width: 6.w,
-                              ),
-                              SvgPicture.asset(
-                                Assets.screenCast,
-                                height: 18.h,
-                              ),
-                              SizedBox(
-                                width: 5.w,
-                              ),
-                              Text(
-                                S.of(context).screenSharing,
-                                style: Style.commonTextStyle(
-                                  color: whiteColor,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
                     );
                   },
                 ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: 60.w,
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.circular(10.r),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: context.statusBarHeight.h,
                     ),
-                    margin: EdgeInsets.only(bottom: 35.h),
-                    child: SizedBox(
-                      height: 20.h,
-                      child: DotsIndicator(
-                        selectedColor: primaryColor,
-                        unselectedColor: grayBorderColor,
-                        controller: _controller,
-                        itemCount: 3,
-                        onPageSelected: (int page) {
-                          _controller.animateToPage(
-                            page,
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeIn,
-                          );
-                        },
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Text(
+                      'Building 2  -  Floor 1',
+                      style: Style.commonTextStyle(
+                        color: whiteColor,
+                        fontSize: 10.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                  ),
+                    Text(
+                      'Al Multaqa 301',
+                      style: Style.commonTextStyle(
+                        color: whiteColor,
+                        fontSize: 22.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.chair,
+                          height: 16.h,
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Text(
+                          '2 seats huddle',
+                          style: Style.commonTextStyle(
+                            color: whiteColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.videoConf,
+                          height: 18.h,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          'Video conferencing',
+                          style: Style.commonTextStyle(
+                            color: whiteColor,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6.w,
+                        ),
+                        Container(
+                          height: 10.h,
+                          width: 1.w,
+                          color: whiteColor,
+                        ),
+                        SizedBox(
+                          width: 6.w,
+                        ),
+                        SvgPicture.asset(
+                          Assets.screenCast,
+                          height: 18.h,
+                        ),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        Text(
+                          S.of(context).screenSharing,
+                          style: Style.commonTextStyle(
+                            color: whiteColor,
+                            fontSize: 10.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Container(
+                      height: 20.h,
+                      width: 50.w,
+                      decoration: BoxDecoration(
+                        color: whiteColor,
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      child: SizedBox(
+                        height: 20.h,
+                        child: DotsIndicator(
+                          selectedColor: primaryColor,
+                          unselectedColor: grayBorderColor,
+                          controller: _controller,
+                          itemCount: 3,
+                          onPageSelected: (int page) {
+                            _controller.animateToPage(
+                              page,
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeIn,
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 InkWell(
                   onTap: AppRouter.pop,
@@ -237,7 +236,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: Platform.isIOS ? 255.h : 220.h),
+            margin: EdgeInsets.only(top: context.containerTopMargin.h),
             decoration: BoxDecoration(
               color: whiteColor,
               borderRadius: BorderRadius.only(
@@ -306,7 +305,6 @@ class _BookingPageState extends ConsumerState<BookingPage> {
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemCount: provider.lstDays.length,
-            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
               return SizedBox(
                 width: context.screenWidth / 7,
@@ -356,10 +354,10 @@ class _BookingPageState extends ConsumerState<BookingPage> {
         Expanded(
           child: TimePlanner(
             startHour: 0,
-            endHour: 23,
+            endHour: 24,
             tasks: notifier.lstTasks,
             style: TimePlannerStyle(
-              cellHeight: 50,
+              cellHeight: 60,
               showScrollBar: true,
               interstitialEvenColor: Colors.grey[50],
               interstitialOddColor: Colors.grey[200],

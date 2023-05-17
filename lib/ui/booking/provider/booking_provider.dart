@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
+import 'package:pif_flutter/routes/app_router.dart';
+import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
 import 'package:pif_flutter/ui/booking/state/booking_state.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -23,8 +26,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
     dateController = TextEditingController();
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
+    visitorFirstName = TextEditingController();
+    visitorLastName = TextEditingController();
+    visitorEmail = TextEditingController();
 
-    state = state.copyWith(lstDays: CommonUtils.getNextSevenDays());
+    state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getTasks();
   }
 
@@ -33,6 +39,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late TextEditingController dateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
+  late TextEditingController visitorFirstName;
+  late TextEditingController visitorLastName;
+  late TextEditingController visitorEmail;
   late List<TimePlannerTask> lstTasks = [];
 
   void updateStartTime({required DateTime? startTime}) {
@@ -105,6 +114,54 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   void bookNowAsync() {}
 
+  void inviteAsync() {
+    final firstName = visitorFirstName.text.trim();
+    final lastName = visitorLastName.text.trim();
+    final email = visitorEmail.text.trim();
+
+    String? errorMessage = '';
+    if (firstName.isEmpty) {
+      errorMessage = S.current.firstNameEmpty;
+      return;
+    }
+
+    if (lastName.isEmpty) {
+      errorMessage = S.current.lastNameEmpty;
+      return;
+    }
+
+    if (email.isEmpty) {
+      errorMessage = S.current.emailEmpty;
+      return;
+    }
+
+    state = state.copyWith(errorMessage: errorMessage);
+
+    final model = InviteGuestModel(
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+    );
+    final data = state.lstGuests.toList();
+    data.add(model);
+    state = state.copyWith(lstGuests: data);
+    clearData();
+    AppRouter.pop();
+  }
+
+  void clearData() {
+    visitorFirstName.text = '';
+    visitorLastName.text = '';
+    visitorEmail.text = '';
+    state = state.copyWith(errorMessage: '');
+  }
+
+  void removeGuest(InviteGuestModel item) {
+    final data = state.lstGuests.toList();
+    data.remove(item);
+    state = state.copyWith(lstGuests: data);
+  }
+
   void getTasks() {
     lstTasks.clear();
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected == true);
@@ -112,7 +169,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       lstTasks.add(
         TimePlannerTask(
           color: primaryColor,
-          leftSpace: 30,
+          leftSpace: 40,
           dateTime: TimePlannerDateTime(
             day: DateTime(2023, 5, 11, 22, 0, 0).day,
             hour: DateTime(2023, 5, 11, 22, 0, 0).hour,
@@ -134,7 +191,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       lstTasks.add(
         TimePlannerTask(
           color: primaryColor,
-          leftSpace: 30,
+          leftSpace: 40,
           dateTime: TimePlannerDateTime(
             day: DateTime(2023, 5, 11, 2, 0, 0).day,
             hour: DateTime(2023, 5, 11, 2, 0, 0).hour,
@@ -156,7 +213,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       lstTasks.add(
         TimePlannerTask(
           color: primaryColor,
-          leftSpace: 30,
+          leftSpace: 40,
           dateTime: TimePlannerDateTime(
             day: DateTime(2023, 5, 11, 4, 0, 0).day,
             hour: DateTime(2023, 5, 11, 4, 0, 0).hour,
@@ -179,7 +236,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
         TimePlannerTask(
           isBlocked: true,
           color: primaryColor,
-          leftSpace: 30,
+          leftSpace: 40,
           dateTime: TimePlannerDateTime(
             day: DateTime(2023, 5, 11, 5, 0, 0).day,
             hour: DateTime(2023, 5, 11, 5, 0, 0).hour,
@@ -206,6 +263,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     dateController.dispose();
     startTimeController.dispose();
     endTimeController.dispose();
+    visitorFirstName.dispose();
+    visitorLastName.dispose();
+    visitorEmail.dispose();
     super.dispose();
   }
 }

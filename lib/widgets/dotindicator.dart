@@ -28,7 +28,7 @@ class DotsIndicator extends AnimatedWidget {
   final Color unselectedColor;
 
   // The base size of the dots
-  static const double _kDotSize = 7;
+  static const double _kDotSize = 5;
 
   // The increase in the size of the selected dot
   static const double _kMaxZoom = 2;
@@ -47,7 +47,7 @@ class DotsIndicator extends AnimatedWidget {
     return Center(
       child: Container(
         margin: const EdgeInsets.only(left: 3, right: 3),
-        width: (controller!.page ?? controller!.initialPage).round() == index ? _kDotSize : _kDotSize,
+        width: (controller!.page ?? controller!.initialPage).round() == index ? _kDotSize + 7 : _kDotSize,
         height: _kDotSize,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(

@@ -16,7 +16,9 @@ import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
-void bookingDetailsBottomSheet({required BuildContext context}) {
+void bookingDetailsBottomSheet({
+  required BuildContext context,
+}) {
   showModalBottomSheet<dynamic>(
     backgroundColor: whiteColor,
     isScrollControlled: true,
@@ -114,50 +116,55 @@ void bookingDetailsBottomSheet({required BuildContext context}) {
                                 padding: EdgeInsets.symmetric(horizontal: 18.sp),
                                 child: InkWell(
                                   onTap: notifier.openDatePickerDialog,
-                                  child: TextField(
-                                    controller: notifier.dateController,
-                                    decoration: InputDecoration(
-                                      fillColor: lightGrayBgColor,
-                                      filled: true,
-                                      enabled: false,
-                                      disabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(6.r),
+                                  child: Theme(
+                                    data: ThemeData(
+                                      disabledColor: textColor,
+                                    ),
+                                    child: TextField(
+                                      controller: notifier.dateController,
+                                      decoration: InputDecoration(
+                                        fillColor: lightGrayBgColor,
+                                        filled: true,
+                                        enabled: false,
+                                        disabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(6.r),
+                                          ),
+                                          borderSide: BorderSide(color: borderColor, width: 1.w),
                                         ),
-                                        borderSide: BorderSide(color: borderColor, width: 1.w),
-                                      ),
-                                      labelStyle: Style.commonTextStyle(
-                                        color: grayTextColor,
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                      suffixIcon: SvgPicture.asset(
-                                        Assets.calendar,
-                                        height: 10.h,
-                                        width: 10.w,
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                                      constraints: BoxConstraints(maxHeight: 45.h),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(6.r),
+                                        labelStyle: Style.commonTextStyle(
+                                          color: grayTextColor,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        borderSide: BorderSide(color: borderColor, width: 1.w),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderSide: BorderSide(color: borderColor, width: 1.w),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(6.r),
+                                        suffixIcon: SvgPicture.asset(
+                                          Assets.calendar,
+                                          height: 10.h,
+                                          width: 10.w,
+                                          fit: BoxFit.scaleDown,
                                         ),
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderSide: BorderSide(color: borderColor, width: 1.w),
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(6.r),
+                                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                                        constraints: BoxConstraints(maxHeight: 45.h),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(6.r),
+                                          ),
+                                          borderSide: BorderSide(color: borderColor, width: 1.w),
                                         ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(color: borderColor, width: 1.w),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(6.r),
+                                          ),
+                                        ),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: borderColor, width: 1.w),
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(6.r),
+                                          ),
+                                        ),
+                                        labelText: S.of(context).date,
                                       ),
-                                      labelText: S.of(context).date,
                                     ),
                                   ),
                                 ),
@@ -251,50 +258,55 @@ void bookingDetailsBottomSheet({required BuildContext context}) {
                                     Expanded(
                                       child: InkWell(
                                         onTap: notifier.openStartTimePickerDialog,
-                                        child: TextField(
-                                          controller: notifier.startTimeController,
-                                          decoration: InputDecoration(
-                                            fillColor: lightGrayBgColor,
-                                            filled: true,
-                                            enabled: false,
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                        child: Theme(
+                                          data: ThemeData(
+                                            disabledColor: textColor,
+                                          ),
+                                          child: TextField(
+                                            controller: notifier.startTimeController,
+                                            decoration: InputDecoration(
+                                              fillColor: lightGrayBgColor,
+                                              filled: true,
+                                              enabled: false,
+                                              disabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
                                               ),
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                            ),
-                                            labelStyle: Style.commonTextStyle(
-                                              color: grayTextColor,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            suffixIcon: SvgPicture.asset(
-                                              Assets.arrowDown,
-                                              height: 10.h,
-                                              width: 10.w,
-                                              fit: BoxFit.scaleDown,
-                                            ),
-                                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                                            constraints: BoxConstraints(maxHeight: 45.h),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              labelStyle: Style.commonTextStyle(
+                                                color: grayTextColor,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w400,
                                               ),
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              suffixIcon: SvgPicture.asset(
+                                                Assets.arrowDown,
+                                                height: 10.h,
+                                                width: 10.w,
+                                                fit: BoxFit.scaleDown,
                                               ),
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                                              constraints: BoxConstraints(maxHeight: 45.h),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                              ),
+                                              labelText: S.of(context).startingTime,
                                             ),
-                                            labelText: S.of(context).startingTime,
                                           ),
                                         ),
                                       ),
@@ -316,50 +328,55 @@ void bookingDetailsBottomSheet({required BuildContext context}) {
                                     Expanded(
                                       child: InkWell(
                                         onTap: notifier.openEndTimePickerDialog,
-                                        child: TextField(
-                                          controller: notifier.endTimeController,
-                                          decoration: InputDecoration(
-                                            fillColor: lightGrayBgColor,
-                                            filled: true,
-                                            enabled: false,
-                                            disabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                        child: Theme(
+                                          data: ThemeData(
+                                            disabledColor: textColor,
+                                          ),
+                                          child: TextField(
+                                            controller: notifier.endTimeController,
+                                            decoration: InputDecoration(
+                                              fillColor: lightGrayBgColor,
+                                              filled: true,
+                                              enabled: false,
+                                              disabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
                                               ),
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                            ),
-                                            labelStyle: Style.commonTextStyle(
-                                              color: grayTextColor,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                            suffixIcon: SvgPicture.asset(
-                                              Assets.arrowDown,
-                                              height: 10.h,
-                                              width: 10.w,
-                                              fit: BoxFit.scaleDown,
-                                            ),
-                                            floatingLabelBehavior: FloatingLabelBehavior.always,
-                                            constraints: BoxConstraints(maxHeight: 45.h),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              labelStyle: Style.commonTextStyle(
+                                                color: grayTextColor,
+                                                fontSize: 16.sp,
+                                                fontWeight: FontWeight.w400,
                                               ),
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              suffixIcon: SvgPicture.asset(
+                                                Assets.arrowDown,
+                                                height: 10.h,
+                                                width: 10.w,
+                                                fit: BoxFit.scaleDown,
                                               ),
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              borderRadius: BorderRadius.all(
-                                                Radius.circular(6.r),
+                                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                                              constraints: BoxConstraints(maxHeight: 45.h),
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
                                               ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                              ),
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(color: borderColor, width: 1.w),
+                                                borderRadius: BorderRadius.all(
+                                                  Radius.circular(6.r),
+                                                ),
+                                              ),
+                                              labelText: S.of(context).endingTime,
                                             ),
-                                            labelText: S.of(context).endingTime,
                                           ),
                                         ),
                                       ),
@@ -454,6 +471,8 @@ void bookingDetailsBottomSheet({required BuildContext context}) {
                                   onTap: () {
                                     addVisitorBottomSheet(
                                       context: context,
+                                      provider: provider,
+                                      notifier: notifier,
                                     );
                                   },
                                   child: Text(
@@ -516,57 +535,83 @@ void bookingDetailsBottomSheet({required BuildContext context}) {
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Container(
-                                      height: 40.h,
-                                      width: 40.w,
-                                      decoration: BoxDecoration(
-                                        color: grayC0,
-                                        borderRadius: BorderRadius.circular(20.r),
+                            child: provider.lstGuests.isNotEmpty
+                                ? ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return Row(
+                                        children: [
+                                          Container(
+                                            height: 40.h,
+                                            width: 40.w,
+                                            decoration: BoxDecoration(
+                                              color: grayC0,
+                                              borderRadius: BorderRadius.circular(20.r),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 16.w,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                provider.lstGuests[index].fullName ?? '',
+                                                style: Style.commonTextStyle(
+                                                  color: darkTextColor,
+                                                  fontSize: 16.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              Text(
+                                                provider.lstGuests[index].email ?? '',
+                                                style: Style.commonTextStyle(
+                                                  color: silverTextColor,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          InkWell(
+                                            onTap: () {
+                                              notifier.removeGuest(provider.lstGuests[index]);
+                                            },
+                                            child: SvgPicture.asset(Assets.close),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Divider(
+                                        height: 15.h,
+                                        thickness: 1.h,
+                                        color: borderColor,
+                                      );
+                                    },
+                                    itemCount: provider.lstGuests.length,
+                                  )
+                                : Column(
+                                    children: [
+                                      SizedBox(
+                                        height: 30.h,
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 16.w,
-                                    ),
-                                    Column(
-                                      children: [
-                                        Text(
-                                          'Khaled moh',
-                                          style: Style.commonTextStyle(
-                                            color: darkTextColor,
-                                            fontSize: 16.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
+                                      SvgPicture.asset(Assets.emptyGuestBg),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Text(
+                                        S.of(context).noMatchingResultFound,
+                                        style: Style.commonTextStyle(
+                                          color: textColor,
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w400,
                                         ),
-                                        Text(
-                                          'Product owner',
-                                          style: Style.commonTextStyle(
-                                            color: silverTextColor,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Spacer(),
-                                    SvgPicture.asset(Assets.close)
-                                  ],
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider(
-                                  height: 15.h,
-                                  thickness: 1.h,
-                                  color: borderColor,
-                                );
-                              },
-                              itemCount: 3,
-                            ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                           SizedBox(
                             height: 8.h,

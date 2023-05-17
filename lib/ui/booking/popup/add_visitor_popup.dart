@@ -4,11 +4,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
+import 'package:pif_flutter/ui/booking/provider/booking_provider.dart';
+import 'package:pif_flutter/ui/booking/state/booking_state.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
-void addVisitorBottomSheet({required BuildContext context}) {
+void addVisitorBottomSheet({
+  required BuildContext context,
+  required BookingState provider,
+  required BookingNotifier notifier,
+}) {
   showModalBottomSheet<dynamic>(
     backgroundColor: whiteColor,
     isScrollControlled: true,
@@ -73,6 +79,7 @@ void addVisitorBottomSheet({required BuildContext context}) {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: notifier.visitorFirstName,
                         decoration: InputDecoration(
                           fillColor: lightGrayBgColor,
                           filled: true,
@@ -115,6 +122,7 @@ void addVisitorBottomSheet({required BuildContext context}) {
                     ),
                     Expanded(
                       child: TextField(
+                        controller: notifier.visitorLastName,
                         decoration: InputDecoration(
                           fillColor: lightGrayBgColor,
                           filled: true,
@@ -158,6 +166,7 @@ void addVisitorBottomSheet({required BuildContext context}) {
                   height: 24.h,
                 ),
                 TextField(
+                  controller: notifier.visitorEmail,
                   decoration: InputDecoration(
                     fillColor: lightGrayBgColor,
                     filled: true,
@@ -199,10 +208,23 @@ void addVisitorBottomSheet({required BuildContext context}) {
                   ),
                 ),
                 SizedBox(
-                  height: 45.h,
+                  height: 15.h,
+                ),
+                Text(
+                  provider.errorMessage ?? '',
+                  style: Style.commonTextStyle(
+                    color: redColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                SizedBox(
+                  height: 30.h,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    notifier.inviteAsync();
+                  },
                   style: Style.primaryButtonStyle(
                     context: context,
                   ),

@@ -47,5 +47,8 @@
   "invite": "Invite",
   "bookingRoom": "Booking room",
   "bookedByMistake": "You booked this by mistake?",
-  "skip" : "Skip"
+  "skip" : "Skip",
+  "firstNameEmpty": "Please enter firstname",
+  "lastNameEmpty": "Please enter lastname",
+  "emailEmpty": "Please enter email"
 }

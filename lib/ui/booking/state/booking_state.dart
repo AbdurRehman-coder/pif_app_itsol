@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pif_flutter/ui/booking/model/day_header_model.dart';
+import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
 
 part 'booking_state.freezed.dart';
 
@@ -15,6 +16,8 @@ class BookingState with _$BookingState {
     required bool isOpenStartTimePicker,
     required bool isOpenEndTimePicker,
     required List<DayHeaderModel> lstDays,
+    required String errorMessage,
+    required List<InviteGuestModel> lstGuests,
   }) = _BookingState;
 
   factory BookingState.initial() => BookingState(
@@ -27,5 +30,7 @@ class BookingState with _$BookingState {
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
         lstDays: <DayHeaderModel>[],
+        lstGuests: <InviteGuestModel>[],
+        errorMessage: '',
       );
 }
