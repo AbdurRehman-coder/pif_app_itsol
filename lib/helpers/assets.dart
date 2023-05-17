@@ -23,4 +23,20 @@ class Assets {
   static const String spaceBg1 = 'assets/ic_space_bg1.png';
   static const String spaceBg2 = 'assets/ic_space_bg2.png';
   static const String spaceBg3 = 'assets/ic_space_bg3.png';
+  static const String duration = 'assets/svg/ic_duration.svg';
+  static const String floor = 'assets/svg/ic_floor.svg';
+  static const String capacity = 'assets/svg/ic_capacity.svg';
+  static const String plus = 'assets/svg/ic_plus.svg';
+  static const String minus = 'assets/svg/ic_minus.svg';
+  static const String noBooking = 'assets/svg/ic_noBooking.svg';
+  static const String arrowDown = 'assets/svg/ic_arrow_down.svg';
+  static const String bookConfirmation = 'assets/svg/ic_book_confirmation.svg';
+  static const String close = 'assets/svg/ic_close.svg';
+  static const String email = 'assets/svg/ic_email.svg';
+  static const String screenCast = 'assets/svg/ic_screencast.svg';
+  static const String user = 'assets/svg/ic_user.svg';
+  static const String userPlaceHolder = 'assets/svg/ic_user_placeholder.svg';
+  static const String cancelBtn = 'assets/svg/ic_cancel_btn.svg';
+  static const String bookingBlockedBg = 'assets/svg/ic_block_booking_bg.svg';
+  static const String emptyGuestBg = 'assets/svg/ic_empty_guest.svg';
 }

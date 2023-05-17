@@ -1,10 +1,4 @@
 class SpaceBookingModel {
-  String? buildingNo;
-  String? floorNo;
-  String? spaceName;
-  String? availableSheet;
-  String? backImage;
-
   SpaceBookingModel({
     required this.backImage,
     required this.buildingNo,
@@ -12,4 +6,9 @@ class SpaceBookingModel {
     required this.spaceName,
     required this.availableSheet,
   });
+  String? buildingNo;
+  String? floorNo;
+  String? spaceName;
+  String? availableSheet;
+  String? backImage;
 }

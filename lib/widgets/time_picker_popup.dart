@@ -1,0 +1,141 @@
+import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intl/intl.dart';
+import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/utils/colors.dart';
+import 'package:pif_flutter/utils/styles.dart';
+import 'package:pif_flutter/widgets/wheel_chooser.dart';
+
+class TimePickerPopup extends StatefulWidget {
+  TimePickerPopup({
+    required this.onCancel,
+    required this.onConfirm,
+    required this.timeData,
+    super.key,
+  });
+
+  final DateTime timeData;
+  VoidCallback onCancel;
+  void Function(DateTime?) onConfirm;
+
+  @override
+  State<TimePickerPopup> createState() => _TimePickerPopupState();
+}
+
+class _TimePickerPopupState extends State<TimePickerPopup> {
+  List<WheelChoice<DateTime>>? lstData = <WheelChoice<DateTime>>[];
+  DateTime? selectedDateTime;
+  int? selectedTimeIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    initData();
+  }
+
+  void initData() {
+    var date = DateTime(2000);
+    date = DateTime(date.year, date.month, date.day);
+    for (var i = 0; i < 96; i++) {
+      lstData?.add(
+        WheelChoice(
+          value: date.add(Duration(minutes: i * 15)),
+          title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 15))),
+        ),
+      );
+    }
+    initTimeData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16.r),
+        color: Colors.white,
+        boxShadow: const [
+          BoxShadow(
+            blurRadius: 10,
+            color: grayE3,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            S.of(context).selectTime,
+            style: Style.commonTextStyle(
+              color: textColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          Center(
+            child: WheelChooser<DateTime>.choices(
+              choices: lstData,
+              itemSize: 40.h,
+              listWidth: 120.w,
+              listHeight: 200.h,
+              startPosition: selectedTimeIndex,
+              selectTextStyle: TextStyle(color: primaryColor, fontSize: 15.sp),
+              unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),
+              onChoiceChanged: (value) {
+                selectedDateTime = value as DateTime;
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  widget.onCancel.call();
+                },
+                style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  foregroundColor: primaryColor,
+                  backgroundColor: Colors.white,
+                ),
+                child: Center(
+                  child: Text(
+                    S.of(context).cancel,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  widget.onConfirm.call(selectedDateTime);
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: primaryColor,
+                ),
+                child: Center(
+                  child: Text(
+                    S.of(context).confirm,
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void initTimeData() {
+    final data = lstData?.firstWhereOrNull(
+      (element) => !element.value.isBefore(widget.timeData) && !element.value.isAfter(widget.timeData),
+    );
+    if (data != null) {
+      selectedTimeIndex = lstData?.indexOf(data);
+    }
+  }
+}

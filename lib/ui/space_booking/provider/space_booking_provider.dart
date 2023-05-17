@@ -4,15 +4,17 @@ import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 import 'package:pif_flutter/ui/space_booking/state/space_booking_state.dart';
 
 final spaceBookingProvider =
-    StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>((ref) {
+    StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>(
+        (ref) {
   return SpaceBookingNotifier(ref: ref);
 });
 
 class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
-  SpaceBookingNotifier({required this.ref}) : super(SpaceBookingState.initial());
+  SpaceBookingNotifier({required this.ref})
+      : super(SpaceBookingState.initial());
   final Ref ref;
 
-  getSpaceData() {
+  void getSpaceData() {
     final lstData = <SpaceBookingModel>[];
     lstData.add(
       SpaceBookingModel(
