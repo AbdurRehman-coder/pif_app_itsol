@@ -50,5 +50,9 @@
   "skip" : "Skip",
   "firstNameEmpty": "Please enter firstname",
   "lastNameEmpty": "Please enter lastname",
-  "emailEmpty": "Please enter email"
+  "emailEmpty": "Please enter email",
+  "timeValidation" : "End time should be greater than start time",
+  "requestToBook" : "Request to book",
+  "requestBookTitle" : "We received your request, and will send you update\nwithin 3hrs",
+  "cancelRequest" : "Cancel Request"
 }

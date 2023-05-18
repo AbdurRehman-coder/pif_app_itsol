@@ -21,6 +21,7 @@ const redColor = Color(0xFFBF0000);
 const dateBgColor = Color(0xFFC4E9D0);
 const dayTextColor = Color(0xFF444041);
 const inactiveTrackColor = Color(0xFFF2ECED);
+const grayCardBg = Color(0xFFF7F7F7);
 
 // GRAY
 const gray29 = Color(0xFF292929);

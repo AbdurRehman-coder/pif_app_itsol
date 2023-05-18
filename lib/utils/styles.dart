@@ -87,9 +87,12 @@ class Style {
   static ButtonStyle primaryButtonStyle({required BuildContext context}) {
     return ElevatedButton.styleFrom(
       elevation: 0,
-      fixedSize: Size(context.screenWidth.w, 45.h),
+      fixedSize: Size(context.screenWidth.w, 42.h),
       foregroundColor: whiteColor,
       backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.r),
+      ),
       textStyle: Style.commonTextStyle(
         color: whiteColor,
         fontSize: 16.sp,

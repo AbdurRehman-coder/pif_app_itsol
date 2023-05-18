@@ -45,16 +45,20 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late List<TimePlannerTask> lstTasks = [];
 
   void updateStartTime({required DateTime? startTime}) {
-    state = state.copyWith(startTime: startTime!);
+    state = state.copyWith(startTime: startTime);
 
-    final startTimeString = DateFormat('hh:mm a').format(startTime);
+    final startTimeString = DateFormat('hh:mm a').format(startTime!);
     startTimeController.text = startTimeString;
   }
 
   void updateEndTime({required DateTime? endTime}) {
-    state = state.copyWith(endTime: endTime!);
+    if (endTime != null && state.startTime!.isAfter(endTime)) {
+      CommonUtils.showToast(message: S.current.timeValidation);
+      return;
+    }
+    state = state.copyWith(endTime: endTime);
 
-    final endTimeString = DateFormat('hh:mm a').format(endTime);
+    final endTimeString = DateFormat('hh:mm a').format(endTime!);
     endTimeController.text = endTimeString;
   }
 
@@ -91,12 +95,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
 
     state = state.copyWith(selectedDates: dateList);
-    final dateFormat = DateFormat('d');
-    final dateStrings = dateList.map(dateFormat.format).join(',');
     if (dateList.isEmpty) {
       state = state.copyWith(selectedDateString: '');
+      dateController.text = state.selectedDateString;
       return;
     }
+    final dateFormat = DateFormat('d');
+    final dateStrings = dateList.map(dateFormat.format).join(',');
     final lastDateString = "$dateStrings ${DateFormat('MMM').format(dateList.last)}";
     state = state.copyWith(selectedDateString: lastDateString);
 
@@ -171,9 +176,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
           color: primaryColor,
           leftSpace: 40,
           dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 22, 0, 0).day,
-            hour: DateTime(2023, 5, 11, 22, 0, 0).hour,
-            minutes: DateTime(2023, 5, 11, 22, 0, 0).minute,
+            day: DateTime(2023, 5, 11, 22).day,
+            hour: DateTime(2023, 5, 11, 22).hour,
+            minutes: DateTime(2023, 5, 11, 22).minute,
           ),
           minutesDuration: 60,
           onTap: () {},
@@ -193,9 +198,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
           color: primaryColor,
           leftSpace: 40,
           dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 2, 0, 0).day,
-            hour: DateTime(2023, 5, 11, 2, 0, 0).hour,
-            minutes: DateTime(2023, 5, 11, 2, 0, 0).minute,
+            day: DateTime(2023, 5, 11, 2).day,
+            hour: DateTime(2023, 5, 11, 2).hour,
+            minutes: DateTime(2023, 5, 11, 2).minute,
           ),
           minutesDuration: 30,
           onTap: () {},
@@ -215,9 +220,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
           color: primaryColor,
           leftSpace: 40,
           dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 4, 0, 0).day,
-            hour: DateTime(2023, 5, 11, 4, 0, 0).hour,
-            minutes: DateTime(2023, 5, 11, 4, 0, 0).minute,
+            day: DateTime(2023, 5, 11, 4).day,
+            hour: DateTime(2023, 5, 11, 4).hour,
+            minutes: DateTime(2023, 5, 11, 4).minute,
           ),
           minutesDuration: 15,
           onTap: () {},
@@ -238,9 +243,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
           color: primaryColor,
           leftSpace: 40,
           dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 5, 0, 0).day,
-            hour: DateTime(2023, 5, 11, 5, 0, 0).hour,
-            minutes: DateTime(2023, 5, 11, 5, 0, 0).minute,
+            day: DateTime(2023, 5, 11, 5).day,
+            hour: DateTime(2023, 5, 11, 5).hour,
+            minutes: DateTime(2023, 5, 11, 5).minute,
           ),
           minutesDuration: 75,
           onTap: () {},

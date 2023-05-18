@@ -19,8 +19,8 @@ mixin _$BookingState {
   String get bookingTitle => throw _privateConstructorUsedError;
   List<DateTime> get selectedDates => throw _privateConstructorUsedError;
   String get selectedDateString => throw _privateConstructorUsedError;
-  DateTime get startTime => throw _privateConstructorUsedError;
-  DateTime get endTime => throw _privateConstructorUsedError;
+  DateTime? get startTime => throw _privateConstructorUsedError;
+  DateTime? get endTime => throw _privateConstructorUsedError;
   bool get isOpenDatePicker => throw _privateConstructorUsedError;
   bool get isOpenStartTimePicker => throw _privateConstructorUsedError;
   bool get isOpenEndTimePicker => throw _privateConstructorUsedError;
@@ -43,8 +43,8 @@ abstract class $BookingStateCopyWith<$Res> {
       {String bookingTitle,
       List<DateTime> selectedDates,
       String selectedDateString,
-      DateTime startTime,
-      DateTime endTime,
+      DateTime? startTime,
+      DateTime? endTime,
       bool isOpenDatePicker,
       bool isOpenStartTimePicker,
       bool isOpenEndTimePicker,
@@ -69,8 +69,8 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? bookingTitle = null,
     Object? selectedDates = null,
     Object? selectedDateString = null,
-    Object? startTime = null,
-    Object? endTime = null,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? isOpenDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
@@ -91,14 +91,14 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.selectedDateString
           : selectedDateString // ignore: cast_nullable_to_non_nullable
               as String,
-      startTime: null == startTime
+      startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endTime: null == endTime
+              as DateTime?,
+      endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       isOpenDatePicker: null == isOpenDatePicker
           ? _value.isOpenDatePicker
           : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
@@ -139,8 +139,8 @@ abstract class _$$_BookingStateCopyWith<$Res>
       {String bookingTitle,
       List<DateTime> selectedDates,
       String selectedDateString,
-      DateTime startTime,
-      DateTime endTime,
+      DateTime? startTime,
+      DateTime? endTime,
       bool isOpenDatePicker,
       bool isOpenStartTimePicker,
       bool isOpenEndTimePicker,
@@ -163,8 +163,8 @@ class __$$_BookingStateCopyWithImpl<$Res>
     Object? bookingTitle = null,
     Object? selectedDates = null,
     Object? selectedDateString = null,
-    Object? startTime = null,
-    Object? endTime = null,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? isOpenDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
@@ -185,14 +185,14 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value.selectedDateString
           : selectedDateString // ignore: cast_nullable_to_non_nullable
               as String,
-      startTime: null == startTime
+      startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endTime: null == endTime
+              as DateTime?,
+      endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       isOpenDatePicker: null == isOpenDatePicker
           ? _value.isOpenDatePicker
           : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
@@ -253,9 +253,9 @@ class _$_BookingState implements _BookingState {
   @override
   final String selectedDateString;
   @override
-  final DateTime startTime;
+  final DateTime? startTime;
   @override
-  final DateTime endTime;
+  final DateTime? endTime;
   @override
   final bool isOpenDatePicker;
   @override
@@ -339,8 +339,8 @@ abstract class _BookingState implements BookingState {
       {required final String bookingTitle,
       required final List<DateTime> selectedDates,
       required final String selectedDateString,
-      required final DateTime startTime,
-      required final DateTime endTime,
+      required final DateTime? startTime,
+      required final DateTime? endTime,
       required final bool isOpenDatePicker,
       required final bool isOpenStartTimePicker,
       required final bool isOpenEndTimePicker,
@@ -355,9 +355,9 @@ abstract class _BookingState implements BookingState {
   @override
   String get selectedDateString;
   @override
-  DateTime get startTime;
+  DateTime? get startTime;
   @override
-  DateTime get endTime;
+  DateTime? get endTime;
   @override
   bool get isOpenDatePicker;
   @override

@@ -39,4 +39,7 @@ class Assets {
   static const String cancelBtn = 'assets/svg/ic_cancel_btn.svg';
   static const String bookingBlockedBg = 'assets/svg/ic_block_booking_bg.svg';
   static const String emptyGuestBg = 'assets/svg/ic_empty_guest.svg';
+  static const String dotImage = 'assets/svg/ic_dot.svg';
+  static const String rightArrow = 'assets/svg/ic_right_arrow.svg';
+  static const String requestBookingConf = 'assets/svg/ic_request_booking_conf.svg';
 }

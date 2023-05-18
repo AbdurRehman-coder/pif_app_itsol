@@ -8,7 +8,7 @@ import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/wheel_chooser.dart';
 
 class TimePickerWidget extends StatefulWidget {
-  TimePickerWidget({
+  const TimePickerWidget({
     required this.onCancel,
     required this.onConfirm,
     required this.startTime,
@@ -18,8 +18,8 @@ class TimePickerWidget extends StatefulWidget {
 
   final DateTime startTime;
   final DateTime endTime;
-  VoidCallback onCancel;
-  void Function(DateTime?, DateTime?) onConfirm;
+  final VoidCallback onCancel;
+  final void Function(DateTime?, DateTime?) onConfirm;
 
   @override
   State<TimePickerWidget> createState() => _TimePickerWidgetState();

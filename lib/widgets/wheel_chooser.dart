@@ -8,7 +8,7 @@ class WheelChoice<T> {
 }
 
 class WheelChooser<T> extends StatefulWidget {
-  WheelChooser({
+  const WheelChooser({
     required this.onValueChanged,
     required this.datas,
     super.key,
@@ -34,7 +34,7 @@ class WheelChooser<T> extends StatefulWidget {
         choices = null,
         onChoiceChanged = null;
 
-  WheelChooser.choices({
+  const WheelChooser.choices({
     required this.onChoiceChanged,
     required this.choices,
     super.key,
@@ -87,7 +87,7 @@ class WheelChooser<T> extends StatefulWidget {
         unSelectTextStyle = null,
         choices = null;
 
-  WheelChooser.byController({
+  const WheelChooser.byController({
     required FixedExtentScrollController this.controller,
     required this.onValueChanged,
     required this.datas,
@@ -110,8 +110,8 @@ class WheelChooser<T> extends StatefulWidget {
         startPosition = null;
   final TextStyle? selectTextStyle;
   final TextStyle? unSelectTextStyle;
-  void Function(dynamic)? onValueChanged;
-  void Function(dynamic)? onChoiceChanged;
+  final void Function(dynamic)? onValueChanged;
+  final void Function(dynamic)? onChoiceChanged;
   final List<dynamic>? datas;
   final List<WheelChoice<T>>? choices;
   final int? startPosition;
@@ -129,7 +129,7 @@ class WheelChooser<T> extends StatefulWidget {
   static const double _defaultItemSize = 48;
 
   @override
-  _WheelChooserState createState() {
+  State createState() {
     return _WheelChooserState<T>();
   }
 }

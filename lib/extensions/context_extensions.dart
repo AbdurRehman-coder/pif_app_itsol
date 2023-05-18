@@ -17,5 +17,5 @@ extension ContextExt on BuildContext {
 
   double get topHeaderHeight => Platform.isIOS ? 230 + dynamicIslandSpacing : 190;
 
-  double get containerTopMargin => Platform.isIOS ? 210 - (isDynamicIsland ? 0 : 10) : 170;
+  double get containerTopMargin => Platform.isIOS ? 210 - (isDynamicIsland ? 0 : 10) : 165;
 }

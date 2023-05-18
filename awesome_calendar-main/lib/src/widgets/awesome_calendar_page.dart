@@ -30,8 +30,8 @@ class AwesomeCalendarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: buildRows(context),
       mainAxisSize: MainAxisSize.min,
+      children: buildRows(context),
     );
   }
 

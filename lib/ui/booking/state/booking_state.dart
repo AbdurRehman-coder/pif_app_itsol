@@ -10,8 +10,8 @@ class BookingState with _$BookingState {
     required String bookingTitle,
     required List<DateTime> selectedDates,
     required String selectedDateString,
-    required DateTime startTime,
-    required DateTime endTime,
+    required DateTime? startTime,
+    required DateTime? endTime,
     required bool isOpenDatePicker,
     required bool isOpenStartTimePicker,
     required bool isOpenEndTimePicker,
@@ -20,12 +20,12 @@ class BookingState with _$BookingState {
     required List<InviteGuestModel> lstGuests,
   }) = _BookingState;
 
-  factory BookingState.initial() => BookingState(
+  factory BookingState.initial() => const BookingState(
         bookingTitle: '',
         selectedDates: <DateTime>[],
         selectedDateString: '',
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
+        startTime: null,
+        endTime: null,
         isOpenDatePicker: false,
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,

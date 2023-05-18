@@ -8,7 +8,7 @@ import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/wheel_chooser.dart';
 
 class TimePickerPopup extends StatefulWidget {
-  TimePickerPopup({
+  const TimePickerPopup({
     required this.onCancel,
     required this.onConfirm,
     required this.timeData,
@@ -16,8 +16,8 @@ class TimePickerPopup extends StatefulWidget {
   });
 
   final DateTime timeData;
-  VoidCallback onCancel;
-  void Function(DateTime?) onConfirm;
+  final VoidCallback onCancel;
+  final void Function(DateTime?) onConfirm;
 
   @override
   State<TimePickerPopup> createState() => _TimePickerPopupState();
@@ -136,6 +136,9 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
     );
     if (data != null) {
       selectedTimeIndex = lstData?.indexOf(data);
+      selectedDateTime = data.value;
+    } else {
+      selectedDateTime = DateTime(2001, 1, 1);
     }
   }
 }

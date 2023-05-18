@@ -100,6 +100,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                             ),
                             Expanded(
                               child: TextField(
+                                controller: notifier.searchController,
+                                onChanged: notifier.searchData,
                                 style: Style.commonTextStyle(
                                   color: textColor,
                                   fontSize: 16.sp,
@@ -129,7 +131,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
           ),
         ),
         body: Stack(
-          alignment: Alignment.bottomCenter,
+          fit: StackFit.expand,
           children: [
             Container(
               margin: EdgeInsets.only(top: 5.h),
@@ -160,69 +162,72 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                 },
               ),
             ),
-            Container(
-              height: 50.h,
-              margin: EdgeInsets.only(bottom: 24.h, left: 60.w, right: 60.w),
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(Assets.tabBg),
-                  fit: BoxFit.fitWidth,
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 50.h,
+                margin: EdgeInsets.only(bottom: 24.h, left: 60.w, right: 60.w),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(Assets.tabBg),
+                    fit: BoxFit.fitWidth,
+                  ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.instant,
-                          height: 18.h,
-                          color: textColor,
-                        ),
-                        SizedBox(
-                          width: 6.w,
-                        ),
-                        Text(
-                          S.current.instanceBooking,
-                          style: Style.commonTextStyle(
-                            color: blackColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.instant,
+                            height: 18.h,
+                            colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 11.h),
-                    width: 1,
-                    color: whiteColor,
-                  ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.scanner,
-                          height: 18.h,
-                          color: textColor,
-                        ),
-                        SizedBox(
-                          width: 6.w,
-                        ),
-                        Text(
-                          S.current.scanToBook,
-                          style: Style.commonTextStyle(
-                            color: blackColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
+                          SizedBox(
+                            width: 6.w,
                           ),
-                        ),
-                      ],
+                          Text(
+                            S.current.instanceBooking,
+                            style: Style.commonTextStyle(
+                              color: blackColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                    Container(
+                      margin: EdgeInsets.symmetric(vertical: 11.h),
+                      width: 1,
+                      color: whiteColor,
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.scanner,
+                            height: 18.h,
+                            colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
+                          ),
+                          SizedBox(
+                            width: 6.w,
+                          ),
+                          Text(
+                            S.current.scanToBook,
+                            style: Style.commonTextStyle(
+                              color: blackColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],
@@ -323,9 +328,10 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    AppRouter.pushNamed(Routes.bookingScreen);
+                    AppRouter.pushNamed(Routes.bookingScreen, args: data[index]);
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: data[index].btnBgColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.r), // <-- Radius
                     ),
@@ -334,10 +340,10 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        S.of(context).book,
+                        data[index].btnTitle,
                         textAlign: TextAlign.center,
                         style: Style.commonTextStyle(
-                          color: whiteColor,
+                          color: data[index].btnTitleColor,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w400,
                         ),
@@ -360,7 +366,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   }
 
   void showFilterPopup() {
-    showModalBottomSheet(
+    showModalBottomSheet<dynamic>(
       backgroundColor: whiteColor,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
@@ -431,9 +437,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Style.commonTextStyle(
-                                  color: provider.selectedDateString.isEmpty
-                                      ? grayTextColor
-                                      : textColor,
+                                  color: provider.selectedDateString.isEmpty ? grayTextColor : textColor,
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -513,10 +517,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                                           inactiveTrackColor: borderColor,
                                           activeTrackColor: primaryColor,
                                           thumbColor: primaryColor,
-                                          overlayShape:
-                                              SliderComponentShape.noThumb,
-                                          showValueIndicator:
-                                              ShowValueIndicator.always,
+                                          overlayShape: SliderComponentShape.noThumb,
+                                          showValueIndicator: ShowValueIndicator.always,
                                           thumbShape: RoundSliderThumbShape(
                                             enabledThumbRadius: 3.r,
                                           ),
@@ -635,22 +637,17 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                                         horizontal: 10.w,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: provider
-                                            .lstFloors[index].backgroundColor,
+                                        color: provider.lstFloors[index].backgroundColor,
                                         border: Border.all(
-                                          color: provider
-                                              .lstFloors[index].borderColor!,
+                                          color: provider.lstFloors[index].borderColor!,
                                         ),
-                                        borderRadius:
-                                            BorderRadius.circular(8.r),
+                                        borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
-                                        provider.lstFloors[index].floorName ??
-                                            '',
+                                        provider.lstFloors[index].floorName ?? '',
                                         style: Style.commonTextStyle(
-                                          color: provider
-                                              .lstFloors[index].textColor,
+                                          color: provider.lstFloors[index].textColor,
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -701,7 +698,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                                     width: 55.w,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      provider.capacity.toString() ?? '',
+                                      provider.capacity.toString(),
                                       style: Style.commonTextStyle(
                                         color: hintColor,
                                         fontSize: 24.sp,
@@ -784,12 +781,10 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                               children: [
                                 Expanded(
                                   child: AwesomeCalendar(
-                                    selectedDates:
-                                        provider.selectedDateList.toList(),
+                                    selectedDates: provider.selectedDateList.toList(),
                                     selectionMode: SelectionMode.multi,
                                     startDate: DateTime.now(),
-                                    endDate: DateTime.now()
-                                        .add(const Duration(days: 50)),
+                                    endDate: DateTime.now().add(const Duration(days: 50)),
                                     dayTileBuilder: CustomDayTileBuilder(),
                                     onTap: notifier.updateDateString,
                                   ),
