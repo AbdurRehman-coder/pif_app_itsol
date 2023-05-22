@@ -29,7 +29,7 @@ class FilterByState with _$FilterByState {
         lstFloors: <FloorModel>[],
         startTime: DateTime.now(),
         endTime: DateTime.now(),
-        capacity: 0,
+        capacity: 1,
         timeString: '',
         rangeData: const RangeValues(660, 675),
       );

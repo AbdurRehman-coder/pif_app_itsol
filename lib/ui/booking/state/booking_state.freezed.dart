@@ -27,6 +27,9 @@ mixin _$BookingState {
   List<DayHeaderModel> get lstDays => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<InviteGuestModel> get lstGuests => throw _privateConstructorUsedError;
+  List<InviteGuestModel> get lstAutoCompleteGuests =>
+      throw _privateConstructorUsedError;
+  bool get isVisibleAddGuestList => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookingStateCopyWith<BookingState> get copyWith =>
@@ -50,7 +53,9 @@ abstract class $BookingStateCopyWith<$Res> {
       bool isOpenEndTimePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
-      List<InviteGuestModel> lstGuests});
+      List<InviteGuestModel> lstGuests,
+      List<InviteGuestModel> lstAutoCompleteGuests,
+      bool isVisibleAddGuestList});
 }
 
 /// @nodoc
@@ -77,6 +82,8 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? lstDays = null,
     Object? errorMessage = null,
     Object? lstGuests = null,
+    Object? lstAutoCompleteGuests = null,
+    Object? isVisibleAddGuestList = null,
   }) {
     return _then(_value.copyWith(
       bookingTitle: null == bookingTitle
@@ -123,6 +130,14 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.lstGuests
           : lstGuests // ignore: cast_nullable_to_non_nullable
               as List<InviteGuestModel>,
+      lstAutoCompleteGuests: null == lstAutoCompleteGuests
+          ? _value.lstAutoCompleteGuests
+          : lstAutoCompleteGuests // ignore: cast_nullable_to_non_nullable
+              as List<InviteGuestModel>,
+      isVisibleAddGuestList: null == isVisibleAddGuestList
+          ? _value.isVisibleAddGuestList
+          : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -146,7 +161,9 @@ abstract class _$$_BookingStateCopyWith<$Res>
       bool isOpenEndTimePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
-      List<InviteGuestModel> lstGuests});
+      List<InviteGuestModel> lstGuests,
+      List<InviteGuestModel> lstAutoCompleteGuests,
+      bool isVisibleAddGuestList});
 }
 
 /// @nodoc
@@ -171,6 +188,8 @@ class __$$_BookingStateCopyWithImpl<$Res>
     Object? lstDays = null,
     Object? errorMessage = null,
     Object? lstGuests = null,
+    Object? lstAutoCompleteGuests = null,
+    Object? isVisibleAddGuestList = null,
   }) {
     return _then(_$_BookingState(
       bookingTitle: null == bookingTitle
@@ -217,6 +236,14 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value._lstGuests
           : lstGuests // ignore: cast_nullable_to_non_nullable
               as List<InviteGuestModel>,
+      lstAutoCompleteGuests: null == lstAutoCompleteGuests
+          ? _value._lstAutoCompleteGuests
+          : lstAutoCompleteGuests // ignore: cast_nullable_to_non_nullable
+              as List<InviteGuestModel>,
+      isVisibleAddGuestList: null == isVisibleAddGuestList
+          ? _value.isVisibleAddGuestList
+          : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -235,10 +262,13 @@ class _$_BookingState implements _BookingState {
       required this.isOpenEndTimePicker,
       required final List<DayHeaderModel> lstDays,
       required this.errorMessage,
-      required final List<InviteGuestModel> lstGuests})
+      required final List<InviteGuestModel> lstGuests,
+      required final List<InviteGuestModel> lstAutoCompleteGuests,
+      required this.isVisibleAddGuestList})
       : _selectedDates = selectedDates,
         _lstDays = lstDays,
-        _lstGuests = lstGuests;
+        _lstGuests = lstGuests,
+        _lstAutoCompleteGuests = lstAutoCompleteGuests;
 
   @override
   final String bookingTitle;
@@ -280,9 +310,21 @@ class _$_BookingState implements _BookingState {
     return EqualUnmodifiableListView(_lstGuests);
   }
 
+  final List<InviteGuestModel> _lstAutoCompleteGuests;
+  @override
+  List<InviteGuestModel> get lstAutoCompleteGuests {
+    if (_lstAutoCompleteGuests is EqualUnmodifiableListView)
+      return _lstAutoCompleteGuests;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lstAutoCompleteGuests);
+  }
+
+  @override
+  final bool isVisibleAddGuestList;
+
   @override
   String toString() {
-    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests)';
+    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests, lstAutoCompleteGuests: $lstAutoCompleteGuests, isVisibleAddGuestList: $isVisibleAddGuestList)';
   }
 
   @override
@@ -309,7 +351,11 @@ class _$_BookingState implements _BookingState {
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
             const DeepCollectionEquality()
-                .equals(other._lstGuests, _lstGuests));
+                .equals(other._lstGuests, _lstGuests) &&
+            const DeepCollectionEquality()
+                .equals(other._lstAutoCompleteGuests, _lstAutoCompleteGuests) &&
+            (identical(other.isVisibleAddGuestList, isVisibleAddGuestList) ||
+                other.isVisibleAddGuestList == isVisibleAddGuestList));
   }
 
   @override
@@ -325,7 +371,9 @@ class _$_BookingState implements _BookingState {
       isOpenEndTimePicker,
       const DeepCollectionEquality().hash(_lstDays),
       errorMessage,
-      const DeepCollectionEquality().hash(_lstGuests));
+      const DeepCollectionEquality().hash(_lstGuests),
+      const DeepCollectionEquality().hash(_lstAutoCompleteGuests),
+      isVisibleAddGuestList);
 
   @JsonKey(ignore: true)
   @override
@@ -346,7 +394,9 @@ abstract class _BookingState implements BookingState {
       required final bool isOpenEndTimePicker,
       required final List<DayHeaderModel> lstDays,
       required final String errorMessage,
-      required final List<InviteGuestModel> lstGuests}) = _$_BookingState;
+      required final List<InviteGuestModel> lstGuests,
+      required final List<InviteGuestModel> lstAutoCompleteGuests,
+      required final bool isVisibleAddGuestList}) = _$_BookingState;
 
   @override
   String get bookingTitle;
@@ -370,6 +420,10 @@ abstract class _BookingState implements BookingState {
   String get errorMessage;
   @override
   List<InviteGuestModel> get lstGuests;
+  @override
+  List<InviteGuestModel> get lstAutoCompleteGuests;
+  @override
+  bool get isVisibleAddGuestList;
   @override
   @JsonKey(ignore: true)
   _$$_BookingStateCopyWith<_$_BookingState> get copyWith =>

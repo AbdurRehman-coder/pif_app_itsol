@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,17 +22,82 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _initData();
   }
 
+  // Init Data
   void _initData() {
     titleController = TextEditingController();
     dateController = TextEditingController();
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
-    visitorFirstName = TextEditingController();
-    visitorLastName = TextEditingController();
-    visitorEmail = TextEditingController();
+    visitorFirstNameController = TextEditingController();
+    visitorLastNameController = TextEditingController();
+    visitorEmailController = TextEditingController();
+    addGuestController = TextEditingController();
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getTasks();
+    getGuestData();
+  }
+
+  void getGuestData() {
+    final lstData = <InviteGuestModel>[];
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Viral',
+        lastName: 'Panchal',
+        email: 'viral@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Muath',
+        lastName: 'Awad',
+        email: 'muath@appswave.io',
+      ),
+    );
+    lstData.add(
+      InviteGuestModel(
+        firstName: 'Alaa',
+        lastName: 'Awad',
+        email: 'alaa@appswave.io',
+      ),
+    );
+
+    filterAuoCompleteGuestData = lstData;
   }
 
   final Ref ref;
@@ -39,11 +105,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late TextEditingController dateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
-  late TextEditingController visitorFirstName;
-  late TextEditingController visitorLastName;
-  late TextEditingController visitorEmail;
+  late TextEditingController visitorFirstNameController;
+  late TextEditingController visitorLastNameController;
+  late TextEditingController visitorEmailController;
+  late TextEditingController addGuestController;
   late List<TimePlannerTask> lstTasks = [];
+  late List<InviteGuestModel> filterAuoCompleteGuestData = [];
 
+  //Update Start Time
   void updateStartTime({required DateTime? startTime}) {
     state = state.copyWith(startTime: startTime);
 
@@ -51,6 +120,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     startTimeController.text = startTimeString;
   }
 
+  //Update End Time
   void updateEndTime({required DateTime? endTime}) {
     if (endTime != null && state.startTime!.isAfter(endTime)) {
       CommonUtils.showToast(message: S.current.timeValidation);
@@ -62,32 +132,45 @@ class BookingNotifier extends StateNotifier<BookingState> {
     endTimeController.text = endTimeString;
   }
 
+  //Open DatePicker Dialog
   void openDatePickerDialog() {
+    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker) {
+      return;
+    }
     state = state.copyWith(isOpenDatePicker: true);
   }
 
+  //Close DatePicker Dialog
   void closeDatePickerDialog() {
     state = state.copyWith(isOpenDatePicker: false);
   }
 
+  //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
     state = state.copyWith(isOpenStartTimePicker: true);
   }
 
+  //Close StartTime Picker Dialog
   void closeStartTimePickerDialog() {
     state = state.copyWith(isOpenStartTimePicker: false);
   }
 
+  //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
     state = state.copyWith(isOpenEndTimePicker: true);
   }
 
+  //Close StartTime Picker Dialog
   void closeEndTimePickerDialog() {
     state = state.copyWith(isOpenEndTimePicker: false);
   }
 
+  //Update Selected Date Data
   void updateDateString(DateTime date) {
     final dateList = state.selectedDates.toList();
+    if (dateList.length == 10) {
+      return;
+    }
     if (dateList.contains(date)) {
       dateList.remove(date);
     } else {
@@ -95,19 +178,28 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
 
     state = state.copyWith(selectedDates: dateList);
+    final dateFormat = DateFormat('d');
     if (dateList.isEmpty) {
       state = state.copyWith(selectedDateString: '');
       dateController.text = state.selectedDateString;
       return;
     }
-    final dateFormat = DateFormat('d');
-    final dateStrings = dateList.map(dateFormat.format).join(',');
-    final lastDateString = "$dateStrings ${DateFormat('MMM').format(dateList.last)}";
+    final groupedDates = groupBy<DateTime, String>(
+      dateList,
+      (date) => DateFormat('MMM').format(date),
+    );
+
+    var lastDateString = '';
+    groupedDates.forEach((key, value) {
+      final dateStrings = value.map(dateFormat.format).join(', ');
+      lastDateString = '$lastDateString $dateStrings $key';
+    });
     state = state.copyWith(selectedDateString: lastDateString);
 
     dateController.text = lastDateString;
   }
 
+  //Calendar Days Cell Selection and Update List Data
   void updateDays({required int index}) {
     for (final element in state.lstDays) {
       element.isSelected = false;
@@ -117,12 +209,25 @@ class BookingNotifier extends StateNotifier<BookingState> {
     getTasks();
   }
 
+  //Search Guest
+  void searchGuest(String searchText) {
+    state = state.copyWith(isVisibleAddGuestList: searchText.isNotEmpty);
+    if (searchText.isNotEmpty) {
+      final data = filterAuoCompleteGuestData
+          .where((element) => element.fullName!.toLowerCase().contains(searchText.toLowerCase()))
+          .toList();
+      state = state.copyWith(lstAutoCompleteGuests: data);
+    }
+  }
+
+  //Book Now Event
   void bookNowAsync() {}
 
+  // Invite Now Event
   void inviteAsync() {
-    final firstName = visitorFirstName.text.trim();
-    final lastName = visitorLastName.text.trim();
-    final email = visitorEmail.text.trim();
+    final firstName = visitorFirstNameController.text.trim();
+    final lastName = visitorLastNameController.text.trim();
+    final email = visitorEmailController.text.trim();
 
     String? errorMessage = '';
     if (firstName.isEmpty) {
@@ -154,22 +259,34 @@ class BookingNotifier extends StateNotifier<BookingState> {
     AppRouter.pop();
   }
 
+  // Clear Data
   void clearData() {
-    visitorFirstName.text = '';
-    visitorLastName.text = '';
-    visitorEmail.text = '';
+    visitorFirstNameController.text = '';
+    visitorLastNameController.text = '';
+    visitorEmailController.text = '';
     state = state.copyWith(errorMessage: '');
   }
 
+  //Add Guest
+  void addGuest(InviteGuestModel item) {
+    addGuestController.text = '';
+    state = state.copyWith(isVisibleAddGuestList: false);
+    final data = state.lstGuests.toList();
+    data.add(item);
+    state = state.copyWith(lstGuests: data);
+  }
+
+  // Remove Invite Guest Data
   void removeGuest(InviteGuestModel item) {
     final data = state.lstGuests.toList();
     data.remove(item);
     state = state.copyWith(lstGuests: data);
   }
 
+  // Get Booking Task Data
   void getTasks() {
     lstTasks.clear();
-    final selectedDay = state.lstDays.firstWhere((element) => element.isSelected == true);
+    final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
     if (selectedDay.dayDate == DateTime.now().day.toString()) {
       lstTasks.add(
         TimePlannerTask(
@@ -268,9 +385,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     dateController.dispose();
     startTimeController.dispose();
     endTimeController.dispose();
-    visitorFirstName.dispose();
-    visitorLastName.dispose();
-    visitorEmail.dispose();
+    visitorFirstNameController.dispose();
+    visitorLastNameController.dispose();
+    visitorEmailController.dispose();
     super.dispose();
   }
 }

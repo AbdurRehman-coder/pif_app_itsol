@@ -38,6 +38,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ScreenUtilInit(
+      useInheritedMediaQuery: true,
       designSize: const Size(390, 844),
       builder: (context, child) => MaterialApp(
         title: 'PIF',

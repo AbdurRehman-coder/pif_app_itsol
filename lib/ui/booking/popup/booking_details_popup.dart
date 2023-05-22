@@ -16,6 +16,7 @@ import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
+import 'package:pif_flutter/widgets/widget_extensions.dart';
 
 void bookingDetailsBottomSheet({
   required BuildContext context,
@@ -70,35 +71,9 @@ void bookingDetailsBottomSheet({
                             padding: EdgeInsets.symmetric(horizontal: 18.sp),
                             child: TextField(
                               controller: notifier.titleController,
-                              decoration: InputDecoration(
-                                fillColor: lightGrayBgColor,
-                                filled: true,
-                                labelStyle: Style.commonTextStyle(
-                                  color: grayTextColor,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                floatingLabelBehavior: FloatingLabelBehavior.always,
-                                constraints: BoxConstraints(maxHeight: 45.h),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                ),
-                                labelText: S.of(context).bookingTitle,
+                              maxLength: 100,
+                              decoration: Style.floatingTextFieldDecoration(
+                                text: S.current.bookingTitle,
                               ),
                             ),
                           ),
@@ -124,48 +99,15 @@ void bookingDetailsBottomSheet({
                                     ),
                                     child: TextField(
                                       controller: notifier.dateController,
-                                      decoration: InputDecoration(
-                                        fillColor: lightGrayBgColor,
-                                        filled: true,
-                                        enabled: false,
-                                        disabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(6.r),
-                                          ),
-                                          borderSide: BorderSide(color: borderColor, width: 1.w),
-                                        ),
-                                        labelStyle: Style.commonTextStyle(
-                                          color: grayTextColor,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                      enabled: false,
+                                      decoration: Style.floatingTextFieldDecoration(
+                                        text: S.current.date,
                                         suffixIcon: SvgPicture.asset(
                                           Assets.calendar,
                                           height: 10.h,
                                           width: 10.w,
                                           fit: BoxFit.scaleDown,
                                         ),
-                                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                                        constraints: BoxConstraints(maxHeight: 45.h),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(6.r),
-                                          ),
-                                          borderSide: BorderSide(color: borderColor, width: 1.w),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(color: borderColor, width: 1.w),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(6.r),
-                                          ),
-                                        ),
-                                        border: OutlineInputBorder(
-                                          borderSide: BorderSide(color: borderColor, width: 1.w),
-                                          borderRadius: BorderRadius.all(
-                                            Radius.circular(6.r),
-                                          ),
-                                        ),
-                                        labelText: S.of(context).date,
                                       ),
                                     ),
                                   ),
@@ -266,48 +208,15 @@ void bookingDetailsBottomSheet({
                                           ),
                                           child: TextField(
                                             controller: notifier.startTimeController,
-                                            decoration: InputDecoration(
-                                              fillColor: lightGrayBgColor,
-                                              filled: true,
-                                              enabled: false,
-                                              disabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              ),
-                                              labelStyle: Style.commonTextStyle(
-                                                color: grayTextColor,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                            enabled: false,
+                                            decoration: Style.floatingTextFieldDecoration(
+                                              text: S.current.startingTime,
                                               suffixIcon: SvgPicture.asset(
                                                 Assets.arrowDown,
                                                 height: 10.h,
                                                 width: 10.w,
                                                 fit: BoxFit.scaleDown,
                                               ),
-                                              floatingLabelBehavior: FloatingLabelBehavior.always,
-                                              constraints: BoxConstraints(maxHeight: 45.h),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                              ),
-                                              labelText: S.of(context).startingTime,
                                             ),
                                           ),
                                         ),
@@ -336,48 +245,15 @@ void bookingDetailsBottomSheet({
                                           ),
                                           child: TextField(
                                             controller: notifier.endTimeController,
-                                            decoration: InputDecoration(
-                                              fillColor: lightGrayBgColor,
-                                              filled: true,
-                                              enabled: false,
-                                              disabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              ),
-                                              labelStyle: Style.commonTextStyle(
-                                                color: grayTextColor,
-                                                fontSize: 16.sp,
-                                                fontWeight: FontWeight.w400,
-                                              ),
+                                            enabled: false,
+                                            decoration: Style.floatingTextFieldDecoration(
+                                              text: S.current.endingTime,
                                               suffixIcon: SvgPicture.asset(
                                                 Assets.arrowDown,
                                                 height: 10.h,
                                                 width: 10.w,
                                                 fit: BoxFit.scaleDown,
                                               ),
-                                              floatingLabelBehavior: FloatingLabelBehavior.always,
-                                              constraints: BoxConstraints(maxHeight: 45.h),
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                              ),
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(color: borderColor, width: 1.w),
-                                                borderRadius: BorderRadius.all(
-                                                  Radius.circular(6.r),
-                                                ),
-                                              ),
-                                              labelText: S.of(context).endingTime,
                                             ),
                                           ),
                                         ),
@@ -495,125 +371,247 @@ void bookingDetailsBottomSheet({
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 18.sp),
                             child: TextField(
-                              decoration: InputDecoration(
-                                fillColor: lightGrayBgColor,
-                                filled: true,
-                                disabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                ),
-                                labelStyle: Style.commonTextStyle(
-                                  color: grayTextColor,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                constraints: BoxConstraints(maxHeight: 45.h),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                ),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide(color: borderColor, width: 1.w),
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(6.r),
-                                  ),
-                                ),
-                                labelText: S.of(context).addGuest,
+                              controller: notifier.addGuestController,
+                              onChanged: notifier.searchGuest,
+                              decoration: Style.floatingTextFieldDecoration(
+                                text: S.current.addGuest,
                               ),
                             ),
                           ),
                           SizedBox(
-                            height: 15.h,
+                            height: 5.h,
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                            child: provider.lstGuests.isNotEmpty
-                                ? ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    itemBuilder: (context, index) {
-                                      return Row(
-                                        children: [
-                                          Container(
-                                            height: 40.h,
-                                            width: 40.w,
-                                            decoration: BoxDecoration(
-                                              color: grayC0,
-                                              borderRadius: BorderRadius.circular(20.r),
-                                            ),
+                          Stack(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 18.h),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: Wrap(
+                                    spacing: 6,
+                                    runSpacing: 6,
+                                    children: List<Widget>.generate(provider.lstGuests.length, (int index) {
+                                      return Container(
+                                        width: 110.w,
+                                        padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 8.h),
+                                        decoration: BoxDecoration(
+                                          color: grayF5,
+                                          border: Border.all(
+                                            color: grayTextColor,
+                                            width: 1.w,
                                           ),
-                                          SizedBox(
-                                            width: 16.w,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
+                                          borderRadius: BorderRadius.circular(14.r),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              width: 75.w,
+                                              child: Text(
                                                 provider.lstGuests[index].fullName ?? '',
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
                                                 style: Style.commonTextStyle(
-                                                  color: darkTextColor,
-                                                  fontSize: 16.sp,
-                                                  fontWeight: FontWeight.w400,
-                                                ),
-                                              ),
-                                              Text(
-                                                provider.lstGuests[index].email ?? '',
-                                                style: Style.commonTextStyle(
-                                                  color: silverTextColor,
+                                                  color: darkBorderColor,
                                                   fontSize: 14.sp,
                                                   fontWeight: FontWeight.w400,
                                                 ),
                                               ),
-                                            ],
-                                          ),
-                                          const Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              notifier.removeGuest(provider.lstGuests[index]);
-                                            },
-                                            child: SvgPicture.asset(Assets.close),
-                                          )
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return Divider(
-                                        height: 15.h,
-                                        thickness: 1.h,
-                                        color: borderColor,
-                                      );
-                                    },
-                                    itemCount: provider.lstGuests.length,
-                                  )
-                                : Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 30.h,
-                                      ),
-                                      SvgPicture.asset(Assets.emptyGuestBg),
-                                      SizedBox(
-                                        height: 10.h,
-                                      ),
-                                      Text(
-                                        S.of(context).noMatchingResultFound,
-                                        style: Style.commonTextStyle(
-                                          color: textColor,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
+                                            ),
+                                            InkWell(
+                                              onTap: () {
+                                                notifier.removeGuest(provider.lstGuests[index]);
+                                              },
+                                              child: SvgPicture.asset(
+                                                Assets.close,
+                                                height: 15.h,
+                                              ),
+                                            )
+                                          ],
                                         ),
-                                      ),
-                                    ],
+                                      );
+                                    }),
                                   ),
+                                ),
+                              ),
+                              Container(
+                                height: 220.h,
+                                margin: EdgeInsets.symmetric(horizontal: 18.sp),
+                                padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  color: Colors.white,
+                                  boxShadow: const [
+                                    BoxShadow(
+                                      blurRadius: 10,
+                                      color: grayE3,
+                                    ),
+                                  ],
+                                ),
+                                child: provider.lstAutoCompleteGuests.isNotEmpty
+                                    ? ListView.separated(
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          return InkWell(
+                                            onTap: () {
+                                              notifier.addGuest(provider.lstAutoCompleteGuests[index]);
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Container(
+                                                  height: 40.h,
+                                                  width: 40.w,
+                                                  decoration: BoxDecoration(
+                                                    color: grayC0,
+                                                    borderRadius: BorderRadius.circular(20.r),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 16.w,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      provider.lstAutoCompleteGuests[index].fullName ?? '',
+                                                      style: Style.commonTextStyle(
+                                                        color: darkTextColor,
+                                                        fontSize: 16.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      provider.lstAutoCompleteGuests[index].email ?? '',
+                                                      style: Style.commonTextStyle(
+                                                        color: silverTextColor,
+                                                        fontSize: 14.sp,
+                                                        fontWeight: FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // const Spacer(),
+                                                // InkWell(
+                                                //   onTap: () {
+                                                //     notifier.removeGuest(provider.lstAutoCompleteGuests[index]);
+                                                //   },
+                                                //   child: SvgPicture.asset(Assets.close),
+                                                // )
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                        separatorBuilder: (context, index) {
+                                          return Divider(
+                                            height: 15.h,
+                                            thickness: 1.h,
+                                            color: borderColor,
+                                          );
+                                        },
+                                        itemCount: provider.lstAutoCompleteGuests.length,
+                                      )
+                                    : Column(
+                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        children: [
+                                          SizedBox(
+                                            height: 30.h,
+                                          ),
+                                          SvgPicture.asset(Assets.emptyGuestBg),
+                                          SizedBox(
+                                            height: 10.h,
+                                          ),
+                                          Text(
+                                            S.of(context).noMatchingResultFound,
+                                            textAlign: TextAlign.center,
+                                            style: Style.commonTextStyle(
+                                              color: textColor,
+                                              fontSize: 16.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ).visibility(visible: provider.isVisibleAddGuestList),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                              //   child: provider.lstGuests.isNotEmpty
+                              //       ? ListView.separated(
+                              //           shrinkWrap: true,
+                              //           physics: const NeverScrollableScrollPhysics(),
+                              //           itemBuilder: (context, index) {
+                              //             return Row(
+                              //               children: [
+                              //                 Container(
+                              //                   height: 40.h,
+                              //                   width: 40.w,
+                              //                   decoration: BoxDecoration(
+                              //                     color: grayC0,
+                              //                     borderRadius: BorderRadius.circular(20.r),
+                              //                   ),
+                              //                 ),
+                              //                 SizedBox(
+                              //                   width: 16.w,
+                              //                 ),
+                              //                 Column(
+                              //                   crossAxisAlignment: CrossAxisAlignment.start,
+                              //                   children: [
+                              //                     Text(
+                              //                       provider.lstGuests[index].fullName ?? '',
+                              //                       style: Style.commonTextStyle(
+                              //                         color: darkTextColor,
+                              //                         fontSize: 16.sp,
+                              //                         fontWeight: FontWeight.w400,
+                              //                       ),
+                              //                     ),
+                              //                     Text(
+                              //                       provider.lstGuests[index].email ?? '',
+                              //                       style: Style.commonTextStyle(
+                              //                         color: silverTextColor,
+                              //                         fontSize: 14.sp,
+                              //                         fontWeight: FontWeight.w400,
+                              //                       ),
+                              //                     ),
+                              //                   ],
+                              //                 ),
+                              //                 const Spacer(),
+                              //                 InkWell(
+                              //                   onTap: () {
+                              //                     notifier.removeGuest(provider.lstGuests[index]);
+                              //                   },
+                              //                   child: SvgPicture.asset(Assets.close),
+                              //                 )
+                              //               ],
+                              //             );
+                              //           },
+                              //           separatorBuilder: (context, index) {
+                              //             return Divider(
+                              //               height: 15.h,
+                              //               thickness: 1.h,
+                              //               color: borderColor,
+                              //             );
+                              //           },
+                              //           itemCount: provider.lstGuests.length,
+                              //         )
+                              //       : Column(
+                              //           children: [
+                              //             SizedBox(
+                              //               height: 30.h,
+                              //             ),
+                              //             SvgPicture.asset(Assets.emptyGuestBg),
+                              //             SizedBox(
+                              //               height: 10.h,
+                              //             ),
+                              //             Text(
+                              //               S.of(context).noMatchingResultFound,
+                              //               style: Style.commonTextStyle(
+                              //                 color: textColor,
+                              //                 fontSize: 16.sp,
+                              //                 fontWeight: FontWeight.w400,
+                              //               ),
+                              //             ),
+                              //           ],
+                              //         ),
+                              // ),
+                            ],
                           ),
                           SizedBox(
                             height: 8.h,

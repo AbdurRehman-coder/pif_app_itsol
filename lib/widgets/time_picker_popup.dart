@@ -80,6 +80,7 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
               itemSize: 40.h,
               listWidth: 120.w,
               listHeight: 200.h,
+              isInfinite: true,
               startPosition: selectedTimeIndex,
               selectTextStyle: TextStyle(color: primaryColor, fontSize: 15.sp),
               unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),

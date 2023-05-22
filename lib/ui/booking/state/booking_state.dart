@@ -18,6 +18,8 @@ class BookingState with _$BookingState {
     required List<DayHeaderModel> lstDays,
     required String errorMessage,
     required List<InviteGuestModel> lstGuests,
+    required List<InviteGuestModel> lstAutoCompleteGuests,
+    required bool isVisibleAddGuestList,
   }) = _BookingState;
 
   factory BookingState.initial() => const BookingState(
@@ -32,5 +34,7 @@ class BookingState with _$BookingState {
         lstDays: <DayHeaderModel>[],
         lstGuests: <InviteGuestModel>[],
         errorMessage: '',
+        lstAutoCompleteGuests: <InviteGuestModel>[],
+        isVisibleAddGuestList: false,
       );
 }

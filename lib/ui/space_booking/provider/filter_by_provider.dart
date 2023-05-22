@@ -1,6 +1,9 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/ui/space_booking/model/floor_model.dart';
 import 'package:pif_flutter/ui/space_booking/state/filter_by_state.dart';
 
@@ -65,12 +68,15 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   }
 
   void addCapacity() {
+    if (state.capacity >= 20) {
+      return;
+    }
     final capacityCount = state.capacity + 1;
     state = state.copyWith(capacity: capacityCount);
   }
 
   void removeCapacity() {
-    if (state.capacity == 0) {
+    if (state.capacity <= 1) {
       return;
     }
     final capacityCount = state.capacity - 1;
@@ -79,6 +85,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   void updateDateString(DateTime date) {
     final dateList = state.selectedDateList.toList();
+    if (dateList.length == 10) {
+      return;
+    }
     if (dateList.contains(date)) {
       dateList.remove(date);
     } else {
@@ -87,16 +96,28 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
     state = state.copyWith(selectedDateList: dateList);
     final dateFormat = DateFormat('d');
-    final dateStrings = dateList.map(dateFormat.format).join(', ');
     if (dateList.isEmpty) {
       state = state.copyWith(selectedDateString: '');
       return;
     }
-    final lastDateString = "$dateStrings ${DateFormat('MMM').format(dateList.last)}";
+
+    final groupedDates = groupBy<DateTime, String>(
+      dateList,
+      (date) => DateFormat('MMM').format(date),
+    );
+
+    var lastDateString = '';
+    groupedDates.forEach((key, value) {
+      final dateStrings = value.map(dateFormat.format).join(', ');
+      lastDateString = '$lastDateString $dateStrings $key';
+    });
     state = state.copyWith(selectedDateString: lastDateString);
   }
 
   void openDialog() {
+    if (state.isOpenTimePicker) {
+      return;
+    }
     state = state.copyWith(isOpenPopup: true);
   }
 
@@ -105,10 +126,18 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   }
 
   void openTimePickerDialog() {
+    if (state.selectedDateString.isEmpty) {
+      CommonUtils.showToast(message: S.current.dateValidation);
+      return;
+    }
     state = state.copyWith(isOpenTimePicker: true);
   }
 
   void closeTimePickerDialog() {
+    if (state.startTime.isAfter(state.endTime)) {
+      CommonUtils.showToast(message: S.current.timeValidation);
+      return;
+    }
     state = state.copyWith(isOpenTimePicker: false);
   }
 

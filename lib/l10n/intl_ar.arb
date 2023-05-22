@@ -54,5 +54,9 @@
   "timeValidation" : "End time should be greater than start time",
   "requestToBook" : "Request to book",
   "requestBookTitle" : "We received your request, and will send you update\nwithin 3hrs",
-  "cancelRequest" : "Cancel Request"
+  "cancelRequest" : "Cancel Request",
+  "dateValidation" : "Please select date",
+  "dateTime" : "Date & Time",
+  "showAll" : "Show all",
+  "reset" : "Reset"
 }

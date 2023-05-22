@@ -9,6 +9,7 @@ import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
+import 'package:pif_flutter/ui/space_booking/popup/room_booking_filter_popup.dart';
 import 'package:pif_flutter/ui/space_booking/provider/filter_by_provider.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_empty_view.dart';
@@ -30,6 +31,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
+      roomBookingFilterBottomSheet(context: context);
       ref.read(spaceBookingProvider.notifier).getSpaceData();
     });
   }
