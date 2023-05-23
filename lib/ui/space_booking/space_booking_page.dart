@@ -9,13 +9,13 @@ import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
-import 'package:pif_flutter/ui/space_booking/popup/room_booking_filter_popup.dart';
 import 'package:pif_flutter/ui/space_booking/provider/filter_by_provider.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_empty_view.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_widget.dart';
+import 'package:pif_flutter/widgets/widget_extensions.dart';
 
 class SpaceBookingPage extends ConsumerStatefulWidget {
   const SpaceBookingPage({
@@ -31,7 +31,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      roomBookingFilterBottomSheet(context: context);
+      // roomBookingFilterBottomSheet(context: context);
       ref.read(spaceBookingProvider.notifier).getSpaceData();
     });
   }
@@ -44,7 +44,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
       child: Scaffold(
         backgroundColor: grayF5,
         appBar: AppBar(
-          toolbarHeight: 115.h,
+          toolbarHeight:
+              (provider.filterDataString != null && provider.filterDataString!.isNotEmpty) ? 118.h : 100.h,
           backgroundColor: grayF5,
           elevation: 0,
           automaticallyImplyLeading: false,
@@ -71,9 +72,48 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 5.h,
-                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 46.w),
+                  child: Row(
+                    children: [
+                      Text(
+                        provider.filterDataString ?? '',
+                        style: Style.commonTextStyle(
+                          color: dayTextColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      Container(
+                        height: 10.h,
+                        width: 1.w,
+                        color: hintColor,
+                      ),
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      SvgPicture.asset(
+                        Assets.chair,
+                        height: 16.h,
+                        colorFilter: const ColorFilter.mode(dayTextColor, BlendMode.srcIn),
+                      ),
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      Text(
+                        provider.filterData?.capacity ?? '',
+                        style: Style.commonTextStyle(
+                          color: dayTextColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).visibility(visible: provider.filterData != null),
                 Row(
                   children: [
                     SizedBox(
@@ -119,12 +159,41 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                         ),
                       ),
                     ),
-                    IconButton(
-                      onPressed: showFilterPopup,
-                      icon: SvgPicture.asset(
-                        Assets.filter,
-                        height: 20.h,
-                      ),
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        IconButton(
+                          onPressed: () async {
+                            await showFilterPopup();
+                            notifier.updateFilterData();
+                          },
+                          icon: SvgPicture.asset(
+                            Assets.filter,
+                            height: 20.h,
+                            colorFilter: ColorFilter.mode(
+                              provider.filterData != null ? primaryColor : textColor,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 20.h,
+                          width: 20.w,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: lightPrimaryColor,
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                          child: Text(
+                            '+1',
+                            style: Style.commonTextStyle(
+                              color: primaryColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ).visibility(visible: provider.filterData != null)
+                      ],
                     ),
                   ],
                 )
@@ -367,8 +436,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     );
   }
 
-  void showFilterPopup() {
-    showModalBottomSheet<dynamic>(
+  Future<void> showFilterPopup() async {
+    await showModalBottomSheet<dynamic>(
       backgroundColor: whiteColor,
       isScrollControlled: true,
       shape: RoundedRectangleBorder(

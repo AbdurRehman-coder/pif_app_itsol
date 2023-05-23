@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/extensions/date_time_extension.dart';
 import 'package:pif_flutter/helpers/assets.dart';
+import 'package:pif_flutter/ui/space_booking/model/filter_model.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
+import 'package:pif_flutter/ui/space_booking/provider/filter_by_provider.dart';
 import 'package:pif_flutter/ui/space_booking/state/space_booking_state.dart';
 
 final spaceBookingProvider =
@@ -90,6 +93,34 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));
     }
+  }
+
+  void updateFilterData() {
+    final filterProvider = ref.read(filterByProvider);
+    if (filterProvider.selectedDateString.isEmpty) {
+      state = state.copyWith(filterDataString: '');
+      state = state.copyWith(filterData: null);
+      return;
+    }
+    final filterModel = FilterModel(
+      selectedDates: filterProvider.selectedDateList,
+      startTime: filterProvider.startTime,
+      endTime: filterProvider.endTime,
+      capacity: filterProvider.capacity.toString(),
+    );
+
+    state = state.copyWith(filterData: filterModel);
+    final startTimeString = filterModel.startTime.toFormattedString('hh:mm a');
+    final endTimeString = filterModel.endTime.toFormattedString('hh:mm a');
+    final firstDateString = filterModel.selectedDates.isNotEmpty
+        ? filterModel.selectedDates.first.toFormattedString('d MMM')
+        : '';
+
+    var filterString = '$startTimeString - $endTimeString';
+    if (firstDateString.isNotEmpty) {
+      filterString = '$filterString - ${filterModel.selectedDates.length} repeats from $firstDateString';
+    }
+    state = state.copyWith(filterDataString: filterString);
   }
 
   @override

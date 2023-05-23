@@ -8,6 +8,7 @@ import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
 import 'package:pif_flutter/ui/booking/state/booking_state.dart';
+import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_date_time.dart';
@@ -36,6 +37,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getTasks();
     getGuestData();
+
+    //Bind Filter Data
+    final data = ref.read(spaceBookingProvider);
+    if (data.filterData != null) {
+      updateStartTime(startTime: data.filterData!.startTime);
+      updateEndTime(endTime: data.filterData!.endTime);
+      state = state.copyWith(selectedDates: data.filterData!.selectedDates);
+      formatSelectedDateToString();
+    }
   }
 
   void getGuestData() {
@@ -178,6 +188,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
 
     state = state.copyWith(selectedDates: dateList);
+    formatSelectedDateToString();
+  }
+
+  //Format Selected Date String
+  void formatSelectedDateToString() {
+    final dateList = state.selectedDates.toList();
     final dateFormat = DateFormat('d');
     if (dateList.isEmpty) {
       state = state.copyWith(selectedDateString: '');
