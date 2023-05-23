@@ -50,5 +50,14 @@
   "skip": "Skip",
   "firstNameEmpty": "Please enter firstname",
   "lastNameEmpty": "Please enter lastname",
-  "emailEmpty": "Please enter email"
+  "emailEmpty": "Please enter email",
+  "troubleScanningQRCodeEnterManually":"Trouble scanning QR code? Enter manually",
+  "alignQRCodeWithinFrameToScan":"Align QR code within frame\n to scan",
+  "roomName":"Room Name",
+  "advancedSearchAndFilters":"Advanced Search & Filters",
+  "notMatchingWhatYouAreLookingFor":"Not matching what you are looking for?",
+  "scanQRCodeToBook":"Scan QR code to book",
+  "gotIt":"Got it",
+  "scanHelpMessage":"You can book a meeting room by scanning the QR code on displays beside the rooms door",
+  "pleaseMakeSureYouAreScanningAValidRoomQRCode":"Please make sure you are scanning a valid room QR code"
 }

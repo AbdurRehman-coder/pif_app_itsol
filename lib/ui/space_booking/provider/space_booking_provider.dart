@@ -13,6 +13,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   SpaceBookingNotifier({required this.ref})
       : super(SpaceBookingState.initial());
   final Ref ref;
+  List<SpaceBookingModel>? bookSearchResult = [];
 
   void getSpaceData() {
     final lstData = <SpaceBookingModel>[];
@@ -63,5 +64,12 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     );
 
     state = state.copyWith(lstData: AsyncData(lstData));
+  }
+
+  void onSearch({required String paramSearch}) {
+    bookSearchResult = state.lstData.value
+        ?.where((element) => element.spaceName!.contains(paramSearch))
+        .toList();
+    state = state.copyWith(lstDataSearch: AsyncData(bookSearchResult ?? []));
   }
 }

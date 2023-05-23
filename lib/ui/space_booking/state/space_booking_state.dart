@@ -8,7 +8,11 @@ part 'space_booking_state.freezed.dart';
 class SpaceBookingState with _$SpaceBookingState {
   const factory SpaceBookingState({
     required AsyncValue<List<SpaceBookingModel>> lstData,
+    required AsyncValue<List<SpaceBookingModel>> lstDataSearch,
   }) = _SpaceBookingState;
 
-  factory SpaceBookingState.initial() => const SpaceBookingState(lstData: AsyncLoading());
+  factory SpaceBookingState.initial() => const SpaceBookingState(
+        lstData: AsyncLoading(),
+        lstDataSearch: AsyncLoading(),
+      );
 }

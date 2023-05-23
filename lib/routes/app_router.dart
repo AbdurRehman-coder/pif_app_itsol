@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
 import 'package:pif_flutter/ui/booking/booking_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
@@ -24,6 +25,8 @@ class AppRouter {
         return _setPage(page: const SpaceBookingPage(), settings: settings);
       case Routes.bookingScreen:
         return _setPage(page: const BookingPage(), settings: settings);
+        case Routes.bookingScannerScreen:
+        return _setPage(page:  const BookScannerView(), settings: settings);
       default:
         return _errorRoute();
     }
