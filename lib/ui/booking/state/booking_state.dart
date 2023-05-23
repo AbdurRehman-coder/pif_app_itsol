@@ -10,27 +10,31 @@ class BookingState with _$BookingState {
     required String bookingTitle,
     required List<DateTime> selectedDates,
     required String selectedDateString,
-    required DateTime startTime,
-    required DateTime endTime,
+    required DateTime? startTime,
+    required DateTime? endTime,
     required bool isOpenDatePicker,
     required bool isOpenStartTimePicker,
     required bool isOpenEndTimePicker,
     required List<DayHeaderModel> lstDays,
     required String errorMessage,
     required List<InviteGuestModel> lstGuests,
+    required List<InviteGuestModel> lstAutoCompleteGuests,
+    required bool isVisibleAddGuestList,
   }) = _BookingState;
 
-  factory BookingState.initial() => BookingState(
+  factory BookingState.initial() => const BookingState(
         bookingTitle: '',
         selectedDates: <DateTime>[],
         selectedDateString: '',
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
+        startTime: null,
+        endTime: null,
         isOpenDatePicker: false,
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
         lstDays: <DayHeaderModel>[],
         lstGuests: <InviteGuestModel>[],
         errorMessage: '',
+        lstAutoCompleteGuests: <InviteGuestModel>[],
+        isVisibleAddGuestList: false,
       );
 }

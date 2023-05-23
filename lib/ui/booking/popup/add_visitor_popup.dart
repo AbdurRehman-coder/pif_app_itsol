@@ -27,7 +27,12 @@ void addVisitorBottomSheet({
     context: context,
     builder: (BuildContext context) {
       return Container(
-        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 40.h),
+        padding: EdgeInsets.only(
+          left: 16.w,
+          right: 16.w,
+          top: 24.h,
+          bottom: 40.h,
+        ),
         child: Padding(
           padding: MediaQuery.of(context).viewInsets,
           child: SingleChildScrollView(
@@ -79,8 +84,9 @@ void addVisitorBottomSheet({
                   children: [
                     Expanded(
                       child: TextField(
-                        controller: notifier.visitorFirstName,
+                        controller: notifier.visitorFirstNameController,
                         decoration: InputDecoration(
+                          isDense: true,
                           fillColor: lightGrayBgColor,
                           filled: true,
                           disabledBorder: OutlineInputBorder(
@@ -94,7 +100,7 @@ void addVisitorBottomSheet({
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          constraints: BoxConstraints(maxHeight: 45.h),
+                          constraints: BoxConstraints(maxHeight: 50.h),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(6.r),
@@ -122,8 +128,9 @@ void addVisitorBottomSheet({
                     ),
                     Expanded(
                       child: TextField(
-                        controller: notifier.visitorLastName,
+                        controller: notifier.visitorLastNameController,
                         decoration: InputDecoration(
+                          isDense: true,
                           fillColor: lightGrayBgColor,
                           filled: true,
                           disabledBorder: OutlineInputBorder(
@@ -137,7 +144,7 @@ void addVisitorBottomSheet({
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                          constraints: BoxConstraints(maxHeight: 45.h),
+                          constraints: BoxConstraints(maxHeight: 50.h),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(
                               Radius.circular(6.r),
@@ -166,8 +173,9 @@ void addVisitorBottomSheet({
                   height: 24.h,
                 ),
                 TextField(
-                  controller: notifier.visitorEmail,
+                  controller: notifier.visitorEmailController,
                   decoration: InputDecoration(
+                    isDense: true,
                     fillColor: lightGrayBgColor,
                     filled: true,
                     prefixIcon: SvgPicture.asset(
@@ -185,7 +193,7 @@ void addVisitorBottomSheet({
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
-                    constraints: BoxConstraints(maxHeight: 45.h),
+                    constraints: BoxConstraints(maxHeight: 50.h),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(6.r),
@@ -211,7 +219,7 @@ void addVisitorBottomSheet({
                   height: 15.h,
                 ),
                 Text(
-                  provider.errorMessage ?? '',
+                  provider.errorMessage,
                   style: Style.commonTextStyle(
                     color: redColor,
                     fontSize: 16.sp,

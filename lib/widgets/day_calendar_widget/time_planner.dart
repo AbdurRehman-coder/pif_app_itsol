@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
+import 'package:pif_flutter/helpers/assets.dart';
+import 'package:pif_flutter/utils/colors.dart';
+import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_config.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_style.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_time.dart';
+import 'package:pif_flutter/widgets/widget_extensions.dart';
 
-/// Time planner widget
 class TimePlanner extends StatefulWidget {
   /// Time planner widget
   const TimePlanner({
     required this.startHour,
     required this.endHour,
+    required this.startTime,
+    required this.endTime,
     super.key,
     this.tasks,
     this.style,
@@ -17,6 +25,12 @@ class TimePlanner extends StatefulWidget {
     this.setTimeOnAxis = false,
     this.currentTimeAnimation,
   });
+
+  //StartTime
+  final DateTime? startTime;
+
+  //EndTIme
+  final DateTime? endTime;
 
   /// Time start from this, it will start from 0
   final int startHour;
@@ -40,18 +54,28 @@ class TimePlanner extends StatefulWidget {
   final bool setTimeOnAxis;
 
   @override
-  _TimePlannerState createState() => _TimePlannerState();
+  State createState() => _TimePlannerState();
 }
 
 class _TimePlannerState extends State<TimePlanner> {
-  final mainHorizontalController = ScrollController();
   final mainVerticalController = ScrollController();
-  final dayHorizontalController = ScrollController();
   final timeVerticalController = ScrollController();
   final style = TimePlannerStyle();
   List<TimePlannerTask> tasks = [];
   bool? isAnimated = true;
-  double? _yPosition = 100;
+  double _yPosition = 0;
+  final ScrollPhysics _scrollPhysics = const BouncingScrollPhysics();
+  double _height = 60;
+  String _startTimeString = '';
+  String _endTimeString = '';
+  String _startTimeFormat = '';
+  String _endTimeFormat = '';
+
+  // double? _previousOffset = 0;
+  // late DateTime? _startTime;
+  // late DateTime? _endTime;
+
+  // bool isDragStart = true;
 
   /// check input value rules
   void _checkInputValue() {
@@ -60,7 +84,7 @@ class _TimePlannerState extends State<TimePlanner> {
     } else if (widget.startHour < 0) {
       throw FlutterError('Start hour should be larger than 0');
     } else if (widget.endHour > 24) {
-      throw FlutterError('Start hour should be lower than 23');
+      throw FlutterError('Start hour should be lower than 24');
     }
   }
 
@@ -70,8 +94,7 @@ class _TimePlannerState extends State<TimePlanner> {
     style.cellHeight = widget.style?.cellHeight ?? 80;
     style.cellWidth = widget.style?.cellWidth ?? 90;
     style.horizontalTaskPadding = widget.style?.horizontalTaskPadding ?? 0;
-    style.borderRadius = widget.style?.borderRadius ??
-        const BorderRadius.all(Radius.circular(8));
+    style.borderRadius = widget.style?.borderRadius ?? const BorderRadius.all(Radius.circular(8));
     style.dividerColor = widget.style?.dividerColor;
     style.showScrollBar = widget.style?.showScrollBar ?? false;
     style.interstitialOddColor = widget.style?.interstitialOddColor;
@@ -85,8 +108,7 @@ class _TimePlannerState extends State<TimePlanner> {
     TimePlannerConfig.horizontalTaskPadding = style.horizontalTaskPadding;
     TimePlannerConfig.cellHeight = style.cellHeight;
     TimePlannerConfig.cellWidth = style.cellWidth;
-    TimePlannerConfig.totalHours =
-        (widget.endHour - widget.startHour).toDouble();
+    TimePlannerConfig.totalHours = (widget.endHour - widget.startHour).toDouble();
     // config.totalDays = widget.headers.length;
     TimePlannerConfig.startHour = widget.startHour;
     TimePlannerConfig.use24HourFormat = widget.use24HourFormat;
@@ -100,12 +122,11 @@ class _TimePlannerState extends State<TimePlanner> {
   void initState() {
     _initData();
     super.initState();
-    Future.delayed(Duration.zero).then((_) {
+    Future<dynamic>.delayed(Duration.zero).then((_) {
       final hour = DateTime.now().hour;
-      if (isAnimated != null && isAnimated == true) {
+      if (isAnimated != null && isAnimated!) {
         if (hour > widget.startHour) {
-          final scrollOffset = (hour - widget.startHour) *
-              TimePlannerConfig.cellHeight!.toDouble();
+          final scrollOffset = (hour - widget.startHour) * TimePlannerConfig.cellHeight!.toDouble();
           mainVerticalController.animateTo(
             scrollOffset,
             duration: const Duration(milliseconds: 800),
@@ -123,7 +144,6 @@ class _TimePlannerState extends State<TimePlanner> {
 
   @override
   void dispose() {
-    mainHorizontalController.dispose();
     mainVerticalController.dispose();
     timeVerticalController.dispose();
     super.dispose();
@@ -133,12 +153,26 @@ class _TimePlannerState extends State<TimePlanner> {
   Widget build(BuildContext context) {
     // we need to update the tasks list in case the tasks have changed
     tasks = widget.tasks ?? [];
-    mainHorizontalController.addListener(() {
-      dayHorizontalController.jumpTo(mainHorizontalController.offset);
-    });
+
+    if (widget.startTime != null && widget.endTime != null) {
+      final startTimeMinute = (widget.startTime!.hour * 60) + widget.startTime!.minute.toDouble();
+      final endTimeMinute = (widget.endTime!.hour * 60) + widget.endTime!.minute.toDouble();
+      _yPosition = startTimeMinute;
+      final startTimeString = DateFormat('hh:mm').format(widget.startTime!);
+      final endTimeString = DateFormat('hh:mm').format(widget.endTime!);
+
+      _height = endTimeMinute - startTimeMinute; // > 300 ? 60 : endTimeMinute - startTimeMinute;
+
+      _startTimeString = startTimeString;
+      _endTimeString = endTimeString;
+      _startTimeFormat = DateFormat('a').format(widget.startTime!);
+      _endTimeFormat = DateFormat('a').format(widget.endTime!);
+    }
+
     mainVerticalController.addListener(() {
       timeVerticalController.jumpTo(mainVerticalController.offset);
     });
+
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -176,62 +210,130 @@ class _TimePlannerState extends State<TimePlanner> {
   }
 
   Widget buildMainBody() {
-    return SingleChildScrollView(
-      controller: mainVerticalController,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          SizedBox(
-            height:
-                (TimePlannerConfig.totalHours * TimePlannerConfig.cellHeight!) +
-                    10,
-            width: MediaQuery.of(context).size.width - 70,
-            child: Stack(
-              children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          physics: _scrollPhysics,
+          controller: mainVerticalController,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              SizedBox(
+                height: (TimePlannerConfig.totalHours * TimePlannerConfig.cellHeight!) + 10,
+                width: MediaQuery.of(context).size.width - 70,
+                child: Stack(
                   children: <Widget>[
-                    for (var i = 0; i < TimePlannerConfig.totalHours; i++)
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          SizedBox(
-                            height: TimePlannerConfig.cellHeight! - 1,
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        for (var i = 0; i < TimePlannerConfig.totalHours; i++)
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(
+                                height: TimePlannerConfig.cellHeight! - 1,
+                              ),
+                              const Divider(
+                                height: 1,
+                              ),
+                            ],
+                          )
+                      ],
+                    ),
+                    for (int i = 0; i < tasks.length; i++) tasks[i],
+                    Positioned(
+                      left: 40,
+                      top: _yPosition,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width - 120,
+                        height: _height.abs(),
+                        decoration: BoxDecoration(
+                          color: grayCardBg,
+                          border: Border.all(color: primaryColor),
+                          borderRadius: BorderRadius.circular(
+                            16.r,
                           ),
-                          const Divider(
-                            height: 1,
-                          ),
-                        ],
-                      )
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              _startTimeString,
+                              style: Style.commonTextStyle(
+                                color: textColor,
+                                fontSize: _height < 30 ? 12.sp : 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                              _startTimeFormat,
+                              style: Style.commonTextStyle(
+                                color: hintColor,
+                                fontSize: _height < 30 ? 11.sp : 14.sp,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            SvgPicture.asset(Assets.rightArrow),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            Text(
+                              _endTimeString,
+                              style: Style.commonTextStyle(
+                                color: textColor,
+                                fontSize: _height < 30 ? 12.sp : 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 2.w,
+                            ),
+                            Text(
+                              _endTimeFormat,
+                              style: Style.commonTextStyle(
+                                color: hintColor,
+                                fontSize: _height < 30 ? 11.sp : 14.sp,
+                                fontWeight: FontWeight.w300,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ).visibility(visible: widget.startTime != null && widget.endTime != null),
+                    // Row(
+                    //   mainAxisSize: MainAxisSize.min,
+                    //   children: <Widget>[
+                    //     for (var i = 0; i < config.totalDays; i++)
+                    //       Row(
+                    //         mainAxisSize: MainAxisSize.min,
+                    //         children: <Widget>[
+                    //           SizedBox(
+                    //             width: (config.cellWidth! - 1).toDouble(),
+                    //           ),
+                    //           Container(
+                    //             width: 1,
+                    //             height: (config.totalHours * config.cellHeight!) + config.cellHeight!,
+                    //             color: Colors.black12,
+                    //           )
+                    //         ],
+                    //       )
+                    //   ],
+                    // ),
                   ],
                 ),
-                // Row(
-                //   mainAxisSize: MainAxisSize.min,
-                //   children: <Widget>[
-                //     for (var i = 0; i < config.totalDays; i++)
-                //       Row(
-                //         mainAxisSize: MainAxisSize.min,
-                //         children: <Widget>[
-                //           SizedBox(
-                //             width: (config.cellWidth! - 1).toDouble(),
-                //           ),
-                //           Container(
-                //             width: 1,
-                //             height: (config.totalHours * config.cellHeight!) + config.cellHeight!,
-                //             color: Colors.black12,
-                //           )
-                //         ],
-                //       )
-                //   ],
-                // ),
-                for (int i = 0; i < tasks.length; i++) tasks[i],
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -246,6 +348,7 @@ class _TimePlannerState extends State<TimePlanner> {
       if (hour == 0) return '12:00 am';
       if (hour < 12) return '$hour:00 am';
       if (hour == 12) return '12:00 pm';
+      if (hour == 24) return '12:00 am';
       return '${hour - 12}:00 pm';
     }
   }

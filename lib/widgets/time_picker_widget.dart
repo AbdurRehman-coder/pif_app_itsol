@@ -8,7 +8,7 @@ import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/wheel_chooser.dart';
 
 class TimePickerWidget extends StatefulWidget {
-  TimePickerWidget({
+  const TimePickerWidget({
     required this.onCancel,
     required this.onConfirm,
     required this.startTime,
@@ -18,8 +18,8 @@ class TimePickerWidget extends StatefulWidget {
 
   final DateTime startTime;
   final DateTime endTime;
-  VoidCallback onCancel;
-  void Function(DateTime?, DateTime?) onConfirm;
+  final VoidCallback onCancel;
+  final void Function(DateTime?, DateTime?) onConfirm;
 
   @override
   State<TimePickerWidget> createState() => _TimePickerWidgetState();
@@ -87,6 +87,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
                   itemSize: 40.h,
                   listWidth: 120.w,
                   listHeight: 200.h,
+                  isInfinite: true,
                   startPosition: startTimeIndex,
                   selectTextStyle: TextStyle(color: primaryColor, fontSize: 15.sp),
                   unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),
@@ -113,6 +114,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
                   itemSize: 40.h,
                   listWidth: 120.w,
                   listHeight: 200.h,
+                  isInfinite: true,
                   startPosition: endTimeIndex,
                   selectTextStyle: TextStyle(color: primaryColor, fontSize: 15.sp),
                   unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),
@@ -171,12 +173,19 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
     );
     if (startTimeData != null) {
       startTimeIndex = lstData?.indexOf(startTimeData);
+      startDateTime = startTimeData.value;
+    } else {
+      startDateTime = DateTime(2001, 1, 1);
     }
+
     final endTimeData = lstData?.firstWhereOrNull(
       (element) => !element.value.isBefore(widget.endTime) && !element.value.isAfter(widget.endTime),
     );
     if (endTimeData != null) {
       endTimeIndex = lstData?.indexOf(endTimeData);
+      endDateTime = endTimeData.value;
+    } else {
+      endDateTime = DateTime(2001, 1, 1);
     }
   }
 }

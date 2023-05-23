@@ -37,13 +37,13 @@ class DotsIndicator extends AnimatedWidget {
   static const double _kDotSpacing = 10;
 
   Widget _buildDot(int index) {
-    var selectedness = Curves.easeOut.transform(
+    final selected = Curves.easeOut.transform(
       max(
         0,
         1.0 - ((controller!.page ?? controller!.initialPage) - index).abs(),
       ),
     );
-    final zoom = 1.0 + (_kMaxZoom - 1.0) * selectedness;
+    final zoom = 1.0 + (_kMaxZoom - 1.0) * selected;
     return Center(
       child: Container(
         margin: const EdgeInsets.only(left: 3, right: 3),

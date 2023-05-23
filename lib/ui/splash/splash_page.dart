@@ -30,7 +30,7 @@ class SplashPage extends HookWidget {
     );
   }
 
-  _navigateUser() {
+  void _navigateUser() {
     AppRouter.pushReplacement(Routes.homeScreen);
   }
 }

@@ -10,7 +10,7 @@ import 'package:pif_flutter/ui/booking/provider/booking_confirmation_provider.da
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 
-void bookingConfirmationPopup({required BuildContext context}) {
+void bookingConfirmationPopup({required BuildContext context, required bool isRequestBooking}) {
   showModalBottomSheet<dynamic>(
     backgroundColor: whiteColor,
     isScrollControlled: true,
@@ -25,9 +25,8 @@ void bookingConfirmationPopup({required BuildContext context}) {
       return Consumer(
         builder: (BuildContext context, WidgetRef ref, Widget? child) {
           final provider = ref.watch(bookingConfirmationProvider);
-          final notifier = ref.read(bookingConfirmationProvider.notifier);
           return Container(
-            height: 355.h,
+            height: isRequestBooking ? 400.h : 355.h,
             padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 25.h),
             child: Column(
               children: [
@@ -38,7 +37,7 @@ void bookingConfirmationPopup({required BuildContext context}) {
                       children: [
                         Align(
                           child: SvgPicture.asset(
-                            Assets.bookConfirmation,
+                            isRequestBooking ? Assets.requestBookingConf : Assets.bookConfirmation,
                           ),
                         ),
                         SizedBox(
@@ -77,10 +76,12 @@ void bookingConfirmationPopup({required BuildContext context}) {
                   height: 20.h,
                 ),
                 Text(
-                  S.of(context).bookingRoom,
+                  isRequestBooking ? S.of(context).requestBookTitle : S.of(context).bookingRoom,
+                  textAlign: TextAlign.center,
                   style: Style.commonTextStyle(
+                    height: 1.2,
                     color: textColor,
-                    fontSize: 24.sp,
+                    fontSize: 23.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -101,7 +102,7 @@ void bookingConfirmationPopup({required BuildContext context}) {
                       ),
                       const TextSpan(text: ' '),
                       TextSpan(
-                        text: S.of(context).cancel,
+                        text: isRequestBooking ? S.of(context).cancelRequest : S.of(context).cancel,
                         recognizer: TapGestureRecognizer()..onTap = () {},
                         style: Style.commonTextStyle(
                           color: redColor,

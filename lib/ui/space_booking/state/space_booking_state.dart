@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/ui/space_booking/model/filter_model.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 
 part 'space_booking_state.freezed.dart';
@@ -9,6 +10,8 @@ class SpaceBookingState with _$SpaceBookingState {
   const factory SpaceBookingState({
     required AsyncValue<List<SpaceBookingModel>> lstData,
     required AsyncValue<List<SpaceBookingModel>> lstDataSearch,
+    FilterModel? filterData,
+    String? filterDataString,
   }) = _SpaceBookingState;
 
   factory SpaceBookingState.initial() => const SpaceBookingState(

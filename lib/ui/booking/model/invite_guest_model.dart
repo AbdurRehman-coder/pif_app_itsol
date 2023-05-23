@@ -1,5 +1,5 @@
 class InviteGuestModel {
-  InviteGuestModel({required this.firstName, this.lastName, this.email});
+  InviteGuestModel({required this.firstName, required this.lastName, required this.email});
 
   String? firstName;
   String? lastName;

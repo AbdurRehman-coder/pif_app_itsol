@@ -8,6 +8,7 @@ import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/popup/booking_details_popup.dart';
 import 'package:pif_flutter/ui/booking/provider/booking_provider.dart';
+import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner.dart';
@@ -16,8 +17,11 @@ import 'package:pif_flutter/widgets/dotindicator.dart';
 
 class BookingPage extends ConsumerStatefulWidget {
   const BookingPage({
+    required this.spaceData,
     super.key,
   });
+
+  final SpaceBookingModel spaceData;
 
   @override
   ConsumerState createState() => _BookingPageState();
@@ -36,7 +40,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
         height: 80.h,
         child: InkWell(
           onTap: () {
-            bookingDetailsBottomSheet(context: context);
+            bookingDetailsBottomSheet(context: context, spaceData: widget.spaceData);
           },
           child: Column(
             children: [
@@ -79,7 +83,6 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       height: context.topHeaderHeight.h,
-                      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 12.h),
                       decoration: const BoxDecoration(
                         image: DecorationImage(image: AssetImage(Assets.spaceBg1), fit: BoxFit.fill),
                       ),
@@ -353,6 +356,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
         ),
         Expanded(
           child: TimePlanner(
+            startTime: provider.startTime,
+            endTime: provider.endTime,
             startHour: 0,
             endHour: 24,
             tasks: notifier.lstTasks,

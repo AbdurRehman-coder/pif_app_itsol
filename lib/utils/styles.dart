@@ -87,14 +87,59 @@ class Style {
   static ButtonStyle primaryButtonStyle({required BuildContext context}) {
     return ElevatedButton.styleFrom(
       elevation: 0,
-      fixedSize: Size(context.screenWidth.w, 45.h),
+      fixedSize: Size(context.screenWidth.w, 42.h),
       foregroundColor: whiteColor,
       backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6.r),
+      ),
       textStyle: Style.commonTextStyle(
         color: whiteColor,
         fontSize: 16.sp,
         fontWeight: FontWeight.w400,
       ),
+    );
+  }
+
+  static InputDecoration floatingTextFieldDecoration({
+    required String? text,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+    String? counterText,
+  }) {
+    return InputDecoration(
+      filled: true,
+      fillColor: lightGrayBgColor,
+      labelStyle: Style.commonTextStyle(
+        color: grayTextColor,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+      ),
+      floatingLabelBehavior: FloatingLabelBehavior.always,
+      constraints: BoxConstraints(maxHeight: 42.h),
+      contentPadding: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.h),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.r),
+        ),
+        borderSide: BorderSide(color: borderColor, width: 1.w),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: borderColor, width: 1.w),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.r),
+        ),
+      ),
+      suffixIcon: suffixIcon,
+      prefixIcon: prefixIcon,
+      counterText: '',
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: borderColor, width: 1.w),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.r),
+        ),
+      ),
+      labelText: text,
     );
   }
 }

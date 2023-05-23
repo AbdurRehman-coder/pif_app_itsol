@@ -1,7 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/extensions/date_time_extension.dart';
+import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/ui/space_booking/model/floor_model.dart';
+import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/ui/space_booking/state/filter_by_state.dart';
 
 final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
@@ -10,10 +15,25 @@ final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, Fil
 
 class FilterByNotifier extends StateNotifier<FilterByState> {
   FilterByNotifier({required this.ref}) : super(FilterByState.initial()) {
-    getFloors();
     setDefaultTime();
+    _initData();
+    getFloors();
   }
 
+  void _initData() {
+    final data = ref.read(spaceBookingProvider);
+    if (data.filterData != null) {
+      state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
+      state = state.copyWith(startTime: data.filterData!.startTime);
+      state = state.copyWith(endTime: data.filterData!.endTime);
+      state = state.copyWith(capacity: int.parse(data.filterData!.capacity));
+
+      updateTime(startTime: state.startTime, endTime: state.endTime);
+      formatSelectedDateToString();
+    }
+  }
+
+  // FilterModel? filterData;
   final Ref ref;
 
   void getFloors() {
@@ -64,21 +84,30 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(lstFloors: state.lstFloors);
   }
 
+  //Add Capacity
   void addCapacity() {
+    if (state.capacity >= 20) {
+      return;
+    }
     final capacityCount = state.capacity + 1;
     state = state.copyWith(capacity: capacityCount);
   }
 
+  //Remove Capacity
   void removeCapacity() {
-    if (state.capacity == 0) {
+    if (state.capacity <= 1) {
       return;
     }
     final capacityCount = state.capacity - 1;
     state = state.copyWith(capacity: capacityCount);
   }
 
+  //Insert or Remove Date into List
   void updateDateString(DateTime date) {
     final dateList = state.selectedDateList.toList();
+    if (dateList.length == 10) {
+      return;
+    }
     if (dateList.contains(date)) {
       dateList.remove(date);
     } else {
@@ -86,32 +115,63 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     }
 
     state = state.copyWith(selectedDateList: dateList);
+    formatSelectedDateToString();
+  }
+
+  //Format Selected Date String
+  void formatSelectedDateToString() {
+    final dateList = state.selectedDateList.toList();
     final dateFormat = DateFormat('d');
-    final dateStrings = dateList.map(dateFormat.format).join(', ');
     if (dateList.isEmpty) {
       state = state.copyWith(selectedDateString: '');
       return;
     }
-    final lastDateString = "$dateStrings ${DateFormat('MMM').format(dateList.last)}";
+
+    final groupedDates = groupBy<DateTime, String>(
+      dateList,
+      (date) => date.toFormattedString('MMM'),
+    );
+
+    var lastDateString = '';
+    groupedDates.forEach((key, value) {
+      final dateStrings = value.map(dateFormat.format).join(', ');
+      lastDateString = '$lastDateString $dateStrings $key';
+    });
     state = state.copyWith(selectedDateString: lastDateString);
   }
 
+  //Open DatePicker Dialog
   void openDialog() {
+    if (state.isOpenTimePicker) {
+      return;
+    }
     state = state.copyWith(isOpenPopup: true);
   }
 
+  //Close DatePicker Dialog
   void closeDialog() {
     state = state.copyWith(isOpenPopup: false);
   }
 
+  //Open TimePicker Dialog
   void openTimePickerDialog() {
+    if (state.selectedDateString.isEmpty) {
+      CommonUtils.showToast(message: S.current.dateValidation);
+      return;
+    }
     state = state.copyWith(isOpenTimePicker: true);
   }
 
+  //Close TimePicker Dialog
   void closeTimePickerDialog() {
+    if (state.startTime.isAfter(state.endTime)) {
+      CommonUtils.showToast(message: S.current.timeValidation);
+      return;
+    }
     state = state.copyWith(isOpenTimePicker: false);
   }
 
+  //Update Time
   void updateTime({required DateTime? startTime, required DateTime? endTime}) {
     state = state.copyWith(startTime: startTime!);
     state = state.copyWith(endTime: endTime!);
@@ -133,8 +193,14 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(timeString: '$startTimeString - $endTimeString');
   }
 
-  void resetFilter() {}
+  //Reset Filter Data
+  void resetFilter() {
+    state = state.copyWith(selectedDateList: <DateTime>[]);
+    state = state.copyWith(selectedDateString: '');
+    state = state.copyWith(capacity: 1);
+  }
 
+  //Set Default DateTime
   void setDefaultTime() {
     final dateTime = DateTime.now();
     final minute = dateTime.minute;

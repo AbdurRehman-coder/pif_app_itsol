@@ -42,4 +42,7 @@ class Assets {
   static const String questionSquare = 'assets/svg/question_square.svg';
   static const String qrcode = 'assets/svg/qrcode.svg';
   static const String warningIcon = 'assets/svg/warning_icon.svg';
+  static const String dotImage = 'assets/svg/ic_dot.svg';
+  static const String rightArrow = 'assets/svg/ic_right_arrow.svg';
+  static const String requestBookingConf = 'assets/svg/ic_request_booking_conf.svg';
 }
