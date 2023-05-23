@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/extensions/context_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
@@ -45,7 +46,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         backgroundColor: grayF5,
         appBar: AppBar(
           toolbarHeight:
-              (provider.filterDataString != null && provider.filterDataString!.isNotEmpty) ? 118.h : 100.h,
+              (provider.filterDataString != null && provider.filterDataString!.isNotEmpty) ? 120.h : 100.h,
           backgroundColor: grayF5,
           elevation: 0,
           automaticallyImplyLeading: false,
@@ -314,22 +315,19 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         shrinkWrap: true,
         itemBuilder: (context, index) {
           return Container(
-            height: 222.h,
-            padding: EdgeInsets.only(
-              left: 16.w,
-              right: 16.w,
-              top: 16.h,
-              bottom: 12.h,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 16.h,
             ),
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(data[index].backImage!),
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
               ),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   'Building 2  -  Floor 1',
@@ -340,7 +338,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   ),
                 ),
                 SizedBox(
-                  height: 22.h,
+                  height: 24.h,
                 ),
                 Text(
                   data[index].spaceName ?? '',
@@ -373,7 +371,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   ],
                 ),
                 SizedBox(
-                  height: 22.h,
+                  height: 28.h,
                 ),
                 Row(
                   children: [
@@ -395,31 +393,26 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   ],
                 ),
                 SizedBox(
-                  height: 10.h,
+                  height: 20.h,
                 ),
                 ElevatedButton(
                   onPressed: () {
                     AppRouter.pushNamed(Routes.bookingScreen, args: data[index]);
                   },
                   style: ElevatedButton.styleFrom(
+                    fixedSize: Size(context.screenWidth.w, 35.h),
                     backgroundColor: data[index].btnBgColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(6.r), // <-- Radius
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        data[index].btnTitle,
-                        textAlign: TextAlign.center,
-                        style: Style.commonTextStyle(
-                          color: data[index].btnTitleColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    data[index].btnTitle,
+                    style: Style.commonTextStyle(
+                      color: data[index].btnTitleColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 )
               ],
