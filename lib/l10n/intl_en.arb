@@ -59,7 +59,7 @@
   "scanQRCodeToBook":"Scan QR code to book",
   "gotIt":"Got it",
   "scanHelpMessage":"You can book a meeting room by scanning the QR code on displays beside the rooms door",
-  "pleaseMakeSureYouAreScanningAValidRoomQRCode":"Please make sure you are scanning a valid room QR code"
+  "pleaseMakeSureYouAreScanningAValidRoomQRCode":"Please make sure you are scanning a valid room QR code",
   "timeValidation" : "End time should be greater than start time",
   "requestToBook" : "Request to book",
   "requestBookTitle" : "We received your request, and will send you update\nwithin 3hrs",

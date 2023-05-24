@@ -124,21 +124,23 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Update Start Time
   void updateStartTime({required DateTime? startTime}) {
+    startTime = DateTime(startTime!.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
     state = state.copyWith(startTime: startTime);
 
-    final startTimeString = DateFormat('hh:mm a').format(startTime!);
+    final startTimeString = DateFormat('hh:mm a').format(startTime);
     startTimeController.text = startTimeString;
   }
 
   //Update End Time
   void updateEndTime({required DateTime? endTime}) {
-    if (endTime != null && state.startTime!.isAfter(endTime)) {
+    endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
+    if (state.startTime!.isAfter(endTime)) {
       CommonUtils.showToast(message: S.current.timeValidation);
       return;
     }
     state = state.copyWith(endTime: endTime);
 
-    final endTimeString = DateFormat('hh:mm a').format(endTime!);
+    final endTimeString = DateFormat('hh:mm a').format(endTime);
     endTimeController.text = endTimeString;
   }
 
@@ -178,13 +180,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Update Selected Date Data
   void updateDateString(DateTime date) {
     final dateList = state.selectedDates.toList();
-    if (dateList.length == 10) {
-      return;
-    }
     if (dateList.contains(date)) {
       dateList.remove(date);
     } else {
-      dateList.add(date);
+      if (dateList.length < 10) {
+        dateList.add(date);
+      }
     }
 
     state = state.copyWith(selectedDates: dateList);

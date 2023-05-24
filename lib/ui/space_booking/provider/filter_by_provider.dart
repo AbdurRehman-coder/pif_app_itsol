@@ -105,13 +105,12 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   //Insert or Remove Date into List
   void updateDateString(DateTime date) {
     final dateList = state.selectedDateList.toList();
-    if (dateList.length == 10) {
-      return;
-    }
     if (dateList.contains(date)) {
       dateList.remove(date);
     } else {
-      dateList.add(date);
+      if (dateList.length < 10) {
+        dateList.add(date);
+      }
     }
 
     state = state.copyWith(selectedDateList: dateList);
@@ -205,8 +204,10 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     final dateTime = DateTime.now();
     final minute = dateTime.minute;
     final minuteModulo = minute % 15;
-    final roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
+    var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
+    roundedTime =
+        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
     final startTimeString = DateFormat('h:mm a').format(roundedTime);

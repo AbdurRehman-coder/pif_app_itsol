@@ -35,7 +35,7 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
   }
 
   void initData() {
-    var date = DateTime(2000);
+    var date = DateTime.now();
     date = DateTime(date.year, date.month, date.day);
     for (var i = 0; i < 96; i++) {
       lstData?.add(

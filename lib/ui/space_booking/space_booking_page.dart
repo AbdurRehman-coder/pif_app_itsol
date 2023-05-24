@@ -2,7 +2,6 @@ import 'package:awesome_calendar/awesome_calendar.dart';
 import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/extensions/context_extensions.dart';
@@ -10,7 +9,6 @@ import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 import 'package:pif_flutter/ui/space_booking/provider/filter_by_provider.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
@@ -45,6 +43,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     final notifier = ref.read(spaceBookingProvider.notifier);
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: grayF5,
         appBar: AppBar(
           toolbarHeight:
@@ -258,32 +257,11 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                             height: 18.h,
                             colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.symmetric(vertical: 11.h),
-                    width: 1,
-                    color: whiteColor,
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () =>
-                          AppRouter.pushNamed(Routes.bookingScannerScreen),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.scanner,
-                            height: 18.h,
-                            color: textColor,
-                          ),
                           SizedBox(
                             width: 6.w,
                           ),
                           Text(
-                            S.current.scanToBook,
+                            S.current.instanceBooking,
                             style: Style.commonTextStyle(
                               color: blackColor,
                               fontSize: 12.sp,
@@ -299,26 +277,29 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                       color: whiteColor,
                     ),
                     Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.scanner,
-                            height: 18.h,
-                            colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
-                          ),
-                          SizedBox(
-                            width: 6.w,
-                          ),
-                          Text(
-                            S.current.scanToBook,
-                            style: Style.commonTextStyle(
-                              color: blackColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
+                      child: InkWell(
+                        onTap: () => AppRouter.pushNamed(Routes.bookingScannerScreen),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.scanner,
+                              height: 18.h,
+                              colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                             ),
-                          ),
-                        ],
+                            SizedBox(
+                              width: 6.w,
+                            ),
+                            Text(
+                              S.current.scanToBook,
+                              style: Style.commonTextStyle(
+                                color: blackColor,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     )
                   ],

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
+import 'package:pif_flutter/utils/colors.dart';
+import 'package:pif_flutter/utils/styles.dart';
 
 class BookWidget extends StatelessWidget {
   const BookWidget({required this.spaceBookingModel, super.key});
@@ -18,8 +18,7 @@ class BookWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 222.h,
-      padding:
-          EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 12.h),
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 16.h, bottom: 12.h),
       decoration: BoxDecoration(
         image: DecorationImage(
           image: AssetImage(spaceBookingModel.backImage!),
@@ -97,7 +96,7 @@ class BookWidget extends StatelessWidget {
             height: 10.h,
           ),
           ElevatedButton(
-            onPressed: () => AppRouter.pushNamed(Routes.bookingScreen),
+            onPressed: () => AppRouter.pushNamed(Routes.bookingScreen, args: spaceBookingModel),
             style: ElevatedButton.styleFrom(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6.r), // <-- Radius

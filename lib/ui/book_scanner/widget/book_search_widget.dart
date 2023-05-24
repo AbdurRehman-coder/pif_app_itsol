@@ -32,115 +32,110 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(spaceBookingProvider.notifier);
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            children: [
-              InkWell(
-                onTap: () => widget.panelController.close(),
-                child: Column(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.w),
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () => widget.panelController.close(),
+            child: Column(
+              children: [
+                SizedBox(height: 51.h),
+                Center(
+                  child: SvgPicture.asset(
+                    Assets.downArrow,
+                    height: 13.h,
+                  ),
+                ),
+                SizedBox(height: 23.h),
+              ],
+            ),
+          ),
+          Text(
+            S.of(context).troubleScanningQRCodeEnterManually,
+            style: Style.commonTextStyle(
+              fontSize: 18.sp,
+              color: blackColor,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 10.h),
+          CustomTextField(
+            textEditingController: searchTextController,
+            labelText: S.of(context).roomName,
+            isSearch: searchTextController.text.isNotEmpty,
+            onSearch: () {
+              searchTextController.clear();
+              setState(() {});
+            },
+            onChanged: (valSearch) {
+              notifier.onSearch(
+                paramSearch: valSearch,
+              );
+              setState(() {});
+            },
+          ),
+          SizedBox(height: 16.h),
+          Expanded(
+            child: Consumer(
+              builder: (context, ref, child) {
+                final provider = ref.watch(spaceBookingProvider);
+                final booksList = searchTextController.text.isNotEmpty
+                    ? provider.lstDataSearch.value!
+                    : provider.lstData.value!;
+                return ListView(
+                  padding: EdgeInsets.zero,
+                  physics: PanelScrollPhysics(
+                    controller: widget.panelController,
+                  ),
+                  controller: widget.scrollController,
+                  shrinkWrap: true,
                   children: [
-                    SizedBox(height: 51.h),
-                    Center(
-                      child: SvgPicture.asset(
-                        Assets.downArrow,
-                        height: 13.h,
+                    if (booksList.isEmpty) ...[
+                      const SpaceBookingEmptyView()
+                    ] else ...[
+                      ListView.separated(
+                        shrinkWrap: true,
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          return BookWidget(
+                            spaceBookingModel: booksList[index],
+                          );
+                        },
+                        separatorBuilder: (_, index) {
+                          return SizedBox(height: 10.h);
+                        },
+                        itemCount: booksList.length,
+                      ),
+                    ],
+                    SizedBox(height: 16.h),
+                    Text(
+                      S.of(context).notMatchingWhatYouAreLookingFor,
+                      textAlign: TextAlign.center,
+                      style: Style.commonTextStyle(
+                        fontSize: 16.sp,
+                        color: grayTextColor,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
-                    SizedBox(height: 23.h),
-                  ],
-                ),
-              ),
-              Text(
-                S.of(context).troubleScanningQRCodeEnterManually,
-                style: Style.commonTextStyle(
-                  fontSize: 18.sp,
-                  color: blackColor,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              SizedBox(height: 10.h),
-              CustomTextField(
-                textEditingController: searchTextController,
-                labelText: S.of(context).roomName,
-                isSearch: searchTextController.text.isNotEmpty,
-                onSearch: () {
-                  searchTextController.clear();
-                  setState(() {});
-                },
-                onChanged: (valSearch) {
-                  notifier.onSearch(
-                    paramSearch: valSearch,
-                  );
-                  setState(() {});
-                },
-              ),
-              SizedBox(height: 10.h),
-              Expanded(
-                child: Consumer(
-                  builder: (context, ref, child) {
-                    final provider = ref.watch(spaceBookingProvider);
-                    final booksList = searchTextController.text.isNotEmpty
-                        ? provider.lstDataSearch.value!
-                        : provider.lstData.value!;
-                    return ListView(
-                      physics: PanelScrollPhysics(
-                        controller: widget.panelController,
+                    SizedBox(height: 3.h),
+                    Text(
+                      S.of(context).advancedSearchAndFilters,
+                      textAlign: TextAlign.center,
+                      style: Style.commonTextStyle(
+                        fontSize: 14.sp,
+                        color: primaryColor,
+                        fontWeight: FontWeight.w400,
                       ),
-                      controller: widget.scrollController,
-                      shrinkWrap: true,
-                      children: [
-                        if (booksList.isEmpty) ...[
-                          const SpaceBookingEmptyView()
-                        ] else ...[
-                          ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (_, index) {
-                              return BookWidget(
-                                spaceBookingModel: booksList[index],
-                              );
-                            },
-                            separatorBuilder: (_, index) {
-                              return SizedBox(height: 10.h);
-                            },
-                            itemCount: booksList.length,
-                          ),
-                        ],
-                        SizedBox(height: 16.h),
-                        Center(
-                          child: Text(
-                            S.of(context).notMatchingWhatYouAreLookingFor,
-                            style: Style.commonTextStyle(
-                              fontSize: 18.sp,
-                              color: grayTextColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                        Center(
-                          child: Text(
-                            S.of(context).advancedSearchAndFilters,
-                            style: Style.commonTextStyle(
-                              fontSize: 18.sp,
-                              color: primaryColor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16.h),
-                      ],
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                    SizedBox(height: 16.h),
+                  ],
+                );
+              },
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

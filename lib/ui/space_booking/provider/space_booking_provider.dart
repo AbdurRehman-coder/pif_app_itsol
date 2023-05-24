@@ -25,6 +25,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   void _initData() {
     searchController = TextEditingController();
   }
+
   void getSpaceData() {
     final lstData = <SpaceBookingModel>[];
     lstData.add(
@@ -81,13 +82,12 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     state = state.copyWith(lstData: AsyncData(lstData));
   }
 
-<<<<<<< HEAD
   void onSearch({required String paramSearch}) {
-    bookSearchResult = state.lstData.value
-        ?.where((element) => element.spaceName!.contains(paramSearch))
-        .toList();
+    bookSearchResult =
+        state.lstData.value?.where((element) => element.spaceName!.contains(paramSearch)).toList();
     state = state.copyWith(lstDataSearch: AsyncData(bookSearchResult ?? []));
-=======
+  }
+
   void searchData(String searchText) {
     if (allListData == null || (allListData != null && allListData!.isEmpty)) {
       return;
@@ -134,6 +134,5 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   void dispose() {
     searchController.dispose();
     super.dispose();
->>>>>>> feature/booking_flow
   }
 }

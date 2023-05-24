@@ -27,10 +27,8 @@ class BookScannerView extends ConsumerStatefulWidget {
 }
 
 class _BookScannerViewState extends ConsumerState<BookScannerView> {
-
   @override
   Widget build(BuildContext context) {
-
     return Consumer(
       builder: (context, ref, child) {
         final notifier = ref.read(bookingScannerProvider.notifier);
@@ -42,48 +40,33 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
           body: Scaffold(
             appBar: AppBar(
               backgroundColor: grayF5,
-              elevation: 0,
               automaticallyImplyLeading: false,
-              leadingWidth: 0,
-              flexibleSpace: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8.w),
-                child: Column(
-                  children: [
-                    SizedBox(height: 30.h,),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: AppRouter.pop,
-                          icon: SvgPicture.asset(
-                            Assets.back,
-                            height: 14.h,
-                          ),
-                        ),
-                        Text(
-                          S.current.spaceBooking,
-                          style: Style.commonTextStyle(
-                            color: blackColor,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+              centerTitle: false,
+              titleSpacing: 0,
+              elevation: 0,
+              leading: IconButton(
+                onPressed: AppRouter.pop,
+                icon: SvgPicture.asset(
+                  Assets.back,
+                  height: 14.h,
+                ),
+              ),
+              title: Text(
+                S.current.spaceBooking,
+                style: Style.commonTextStyle(
+                  color: blackColor,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
               actions: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10.h),
-                  child: InkWell(
-                    onTap: () => scanHelpBottomSheet(context: context),
-                    child: SvgPicture.asset(
-                      Assets.questionSquare,
-                      width: 30.w,
-                      height: 30.h,
-                    ),
+                IconButton(
+                  onPressed: () => {scanHelpBottomSheet(context: context)},
+                  icon: SvgPicture.asset(
+                    Assets.questionSquare,
+                    height: 26.h,
                   ),
-                ),
+                )
               ],
             ),
             body: Consumer(
@@ -95,8 +78,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                       onQRViewCreated: (controller) {
                         controller.scannedDataStream.listen(
                           (scanData) {
-                            if (
-                                notifier.isNumeric(scanData.code)) {
+                            if (notifier.isNumeric(scanData.code)) {
                               controller.dispose();
                               AppRouter.pushNamed(Routes.bookingScreen).then(
                                 (value) async {
@@ -106,9 +88,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                             } else {
                               controller.dispose();
                               errorMessage(
-                                errorMessage: S
-                                    .of(context)
-                                    .pleaseMakeSureYouAreScanningAValidRoomQRCode,
+                                errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
                                 context: context,
                               );
                               controller.resumeCamera();

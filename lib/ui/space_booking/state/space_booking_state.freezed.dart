@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SpaceBookingState {
   AsyncValue<List<SpaceBookingModel>> get lstData =>
       throw _privateConstructorUsedError;
+  AsyncValue<List<SpaceBookingModel>> get lstDataSearch =>
+      throw _privateConstructorUsedError;
   FilterModel? get filterData => throw _privateConstructorUsedError;
   String? get filterDataString => throw _privateConstructorUsedError;
 
@@ -34,6 +36,7 @@ abstract class $SpaceBookingStateCopyWith<$Res> {
   @useResult
   $Res call(
       {AsyncValue<List<SpaceBookingModel>> lstData,
+      AsyncValue<List<SpaceBookingModel>> lstDataSearch,
       FilterModel? filterData,
       String? filterDataString});
 }
@@ -52,6 +55,7 @@ class _$SpaceBookingStateCopyWithImpl<$Res, $Val extends SpaceBookingState>
   @override
   $Res call({
     Object? lstData = null,
+    Object? lstDataSearch = null,
     Object? filterData = freezed,
     Object? filterDataString = freezed,
   }) {
@@ -59,6 +63,10 @@ class _$SpaceBookingStateCopyWithImpl<$Res, $Val extends SpaceBookingState>
       lstData: null == lstData
           ? _value.lstData
           : lstData // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpaceBookingModel>>,
+      lstDataSearch: null == lstDataSearch
+          ? _value.lstDataSearch
+          : lstDataSearch // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpaceBookingModel>>,
       filterData: freezed == filterData
           ? _value.filterData
@@ -82,6 +90,7 @@ abstract class _$$_SpaceBookingStateCopyWith<$Res>
   @useResult
   $Res call(
       {AsyncValue<List<SpaceBookingModel>> lstData,
+      AsyncValue<List<SpaceBookingModel>> lstDataSearch,
       FilterModel? filterData,
       String? filterDataString});
 }
@@ -98,6 +107,7 @@ class __$$_SpaceBookingStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? lstData = null,
+    Object? lstDataSearch = null,
     Object? filterData = freezed,
     Object? filterDataString = freezed,
   }) {
@@ -105,6 +115,10 @@ class __$$_SpaceBookingStateCopyWithImpl<$Res>
       lstData: null == lstData
           ? _value.lstData
           : lstData // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SpaceBookingModel>>,
+      lstDataSearch: null == lstDataSearch
+          ? _value.lstDataSearch
+          : lstDataSearch // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<SpaceBookingModel>>,
       filterData: freezed == filterData
           ? _value.filterData
@@ -122,10 +136,15 @@ class __$$_SpaceBookingStateCopyWithImpl<$Res>
 
 class _$_SpaceBookingState implements _SpaceBookingState {
   const _$_SpaceBookingState(
-      {required this.lstData, this.filterData, this.filterDataString});
+      {required this.lstData,
+      required this.lstDataSearch,
+      this.filterData,
+      this.filterDataString});
 
   @override
   final AsyncValue<List<SpaceBookingModel>> lstData;
+  @override
+  final AsyncValue<List<SpaceBookingModel>> lstDataSearch;
   @override
   final FilterModel? filterData;
   @override
@@ -133,7 +152,7 @@ class _$_SpaceBookingState implements _SpaceBookingState {
 
   @override
   String toString() {
-    return 'SpaceBookingState(lstData: $lstData, filterData: $filterData, filterDataString: $filterDataString)';
+    return 'SpaceBookingState(lstData: $lstData, lstDataSearch: $lstDataSearch, filterData: $filterData, filterDataString: $filterDataString)';
   }
 
   @override
@@ -142,6 +161,8 @@ class _$_SpaceBookingState implements _SpaceBookingState {
         (other.runtimeType == runtimeType &&
             other is _$_SpaceBookingState &&
             (identical(other.lstData, lstData) || other.lstData == lstData) &&
+            (identical(other.lstDataSearch, lstDataSearch) ||
+                other.lstDataSearch == lstDataSearch) &&
             (identical(other.filterData, filterData) ||
                 other.filterData == filterData) &&
             (identical(other.filterDataString, filterDataString) ||
@@ -149,8 +170,8 @@ class _$_SpaceBookingState implements _SpaceBookingState {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, lstData, filterData, filterDataString);
+  int get hashCode => Object.hash(
+      runtimeType, lstData, lstDataSearch, filterData, filterDataString);
 
   @JsonKey(ignore: true)
   @override
@@ -163,11 +184,14 @@ class _$_SpaceBookingState implements _SpaceBookingState {
 abstract class _SpaceBookingState implements SpaceBookingState {
   const factory _SpaceBookingState(
       {required final AsyncValue<List<SpaceBookingModel>> lstData,
+      required final AsyncValue<List<SpaceBookingModel>> lstDataSearch,
       final FilterModel? filterData,
       final String? filterDataString}) = _$_SpaceBookingState;
 
   @override
   AsyncValue<List<SpaceBookingModel>> get lstData;
+  @override
+  AsyncValue<List<SpaceBookingModel>> get lstDataSearch;
   @override
   FilterModel? get filterData;
   @override
