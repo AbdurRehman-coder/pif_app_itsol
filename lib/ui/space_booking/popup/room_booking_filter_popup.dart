@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/extensions/context_extensions.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/ui/space_booking/provider/room_booking_filter_provider.dart';

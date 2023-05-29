@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pif_flutter/extensions/context_extensions.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class Style {

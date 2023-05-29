@@ -1,9 +1,9 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
 import 'package:pif_flutter/ui/booking/booking_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
-import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
 
@@ -23,10 +23,10 @@ class AppRouter {
         return _setPage(page: const HomePage(), settings: settings);
       case Routes.spaceBookingScreen:
         return _setPage(page: const SpaceBookingPage(), settings: settings);
-        case Routes.bookingScannerScreen:
-         return _setPage(page:  const BookScannerView(), settings: settings);
+      case Routes.bookingScannerScreen:
+        return _setPage(page: const BookScannerView(), settings: settings);
       case Routes.bookingScreen:
-        final data = settings.arguments! as SpaceBookingModel;
+        final data = settings.arguments! as RoomModel;
         return _setPage(page: BookingPage(spaceData: data), settings: settings);
       default:
         return _errorRoute();

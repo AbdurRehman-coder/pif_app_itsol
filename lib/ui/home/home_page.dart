@@ -1,4 +1,5 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -29,6 +30,19 @@ class _HomePageState extends ConsumerState<HomePage> {
     lstMenu.add(BottomMenuModel(icon: Assets.drink, title: 'Drink'));
     lstMenu.add(BottomMenuModel(icon: Assets.booking, title: 'Booking'));
     lstMenu.add(BottomMenuModel(icon: Assets.social, title: 'Social'));
+    loginAsync();
+  }
+
+  Future<void> loginAsync() async {
+    await DixelsSDK.initialize(
+      baseUrl: 'http://20.74.136.229',
+      auth: OAuth2PasswordGrant(
+        username: 'vpanchal@appswave.io',
+        password: 'Viral@123',
+        clientId: 'id-b84ecd78-bb26-7be2-7c9d-661ee729b6a',
+        clientSecret: 'secret-52b3de81-3a44-b6c9-d63b-92e1ecf16e',
+      ),
+    );
   }
 
   @override

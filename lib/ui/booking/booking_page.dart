@@ -1,14 +1,14 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/extensions/context_extensions.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/popup/booking_details_popup.dart';
 import 'package:pif_flutter/ui/booking/provider/booking_provider.dart';
-import 'package:pif_flutter/ui/space_booking/model/space_booking_model.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner.dart';
@@ -21,7 +21,7 @@ class BookingPage extends ConsumerStatefulWidget {
     super.key,
   });
 
-  final SpaceBookingModel spaceData;
+  final RoomModel spaceData;
 
   @override
   ConsumerState createState() => _BookingPageState();
@@ -51,7 +51,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 quarterTurns: 2,
                 child: SvgPicture.asset(
                   Assets.downArrow,
-                  color: borderColor,
+                  colorFilter: const ColorFilter.mode(borderColor, BlendMode.srcIn),
                   height: 13.h,
                 ),
               ),
@@ -106,7 +106,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                       ),
                     ),
                     Text(
-                      'Al Multaqa 301',
+                      widget.spaceData.name ?? '',
                       style: Style.commonTextStyle(
                         color: whiteColor,
                         fontSize: 22.sp,
@@ -127,7 +127,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                           width: 10.w,
                         ),
                         Text(
-                          '2 seats huddle',
+                          '${widget.spaceData.capacity} seats huddle',
                           style: Style.commonTextStyle(
                             color: whiteColor,
                             fontSize: 12.sp,
@@ -229,7 +229,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                     child: SvgPicture.asset(
                       Assets.back,
                       fit: BoxFit.scaleDown,
-                      color: primaryColor,
+                      colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
                       height: 5.h,
                       width: 5.w,
                     ),
@@ -265,7 +265,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
             children: [
               SvgPicture.asset(
                 Assets.calendar,
-                color: primaryColor,
+                colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
               ),
               SizedBox(
                 width: 7.w,

@@ -60,6 +60,7 @@ dependencies:
   flutter_svg: ^2.0.5
   flutter_easyloading: ^3.0.5
   animated_bottom_navigation_bar: ^1.2.0
+  cached_network_image: ^3.2.3
   collection: ^1.17.1
   dotted_line: ^3.1.0
   mobile_scanner: ^3.1.1
@@ -71,6 +72,14 @@ dependencies:
   flutter_keyboard_visibility: ^5.4.1
   awesome_calendar:
     path: awesome_calendar-main
+#
+#  dixels_sdk:
+#    path: pif-flutter-mobile-sdk
+
+  dixels_sdk:
+    git:
+      url: https://viral_appswave:ATBBaqnn9DUb83ke2EQJeauY8aTa89D92E0F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
+      ref: PCBP2-447-integration-the-search-booking
 
 dev_dependencies:
   flutter_test:
@@ -85,7 +94,7 @@ dev_dependencies:
   build_runner: ^2.4.4
   freezed: ^2.3.4
   json_serializable: any
-  very_good_analysis: ^4.0.0+1
+  very_good_analysis: ^5.0.0+1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
