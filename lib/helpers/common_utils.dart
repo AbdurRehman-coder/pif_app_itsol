@@ -19,12 +19,25 @@ class CommonUtils {
     final formatter = DateFormat('EEEE');
 
     daysList.add(
-      DayHeaderModel(dayDate: today.day.toString(), dayName: 'Today', isSelected: true, isToday: true),
+      DayHeaderModel(
+        dayDate: today.day.toString(),
+        dayName: 'Today',
+        isSelected: true,
+        isToday: true,
+        dateTime: today,
+      ),
     );
     for (var i = 1; i < 7; i++) {
       final dayDate = today.add(Duration(days: i));
       final dayName = formatter.format(dayDate).substring(0, 1);
-      daysList.add(DayHeaderModel(dayDate: dayDate.day.toString(), dayName: dayName, isSelected: false));
+      daysList.add(
+        DayHeaderModel(
+          dayDate: dayDate.day.toString(),
+          dayName: dayName,
+          isSelected: false,
+          dateTime: dayDate,
+        ),
+      );
     }
     return daysList;
   }
@@ -35,12 +48,25 @@ class CommonUtils {
     final formatter = DateFormat('EEEE');
 
     daysList.add(
-      DayHeaderModel(dayDate: today.day.toString(), dayName: 'Today', isSelected: true, isToday: true),
+      DayHeaderModel(
+        dayDate: today.day.toString(),
+        dayName: 'Today',
+        isSelected: true,
+        isToday: true,
+        dateTime: today,
+      ),
     );
     for (var i = 1; i < 30; i++) {
       final dayDate = today.add(Duration(days: i));
       final dayName = formatter.format(dayDate).substring(0, 1);
-      daysList.add(DayHeaderModel(dayDate: dayDate.day.toString(), dayName: dayName, isSelected: false));
+      daysList.add(
+        DayHeaderModel(
+          dayDate: dayDate.day.toString(),
+          dayName: dayName,
+          isSelected: false,
+          dateTime: dayDate,
+        ),
+      );
     }
     return daysList;
   }

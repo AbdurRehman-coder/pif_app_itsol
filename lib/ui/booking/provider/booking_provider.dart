@@ -1,17 +1,25 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
+import 'package:dixels_sdk/common/models/parameters_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/booking_request_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
+import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
+import 'package:pif_flutter/ui/booking/popup/booking_confirmation_popup.dart';
 import 'package:pif_flutter/ui/booking/state/booking_state.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
-import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_date_time.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
 final bookingProvider = StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {
@@ -33,9 +41,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     visitorLastNameController = TextEditingController();
     visitorEmailController = TextEditingController();
     addGuestController = TextEditingController();
+    formKey = GlobalKey<FormState>();
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
-    getTasks();
     getGuestData();
 
     //Bind Filter Data
@@ -112,6 +120,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   final Ref ref;
   late TextEditingController titleController;
+  late GlobalKey<FormState> formKey;
+
   late TextEditingController dateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
@@ -119,12 +129,18 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late TextEditingController visitorLastNameController;
   late TextEditingController visitorEmailController;
   late TextEditingController addGuestController;
-  late List<TimePlannerTask> lstTasks = [];
+  late List<TimePlannerTask> allBookingTasks = [];
   late List<InviteGuestModel> filterAuoCompleteGuestData = [];
 
   //Update Start Time
   void updateStartTime({required DateTime? startTime}) {
-    startTime = DateTime(startTime!.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
+    startTime = DateTime(
+      startTime!.year,
+      startTime.month,
+      startTime.day,
+      startTime.hour,
+      startTime.minute,
+    );
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
@@ -133,7 +149,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Update End Time
   void updateEndTime({required DateTime? endTime}) {
-    endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
+    endTime = DateTime(
+      endTime!.year,
+      endTime.month,
+      endTime.day,
+      endTime.hour,
+      endTime.minute,
+    );
     if (state.startTime!.isAfter(endTime)) {
       CommonUtils.showToast(message: S.current.timeValidation);
       return;
@@ -223,7 +245,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
     state.lstDays[index].isSelected = true;
     state = state.copyWith(lstDays: state.lstDays);
-    getTasks();
+    filterTaskData();
   }
 
   //Search Guest
@@ -231,16 +253,70 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(isVisibleAddGuestList: searchText.isNotEmpty);
     if (searchText.isNotEmpty) {
       final data = filterAuoCompleteGuestData
-          .where((element) => element.fullName!.toLowerCase().contains(searchText.toLowerCase()))
+          .where(
+            (element) => element.fullName!.toLowerCase().contains(searchText.toLowerCase()),
+          )
           .toList();
       state = state.copyWith(lstAutoCompleteGuests: data);
     }
   }
 
   //Book Now Event
-  void bookNowAsync() {}
+  Future<void> bookNowAsync({
+    required BuildContext context,
+    required bool isBookEnabled,
+    required int roomId,
+  }) async {
+    if (formKey.currentState!.validate()) {
+      final lstDates = state.selectedDates;
+      final dayListString =
+          lstDates.map((e) => '\"${e.toFormattedString('yyyy-MM-dd')}\"').toList().join(',');
+      final startTimeInMinutes = state.startTime!.toTotalMinutes();
+      final endTimeInMinutes = state.endTime!.toTotalMinutes();
 
-  // Invite Now Event
+      for (final item in lstDates) {
+        final data = allBookingTasks.firstWhereOrNull((element) => element.dateTime.isSameDate(item));
+        if (data != null) {
+          if (startTimeInMinutes + 1 > data.dateTime.toTotalMinutes() &&
+              startTimeInMinutes - 1 < data.dateTime.toTotalMinutes()) {
+            CommonUtils.showToast(message: S.current.bookingAlert);
+            return;
+          }
+        }
+      }
+
+      await DixelsSDK.bookingService
+          .postPageData(
+        reqModel: BookingRequestModel(
+          subject: titleController.text,
+          bookedDates: '[$dayListString]',
+          startTime: startTimeInMinutes,
+          endTime: endTimeInMinutes,
+          r_host_userId: 20125,
+          r_bookings_c_roomId: roomId,
+          attendees: state.lstGuests
+              .map(
+                (attendees) => Attendee(
+                  attendees: [
+                    attendees.email ?? '',
+                  ],
+                ),
+              )
+              .toList(),
+        ),
+        fromJson: BookingModel.fromJson,
+      )
+          .then((value) {
+        AppRouter.pop();
+        bookingConfirmationPopup(
+          context: context,
+          isRequestBooking: isBookEnabled,
+        );
+      });
+    }
+  }
+
+// Invite Now Event
   void inviteAsync() {
     final firstName = visitorFirstNameController.text.trim();
     final lastName = visitorLastNameController.text.trim();
@@ -276,7 +352,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     AppRouter.pop();
   }
 
-  // Clear Data
+// Clear Data
   void clearData() {
     visitorFirstNameController.text = '';
     visitorLastNameController.text = '';
@@ -284,7 +360,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(errorMessage: '');
   }
 
-  //Add Guest
+//Add Guest
   void addGuest(InviteGuestModel item) {
     addGuestController.text = '';
     state = state.copyWith(isVisibleAddGuestList: false);
@@ -293,106 +369,67 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(lstGuests: data);
   }
 
-  // Remove Invite Guest Data
+// Remove Invite Guest Data
   void removeGuest(InviteGuestModel item) {
     final data = state.lstGuests.toList();
     data.remove(item);
     state = state.copyWith(lstGuests: data);
   }
 
-  // Get Booking Task Data
-  void getTasks() {
-    lstTasks.clear();
+  void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    if (selectedDay.dayDate == DateTime.now().day.toString()) {
-      lstTasks.add(
-        TimePlannerTask(
-          color: primaryColor,
-          leftSpace: 40,
-          dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 22).day,
-            hour: DateTime(2023, 5, 11, 22).hour,
-            minutes: DateTime(2023, 5, 11, 22).minute,
-          ),
-          minutesDuration: 60,
-          onTap: () {},
-          child: Text(
-            'Booking for [Fahad O.]',
-            style: Style.commonTextStyle(
-              color: whiteColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      );
+    final taskData =
+        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    state = state.copyWith(lstTasks: taskData);
+  }
 
-      lstTasks.add(
-        TimePlannerTask(
-          color: primaryColor,
-          leftSpace: 40,
-          dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 2).day,
-            hour: DateTime(2023, 5, 11, 2).hour,
-            minutes: DateTime(2023, 5, 11, 2).minute,
-          ),
-          minutesDuration: 30,
-          onTap: () {},
-          child: Text(
-            'Booking for [Fahad O.]',
-            style: Style.commonTextStyle(
-              color: whiteColor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      );
-    } else if (selectedDay.dayDate == DateTime.now().add(const Duration(days: 1)).day.toString()) {
-      lstTasks.add(
-        TimePlannerTask(
-          color: primaryColor,
-          leftSpace: 40,
-          dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 4).day,
-            hour: DateTime(2023, 5, 11, 4).hour,
-            minutes: DateTime(2023, 5, 11, 4).minute,
-          ),
-          minutesDuration: 15,
-          onTap: () {},
-          child: Text(
-            'Booking for [Fahad O.]',
-            style: Style.commonTextStyle(
-              color: whiteColor,
-              fontSize: 8.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      );
+  // Get Booking Task Data
+  Future<void> getBookings({required int? roomId}) async {
+    final params = ParametersModel(
+      filterArray: [
+        FilterUtils.filterBy(
+          key: 'r_bookings_c_roomId',
+          value: "'$roomId'",
+          operator: FilterOperator.equal.value,
+        )
+      ],
+    );
 
-      lstTasks.add(
-        TimePlannerTask(
-          isBlocked: true,
-          color: primaryColor,
-          leftSpace: 40,
-          dateTime: TimePlannerDateTime(
-            day: DateTime(2023, 5, 11, 5).day,
-            hour: DateTime(2023, 5, 11, 5).hour,
-            minutes: DateTime(2023, 5, 11, 5).minute,
-          ),
-          minutesDuration: 75,
-          onTap: () {},
-          child: Text(
-            'Booking for [Fahad O.]',
-            style: Style.commonTextStyle(
-              color: whiteColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      );
+    final result =
+        await DixelsSDK.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
+    if (result != null && result.items != null) {
+      for (final mainElement in result.items!) {
+        final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
+        final duration = mainElement.endTime! - mainElement.startTime!;
+        if (dateList.isNotEmpty) {
+          for (final element in dateList) {
+            final dateString = element as String;
+            final taskDate = DateTime.parse(dateString);
+            final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
+            final bookingDateTime =
+                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            allBookingTasks.add(
+              TimePlannerTask(
+                color: primaryColor,
+                leftSpace: 40,
+                dateTime: bookingDateTime,
+                minutesDuration: duration,
+                onTap: () {},
+                child: Text(
+                  mainElement.subject ?? '',
+                  style: Style.commonTextStyle(
+                    color: whiteColor,
+                    height: 1.3,
+                    fontSize: duration <= 30 ? 12.sp : 16.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            );
+          }
+        }
+      }
+      filterTaskData();
     }
   }
 

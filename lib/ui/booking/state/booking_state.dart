@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pif_flutter/ui/booking/model/day_header_model.dart';
 import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
+import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
 part 'booking_state.freezed.dart';
 
@@ -20,6 +21,7 @@ class BookingState with _$BookingState {
     required List<InviteGuestModel> lstGuests,
     required List<InviteGuestModel> lstAutoCompleteGuests,
     required bool isVisibleAddGuestList,
+    required List<TimePlannerTask> lstTasks,
   }) = _BookingState;
 
   factory BookingState.initial() => const BookingState(
@@ -36,5 +38,6 @@ class BookingState with _$BookingState {
         errorMessage: '',
         lstAutoCompleteGuests: <InviteGuestModel>[],
         isVisibleAddGuestList: false,
+        lstTasks: <TimePlannerTask>[],
       );
 }

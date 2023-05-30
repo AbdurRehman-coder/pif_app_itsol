@@ -6,6 +6,7 @@ class DayHeaderModel {
     required this.dayDate,
     required this.dayName,
     required this.isSelected,
+    required this.dateTime,
     this.isToday,
   });
 
@@ -13,6 +14,7 @@ class DayHeaderModel {
   String? dayDate;
   bool? isSelected;
   bool? isToday;
+  DateTime? dateTime;
 
   double get textFontSize => isToday ?? false ? 8 : 12;
 

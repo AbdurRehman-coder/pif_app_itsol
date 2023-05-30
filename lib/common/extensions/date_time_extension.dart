@@ -8,4 +8,8 @@ extension DateTimeExt on DateTime {
   String toFormattedString([String? pattern]) {
     return DateFormat(pattern, 'en').format(this);
   }
+
+  int toTotalMinutes() {
+    return (hour * 60) + minute;
+  }
 }

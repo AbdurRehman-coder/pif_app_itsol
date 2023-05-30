@@ -67,5 +67,7 @@
   "dateValidation" : "Please select date",
   "dateTime" : "Date & Time",
   "showAll" : "Show all",
-  "reset" : "Reset"
+  "reset" : "Reset",
+  "thisFieldIsRequired":"This field is required",
+  "bookingAlert" : "Please select different slot that slot is not available"
 }

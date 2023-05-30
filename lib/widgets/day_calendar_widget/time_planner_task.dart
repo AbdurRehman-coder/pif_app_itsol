@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_config.dart';
-import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_date_time.dart';
 
 /// Widget that show on time planner as the tasks
 class TimePlannerTask extends StatelessWidget {
@@ -31,7 +30,7 @@ class TimePlannerTask extends StatelessWidget {
   final int? daysDuration;
 
   /// When this task will be happen
-  final TimePlannerDateTime dateTime;
+  final DateTime dateTime;
 
   /// Background color of task
   final Color? color;
@@ -54,14 +53,14 @@ class TimePlannerTask extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: ((TimePlannerConfig.cellHeight! * (dateTime.hour - TimePlannerConfig.startHour)) +
-              ((dateTime.minutes * TimePlannerConfig.cellHeight!) / 60))
+              ((dateTime.minute * TimePlannerConfig.cellHeight!) / 60))
           .toDouble(),
       left: leftSpace,
       child: SizedBox(
         width: widthTask,
         child: Padding(
           padding: EdgeInsets.only(left: TimePlannerConfig.horizontalTaskPadding!.toDouble()),
-          child: (isBlocked == true)
+          child: (isBlocked ?? false == true)
               ? SvgPicture.asset(
                   Assets.bookingBlockedBg,
                   width: MediaQuery.of(context).size.width - 120,

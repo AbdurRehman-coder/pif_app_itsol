@@ -78,8 +78,8 @@ dependencies:
 
   dixels_sdk:
     git:
-      url: https://viral_appswave:ATBBaqnn9DUb83ke2EQJeauY8aTa89D92E0F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
-      ref: PCBP2-447-integration-the-search-booking
+      url: https://Obaida_Alqassem2:ATBBFanZ4FQ28aEWgP7k6yTr65pf6EBA959F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
+      ref: PCBP2-445-integration-the-search-room-ap
 
 dev_dependencies:
   flutter_test:

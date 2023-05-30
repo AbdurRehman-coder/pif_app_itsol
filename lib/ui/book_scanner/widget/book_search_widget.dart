@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/ui/book_scanner/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -61,11 +61,18 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
           CustomTextField(
             textEditingController: searchTextController,
             labelText: S.of(context).roomName,
-            isSearch: searchTextController.text.isNotEmpty,
-            onSearch: () {
-              searchTextController.clear();
-              setState(() {});
-            },
+            suffixIcon: searchTextController.text.isNotEmpty
+                ? IconButton(
+                    onPressed: () {
+                      searchTextController.clear();
+                      setState(() {});
+                    },
+                    icon: const Icon(
+                      Icons.close,
+                      color: primaryColor,
+                    ),
+                  )
+                : null,
             onChanged: (valSearch) {
               notifier.onSearch(
                 paramSearch: valSearch,

@@ -106,7 +106,7 @@ void roomBookingFilterBottomSheet({
                                     color: Colors.white,
                                     boxShadow: const [
                                       BoxShadow(
-                                        blurRadius: 10,
+                                        blurRadius: 10, 
                                         color: grayE3,
                                       ),
                                     ],

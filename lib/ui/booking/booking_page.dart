@@ -31,6 +31,14 @@ class _BookingPageState extends ConsumerState<BookingPage> {
   final _controller = PageController();
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      ref.read(bookingProvider.notifier).getBookings(roomId: widget.spaceData.id);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Container(
@@ -360,7 +368,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
             endTime: provider.endTime,
             startHour: 0,
             endHour: 24,
-            tasks: notifier.lstTasks,
+            tasks: provider.lstTasks,
             style: TimePlannerStyle(
               cellHeight: 60,
               showScrollBar: true,

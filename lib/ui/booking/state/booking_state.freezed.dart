@@ -30,6 +30,7 @@ mixin _$BookingState {
   List<InviteGuestModel> get lstAutoCompleteGuests =>
       throw _privateConstructorUsedError;
   bool get isVisibleAddGuestList => throw _privateConstructorUsedError;
+  List<TimePlannerTask> get lstTasks => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BookingStateCopyWith<BookingState> get copyWith =>
@@ -55,7 +56,8 @@ abstract class $BookingStateCopyWith<$Res> {
       String errorMessage,
       List<InviteGuestModel> lstGuests,
       List<InviteGuestModel> lstAutoCompleteGuests,
-      bool isVisibleAddGuestList});
+      bool isVisibleAddGuestList,
+      List<TimePlannerTask> lstTasks});
 }
 
 /// @nodoc
@@ -84,6 +86,7 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? lstGuests = null,
     Object? lstAutoCompleteGuests = null,
     Object? isVisibleAddGuestList = null,
+    Object? lstTasks = null,
   }) {
     return _then(_value.copyWith(
       bookingTitle: null == bookingTitle
@@ -138,6 +141,10 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.isVisibleAddGuestList
           : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
               as bool,
+      lstTasks: null == lstTasks
+          ? _value.lstTasks
+          : lstTasks // ignore: cast_nullable_to_non_nullable
+              as List<TimePlannerTask>,
     ) as $Val);
   }
 }
@@ -163,7 +170,8 @@ abstract class _$$_BookingStateCopyWith<$Res>
       String errorMessage,
       List<InviteGuestModel> lstGuests,
       List<InviteGuestModel> lstAutoCompleteGuests,
-      bool isVisibleAddGuestList});
+      bool isVisibleAddGuestList,
+      List<TimePlannerTask> lstTasks});
 }
 
 /// @nodoc
@@ -190,6 +198,7 @@ class __$$_BookingStateCopyWithImpl<$Res>
     Object? lstGuests = null,
     Object? lstAutoCompleteGuests = null,
     Object? isVisibleAddGuestList = null,
+    Object? lstTasks = null,
   }) {
     return _then(_$_BookingState(
       bookingTitle: null == bookingTitle
@@ -244,6 +253,10 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value.isVisibleAddGuestList
           : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
               as bool,
+      lstTasks: null == lstTasks
+          ? _value._lstTasks
+          : lstTasks // ignore: cast_nullable_to_non_nullable
+              as List<TimePlannerTask>,
     ));
   }
 }
@@ -264,11 +277,13 @@ class _$_BookingState implements _BookingState {
       required this.errorMessage,
       required final List<InviteGuestModel> lstGuests,
       required final List<InviteGuestModel> lstAutoCompleteGuests,
-      required this.isVisibleAddGuestList})
+      required this.isVisibleAddGuestList,
+      required final List<TimePlannerTask> lstTasks})
       : _selectedDates = selectedDates,
         _lstDays = lstDays,
         _lstGuests = lstGuests,
-        _lstAutoCompleteGuests = lstAutoCompleteGuests;
+        _lstAutoCompleteGuests = lstAutoCompleteGuests,
+        _lstTasks = lstTasks;
 
   @override
   final String bookingTitle;
@@ -321,10 +336,17 @@ class _$_BookingState implements _BookingState {
 
   @override
   final bool isVisibleAddGuestList;
+  final List<TimePlannerTask> _lstTasks;
+  @override
+  List<TimePlannerTask> get lstTasks {
+    if (_lstTasks is EqualUnmodifiableListView) return _lstTasks;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lstTasks);
+  }
 
   @override
   String toString() {
-    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests, lstAutoCompleteGuests: $lstAutoCompleteGuests, isVisibleAddGuestList: $isVisibleAddGuestList)';
+    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests, lstAutoCompleteGuests: $lstAutoCompleteGuests, isVisibleAddGuestList: $isVisibleAddGuestList, lstTasks: $lstTasks)';
   }
 
   @override
@@ -355,7 +377,8 @@ class _$_BookingState implements _BookingState {
             const DeepCollectionEquality()
                 .equals(other._lstAutoCompleteGuests, _lstAutoCompleteGuests) &&
             (identical(other.isVisibleAddGuestList, isVisibleAddGuestList) ||
-                other.isVisibleAddGuestList == isVisibleAddGuestList));
+                other.isVisibleAddGuestList == isVisibleAddGuestList) &&
+            const DeepCollectionEquality().equals(other._lstTasks, _lstTasks));
   }
 
   @override
@@ -373,7 +396,8 @@ class _$_BookingState implements _BookingState {
       errorMessage,
       const DeepCollectionEquality().hash(_lstGuests),
       const DeepCollectionEquality().hash(_lstAutoCompleteGuests),
-      isVisibleAddGuestList);
+      isVisibleAddGuestList,
+      const DeepCollectionEquality().hash(_lstTasks));
 
   @JsonKey(ignore: true)
   @override
@@ -396,7 +420,8 @@ abstract class _BookingState implements BookingState {
       required final String errorMessage,
       required final List<InviteGuestModel> lstGuests,
       required final List<InviteGuestModel> lstAutoCompleteGuests,
-      required final bool isVisibleAddGuestList}) = _$_BookingState;
+      required final bool isVisibleAddGuestList,
+      required final List<TimePlannerTask> lstTasks}) = _$_BookingState;
 
   @override
   String get bookingTitle;
@@ -424,6 +449,8 @@ abstract class _BookingState implements BookingState {
   List<InviteGuestModel> get lstAutoCompleteGuests;
   @override
   bool get isVisibleAddGuestList;
+  @override
+  List<TimePlannerTask> get lstTasks;
   @override
   @JsonKey(ignore: true)
   _$$_BookingStateCopyWith<_$_BookingState> get copyWith =>
