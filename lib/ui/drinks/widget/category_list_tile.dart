@@ -5,15 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 
 class CategoryListTile extends StatelessWidget {
-  const CategoryListTile({required this.item, super.key});
+  const CategoryListTile({
+    required this.item,
+    this.withOutSearch = false,
+    super.key,
+  });
 
   final CategoryModel item;
+  final bool withOutSearch;
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = item.isSelected ?? false ? primaryDarkColor : expireBgColor;
-    final textColor = item.isSelected ?? false ? whiteColor : darkBorderColor;
-    final iconUrl = (item.taxonomyCategoryProperties != null && item.taxonomyCategoryProperties!.isNotEmpty)
+    final bgColor = withOutSearch
+        ? item.isSelected ?? false
+            ? primaryDarkColor
+            : expireBgColor
+        : expireBgColor;
+    final textColor = withOutSearch
+        ? item.isSelected ?? false
+            ? whiteColor
+            : darkBorderColor
+        : darkBorderColor;
+    final iconUrl = (item.taxonomyCategoryProperties != null &&
+            item.taxonomyCategoryProperties!.isNotEmpty)
         ? ServiceConstant.baseUrl + item.taxonomyCategoryProperties![0].value!
         : '';
     return Container(

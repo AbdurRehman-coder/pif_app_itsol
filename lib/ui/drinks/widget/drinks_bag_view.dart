@@ -26,7 +26,10 @@ class DrinksBagView extends ConsumerWidget {
       height: 70.h,
       width: context.screenWidth - 40,
       padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 12.h),
-      decoration: BoxDecoration(color: primaryColor, borderRadius: BorderRadius.circular(16.r)),
+      decoration: BoxDecoration(
+        color: primaryColor,
+        borderRadius: BorderRadius.circular(16.r),
+      ),
       child: Row(
         children: [
           Column(
@@ -69,12 +72,12 @@ class DrinksBagView extends ConsumerWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: AvatarStack(
-                height: 40,
+                height: 40.h,
                 borderColor: loggedStatusColor,
                 borderWidth: 0.5,
                 settings: settings,
                 infoWidgetBuilder: (surplus) => BorderedCircleAvatar(
-                  backgroundImage: const AssetImage(Assets.softDrink),
+                  backgroundColor: primaryColor,
                   child: Text(
                     '+$surplus',
                     textAlign: TextAlign.center,
@@ -87,7 +90,9 @@ class DrinksBagView extends ConsumerWidget {
                 ),
                 avatars: [
                   for (var i = 0; i < provider.lstCarts.length; i++)
-                    NetworkImage(provider.lstCarts[i].imageUrl),
+                    NetworkImage(
+                      provider.lstCarts[i].imageUrl,
+                    ),
                 ],
               ),
             ),

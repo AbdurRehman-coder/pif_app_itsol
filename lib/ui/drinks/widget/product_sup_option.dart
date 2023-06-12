@@ -24,7 +24,8 @@ class _ProductSubOptionState extends State<ProductSubOption> {
       children: List.generate(
         widget.drinkOption.productOptionsModel.productOptionValues!.length,
         (index) {
-          final drinkSubOption = widget.drinkOption.productOptionsModel.productOptionValues![index];
+          final drinkSubOption = widget
+              .drinkOption.productOptionsModel.productOptionValues![index];
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: InkWell(
@@ -58,6 +59,13 @@ class _ProductSubOptionState extends State<ProductSubOption> {
         },
       ),
     );
-    ;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => widget.reBuild(),
+    );
   }
 }

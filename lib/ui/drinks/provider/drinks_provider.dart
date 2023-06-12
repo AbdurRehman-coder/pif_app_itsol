@@ -3,15 +3,17 @@ import 'package:dixels_sdk/features/commerce/carts/models/cart_request_model.dar
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
-import 'package:pif_flutter/ui/drinks/popup/drink_details.dart';
+import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
 
-final drinksProvider = StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
+final drinksProvider =
+    StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
   return DrinksNotifier(ref: ref);
 });
 
@@ -56,7 +58,6 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       final lstDrinks = <DrinkModel>[];
       for (final element in result.items!) {
         final cateId = element.categories![0].id;
-
         lstDrinks.add(
           DrinkModel(
             id: element.id,
@@ -93,8 +94,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
     lstData[index].isSelected = true;
 
-    final lstDrink =
-        allDrinks.where((element) => element.categoryId == int.parse(lstData[index].id!)).toList();
+    final lstDrink = allDrinks
+        .where((element) => element.categoryId == int.parse(lstData[index].id!))
+        .toList();
 
     selectedCatDrinks = lstDrink;
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
@@ -102,26 +104,29 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   void searchData(String searchTxt) {
-    final lstData = selectedCatDrinks
-        .where((element) => element.drinkTitle!.toLowerCase().contains(searchTxt.toLowerCase()))
+    final lstData = allDrinks
+        .where(
+          (element) => element.drinkTitle!
+              .toLowerCase()
+              .contains(searchTxt.toLowerCase()),
+        )
         .toList();
 
-    state = state.copyWith(lstDrinks: AsyncData(lstData));
+    state = state.copyWith(allDrinks: AsyncData(lstData));
   }
 
-  void addItemToCart({required DrinkModel item, required BuildContext context}) {
-    item.count = 1;
+  void addItemToCart({
+    required DrinkModel item,
+    required BuildContext context,
+  }) {
+    if (item.count == 0) {
+      item.count = 1;
+    }
 
     final lstCart = state.lstCarts.toList();
     lstCart.add(item);
 
     state = state.copyWith(lstCarts: lstCart);
-
-    if (lstCart.length == 1) {
-      showOrderDetails(
-        context: context,
-      );
-    }
     updateDrinkList(item: item);
   }
 
@@ -159,15 +164,30 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   void drinkBagTap({required BuildContext context}) {
-    showOrderDetails(
+    showOrderCartAndDetails(
       context: context,
     );
+  }
+
+  void hideAllSubOption({required DrinkModel drinkModel}) {
+    if (drinkModel.drinkOption!.isNotEmpty) {
+      for (final options in drinkModel.optionList!) {
+        options.customPopupMenuController.hideMenu();
+      }
+    }
   }
 
   Future<void> orderNow(BuildContext context) async {
     final data = state.lstCarts
         .toList()
-        .map((e) => CartItems(options: '', quantity: e.count, skuId: 148326, productId: e.id))
+        .map(
+          (e) => CartItems(
+            options: '',
+            quantity: e.count,
+            skuId: 148326,
+            productId: e.id,
+          ),
+        )
         .toList();
 
     final request = CartRequestModel();
@@ -180,17 +200,29 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         restricted: true,
       )
     ];
-    final result = await DixelsSDK.cartService.addCartAsync(request: request, channelId: '147240');
+    final appProgressDialog = AppProgressDialog(context: context);
+    await appProgressDialog.start();
+    final result = await DixelsSDK.cartService.addCartAsync(
+      request: request,
+      channelId: '147240',
+    );
     if (result != null) {
-      await DixelsSDK.cartService.checkoutAsync(cartId: result.id.toString()).then(
-            (value) => showSuccessMessage(
-              context: context,
-              titleText: S.of(context).drinkOrder,
-              subTitle: S.of(context).orderByMistake,
-              navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
-            ),
+      await DixelsSDK.cartService
+          .checkoutAsync(cartId: result.id.toString())
+          .then(
+        (value) async {
+          await appProgressDialog.stop();
+          showSuccessMessage(
+            context: context,
+            titleText: S.of(context).drinkOrder,
+            subTitle: S.of(context).orderByMistake,
+            navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
           );
+        },
+      );
       clearData();
+    } else {
+      await appProgressDialog.stop();
     }
   }
 
@@ -201,10 +233,14 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       item.count = 0;
     }
 
-    final selectedCategory = state.lstCategory.firstWhere((element) => element.isSelected! == true);
+    final selectedCategory =
+        state.lstCategory.firstWhere((element) => element.isSelected! == true);
 
-    final lstDrink =
-        allDrinks.where((element) => element.categoryId == int.parse(selectedCategory.id!)).toList();
+    final lstDrink = allDrinks
+        .where(
+          (element) => element.categoryId == int.parse(selectedCategory.id!),
+        )
+        .toList();
 
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
     notesController.clear();

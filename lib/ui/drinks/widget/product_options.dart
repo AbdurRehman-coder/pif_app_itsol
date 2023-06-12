@@ -23,70 +23,75 @@ class _ProductOptionsState extends State<ProductOptions> {
         scrollDirection: Axis.horizontal,
         itemBuilder: (_, index) {
           final drinkOption = widget.drinkOptions[index];
-          return CustomPopupMenu(
-            controller: drinkOption.customPopupMenuController,
-            enablePassEvent: false,
-            showArrow: false,
-            menuBuilder: () => Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 15.w,
-                vertical: 4.h,
-              ),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                boxShadow: const [
-                  BoxShadow(
-                    color: grayE3,
-                    spreadRadius: 1,
-                    offset: Offset(0, 1),
-                  )
-                ],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25.r),
+          if (drinkOption.productOptionsModel.productOptionValues!.isNotEmpty) {
+            return CustomPopupMenu(
+              controller: drinkOption.customPopupMenuController,
+              enablePassEvent: false,
+              showArrow: false,
+              menuBuilder: () => Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 15.w,
+                  vertical: 4.h,
+                ),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: grayE3,
+                      spreadRadius: 1,
+                      offset: Offset(0, 1),
+                    )
+                  ],
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25.r),
+                  ),
+                ),
+                child: ProductSubOption(
+                  reBuild: () {
+                    setState(() {});
+                  },
+                  drinkOption: widget.drinkOptions[index],
                 ),
               ),
-              child: ProductSubOption(
-                reBuild: () {
+              barrierColor: Colors.transparent,
+              pressType: PressType.longPress,
+              position: PreferredPosition.top,
+              child: InkWell(
+                onTap: () {
+                  drinkOption.customPopupMenuController.showMenu();
                   setState(() {});
                 },
-                drinkOption: widget.drinkOptions[index],
-              ),
-            ),
-            barrierColor: Colors.transparent,
-            pressType: PressType.longPress,
-            position: PreferredPosition.top,
-            child: InkWell(
-              onTap: () {
-                drinkOption.customPopupMenuController.showMenu();
-                setState(() {});
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: drinkOption.customPopupMenuController.menuIsShowing
-                      ? dayTextColor
-                      : drinkOption.isOptionSelect
-                          ? primaryColor
-                          : grayF5,
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(20.r),
-                  ),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
-                child: Text(
-                  drinkOption.productOptionsModel.name ?? '',
-                  style: Style.commonTextStyle(
+                child: Container(
+                  decoration: BoxDecoration(
                     color: drinkOption.customPopupMenuController.menuIsShowing
-                        ? whiteColor
+                        ? dayTextColor
                         : drinkOption.isOptionSelect
-                            ? whiteColor
-                            : expireStatusColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                            ? primaryColor
+                            : grayF5,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20.r),
+                    ),
+                  ),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                  child: Text(
+                    drinkOption.productOptionsModel.name ?? '',
+                    style: Style.commonTextStyle(
+                      color: drinkOption.customPopupMenuController.menuIsShowing
+                          ? whiteColor
+                          : drinkOption.isOptionSelect
+                              ? whiteColor
+                              : expireStatusColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
+            );
+          } else {
+            return const SizedBox();
+          }
         },
         separatorBuilder: (_, index) {
           return SizedBox(width: 8.w);

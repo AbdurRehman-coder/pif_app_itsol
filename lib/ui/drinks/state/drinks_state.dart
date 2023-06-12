@@ -11,6 +11,7 @@ class DrinksState with _$DrinksState {
   const factory DrinksState({
     required List<CategoryModel> lstCategory,
     required AsyncValue<List<DrinkModel>> lstDrinks,
+    required AsyncValue<List<DrinkModel>> allDrinks,
     required List<DrinkModel> lstCarts,
     required AsyncValue<StructureContentModel> structureContent,
   }) = _DrinksState;
@@ -18,6 +19,7 @@ class DrinksState with _$DrinksState {
   factory DrinksState.initial() => const DrinksState(
         lstCategory: <CategoryModel>[],
         lstDrinks: AsyncLoading(),
+        allDrinks: AsyncLoading(),
         lstCarts: <DrinkModel>[],
         structureContent: AsyncLoading(),
       );

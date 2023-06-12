@@ -50,6 +50,7 @@ class StoreInformation extends StatelessWidget {
                     left: 0,
                     bottom: 0,
                     right: 0,
+                    top: 8.h,
                     child: Container(
                       width: double.infinity,
                       height: 140.h,
@@ -95,7 +96,7 @@ class StoreInformation extends StatelessWidget {
                             Text(
                               storeStartDay != storeEndDay
                                   ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
-                                  : '$storeStartTime - $storeEndTime Today',
+                                  : '$storeStartTime - $storeEndTime ${S.of(context).today}',
                               style: Style.commonTextStyle(
                                 color: whiteColor,
                                 fontSize: 14.sp,
@@ -108,8 +109,7 @@ class StoreInformation extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    top: 5.h,
-                    right: 0.w,
+                      right: 0.w,
                     child: Image.network(
                       storeImage.getImageUrl,
                       height: 140.h,

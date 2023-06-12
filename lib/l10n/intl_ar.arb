@@ -100,5 +100,6 @@
   "addToCart" : "Add to order",
   "drinkBag" : "Drink Bag",
   "item" : "Item",
-  "notes" : "Notes"
+  "notes" : "Notes",
+  "today":"Today"
 }

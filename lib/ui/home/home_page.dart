@@ -5,8 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/routes/app_router.dart';
-import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/model/bottom_menu_model.dart';
@@ -97,6 +95,10 @@ class _HomePageState extends ConsumerState<HomePage> {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         elevation: 0,
         itemCount: lstMenu.length,
+        shadow:  const Shadow(
+          blurRadius: 30,
+          color: borderColor,
+        ),
         tabBuilder: (int index, bool isActive) {
           final color = isActive ? primaryColor : Colors.black26;
           return Column(
@@ -120,9 +122,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         gapLocation: GapLocation.center,
         onTap: (index) => setState(() {
           _bottomNavIndex = index;
-          if (index == 3) {
-            AppRouter.pushNamed(Routes.visitsListScreen);
-          }
         }),
       ),
     );

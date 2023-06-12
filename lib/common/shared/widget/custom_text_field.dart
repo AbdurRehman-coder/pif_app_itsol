@@ -21,7 +21,10 @@ class CustomTextField extends StatelessWidget {
     this.decoration,
     this.validateEmptyString,
     this.prefixIcon,
+    this.onEditingComplete,
     this.suffixIcon,
+    this.style,
+    this.fillColor,
     this.contentPadding = const EdgeInsets.only(left: 12, right: 12, top: 20),
     super.key,
   });
@@ -35,6 +38,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLines;
   final bool checkEmpty;
   final String? validateEmptyString;
+  final void Function()? onEditingComplete;
   final void Function()? onSearch;
   final void Function(String)? onChanged;
   final TextStyle? labelStyle;
@@ -43,10 +47,13 @@ class CustomTextField extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final InputDecoration? decoration;
   final FocusNode? focusNode;
+  final TextStyle? style;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: style,
       onChanged: onChanged,
       controller: textEditingController,
       validator: (val) {
@@ -64,9 +71,10 @@ class CustomTextField extends StatelessWidget {
       enabled: enabled,
       focusNode: focusNode,
       maxLines: maxLines,
+      onEditingComplete: onEditingComplete,
       decoration: decoration ??
           InputDecoration(
-            fillColor: lightGrayBgColor,
+            fillColor: fillColor ?? lightGrayBgColor,
             contentPadding: contentPadding,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(

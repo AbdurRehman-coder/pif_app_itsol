@@ -77,10 +77,19 @@ class DrinkListTile extends StatelessWidget {
                             notifier: notifier,
                           )
                         : ElevatedButton(
-                            onPressed: () => notifier.addItemToCart(
-                              item: item,
-                              context: context,
-                            ),
+                            onPressed: () {
+                              if (provider.lstCarts.isNotEmpty) {
+                                notifier.addItemToCart(
+                                  item: item,
+                                  context: context,
+                                );
+                              } else {
+                                showOrderCartAndDetails(
+                                  context: context,
+                                  drinkModel: item,
+                                );
+                              }
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.r),
@@ -88,7 +97,9 @@ class DrinkListTile extends StatelessWidget {
                               padding: EdgeInsets.symmetric(horizontal: 20.w),
                             ),
                             child: Text(
-                              provider.lstCarts.isNotEmpty ? S.current.addToCart : S.current.order,
+                              provider.lstCarts.isNotEmpty
+                                  ? S.current.addToCart
+                                  : S.current.order,
                               style: Style.commonTextStyle(
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
