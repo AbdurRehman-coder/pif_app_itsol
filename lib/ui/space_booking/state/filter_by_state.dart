@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pif_flutter/ui/space_booking/model/floor_model.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 
 part 'filter_by_state.freezed.dart';
 
@@ -10,6 +10,8 @@ class FilterByState with _$FilterByState {
     required String selectedDateString,
     required bool isOpenPopup,
     required bool isOpenTimePicker,
+    required bool isOpenStartTimePicker,
+    required bool isOpenEndTimePicker,
     required DateTime selectedSingleDate,
     required List<DateTime> selectedDateList,
     required List<FloorModel> lstFloors,
@@ -31,6 +33,8 @@ class FilterByState with _$FilterByState {
         endTime: DateTime.now(),
         capacity: 1,
         timeString: '',
+        isOpenStartTimePicker: false,
+        isOpenEndTimePicker: false,
         rangeData: const RangeValues(660, 675),
       );
 }

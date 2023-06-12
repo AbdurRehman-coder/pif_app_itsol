@@ -5,9 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
-import 'package:pif_flutter/ui/space_booking/model/floor_model.dart';
-import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
-import 'package:pif_flutter/ui/space_booking/state/filter_by_state.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 
 final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
   return FilterByNotifier(ref: ref);
@@ -21,8 +19,14 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   }
 
   void _initData() {
+    startTimeController = TextEditingController();
+    endTimeController = TextEditingController();
+
+    updateDateString(DateTime.now());
+
     final data = ref.read(spaceBookingProvider);
     if (data.filterData != null) {
+      state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
       state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
       state = state.copyWith(startTime: data.filterData!.startTime);
       state = state.copyWith(endTime: data.filterData!.endTime);
@@ -35,6 +39,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   // FilterModel? filterData;
   final Ref ref;
+
+  late TextEditingController startTimeController;
+  late TextEditingController endTimeController;
 
   void getFloors() {
     final lstFloors = <FloorModel>[];
@@ -49,7 +56,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
       FloorModel(
         floorId: '2',
         floorName: 'Floor 1',
-        isSelected: true,
+        isSelected: false,
       ),
     );
     lstFloors.add(
@@ -161,6 +168,26 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(isOpenTimePicker: true);
   }
 
+  //Open StartTime Picker Dialog
+  void openStartTimePickerDialog() {
+    state = state.copyWith(isOpenStartTimePicker: true);
+  }
+
+  //Close StartTime Picker Dialog
+  void closeStartTimePickerDialog() {
+    state = state.copyWith(isOpenStartTimePicker: false);
+  }
+
+  //Open EndTime Picker Dialog
+  void openEndTimePickerDialog() {
+    state = state.copyWith(isOpenEndTimePicker: true);
+  }
+
+  //Close StartTime Picker Dialog
+  void closeEndTimePickerDialog() {
+    state = state.copyWith(isOpenEndTimePicker: false);
+  }
+
   //Close TimePicker Dialog
   void closeTimePickerDialog() {
     if (state.startTime.isAfter(state.endTime)) {
@@ -194,9 +221,15 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Reset Filter Data
   void resetFilter() {
+    startTimeController.clear();
+    endTimeController.clear();
     state = state.copyWith(selectedDateList: <DateTime>[]);
     state = state.copyWith(selectedDateString: '');
     state = state.copyWith(capacity: 1);
+    getFloors();
+    updateDateString(DateTime.now());
+    final data = ref.read(spaceBookingProvider.notifier);
+    data.clearFilterData();
   }
 
   //Set Default DateTime
@@ -213,5 +246,39 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     final startTimeString = DateFormat('h:mm a').format(roundedTime);
     final endTimeString = DateFormat('h:mm a').format(roundedTime.add(const Duration(minutes: 15)));
     state = state.copyWith(timeString: '$startTimeString - $endTimeString');
+  }
+
+  //Update Start Time
+  void updateStartTime({required DateTime? startTime}) {
+    startTime = DateTime(
+      startTime!.year,
+      startTime.month,
+      startTime.day,
+      startTime.hour,
+      startTime.minute,
+    );
+    state = state.copyWith(startTime: startTime);
+
+    final startTimeString = DateFormat('hh:mm a').format(startTime);
+    startTimeController.text = startTimeString;
+  }
+
+  //Update End Time
+  void updateEndTime({required DateTime? endTime}) {
+    endTime = DateTime(
+      endTime!.year,
+      endTime.month,
+      endTime.day,
+      endTime.hour,
+      endTime.minute,
+    );
+    if (state.startTime.isAfter(endTime)) {
+      CommonUtils.showToast(message: S.current.timeValidation);
+      return;
+    }
+    state = state.copyWith(endTime: endTime);
+
+    final endTimeString = DateFormat('hh:mm a').format(endTime);
+    endTimeController.text = endTimeString;
   }
 }

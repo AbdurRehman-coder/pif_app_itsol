@@ -10,10 +10,7 @@ import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
-import 'package:pif_flutter/ui/booking/popup/add_visitor_popup.dart';
-import 'package:pif_flutter/ui/booking/popup/booking_confirmation_popup.dart';
-import 'package:pif_flutter/ui/booking/provider/booking_provider.dart';
-import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
+import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
@@ -40,7 +37,7 @@ void bookingDetailsBottomSheet({
             key: notifier.formKey,
             child: KeyboardVisibilityBuilder(
               builder: (context, isKeyboardVisible) {
-                if (isKeyboardVisible) {
+                if (isKeyboardVisible && notifier.addGuestFocus.hasFocus) {
                   Future.delayed(Duration.zero, () {
                     controller.animateTo(
                       300,
@@ -90,6 +87,7 @@ void bookingDetailsBottomSheet({
                                     maxLength: 100,
                                     checkEmpty: true,
                                     labelText: S.current.bookingTitle,
+                                    focusNode: notifier.titleFocus,
                                   ),
                                 ),
                                 SizedBox(
@@ -224,8 +222,8 @@ void bookingDetailsBottomSheet({
                                                   textEditingController: notifier.startTimeController,
                                                   enabled: false,
                                                   checkEmpty: true,
-                                                  labelText:S.current.startingTime ,
-                                                  suffixIcon:  SvgPicture.asset(
+                                                  labelText: S.current.startingTime,
+                                                  suffixIcon: SvgPicture.asset(
                                                     Assets.arrowDown,
                                                     height: 10.h,
                                                     width: 10.w,
@@ -260,8 +258,8 @@ void bookingDetailsBottomSheet({
                                                   textEditingController: notifier.endTimeController,
                                                   enabled: false,
                                                   checkEmpty: true,
-                                                  labelText:S.current.endingTime ,
-                                                  suffixIcon:  SvgPicture.asset(
+                                                  labelText: S.current.endingTime,
+                                                  suffixIcon: SvgPicture.asset(
                                                     Assets.arrowDown,
                                                     height: 10.h,
                                                     width: 10.w,
@@ -385,7 +383,8 @@ void bookingDetailsBottomSheet({
                                   child: CustomTextField(
                                     textEditingController: notifier.addGuestController,
                                     onChanged: notifier.searchGuest,
-                                    labelText:S.current.addGuest,
+                                    labelText: S.current.addGuest,
+                                    focusNode: notifier.addGuestFocus,
                                   ),
                                 ),
                                 SizedBox(
@@ -401,7 +400,7 @@ void bookingDetailsBottomSheet({
                                           spacing: 6,
                                           runSpacing: 6,
                                           children:
-                                          List<Widget>.generate(provider.lstGuests.length, (int index) {
+                                              List<Widget>.generate(provider.lstGuests.length, (int index) {
                                             return Container(
                                               width: 110.w,
                                               padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 8.h),
@@ -460,88 +459,88 @@ void bookingDetailsBottomSheet({
                                       ),
                                       child: provider.lstAutoCompleteGuests.isNotEmpty
                                           ? ListView.separated(
-                                        shrinkWrap: true,
-                                        itemBuilder: (context, index) {
-                                          return InkWell(
-                                            onTap: () {
-                                              notifier.addGuest(provider.lstAutoCompleteGuests[index]);
-                                            },
-                                            child: Row(
+                                              shrinkWrap: true,
+                                              itemBuilder: (context, index) {
+                                                return InkWell(
+                                                  onTap: () {
+                                                    notifier.addGuest(provider.lstAutoCompleteGuests[index]);
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        height: 40.h,
+                                                        width: 40.w,
+                                                        decoration: BoxDecoration(
+                                                          color: grayC0,
+                                                          borderRadius: BorderRadius.circular(20.r),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                        width: 16.w,
+                                                      ),
+                                                      Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            provider.lstAutoCompleteGuests[index].fullName ??
+                                                                '',
+                                                            style: Style.commonTextStyle(
+                                                              color: darkTextColor,
+                                                              fontSize: 16.sp,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            provider.lstAutoCompleteGuests[index].email ?? '',
+                                                            style: Style.commonTextStyle(
+                                                              color: silverTextColor,
+                                                              fontSize: 14.sp,
+                                                              fontWeight: FontWeight.w400,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      // const Spacer(),
+                                                      // InkWell(
+                                                      //   onTap: () {
+                                                      //     notifier.removeGuest(provider.lstAutoCompleteGuests[index]);
+                                                      //   },
+                                                      //   child: SvgPicture.asset(Assets.close),
+                                                      // )
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                              separatorBuilder: (context, index) {
+                                                return Divider(
+                                                  height: 15.h,
+                                                  thickness: 1.h,
+                                                  color: borderColor,
+                                                );
+                                              },
+                                              itemCount: provider.lstAutoCompleteGuests.length,
+                                            )
+                                          : Column(
+                                              crossAxisAlignment: CrossAxisAlignment.stretch,
                                               children: [
-                                                Container(
-                                                  height: 40.h,
-                                                  width: 40.w,
-                                                  decoration: BoxDecoration(
-                                                    color: grayC0,
-                                                    borderRadius: BorderRadius.circular(20.r),
+                                                SizedBox(
+                                                  height: 30.h,
+                                                ),
+                                                SvgPicture.asset(Assets.emptyGuestBg),
+                                                SizedBox(
+                                                  height: 10.h,
+                                                ),
+                                                Text(
+                                                  S.of(context).noMatchingResultFound,
+                                                  textAlign: TextAlign.center,
+                                                  style: Style.commonTextStyle(
+                                                    color: textColor,
+                                                    fontSize: 16.sp,
+                                                    fontWeight: FontWeight.w400,
                                                   ),
                                                 ),
-                                                SizedBox(
-                                                  width: 16.w,
-                                                ),
-                                                Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      provider.lstAutoCompleteGuests[index].fullName ??
-                                                          '',
-                                                      style: Style.commonTextStyle(
-                                                        color: darkTextColor,
-                                                        fontSize: 16.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      provider.lstAutoCompleteGuests[index].email ?? '',
-                                                      style: Style.commonTextStyle(
-                                                        color: silverTextColor,
-                                                        fontSize: 14.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                // const Spacer(),
-                                                // InkWell(
-                                                //   onTap: () {
-                                                //     notifier.removeGuest(provider.lstAutoCompleteGuests[index]);
-                                                //   },
-                                                //   child: SvgPicture.asset(Assets.close),
-                                                // )
                                               ],
                                             ),
-                                          );
-                                        },
-                                        separatorBuilder: (context, index) {
-                                          return Divider(
-                                            height: 15.h,
-                                            thickness: 1.h,
-                                            color: borderColor,
-                                          );
-                                        },
-                                        itemCount: provider.lstAutoCompleteGuests.length,
-                                      )
-                                          : Column(
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                                        children: [
-                                          SizedBox(
-                                            height: 30.h,
-                                          ),
-                                          SvgPicture.asset(Assets.emptyGuestBg),
-                                          SizedBox(
-                                            height: 10.h,
-                                          ),
-                                          Text(
-                                            S.of(context).noMatchingResultFound,
-                                            textAlign: TextAlign.center,
-                                            style: Style.commonTextStyle(
-                                              color: textColor,
-                                              fontSize: 16.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
                                     ).visibility(visible: provider.isVisibleAddGuestList),
                                     // Padding(
                                     //   padding: EdgeInsets.symmetric(horizontal: 18.sp),
@@ -631,13 +630,16 @@ void bookingDetailsBottomSheet({
                                 Padding(
                                   padding: EdgeInsets.symmetric(horizontal: 18.sp),
                                   child: ElevatedButton(
-                                    onPressed: () =>
-                                        notifier.bookNowAsync(context: context, isBookEnabled: spaceData.bookable!, roomId: spaceData.id!),
+                                    onPressed: () => notifier.bookNowAsync(
+                                      context: context,
+                                      isBookEnabled: false,
+                                      roomId: spaceData.id!,
+                                    ),
                                     style: Style.primaryButtonStyle(
                                       context: context,
                                     ),
                                     child: Text(
-                                      spaceData.bookable ?? false ? S.current.requestToBook : S.current.book,
+                                      S.current.book,
                                     ),
                                   ),
                                 ),
@@ -659,4 +661,29 @@ void bookingDetailsBottomSheet({
       );
     },
   );
+}
+
+class CustomDayTileBuilder extends DayTileBuilder {
+  CustomDayTileBuilder();
+
+  @override
+  Widget build(
+    BuildContext context,
+    DateTime date,
+    void Function(DateTime datetime)? onTap,
+  ) {
+    return Consumer(
+      builder: (context, ref, child) {
+        final provider = ref.watch(bookingProvider);
+        return DefaultDayTile(
+          date: date,
+          onTap: onTap,
+          selectedDayColor: primaryColor,
+          currentDayBorderColor: primaryColor,
+          selectedDateCount: provider.selectedDates.length,
+          selectedDateList: provider.selectedDates,
+        );
+      },
+    );
+  }
 }

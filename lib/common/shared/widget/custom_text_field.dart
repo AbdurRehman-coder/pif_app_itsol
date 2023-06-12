@@ -8,37 +8,52 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     required this.textEditingController,
     this.labelText,
+    this.hintText,
     this.labelStyle,
     this.onSearch,
+    this.focusNode,
     this.onChanged,
     this.filled = true,
     this.maxLength,
+    this.maxLines = 1,
     this.enabled = true,
     this.checkEmpty = false,
     this.decoration,
     this.validateEmptyString,
     this.prefixIcon,
+    this.onEditingComplete,
     this.suffixIcon,
+    this.style,
+    this.fillColor,
+    this.contentPadding = const EdgeInsets.only(left: 12, right: 12, top: 20),
     super.key,
   });
 
   final TextEditingController textEditingController;
   final String? labelText;
+  final String? hintText;
   final bool filled;
   final bool enabled;
   final int? maxLength;
+  final int? maxLines;
   final bool checkEmpty;
   final String? validateEmptyString;
+  final void Function()? onEditingComplete;
   final void Function()? onSearch;
   final void Function(String)? onChanged;
   final TextStyle? labelStyle;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
+  final EdgeInsetsGeometry? contentPadding;
   final InputDecoration? decoration;
+  final FocusNode? focusNode;
+  final TextStyle? style;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: style,
       onChanged: onChanged,
       controller: textEditingController,
       validator: (val) {
@@ -54,12 +69,13 @@ class CustomTextField extends StatelessWidget {
       },
       maxLength: maxLength,
       enabled: enabled,
+      focusNode: focusNode,
+      maxLines: maxLines,
+      onEditingComplete: onEditingComplete,
       decoration: decoration ??
           InputDecoration(
-            fillColor: lightGrayBgColor,
-             floatingLabelBehavior: FloatingLabelBehavior.always,
-            // constraints: BoxConstraints(maxHeight: 42.h),
-            contentPadding: EdgeInsets.only(left: 12.w, right: 12.w, top: 20.h),
+            fillColor: fillColor ?? lightGrayBgColor,
+            contentPadding: contentPadding,
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(6.r),
@@ -97,10 +113,16 @@ class CustomTextField extends StatelessWidget {
               ),
             ),
             filled: filled,
+            hintText: hintText,
+            hintStyle: Style.commonTextStyle(
+              color: grayTextColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+            ),
             labelStyle: labelStyle ??
                 Style.commonTextStyle(
                   color: grayTextColor,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
                 ),
             labelText: labelText,

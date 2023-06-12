@@ -13,3 +13,17 @@ extension DateTimeExt on DateTime {
     return (hour * 60) + minute;
   }
 }
+
+extension GetDateTimeByString on String {
+  DateTime get getDateTime {
+    final dateTime = DateTime.tryParse(this) ?? DateTime.now();
+    return dateTime;
+  }
+
+  String get getTime {
+    return '${DateFormat('hh:mm').format(getDateTime)} ${DateFormat('a').format(getDateTime)}';
+  }
+  String get getDay {
+    return DateFormat('EEE').format(getDateTime);
+  }
+}

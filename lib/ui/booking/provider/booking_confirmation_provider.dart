@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/booking/state/booking_confirmation_state.dart';
+import 'package:pif_flutter/ui/booking/index.dart';
 
 final bookingConfirmationProvider =
     StateNotifierProvider.autoDispose<BookingConfirmationNotifier, BookingConfirmationState>((ref) {

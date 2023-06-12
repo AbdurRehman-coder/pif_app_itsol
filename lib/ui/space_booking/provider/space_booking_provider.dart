@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
-import 'package:pif_flutter/ui/space_booking/model/filter_model.dart';
-import 'package:pif_flutter/ui/space_booking/provider/filter_by_provider.dart';
-import 'package:pif_flutter/ui/space_booking/state/space_booking_state.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 
 final spaceBookingProvider =
     StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>((ref) {
@@ -28,60 +26,6 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   }
 
   Future<void> getSpaceData() async {
-    // final lstData = <SpaceBookingModel>[];
-    // lstData.add(
-    //   SpaceBookingModel(
-    //     backImage: Assets.spaceBg1,
-    //     buildingNo: '2',
-    //     floorNo: '2',
-    //     spaceName: 'Tuwaiq',
-    //     availableSheet: '2',
-    //     isRequestToApprove: true,
-    //   ),
-    // );
-    // lstData.add(
-    //   SpaceBookingModel(
-    //     backImage: Assets.spaceBg2,
-    //     buildingNo: '2',
-    //     floorNo: '1',
-    //     spaceName: 'Mada en Saleh',
-    //     availableSheet: '2',
-    //     isRequestToApprove: false,
-    //   ),
-    // );
-    // lstData.add(
-    //   SpaceBookingModel(
-    //     backImage: Assets.spaceBg3,
-    //     buildingNo: '2',
-    //     floorNo: '1',
-    //     spaceName: 'Al Multaqa 301',
-    //     availableSheet: '2',
-    //     isRequestToApprove: false,
-    //   ),
-    // );
-    // lstData.add(
-    //   SpaceBookingModel(
-    //     backImage: Assets.spaceBg3,
-    //     buildingNo: '2',
-    //     floorNo: '1',
-    //     spaceName: 'Al Multaqa 301',
-    //     availableSheet: '2',
-    //     isRequestToApprove: false,
-    //   ),
-    // );
-    // lstData.add(
-    //   SpaceBookingModel(
-    //     backImage: Assets.spaceBg3,
-    //     buildingNo: '2',
-    //     floorNo: '1',
-    //     spaceName: 'Al Multaqa 301',
-    //     availableSheet: '2',
-    //     isRequestToApprove: false,
-    //   ),
-    // );
-    // allListData = lstData;
-    // state = state.copyWith(lstData: AsyncData(lstData));
-
     ParametersModel? param;
     if (state.filterData != null) {
       param = ParametersModel();
@@ -125,6 +69,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     if (filterProvider.selectedDateString.isEmpty) {
       state = state.copyWith(filterDataString: '');
       state = state.copyWith(filterData: null);
+      getSpaceData();
       return;
     }
     final filterModel = FilterModel(
@@ -148,6 +93,10 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     state = state.copyWith(filterDataString: filterString);
 
     getSpaceData();
+  }
+
+  void clearFilterData() {
+    state = SpaceBookingState.initial();
   }
 
   @override

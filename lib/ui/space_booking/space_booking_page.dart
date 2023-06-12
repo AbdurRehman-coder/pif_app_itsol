@@ -8,10 +8,7 @@ import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/space_booking/popup/filter_popup.dart';
-import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
-import 'package:pif_flutter/ui/space_booking/widget/space_booking_empty_view.dart';
-import 'package:pif_flutter/ui/space_booking/widget/space_booking_list_tile.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/widget_extensions.dart';
@@ -338,11 +335,18 @@ class CustomDayTileBuilder extends DayTileBuilder {
     DateTime date,
     void Function(DateTime datetime)? onTap,
   ) {
-    return DefaultDayTile(
-      date: date,
-      onTap: onTap,
-      selectedDayColor: primaryColor,
-      currentDayBorderColor: primaryColor,
+    return Consumer(
+      builder: (context, ref, child) {
+        final provider = ref.watch(filterByProvider);
+        return DefaultDayTile(
+          date: date,
+          onTap: onTap,
+          selectedDayColor: primaryColor,
+          currentDayBorderColor: primaryColor,
+          selectedDateCount: provider.selectedDateList.length,
+          selectedDateList: provider.selectedDateList,
+        );
+      },
     );
   }
 }

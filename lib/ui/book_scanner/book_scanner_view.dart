@@ -12,6 +12,7 @@ import 'package:pif_flutter/ui/book_scanner/provider/book_scanner_provider.dart'
 import 'package:pif_flutter/ui/book_scanner/widget/book_search_widget.dart';
 import 'package:pif_flutter/ui/book_scanner/widget/bottom_sheet_button_widget.dart';
 import 'package:pif_flutter/ui/book_scanner/widget/qr_scanner_overlay.dart';
+import 'package:pif_flutter/ui/book_scanner/widget/qrcode_wrong_message.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -33,10 +34,11 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
       builder: (context, ref, child) {
         final notifier = ref.read(bookingScannerProvider.notifier);
         return SlidingUpPanel(
-          panelBuilder: () => BookSearchWidget(
-            scrollController: notifier.scrollController,
-            panelController: notifier.panelController,
-          ),
+          panelBuilder: () =>
+              BookSearchWidget(
+                scrollController: notifier.scrollController,
+                panelController: notifier.panelController,
+              ),
           body: Scaffold(
             appBar: AppBar(
               backgroundColor: grayF5,
@@ -67,40 +69,17 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                     height: 26.h,
                   ),
                 )
-              ],
+              ], /**/
             ),
             body: Consumer(
               builder: (context, ref, child) {
+                final provider = ref.watch(bookingScannerProvider);
                 final notifier = ref.read(bookingScannerProvider.notifier);
                 return Stack(
                   children: [
                     QRView(
-                      onQRViewCreated: (controller) {
-                        controller.scannedDataStream.listen(
-                          (scanData) {
-                            if (notifier.isNumeric(scanData.code)) {
-                              controller.dispose();
-                              AppRouter.pushNamed(Routes.bookingScreen).then(
-                                (value) async {
-                                  setState(() {});
-                                },
-                              );
-                            } else {
-                              controller.dispose();
-                              errorMessage(
-                                errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
-                                context: context,
-                              );
-                              controller.resumeCamera();
-                              setState(() {});
-                            }
-                          },
-                        );
-                      },
+                      onQRViewCreated: (controller) =>notifier.onScan(controller: controller, context: context),
                       key: notifier.qrKey,
-                      // formatsAllowed: const [
-                      //   BarcodeFormat.qrcode,
-                      // ],
                     ),
                     QRScannerOverlay(
                       overlayColour: Colors.black.withOpacity(0.5),
@@ -113,7 +92,9 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                         padding: EdgeInsets.symmetric(horizontal: 30.w),
                         child: Align(
                           child: Text(
-                            S.of(context).alignQRCodeWithinFrameToScan,
+                            S
+                                .of(context)
+                                .alignQRCodeWithinFrameToScan,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: whiteColor,
@@ -129,7 +110,10 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
               },
             ),
           ),
-          maxHeight: MediaQuery.of(context).size.height * 0.9,
+          maxHeight: MediaQuery
+              .of(context)
+              .size
+              .height * 0.9,
           backdropEnabled: true,
           backdropTapClosesPanel: false,
           controller: notifier.panelController,
@@ -137,7 +121,9 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
           padding: EdgeInsets.zero,
           minHeight: 80.h,
           collapsed: BottomSheetButtonWidget(
-            bottomText: S.of(context).troubleScanningQRCodeEnterManually,
+            bottomText: S
+                .of(context)
+                .troubleScanningQRCodeEnterManually,
             onTap: notifier.panelController.open,
           ),
         );

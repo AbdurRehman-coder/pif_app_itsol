@@ -19,6 +19,8 @@ mixin _$FilterByState {
   String get selectedDateString => throw _privateConstructorUsedError;
   bool get isOpenPopup => throw _privateConstructorUsedError;
   bool get isOpenTimePicker => throw _privateConstructorUsedError;
+  bool get isOpenStartTimePicker => throw _privateConstructorUsedError;
+  bool get isOpenEndTimePicker => throw _privateConstructorUsedError;
   DateTime get selectedSingleDate => throw _privateConstructorUsedError;
   List<DateTime> get selectedDateList => throw _privateConstructorUsedError;
   List<FloorModel> get lstFloors => throw _privateConstructorUsedError;
@@ -43,6 +45,8 @@ abstract class $FilterByStateCopyWith<$Res> {
       {String selectedDateString,
       bool isOpenPopup,
       bool isOpenTimePicker,
+      bool isOpenStartTimePicker,
+      bool isOpenEndTimePicker,
       DateTime selectedSingleDate,
       List<DateTime> selectedDateList,
       List<FloorModel> lstFloors,
@@ -69,6 +73,8 @@ class _$FilterByStateCopyWithImpl<$Res, $Val extends FilterByState>
     Object? selectedDateString = null,
     Object? isOpenPopup = null,
     Object? isOpenTimePicker = null,
+    Object? isOpenStartTimePicker = null,
+    Object? isOpenEndTimePicker = null,
     Object? selectedSingleDate = null,
     Object? selectedDateList = null,
     Object? lstFloors = null,
@@ -90,6 +96,14 @@ class _$FilterByStateCopyWithImpl<$Res, $Val extends FilterByState>
       isOpenTimePicker: null == isOpenTimePicker
           ? _value.isOpenTimePicker
           : isOpenTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenStartTimePicker: null == isOpenStartTimePicker
+          ? _value.isOpenStartTimePicker
+          : isOpenStartTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenEndTimePicker: null == isOpenEndTimePicker
+          ? _value.isOpenEndTimePicker
+          : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedSingleDate: null == selectedSingleDate
           ? _value.selectedSingleDate
@@ -139,6 +153,8 @@ abstract class _$$_FilterByStateCopyWith<$Res>
       {String selectedDateString,
       bool isOpenPopup,
       bool isOpenTimePicker,
+      bool isOpenStartTimePicker,
+      bool isOpenEndTimePicker,
       DateTime selectedSingleDate,
       List<DateTime> selectedDateList,
       List<FloorModel> lstFloors,
@@ -163,6 +179,8 @@ class __$$_FilterByStateCopyWithImpl<$Res>
     Object? selectedDateString = null,
     Object? isOpenPopup = null,
     Object? isOpenTimePicker = null,
+    Object? isOpenStartTimePicker = null,
+    Object? isOpenEndTimePicker = null,
     Object? selectedSingleDate = null,
     Object? selectedDateList = null,
     Object? lstFloors = null,
@@ -184,6 +202,14 @@ class __$$_FilterByStateCopyWithImpl<$Res>
       isOpenTimePicker: null == isOpenTimePicker
           ? _value.isOpenTimePicker
           : isOpenTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenStartTimePicker: null == isOpenStartTimePicker
+          ? _value.isOpenStartTimePicker
+          : isOpenStartTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenEndTimePicker: null == isOpenEndTimePicker
+          ? _value.isOpenEndTimePicker
+          : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       selectedSingleDate: null == selectedSingleDate
           ? _value.selectedSingleDate
@@ -228,6 +254,8 @@ class _$_FilterByState implements _FilterByState {
       {required this.selectedDateString,
       required this.isOpenPopup,
       required this.isOpenTimePicker,
+      required this.isOpenStartTimePicker,
+      required this.isOpenEndTimePicker,
       required this.selectedSingleDate,
       required final List<DateTime> selectedDateList,
       required final List<FloorModel> lstFloors,
@@ -245,6 +273,10 @@ class _$_FilterByState implements _FilterByState {
   final bool isOpenPopup;
   @override
   final bool isOpenTimePicker;
+  @override
+  final bool isOpenStartTimePicker;
+  @override
+  final bool isOpenEndTimePicker;
   @override
   final DateTime selectedSingleDate;
   final List<DateTime> _selectedDateList;
@@ -277,7 +309,7 @@ class _$_FilterByState implements _FilterByState {
 
   @override
   String toString() {
-    return 'FilterByState(selectedDateString: $selectedDateString, isOpenPopup: $isOpenPopup, isOpenTimePicker: $isOpenTimePicker, selectedSingleDate: $selectedSingleDate, selectedDateList: $selectedDateList, lstFloors: $lstFloors, startTime: $startTime, endTime: $endTime, timeString: $timeString, capacity: $capacity, rangeData: $rangeData)';
+    return 'FilterByState(selectedDateString: $selectedDateString, isOpenPopup: $isOpenPopup, isOpenTimePicker: $isOpenTimePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, selectedSingleDate: $selectedSingleDate, selectedDateList: $selectedDateList, lstFloors: $lstFloors, startTime: $startTime, endTime: $endTime, timeString: $timeString, capacity: $capacity, rangeData: $rangeData)';
   }
 
   @override
@@ -291,6 +323,10 @@ class _$_FilterByState implements _FilterByState {
                 other.isOpenPopup == isOpenPopup) &&
             (identical(other.isOpenTimePicker, isOpenTimePicker) ||
                 other.isOpenTimePicker == isOpenTimePicker) &&
+            (identical(other.isOpenStartTimePicker, isOpenStartTimePicker) ||
+                other.isOpenStartTimePicker == isOpenStartTimePicker) &&
+            (identical(other.isOpenEndTimePicker, isOpenEndTimePicker) ||
+                other.isOpenEndTimePicker == isOpenEndTimePicker) &&
             (identical(other.selectedSingleDate, selectedSingleDate) ||
                 other.selectedSingleDate == selectedSingleDate) &&
             const DeepCollectionEquality()
@@ -314,6 +350,8 @@ class _$_FilterByState implements _FilterByState {
       selectedDateString,
       isOpenPopup,
       isOpenTimePicker,
+      isOpenStartTimePicker,
+      isOpenEndTimePicker,
       selectedSingleDate,
       const DeepCollectionEquality().hash(_selectedDateList),
       const DeepCollectionEquality().hash(_lstFloors),
@@ -335,6 +373,8 @@ abstract class _FilterByState implements FilterByState {
       {required final String selectedDateString,
       required final bool isOpenPopup,
       required final bool isOpenTimePicker,
+      required final bool isOpenStartTimePicker,
+      required final bool isOpenEndTimePicker,
       required final DateTime selectedSingleDate,
       required final List<DateTime> selectedDateList,
       required final List<FloorModel> lstFloors,
@@ -350,6 +390,10 @@ abstract class _FilterByState implements FilterByState {
   bool get isOpenPopup;
   @override
   bool get isOpenTimePicker;
+  @override
+  bool get isOpenStartTimePicker;
+  @override
+  bool get isOpenEndTimePicker;
   @override
   DateTime get selectedSingleDate;
   @override

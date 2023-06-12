@@ -5,15 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/routes/app_router.dart';
-import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
+import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/model/bottom_menu_model.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   ConsumerState createState() => _HomePageState();
@@ -26,10 +26,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    lstMenu.add(BottomMenuModel(icon: Assets.home, title: 'Home'));
-    lstMenu.add(BottomMenuModel(icon: Assets.drink, title: 'Drink'));
-    lstMenu.add(BottomMenuModel(icon: Assets.booking, title: 'Booking'));
-    lstMenu.add(BottomMenuModel(icon: Assets.social, title: 'Social'));
+    lstMenu.add(BottomMenuModel(icon: Assets.home, title: 'Home', child: const SizedBox()));
+    lstMenu.add(BottomMenuModel(icon: Assets.drink, title: 'Drink', child: const DrinkPage()));
+    lstMenu.add(BottomMenuModel(icon: Assets.booking, title: 'Booking', child: const BookingListPage()));
+    lstMenu.add(BottomMenuModel(icon: Assets.social, title: 'Social', child: const SizedBox()));
     loginAsync();
   }
 
@@ -48,6 +48,8 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -78,6 +80,9 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
         ],
       ),
+      body: NotificationListener<ScrollNotification>(
+        child: lstMenu.elementAt(_bottomNavIndex).child!,
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -90,6 +95,10 @@ class _HomePageState extends ConsumerState<HomePage> {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         elevation: 0,
         itemCount: lstMenu.length,
+        shadow:  const Shadow(
+          blurRadius: 30,
+          color: borderColor,
+        ),
         tabBuilder: (int index, bool isActive) {
           final color = isActive ? primaryColor : Colors.black26;
           return Column(
@@ -113,9 +122,6 @@ class _HomePageState extends ConsumerState<HomePage> {
         gapLocation: GapLocation.center,
         onTap: (index) => setState(() {
           _bottomNavIndex = index;
-          if (_bottomNavIndex == 2) {
-            AppRouter.pushNamed(Routes.spaceBookingScreen);
-          }
         }),
       ),
     );

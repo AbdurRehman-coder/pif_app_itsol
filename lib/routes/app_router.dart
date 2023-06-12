@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
 import 'package:pif_flutter/ui/booking/booking_page.dart';
+import 'package:pif_flutter/ui/booking_details/booking_details_view.dart';
+import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
@@ -28,6 +30,14 @@ class AppRouter {
       case Routes.bookingScreen:
         final data = settings.arguments! as RoomModel;
         return _setPage(page: BookingPage(spaceData: data), settings: settings);
+      case Routes.bookingDetailsScreen:
+        final data = settings.arguments! as BookingListModel;
+        return _setPage(
+          page: BookingDetails(
+            data: data,
+          ),
+          settings: settings,
+        );
       default:
         return _errorRoute();
     }

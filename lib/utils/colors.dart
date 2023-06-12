@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 const blackColor = Color(0xFF000000);
 const whiteColor = Color(0xFFFFFFFF);
 const primaryColor = Color(0xFF088542);
+const primaryDarkColor = Color(0xFF00652E);
 const lightPrimaryColor = Color(0xFFE6F6EC);
 const darkPrimaryColor = Color(0xFF004B34);
 const textColor = Color(0xFF231F20);
@@ -24,6 +25,16 @@ const dateBgColor = Color(0xFFC4E9D0);
 const dayTextColor = Color(0xFF444041);
 const inactiveTrackColor = Color(0xFFF2ECED);
 const grayCardBg = Color(0xFFF7F7F7);
+const activeStatusColor = Color(0xFF2B663B);
+const activeBgColor = Color(0xFFE6F6EC);
+const loggedStatusColor = Color(0xFFB37C4C);
+const loggedBgColor = Color(0xFFF1F1CD);
+const expireStatusColor = Color(0xFF777374);
+const expireBgColor = Color(0xFFF5F5F5);
+const pendingStatusColor = Color(0xFF084B85);
+const pendingBgColor = Color(0xFFE0F3FB);
+const gradientStart = Color(0xFF272627);
+const gradientEnd = Color(0xFFC29B5B);
 
 // GRAY
 const gray29 = Color(0xFF292929);

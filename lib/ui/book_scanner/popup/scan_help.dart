@@ -1,20 +1,11 @@
-import 'dart:io';
-
-import 'package:awesome_calendar/awesome_calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
-import 'package:pif_flutter/ui/booking/popup/add_visitor_popup.dart';
-import 'package:pif_flutter/ui/booking/popup/booking_confirmation_popup.dart';
-import 'package:pif_flutter/ui/booking/provider/booking_provider.dart';
-import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
-import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 void scanHelpBottomSheet({required BuildContext context}) {
   showModalBottomSheet<dynamic>(

@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
-import 'package:pif_flutter/ui/space_booking/state/room_booking_filter_state.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 
 final roomBookingProvider = StateNotifierProvider.autoDispose<RoomBookingNotifier, RoomBookingState>((ref) {
   return RoomBookingNotifier(ref: ref);

@@ -12,3 +12,9 @@ extension ImageExt on ImagePrimary {
     return 'http://20.74.136.229$url';
   }
 }
+
+extension ImageExtSecond on String {
+  String get getImageUrl {
+    return 'http://20.74.136.229$this';
+  }
+}

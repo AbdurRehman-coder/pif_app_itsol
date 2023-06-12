@@ -1,7 +1,7 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/ui/space_booking/model/filter_model.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 
 part 'space_booking_state.freezed.dart';
 
@@ -17,5 +17,7 @@ class SpaceBookingState with _$SpaceBookingState {
   factory SpaceBookingState.initial() => const SpaceBookingState(
         lstData: AsyncLoading(),
         lstDataSearch: AsyncLoading(),
+        filterDataString: '',
+        filterData: null,
       );
 }

@@ -6,8 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/ui/space_booking/provider/room_booking_filter_provider.dart';
-import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
+import 'package:pif_flutter/ui/space_booking/index.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
@@ -106,7 +105,7 @@ void roomBookingFilterBottomSheet({
                                     color: Colors.white,
                                     boxShadow: const [
                                       BoxShadow(
-                                        blurRadius: 10, 
+                                        blurRadius: 10,
                                         color: grayE3,
                                       ),
                                     ],

@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/utils/colors.dart';
@@ -47,6 +48,7 @@ class MyApp extends ConsumerWidget {
         navigatorKey: AppRouter.navigatorKey,
         onGenerateRoute: AppRouter.generateRoute,
         debugShowCheckedModeBanner: false,
+        navigatorObservers: [NavigationHistoryObserver()],
         localizationsDelegates: const [
           S.delegate,
           GlobalCupertinoLocalizations.delegate,

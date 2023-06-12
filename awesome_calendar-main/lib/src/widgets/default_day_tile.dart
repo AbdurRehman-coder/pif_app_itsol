@@ -6,6 +6,8 @@ class DefaultDayTile extends StatelessWidget {
     this.onTap,
     this.currentDayBorderColor,
     this.selectedDayColor,
+    this.selectedDateCount = 0,
+    this.selectedDateList,
   });
 
   /// The date to show
@@ -19,6 +21,10 @@ class DefaultDayTile extends StatelessWidget {
 
   /// Border color of the current day (DateTime.now())
   final Color? currentDayBorderColor;
+
+  final int selectedDateCount;
+
+  final List<DateTime>? selectedDateList;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +50,15 @@ class DefaultDayTile extends StatelessWidget {
 
     return Expanded(
       child: GestureDetector(
-        onTap: () => (date.weekday == DateTime.friday || date.weekday == DateTime.saturday)
-            ? null
-            : handleTap(context),
+        onTap: () {
+          final length = selectedDateList?.length ?? 0;
+          final isContainData = selectedDateList?.contains(date);
+          (date.weekday == DateTime.friday || date.weekday == DateTime.saturday || length >= 10)
+              ? isContainData!
+                  ? handleTap(context)
+                  : null
+              : handleTap(context);
+        },
         behavior: HitTestBehavior.translucent,
         child: Container(
           height: 40.0,

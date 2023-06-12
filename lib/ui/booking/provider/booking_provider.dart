@@ -14,9 +14,7 @@ import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/app_router.dart';
-import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
-import 'package:pif_flutter/ui/booking/popup/booking_confirmation_popup.dart';
-import 'package:pif_flutter/ui/booking/state/booking_state.dart';
+import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -41,6 +39,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
     visitorLastNameController = TextEditingController();
     visitorEmailController = TextEditingController();
     addGuestController = TextEditingController();
+
+    titleFocus = FocusNode();
+    addGuestFocus = FocusNode();
+    addGuestFocus.addListener(_onTitleFocus);
+    titleFocus.addListener(_onTitleFocus);
     formKey = GlobalKey<FormState>();
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
@@ -119,9 +122,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   final Ref ref;
-  late TextEditingController titleController;
-  late GlobalKey<FormState> formKey;
+  late FocusNode titleFocus;
+  late FocusNode addGuestFocus;
 
+  late TextEditingController titleController;
+
+  late GlobalKey<FormState> formKey;
+  final controller = ScrollController();
   late TextEditingController dateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
@@ -433,6 +440,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
   }
 
+  void _onTitleFocus() {
+    closeDatePickerDialog();
+    closeStartTimePickerDialog();
+    closeEndTimePickerDialog();
+  }
+
   @override
   void dispose() {
     titleController.dispose();
@@ -442,6 +455,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     visitorFirstNameController.dispose();
     visitorLastNameController.dispose();
     visitorEmailController.dispose();
+    titleFocus.dispose();
+    titleFocus.removeListener(_onTitleFocus);
     super.dispose();
   }
 }
