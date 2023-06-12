@@ -3,11 +3,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 
 class IncreaseDecreaseWidget extends StatelessWidget {
-  const IncreaseDecreaseWidget({
-    required this.item,
-    required this.notifier,
-    super.key,
-  });
+  const IncreaseDecreaseWidget({required this.item, required this.notifier, super.key});
 
   final DrinkModel item;
   final DrinksNotifier notifier;
@@ -50,7 +46,7 @@ class IncreaseDecreaseWidget extends StatelessWidget {
             ),
           ),
           child: Text(
-            item.count == 0 ? '1' : item.count.toString(),
+            item.count.toString(),
             style: Style.commonTextStyle(
               color: blackColor,
               fontSize: 18.sp,

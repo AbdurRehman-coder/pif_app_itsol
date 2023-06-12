@@ -8,11 +8,14 @@ import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
+import 'package:pif_flutter/ui/visit/invite_visitor/invite_visitor_view.dart';
+import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -38,6 +41,10 @@ class AppRouter {
           ),
           settings: settings,
         );
+      case Routes.visitsListScreen:
+        return _setPage(page: const VisitsListView(), settings: settings);
+      case Routes.inviteVisitorScreen:
+        return _setPage(page: InviteVisitorView(), settings: settings);
       default:
         return _errorRoute();
     }
@@ -83,11 +90,13 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {

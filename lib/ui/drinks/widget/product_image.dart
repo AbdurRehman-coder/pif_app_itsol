@@ -32,10 +32,7 @@ class ProductImage extends StatelessWidget {
         Color(0xFFB1B2AD),
         Color(0xFFE8E8E8),
       ],
-      stops: [
-        0.3659,
-        1.1455,
-      ],
+      stops: [0.3659, 1.1455],
     );
 
     return Stack(
@@ -45,19 +42,16 @@ class ProductImage extends StatelessWidget {
             Radius.circular(10.r),
           ),
           child: Container(
+            height: 100.h,
+            width: 100.w,
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-              gradient: Gradient.lerp(
-                startGradient,
-                endGradient,
-                0.1,
-              ),
+              gradient: Gradient.lerp(startGradient, endGradient, 0.1),
             ),
             child: CachedNetworkImage(
               imageUrl: url,
-              height: 96.h,
-              width: 96.w,
-              fit: BoxFit.cover,
+              height: 70.h,
+              width: 70.w,
               placeholder: (context, url) => const SizedBox(),
               errorWidget: (context, url, error) => const SizedBox(),
             ),

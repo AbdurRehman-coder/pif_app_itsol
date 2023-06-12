@@ -3,7 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/widget_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
 
@@ -22,6 +21,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
     final provider = ref.watch(drinksProvider);
     final notifier = ref.read(drinksProvider.notifier);
     return Scaffold(
+      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -40,26 +40,44 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
             body: Column(
               children: [
                 SizedBox(height: 16.h),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: CustomTextField(
-                    fillColor: expireBgColor,
-                    onChanged: notifier.searchData,
-                    textEditingController: notifier.searchController,
-                    hintText: S.of(context).search,
-                    style: Style.commonTextStyle(
-                      color: textColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
+                Container(
+                  height: 40.h,
+                  margin: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 10.w),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(6.r),
+                    border: Border.all(
+                      color: borderColor,
+                      width: 1.w,
                     ),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 11.w),
-                      child: SvgPicture.asset(
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
                         Assets.search,
                         height: 22.h,
                       ),
-                    ),
-                    focusNode: notifier.searchFocusNode,
+                      SizedBox(
+                        width: 8.w,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: notifier.searchController,
+                          onChanged: notifier.searchData,
+                          focusNode: notifier.searchFocusNode,
+                          style: Style.commonTextStyle(
+                            color: textColor,
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          decoration: Style.inputDecoration(
+                            text: S.of(context).search,
+                            hintColor: hintColor,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -69,7 +87,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 30.h,
+                          height: 40.h,
                           child: ListView.separated(
                             itemCount: provider.lstCategory.length,
                             scrollDirection: Axis.horizontal,
@@ -85,18 +103,15 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                 },
                                 child: CategoryListTile(
                                   item: provider.lstCategory[index],
-                                  withOutSearch:
-                                      notifier.searchController.text.isEmpty,
                                 ),
                               );
                             },
                           ),
                         ),
-                        SizedBox(height: 20.h),
-                        (notifier.searchController.text.isNotEmpty
-                                ? provider.allDrinks
-                                : provider.lstDrinks)
-                            .when(
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        provider.lstDrinks.when(
                           data: (data) {
                             if (data.isEmpty) {
                               return const DrinkEmptyView();
@@ -141,16 +156,16 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
             ),
           ),
           Positioned(
-            bottom: 30.h,
+            bottom: 40,
             child: InkWell(
-              onTap: () => notifier.drinkBagTap(context: context),
+              onTap: () {
+                notifier.drinkBagTap(context: context);
+              },
               child: DrinksBagView(
                 provider: provider,
               ),
             ),
-          ).visibility(
-            visible: provider.lstCarts.isNotEmpty,
-          )
+          ).visibility(visible: provider.lstCarts.isNotEmpty)
         ],
       ),
     );
