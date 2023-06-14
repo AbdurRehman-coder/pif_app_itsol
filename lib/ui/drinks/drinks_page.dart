@@ -32,11 +32,8 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                SliverAppBar(
-                  expandedHeight: 140.h,
-                  primary: false,
-                  backgroundColor: Colors.transparent,
-                  flexibleSpace: const StoreInformation(),
+                const SliverToBoxAdapter(
+                  child: StoreInformation(),
                 ),
               ];
             },
@@ -84,9 +81,8 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                             },
                             itemBuilder: (context, index) {
                               return InkWell(
-                                onTap: () {
-                                  notifier.updateCategory(index: index);
-                                },
+                                onTap: () =>
+                                    notifier.updateCategory(index: index),
                                 child: CategoryListTile(
                                   item: provider.lstCategory[index],
                                   withOutSearch:
@@ -144,19 +140,20 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
               ],
             ),
           ),
-          Positioned(
-            bottom: 30.h,
-            child: InkWell(
-              onTap: () => notifier.drinkBagTap(context: context),
-              child: DrinksBagView(
-                provider: provider,
-              ),
-            ),
-          ).visibility(
-            visible: provider.lstCarts.isNotEmpty,
-          )
         ],
       ),
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(vertical: 20.h),
+        child: InkWell(
+          onTap: () => notifier.drinkBagTap(context: context),
+          child: DrinksBagView(
+            provider: provider,
+          ),
+        ),
+      ).visibility(
+        visible: provider.lstCarts.isNotEmpty,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

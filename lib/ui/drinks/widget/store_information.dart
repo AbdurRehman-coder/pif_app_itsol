@@ -53,6 +53,7 @@ class StoreInformation extends StatelessWidget {
                     top: 8.h,
                     child: Container(
                       width: double.infinity,
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
                       height: 140.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(
@@ -67,49 +68,50 @@ class StoreInformation extends StatelessWidget {
                           ],
                         ),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 16.5.w,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              storeTitle,
-                              style: Style.commonTextStyle(
-                                color: whiteColor,
-                                fontSize: 24.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            storeTitle,
+                            style: Style.commonTextStyle(
+                              color: whiteColor,
+                              fontSize: 24.sp,
+                              fontWeight: FontWeight.w400,
                             ),
-                            SizedBox(height: 8.h),
-                            Text(
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 8.h),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Text(
                               storeDescription,
                               style: Style.commonTextStyle(
                                 color: whiteColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                               ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
-                            SizedBox(height: 5.h),
-                            Text(
-                              storeStartDay != storeEndDay
-                                  ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
-                                  : '$storeStartTime - $storeEndTime ${S.of(context).today}',
-                              style: Style.commonTextStyle(
-                                color: whiteColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            storeStartDay != storeEndDay
+                                ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
+                                : '$storeStartTime - $storeEndTime ${S.of(context).today}',
+                            style: Style.commonTextStyle(
+                              color: whiteColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
                   Positioned(
-                      right: 0.w,
+                    right: 0.w,
                     child: Image.network(
                       storeImage.getImageUrl,
                       height: 140.h,
