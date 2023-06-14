@@ -78,19 +78,24 @@ class DrinkListTile extends StatelessWidget {
                           )
                         : ElevatedButton(
                             onPressed: () {
-                              if (provider.lstCarts.isNotEmpty) {
-                                notifier.addItemToCart(
-                                  item: item,
-                                  context: context,
-                                );
-                              } else {
-                                showOrderCartAndDetails(
-                                  context: context,
-                                  drinkModel: item,
-                                );
+                              if (!provider.storeClosed) {
+                                if (provider.lstCarts.isNotEmpty) {
+                                  notifier.addItemToCart(
+                                    item: item,
+                                    context: context,
+                                  );
+                                } else {
+                                  showOrderCartAndDetails(
+                                    context: context,
+                                    drinkModel: item,
+                                  );
+                                }
                               }
                             },
                             style: ElevatedButton.styleFrom(
+                              backgroundColor: provider.storeClosed
+                                  ? primaryDisabledColor
+                                  : primaryColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.r),
                               ),

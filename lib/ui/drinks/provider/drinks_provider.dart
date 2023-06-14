@@ -3,11 +3,13 @@ import 'package:dixels_sdk/features/commerce/carts/models/cart_request_model.dar
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
 import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
@@ -44,9 +46,40 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     )
         .then((storeInformation) {
       state = state.copyWith(structureContent: AsyncData(storeInformation!));
+      final storeStartDateTime =
+          storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+      final storeEndDateTime =
+          storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+      state = state.copyWith(
+        storeClosed: !checkStoreStatus(
+              openTime: storeStartDateTime,
+              closedTime: storeEndDateTime,
+            ) ||
+            DateTime.now().weekday == DateTime.friday ||
+            DateTime.now().weekday == DateTime.saturday,
+      );
     });
     await _getCategories();
     await _getDrinks();
+  }
+
+  bool checkDateStart(DateTime dateTime) {
+    final dateTimeNow = DateTime.now();
+    if (dateTime.hour != dateTimeNow.hour) {
+      return dateTimeNow.hour < dateTime.hour;
+    } else {
+      return dateTimeNow.minute < dateTime.minute;
+    }
+  }
+
+  bool checkDateEnd(DateTime dateTime) {
+    final dateTimeNow = DateTime.now();
+    if (dateTime.hour != dateTimeNow.hour) {
+      return dateTimeNow.hour > dateTime.hour &&
+          dateTimeNow.minute > dateTime.minute;
+    } else {
+      return dateTimeNow.minute > dateTime.minute;
+    }
   }
 
   Future<void> _getDrinks() async {
@@ -57,19 +90,21 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     if (result != null && result.items != null) {
       final lstDrinks = <DrinkModel>[];
       for (final element in result.items!) {
-        final cateId = element.categories![0].id;
-        lstDrinks.add(
-          DrinkModel(
-            id: element.id,
-            categoryId: cateId,
-            drinkImage: element.urlImage,
-            drinkTitle: element.name,
-            calories: '${element.expando!.calories} cal',
-            count: 0,
-            duration: '5 min',
-            drinkOption: element.productOptions,
-          ),
-        );
+        if (element.categories!.isNotEmpty) {
+          final cateId = element.categories![0].id;
+          lstDrinks.add(
+            DrinkModel(
+              id: element.id,
+              categoryId: cateId,
+              drinkImage: element.urlImage,
+              drinkTitle: element.name,
+              calories: '${element.expando!.calories} cal',
+              count: 0,
+              duration: '5 min',
+              drinkOption: element.productOptions,
+            ),
+          );
+        }
       }
 
       allDrinks = lstDrinks;

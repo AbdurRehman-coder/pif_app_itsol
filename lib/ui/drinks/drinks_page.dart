@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
+import 'package:pif_flutter/ui/drinks/widget/store_close_message.dart';
 
 class DrinkPage extends ConsumerStatefulWidget {
   const DrinkPage({
@@ -27,18 +28,21 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
         alignment: Alignment.bottomCenter,
         children: [
           NestedScrollView(
+            physics: const NeverScrollableScrollPhysics(),
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                const SliverAppBar(
-                  expandedHeight: 150,
+                SliverAppBar(
+                  expandedHeight: 140.h,
+                  primary: false,
                   backgroundColor: Colors.transparent,
-                  flexibleSpace: StoreInformation(),
+                  flexibleSpace: const StoreInformation(),
                 ),
               ];
             },
             body: Column(
               children: [
+                const StoreCloseMessage(),
                 SizedBox(height: 16.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -132,7 +136,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                               ),
                             );
                           },
-                        )
+                        ),
                       ],
                     ),
                   ),

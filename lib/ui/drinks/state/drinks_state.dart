@@ -14,6 +14,7 @@ class DrinksState with _$DrinksState {
     required AsyncValue<List<DrinkModel>> allDrinks,
     required List<DrinkModel> lstCarts,
     required AsyncValue<StructureContentModel> structureContent,
+    required bool storeClosed,
   }) = _DrinksState;
 
   factory DrinksState.initial() => const DrinksState(
@@ -22,5 +23,6 @@ class DrinksState with _$DrinksState {
         allDrinks: AsyncLoading(),
         lstCarts: <DrinkModel>[],
         structureContent: AsyncLoading(),
+        storeClosed: false,
       );
 }

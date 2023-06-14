@@ -4,6 +4,7 @@ const blackColor = Color(0xFF000000);
 const whiteColor = Color(0xFFFFFFFF);
 const primaryColor = Color(0xFF088542);
 const primaryDarkColor = Color(0xFF00652E);
+const primaryDisabledColor = Color(0xFF9DDBB2);
 const lightPrimaryColor = Color(0xFFE6F6EC);
 const darkPrimaryColor = Color(0xFF004B34);
 const textColor = Color(0xFF231F20);
