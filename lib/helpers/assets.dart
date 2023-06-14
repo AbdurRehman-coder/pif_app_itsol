@@ -75,4 +75,6 @@ class Assets {
   static const String placeHolder = 'assets/ic_placeholder.jpg';
   static const String arrowRight = 'assets/svg/ic_arrow_right.svg';
   static const String info = 'assets/svg/ic_info.svg';
+  static const String smallArrowDown = 'assets/svg/ic_small_arrow_down.svg';
+  static const String smallArrowUp = 'assets/svg/ic_small_arrow_up.svg';
 }

@@ -102,5 +102,6 @@
   "item" : "Item",
   "notes" : "Notes",
   "today":"Today",
-  "storeNotAvailable":"Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available"
+  "storeNotAvailable":"Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available",
+  "deliveringTo":"Delivering to"
 }

@@ -1,14 +1,12 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/helpers/assets.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/model/bottom_menu_model.dart';
-import 'package:pif_flutter/utils/colors.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({
@@ -26,10 +24,34 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   void initState() {
     super.initState();
-    lstMenu.add(BottomMenuModel(icon: Assets.home, title: 'Home', child: const SizedBox()));
-    lstMenu.add(BottomMenuModel(icon: Assets.drink, title: 'Drink', child: const DrinkPage()));
-    lstMenu.add(BottomMenuModel(icon: Assets.booking, title: 'Booking', child: const BookingListPage()));
-    lstMenu.add(BottomMenuModel(icon: Assets.social, title: 'Social', child: const SizedBox()));
+    lstMenu.add(
+      BottomMenuModel(
+        icon: Assets.home,
+        title: 'Home',
+        child: const SizedBox(),
+      ),
+    );
+    lstMenu.add(
+      BottomMenuModel(
+        icon: Assets.drink,
+        title: 'Drink',
+        child: const DrinkPage(),
+      ),
+    );
+    lstMenu.add(
+      BottomMenuModel(
+        icon: Assets.booking,
+        title: 'Booking',
+        child: const BookingListPage(),
+      ),
+    );
+    lstMenu.add(
+      BottomMenuModel(
+        icon: Assets.social,
+        title: 'Social',
+        child: const SizedBox(),
+      ),
+    );
     loginAsync();
   }
 
@@ -53,6 +75,38 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: _bottomNavIndex == 1
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    S.of(context).deliveringTo,
+                    style: Style.commonTextStyle(
+                      color: grayTextColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(width: 14.w),
+                      Text(
+                        'Al-Multaqa 301',
+                        style: Style.commonTextStyle(
+                          color: primaryColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      SizedBox(width: 8.w),
+                      SvgPicture.asset(Assets.smallArrowDown),
+                    ],
+                  ),
+                ],
+              )
+            : null,
         leading: IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
@@ -95,7 +149,7 @@ class _HomePageState extends ConsumerState<HomePage> {
       bottomNavigationBar: AnimatedBottomNavigationBar.builder(
         elevation: 0,
         itemCount: lstMenu.length,
-        shadow:  const Shadow(
+        shadow: const Shadow(
           blurRadius: 30,
           color: borderColor,
         ),
