@@ -14,6 +14,7 @@ class Assets {
   static const String home = 'assets/svg/ic_home.svg';
   static const String instant = 'assets/svg/ic_instant.svg';
   static const String menu = 'assets/svg/ic_menu.svg';
+  static const String menuDotes = 'assets/svg/ic_menu_dotes.svg';
   static const String message = 'assets/svg/ic_message.svg';
   static const String notification = 'assets/svg/ic_notification.svg';
   static const String scanner = 'assets/svg/ic_scanner.svg';
@@ -74,6 +75,13 @@ class Assets {
   static const String freeTag = 'assets/svg/ic_free_tag.svg';
   static const String placeHolder = 'assets/ic_placeholder.jpg';
   static const String arrowRight = 'assets/svg/ic_arrow_right.svg';
+  static const String arrowRightBack = 'assets/svg/ic_right_back.svg';
+  static const String verifyStatus = 'assets/svg/ic_verify_status.svg';
+  static const String pendingStatus = 'assets/svg/ic_pending_status.svg';
+  static const String clock = 'assets/svg/ic_clock_circle.svg';
+  static const String check = 'assets/svg/ic_check.svg';
+  static const String shield = 'assets/svg/ic_shield.svg';
+  static const String visitorEmpty = 'assets/svg/ic_visitor_empty.svg';
   static const String info = 'assets/svg/ic_info.svg';
   static const String smallArrowDown = 'assets/svg/ic_small_arrow_down.svg';
   static const String smallArrowUp = 'assets/svg/ic_small_arrow_up.svg';

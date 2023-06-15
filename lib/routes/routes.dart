@@ -11,4 +11,7 @@ class Routes {
   static const String bookingScannerScreen = '/bookingScanner';
   static const String bookingDetailsScreen = '/bookingDetails';
   static const String drinkDetailsScreen = '/drinkDetails';
+  static const String inviteVisitorScreen = '/inviteVisitor';
+  static const String visitListScreen = '/visitList';
+  static const String invitationDetailsScreen = '/invitationDetails';
 }

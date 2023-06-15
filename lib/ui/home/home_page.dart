@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/model/bottom_menu_model.dart';
@@ -59,8 +60,8 @@ class _HomePageState extends ConsumerState<HomePage> {
     await DixelsSDK.initialize(
       baseUrl: 'http://20.74.136.229',
       auth: OAuth2PasswordGrant(
-        username: 'vpanchal@appswave.io',
-        password: 'Viral@123',
+        username: 'mwafeeq@appswave.io',
+        password: 'Mwni127199411',
         clientId: 'id-b84ecd78-bb26-7be2-7c9d-661ee729b6a',
         clientSecret: 'secret-52b3de81-3a44-b6c9-d63b-92e1ecf16e',
       ),
@@ -176,6 +177,9 @@ class _HomePageState extends ConsumerState<HomePage> {
         gapLocation: GapLocation.center,
         onTap: (index) => setState(() {
           _bottomNavIndex = index;
+          if (index == 3) {
+            AppRouter.pushNamed(Routes.visitListScreen);
+          }
         }),
       ),
     );

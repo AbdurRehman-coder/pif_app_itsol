@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/utils/colors.dart';
+import 'package:shimmer/shimmer.dart';
 
 extension WidgetExt on Widget {
   SafeArea applySafeArea({
@@ -25,6 +27,18 @@ extension WidgetExt on Widget {
 
   Center toCenter() {
     return Center(
+      child: this,
+    );
+  }
+
+  Widget shimmerLoading({bool loading = true}) {
+    if (!loading) {
+      return this;
+    }
+
+    return Shimmer.fromColors(
+      baseColor: primaryColor,
+      highlightColor: Colors.grey[100]!,
       child: this,
     );
   }

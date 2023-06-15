@@ -49,7 +49,7 @@ void errorMessage({
       ),
     ),
     context: context,
-    animation: StyledToastAnimation.scale,
+    animation: StyledToastAnimation.slideFromTop,
     reverseAnimation: StyledToastAnimation.fade,
     position: StyledToastPosition.top,
     animDuration: const Duration(seconds: 1),

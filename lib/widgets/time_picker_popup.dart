@@ -12,12 +12,14 @@ class TimePickerPopup extends StatefulWidget {
     required this.onCancel,
     required this.onConfirm,
     required this.timeData,
+    this.timeGap = TimeGap.fiftyMin,
     super.key,
   });
 
   final DateTime timeData;
   final VoidCallback onCancel;
   final void Function(DateTime?) onConfirm;
+  final TimeGap timeGap;
 
   @override
   State<TimePickerPopup> createState() => _TimePickerPopupState();
@@ -37,21 +39,33 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
   void initData() {
     var date = DateTime.now();
     date = DateTime(date.year, date.month, date.day);
-    for (var i = 0; i < 96; i++) {
-      lstData?.add(
-        WheelChoice(
-          value: date.add(Duration(minutes: i * 15)),
-          title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 15))),
-        ),
-      );
+
+    if (widget.timeGap == TimeGap.fiftyMin) {
+      for (var i = 0; i < 96; i++) {
+        lstData?.add(
+          WheelChoice(
+            value: date.add(Duration(minutes: i * 15)),
+            title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 15))),
+          ),
+        );
+      }
+    } else {
+      for (var i = 0; i < 12; i++) {
+        lstData?.add(
+          WheelChoice(
+            value: date.add(Duration(minutes: i * 60)),
+            title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 60))),
+          ),
+        );
+      }
     }
+
     initTimeData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
       padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
@@ -143,3 +157,5 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
     }
   }
 }
+
+enum TimeGap { fiftyMin, oneHour }

@@ -19,9 +19,12 @@ mixin _$DrinksState {
   List<CategoryModel> get lstCategory => throw _privateConstructorUsedError;
   AsyncValue<List<DrinkModel>> get lstDrinks =>
       throw _privateConstructorUsedError;
+  AsyncValue<List<DrinkModel>> get allDrinks =>
+      throw _privateConstructorUsedError;
   List<DrinkModel> get lstCarts => throw _privateConstructorUsedError;
   AsyncValue<StructureContentModel> get structureContent =>
       throw _privateConstructorUsedError;
+  bool get storeClosed => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DrinksStateCopyWith<DrinksState> get copyWith =>
@@ -37,8 +40,10 @@ abstract class $DrinksStateCopyWith<$Res> {
   $Res call(
       {List<CategoryModel> lstCategory,
       AsyncValue<List<DrinkModel>> lstDrinks,
+      AsyncValue<List<DrinkModel>> allDrinks,
       List<DrinkModel> lstCarts,
-      AsyncValue<StructureContentModel> structureContent});
+      AsyncValue<StructureContentModel> structureContent,
+      bool storeClosed});
 }
 
 /// @nodoc
@@ -56,8 +61,10 @@ class _$DrinksStateCopyWithImpl<$Res, $Val extends DrinksState>
   $Res call({
     Object? lstCategory = null,
     Object? lstDrinks = null,
+    Object? allDrinks = null,
     Object? lstCarts = null,
     Object? structureContent = null,
+    Object? storeClosed = null,
   }) {
     return _then(_value.copyWith(
       lstCategory: null == lstCategory
@@ -68,6 +75,10 @@ class _$DrinksStateCopyWithImpl<$Res, $Val extends DrinksState>
           ? _value.lstDrinks
           : lstDrinks // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<DrinkModel>>,
+      allDrinks: null == allDrinks
+          ? _value.allDrinks
+          : allDrinks // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<DrinkModel>>,
       lstCarts: null == lstCarts
           ? _value.lstCarts
           : lstCarts // ignore: cast_nullable_to_non_nullable
@@ -76,6 +87,10 @@ class _$DrinksStateCopyWithImpl<$Res, $Val extends DrinksState>
           ? _value.structureContent
           : structureContent // ignore: cast_nullable_to_non_nullable
               as AsyncValue<StructureContentModel>,
+      storeClosed: null == storeClosed
+          ? _value.storeClosed
+          : storeClosed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -91,8 +106,10 @@ abstract class _$$_DrinksStateCopyWith<$Res>
   $Res call(
       {List<CategoryModel> lstCategory,
       AsyncValue<List<DrinkModel>> lstDrinks,
+      AsyncValue<List<DrinkModel>> allDrinks,
       List<DrinkModel> lstCarts,
-      AsyncValue<StructureContentModel> structureContent});
+      AsyncValue<StructureContentModel> structureContent,
+      bool storeClosed});
 }
 
 /// @nodoc
@@ -108,8 +125,10 @@ class __$$_DrinksStateCopyWithImpl<$Res>
   $Res call({
     Object? lstCategory = null,
     Object? lstDrinks = null,
+    Object? allDrinks = null,
     Object? lstCarts = null,
     Object? structureContent = null,
+    Object? storeClosed = null,
   }) {
     return _then(_$_DrinksState(
       lstCategory: null == lstCategory
@@ -120,6 +139,10 @@ class __$$_DrinksStateCopyWithImpl<$Res>
           ? _value.lstDrinks
           : lstDrinks // ignore: cast_nullable_to_non_nullable
               as AsyncValue<List<DrinkModel>>,
+      allDrinks: null == allDrinks
+          ? _value.allDrinks
+          : allDrinks // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<DrinkModel>>,
       lstCarts: null == lstCarts
           ? _value._lstCarts
           : lstCarts // ignore: cast_nullable_to_non_nullable
@@ -128,6 +151,10 @@ class __$$_DrinksStateCopyWithImpl<$Res>
           ? _value.structureContent
           : structureContent // ignore: cast_nullable_to_non_nullable
               as AsyncValue<StructureContentModel>,
+      storeClosed: null == storeClosed
+          ? _value.storeClosed
+          : storeClosed // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -138,8 +165,10 @@ class _$_DrinksState implements _DrinksState {
   const _$_DrinksState(
       {required final List<CategoryModel> lstCategory,
       required this.lstDrinks,
+      required this.allDrinks,
       required final List<DrinkModel> lstCarts,
-      required this.structureContent})
+      required this.structureContent,
+      required this.storeClosed})
       : _lstCategory = lstCategory,
         _lstCarts = lstCarts;
 
@@ -153,6 +182,8 @@ class _$_DrinksState implements _DrinksState {
 
   @override
   final AsyncValue<List<DrinkModel>> lstDrinks;
+  @override
+  final AsyncValue<List<DrinkModel>> allDrinks;
   final List<DrinkModel> _lstCarts;
   @override
   List<DrinkModel> get lstCarts {
@@ -163,10 +194,12 @@ class _$_DrinksState implements _DrinksState {
 
   @override
   final AsyncValue<StructureContentModel> structureContent;
+  @override
+  final bool storeClosed;
 
   @override
   String toString() {
-    return 'DrinksState(lstCategory: $lstCategory, lstDrinks: $lstDrinks, lstCarts: $lstCarts, structureContent: $structureContent)';
+    return 'DrinksState(lstCategory: $lstCategory, lstDrinks: $lstDrinks, allDrinks: $allDrinks, lstCarts: $lstCarts, structureContent: $structureContent, storeClosed: $storeClosed)';
   }
 
   @override
@@ -178,9 +211,13 @@ class _$_DrinksState implements _DrinksState {
                 .equals(other._lstCategory, _lstCategory) &&
             (identical(other.lstDrinks, lstDrinks) ||
                 other.lstDrinks == lstDrinks) &&
+            (identical(other.allDrinks, allDrinks) ||
+                other.allDrinks == allDrinks) &&
             const DeepCollectionEquality().equals(other._lstCarts, _lstCarts) &&
             (identical(other.structureContent, structureContent) ||
-                other.structureContent == structureContent));
+                other.structureContent == structureContent) &&
+            (identical(other.storeClosed, storeClosed) ||
+                other.storeClosed == storeClosed));
   }
 
   @override
@@ -188,8 +225,10 @@ class _$_DrinksState implements _DrinksState {
       runtimeType,
       const DeepCollectionEquality().hash(_lstCategory),
       lstDrinks,
+      allDrinks,
       const DeepCollectionEquality().hash(_lstCarts),
-      structureContent);
+      structureContent,
+      storeClosed);
 
   @JsonKey(ignore: true)
   @override
@@ -200,20 +239,25 @@ class _$_DrinksState implements _DrinksState {
 
 abstract class _DrinksState implements DrinksState {
   const factory _DrinksState(
-          {required final List<CategoryModel> lstCategory,
-          required final AsyncValue<List<DrinkModel>> lstDrinks,
-          required final List<DrinkModel> lstCarts,
-          required final AsyncValue<StructureContentModel> structureContent}) =
-      _$_DrinksState;
+      {required final List<CategoryModel> lstCategory,
+      required final AsyncValue<List<DrinkModel>> lstDrinks,
+      required final AsyncValue<List<DrinkModel>> allDrinks,
+      required final List<DrinkModel> lstCarts,
+      required final AsyncValue<StructureContentModel> structureContent,
+      required final bool storeClosed}) = _$_DrinksState;
 
   @override
   List<CategoryModel> get lstCategory;
   @override
   AsyncValue<List<DrinkModel>> get lstDrinks;
   @override
+  AsyncValue<List<DrinkModel>> get allDrinks;
+  @override
   List<DrinkModel> get lstCarts;
   @override
   AsyncValue<StructureContentModel> get structureContent;
+  @override
+  bool get storeClosed;
   @override
   @JsonKey(ignore: true)
   _$$_DrinksStateCopyWith<_$_DrinksState> get copyWith =>

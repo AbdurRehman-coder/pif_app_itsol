@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -26,6 +27,8 @@ class CustomTextField extends StatelessWidget {
     this.style,
     this.fillColor,
     this.contentPadding = const EdgeInsets.only(left: 12, right: 12, top: 20),
+    this.isEmailField = false,
+    this.keyboardType = TextInputType.text,
     super.key,
   });
 
@@ -49,6 +52,8 @@ class CustomTextField extends StatelessWidget {
   final FocusNode? focusNode;
   final TextStyle? style;
   final Color? fillColor;
+  final bool isEmailField;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +61,14 @@ class CustomTextField extends StatelessWidget {
       style: style,
       onChanged: onChanged,
       controller: textEditingController,
+      keyboardType: keyboardType,
       validator: (val) {
         if (checkEmpty) {
           if (val!.isEmpty) {
             return validateEmptyString ?? S.of(context).thisFieldIsRequired;
+          }
+          if (isEmailField && !val.isValidEmail()) {
+            return S.of(context).enterValidEmail;
           } else {
             return null;
           }

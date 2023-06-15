@@ -9,6 +9,13 @@ extension DateTimeExt on DateTime {
     return DateFormat(pattern, 'en').format(this);
   }
 
+  String getCommonFormatDate({String pattern='yyyy/MM/dd'}) {
+    return DateFormat(pattern, 'en').format(this);
+  }
+  String getTime({String pattern='hh:mm a'}) {
+    return DateFormat(pattern, 'en').format(this);
+  }
+
   int toTotalMinutes() {
     return (hour * 60) + minute;
   }

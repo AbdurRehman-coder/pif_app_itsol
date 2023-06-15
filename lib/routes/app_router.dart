@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
@@ -6,8 +7,11 @@ import 'package:pif_flutter/ui/booking/booking_page.dart';
 import 'package:pif_flutter/ui/booking_details/booking_details_view.dart';
 import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
+import 'package:pif_flutter/ui/invite_visitor/invite_visitor_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
+import 'package:pif_flutter/ui/visit_list/invitation_details.dart';
+import 'package:pif_flutter/ui/visit_list/visits_list_view.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -35,6 +39,18 @@ class AppRouter {
         return _setPage(
           page: BookingDetails(
             data: data,
+          ),
+          settings: settings,
+        );
+      case Routes.inviteVisitorScreen:
+        return _setPage(page: const InviteVisitorPage(), settings: settings);
+      case Routes.visitListScreen:
+        return _setPage(page: const VisitsListView(), settings: settings);
+      case Routes.invitationDetailsScreen:
+        final data = settings.arguments! as VisitModel;
+        return _setPage(
+          page: InvitationDetails(
+            visitModel: data,
           ),
           settings: settings,
         );

@@ -89,6 +89,8 @@ class Style {
       elevation: 0,
       fixedSize: Size(context.screenWidth.w, 42.h),
       foregroundColor: whiteColor,
+      disabledBackgroundColor: primaryDisabledColor,
+      disabledForegroundColor: whiteColor,
       backgroundColor: primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6.r),
