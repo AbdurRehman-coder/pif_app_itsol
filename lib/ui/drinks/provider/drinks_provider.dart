@@ -6,10 +6,12 @@ import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
+import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
+import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
 import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
@@ -30,6 +32,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     searchController = TextEditingController();
     notesController = TextEditingController();
     getStoreInformation();
+    _getCategories();
   }
 
   late TextEditingController searchController;
@@ -38,29 +41,29 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   FocusNode searchFocusNode = FocusNode();
   late TextEditingController notesController;
 
-  Future<void> getStoreInformation() async {
-    await DixelsSDK.structureContentService
-        .getStoreInformation(
+  Future<AvailableTime> getStoreInformation() async {
+    final storeInformation =
+        await DixelsSDK.structureContentService.getStoreInformation(
       webContentId: '147637',
       siteId: '20120',
-    )
-        .then((storeInformation) {
-      state = state.copyWith(structureContent: AsyncData(storeInformation!));
-      final storeStartDateTime =
-          storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-      final storeEndDateTime =
-          storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
-      state = state.copyWith(
-        storeClosed: !checkStoreStatus(
-              openTime: storeStartDateTime,
-              closedTime: storeEndDateTime,
-            ) ||
-            DateTime.now().weekday == DateTime.friday ||
-            DateTime.now().weekday == DateTime.saturday,
-      );
-    });
-    await _getCategories();
-    await _getDrinks();
+    );
+    state = state.copyWith(structureContent: AsyncData(storeInformation!));
+    final storeStartDateTime =
+        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime =
+        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    state = state.copyWith(
+      storeClosed: !checkStoreStatus(
+            openTime: storeStartDateTime,
+            closedTime: storeEndDateTime,
+          ) ||
+          DateTime.now().weekday == DateTime.friday ||
+          DateTime.now().weekday == DateTime.saturday,
+    );
+    return AvailableTime(
+      storeStartTime: storeStartDateTime,
+      storeEndTime: storeEndDateTime,
+    );
   }
 
   bool checkDateStart(DateTime dateTime) {
@@ -118,6 +121,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     if (result != null) {
       state = state.copyWith(lstCategory: result.items!);
     }
+    await _getDrinks();
   }
 
   void updateCategory({required int index}) {
@@ -171,17 +175,21 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   void removeDrinks({required DrinkModel item}) {
-    final navigation = NavigationHistoryObserver().history.last;
-    if (navigation.settings.name == Routes.drinkDetailsScreen &&
-        state.lstCarts.length == 1 &&
-        item.count == 1) {
-      return;
+    if (state.lstCarts.isEmpty) {
+      final navigation = NavigationHistoryObserver().history.last;
+      if (navigation.settings.name == Routes.drinkDetailsScreen &&
+          item.count == 1) {
+        return;
+      }
     }
 
     item.count = item.count! - 1;
 
     if (item.count == 0) {
       final lstCart = state.lstCarts.toList();
+      if (lstCart.length == 1) {
+        AppRouter.pop();
+      }
       lstCart.remove(item);
       state = state.copyWith(lstCarts: lstCart);
     }
@@ -213,51 +221,64 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   Future<void> orderNow(BuildContext context) async {
-    final data = state.lstCarts
-        .toList()
-        .map(
-          (e) => CartItems(
-            options: '',
-            quantity: e.count,
-            skuId: 148326,
-            productId: e.id,
-          ),
-        )
-        .toList();
-
-    final request = CartRequestModel();
-    request.accountId = 148293;
-    request.cartItems = data;
-    request.currencyCode = 'USD';
-    request.notes = <Notes>[
-      Notes(
-        content: notesController.text,
-        restricted: true,
-      )
-    ];
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
-    final result = await DixelsSDK.cartService.addCartAsync(
-      request: request,
-      channelId: '147240',
-    );
-    if (result != null) {
-      await DixelsSDK.cartService
-          .checkoutAsync(cartId: result.id.toString())
-          .then(
-        (value) async {
-          await appProgressDialog.stop();
-          showSuccessMessage(
-            context: context,
-            titleText: S.of(context).drinkOrder,
-            subTitle: S.of(context).orderByMistake,
-            navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
-          );
-        },
+    final availableTime = await getStoreInformation();
+    if (checkStoreStatus(
+      openTime: availableTime.storeStartTime,
+      closedTime: availableTime.storeEndTime,
+    )) {
+      final data = state.lstCarts
+          .toList()
+          .map(
+            (e) => CartItems(
+              options: '',
+              quantity: e.count,
+              skuId: 148326,
+              productId: e.id,
+            ),
+          )
+          .toList();
+
+      final request = CartRequestModel();
+      request.accountId = 148293;
+      request.cartItems = data;
+      request.currencyCode = 'USD';
+      request.notes = <Notes>[
+        Notes(
+          content: notesController.text,
+          restricted: true,
+        )
+      ];
+      final result = await DixelsSDK.cartService.addCartAsync(
+        request: request,
+        channelId: '147240',
       );
-      clearData();
+      if (result != null) {
+        await DixelsSDK.cartService
+            .checkoutAsync(cartId: result.id.toString())
+            .then(
+          (value) async {
+            await appProgressDialog.stop();
+            showSuccessMessage(
+              context: context,
+              titleText: S.of(context).drinkOrder,
+              subTitle: S.of(context).orderByMistake,
+              navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
+            );
+          },
+        );
+        clearData();
+      } else {
+        await appProgressDialog.stop();
+      }
     } else {
       await appProgressDialog.stop();
+      errorMessage(
+        errorMessage:S.current.storeNotAvailable,
+        context: context,
+      );
+      AppRouter.popUntil(Routes.homeScreen);
     }
   }
 

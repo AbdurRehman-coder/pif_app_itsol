@@ -15,7 +15,7 @@ bool checkStoreStatus({
   final timeNow = TimeOfDay.now();
   final openHr = openTime.substring(0, 2);
   final openMin = openTime.substring(3, 5);
-  final openAmPm = openTime.substring(5);
+  final openAmPm = openTime.substring(5).replaceAll(' ', '');
   TimeOfDay timeOpen;
   if (openAmPm == 'AM') {
     //am case
@@ -39,7 +39,7 @@ bool checkStoreStatus({
 
   final closeHr = closedTime.substring(0, 2);
   final closeMin = closedTime.substring(3, 5);
-  final closeAmPm = closedTime.substring(5);
+  final closeAmPm = closedTime.substring(5).replaceAll(' ', '');
 
   TimeOfDay timeClose;
 

@@ -66,7 +66,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 height: 7.h,
               ),
               Text(
-                S.of(context).dragForBookingDetails,
+                S.of(context).editBooking,
                 style: Style.commonTextStyle(
                   color: textColor,
                   fontSize: 12.sp,

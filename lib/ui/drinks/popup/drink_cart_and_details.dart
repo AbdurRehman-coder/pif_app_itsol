@@ -7,7 +7,7 @@ import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
-import 'package:pif_flutter/ui/drinks/widget/darink_cart_tile.dart';
+import 'package:pif_flutter/ui/drinks/widget/drink_cart_tile.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
 void showOrderCartAndDetails({
@@ -84,7 +84,7 @@ void showOrderCartAndDetails({
                                 ] else ...[
                                   DrinkCartTile(
                                     notifier: notifier,
-                                    item: drinkModel!,
+                                    item: drinkModel,
                                   ),
                                 ],
                                 const MarginWidget(

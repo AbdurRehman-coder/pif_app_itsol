@@ -85,6 +85,7 @@ class DrinkListTile extends StatelessWidget {
                                     context: context,
                                   );
                                 } else {
+                                  item.count = 1;
                                   showOrderCartAndDetails(
                                     context: context,
                                     drinkModel: item,
