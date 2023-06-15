@@ -38,7 +38,7 @@ class DrinksBagView extends ConsumerWidget {
               Row(
                 children: [
                   Text(
-                    S.current.drinkBag,
+                    S.current.drinksBag,
                     style: Style.commonTextStyle(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,

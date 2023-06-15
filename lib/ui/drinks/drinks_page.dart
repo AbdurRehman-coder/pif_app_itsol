@@ -65,43 +65,50 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                 ),
                 SizedBox(height: 10.h),
                 Flexible(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30.h,
-                          child: ListView.separated(
-                            itemCount: provider.lstCategory.length,
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                width: 12.w,
-                              );
-                            },
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () =>
-                                    notifier.updateCategory(index: index),
-                                child: CategoryListTile(
-                                  item: provider.lstCategory[index],
-                                  withOutSearch:
-                                      notifier.searchController.text.isEmpty,
-                                ),
-                              );
-                            },
-                          ),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 45.h,
+                        child: ListView.separated(
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          itemCount: provider.lstCategory.length,
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              width: 12.w,
+                            );
+                          },
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () =>
+                                  notifier.updateCategory(index: index),
+                              child: CategoryListTile(
+                                item: provider.lstCategory[index],
+                                withOutSearch:
+                                notifier.searchController.text.isEmpty,
+                              ),
+                            );
+                          },
                         ),
-                        SizedBox(height: 20.h),
-                        (notifier.searchController.text.isNotEmpty
-                                ? provider.allDrinks
-                                : provider.lstDrinks)
-                            .when(
-                          data: (data) {
-                            if (data.isEmpty) {
-                              return const DrinkEmptyView();
-                            } else {
-                              return Expanded(
+                      ),
+                      SizedBox(height: 20.h),
+                      (notifier.searchController.text.isNotEmpty
+                          ? provider.allDrinks
+                          : provider.lstDrinks)
+                          .when(
+                        data: (data) {
+                          if (data.isEmpty) {
+                            return const DrinkEmptyView();
+                          } else {
+                            return Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 10.w,
+                                  right: 10.w,
+                                  bottom: provider.lstCarts.isNotEmpty
+                                      ? 60.h
+                                      : 10.h,
+                                ),
                                 child: ListView.separated(
                                   physics: const NeverScrollableScrollPhysics(),
                                   padding: EdgeInsets.only(bottom: 50.h),
@@ -119,22 +126,22 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     );
                                   },
                                 ),
-                              );
-                            }
-                          },
-                          error: (e, s) {
-                            return const SizedBox();
-                          },
-                          loading: () {
-                            return const Expanded(
-                              child: Center(
-                                child: CircularProgressIndicator(),
                               ),
                             );
-                          },
-                        ),
-                      ],
-                    ),
+                          }
+                        },
+                        error: (e, s) {
+                          return const SizedBox();
+                        },
+                        loading: () {
+                          return const Expanded(
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],

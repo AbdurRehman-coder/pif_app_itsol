@@ -30,15 +30,13 @@ class CategoryListTile extends StatelessWidget {
             item.taxonomyCategoryProperties!.isNotEmpty)
         ? ServiceConstant.baseUrl + item.taxonomyCategoryProperties![0].value!
         : '';
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(25.r),
         color: bgColor,
       ),
-      padding: EdgeInsets.only(
-        left: 10.w,
-        right: 18.w,
-      ),
+      padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 10.w),
       child: Row(
         children: [
           Container(
