@@ -25,23 +25,96 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     searchController = TextEditingController();
   }
 
-  Future<void> getSpaceData() async {
-    ParametersModel? param;
-    if (state.filterData != null) {
-      param = ParametersModel();
-      param.filterArray = [
-        FilterUtils.filterBy(
-          key: 'capacity',
-          value: state.filterData!.capacity,
-          operator: FilterOperator.equal.value,
-        )
-      ];
-    }
-    final data = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
+  //Get Space Data
+  Future<void> getSpaceAsync({bool isFilter = false}) async {
+    final data = await DixelsSDK.roomService
+        .getPageData(fromJson: RoomModel.fromJson, params: getFilterQuery(isFilter: isFilter));
     if (data != null) {
       allListData = data.items;
       state = state.copyWith(lstData: AsyncData(data.items!));
     }
+  }
+
+  // Get Filter Query
+  ParametersModel getFilterQuery({required bool isFilter}) {
+    final lstQuery = <String>[];
+    lstQuery.add(
+      FilterUtils.filterBy(
+        key: 'bookable',
+        value: true.toString(),
+        operator: FilterOperator.equal.value,
+      ),
+    );
+
+    if (isFilter) {
+      final filterProvider = ref.read(filterByProvider);
+      final filterNotifier = ref.read(filterByProvider.notifier);
+      final selectedFloor = filterProvider.lstFloors
+          .where((element) => element.isSelected! == true)
+          .map((element) => element.id)
+          .toList();
+
+      if (filterProvider.selectedDateList.isNotEmpty) {
+        // Date Filter Query
+      }
+      if (filterNotifier.startTimeController.text.isNotEmpty) {
+        // StartTime Filter Query
+      }
+      if (filterNotifier.endTimeController.text.isNotEmpty) {
+        // EndTime Filter Query
+      }
+      if (selectedFloor.isNotEmpty) {
+        // for (final item in selectedFloor) {
+        //   lstQuery.add(
+        //     FilterUtils.filterBy(
+        //       key: 'r_room_c_floorId',
+        //       value: item.toString(),
+        //       operator: FilterOperator.equal.value,
+        //     ),
+        //   );
+        // }
+      }
+      if (filterProvider.capacity != 1) {
+        // lstQuery.add(
+        //   FilterUtils.filterBy(
+        //     key: 'capacity',
+        //     value: filterProvider.capacity.toString(),
+        //     operator: FilterOperator.equal.value,
+        //   ),
+        // );
+      }
+
+      final filterModel = FilterModel(
+        selectedDates: filterProvider.selectedDateList.toList(),
+        startTime: filterProvider.startTime,
+        endTime: filterProvider.endTime,
+        capacity: filterProvider.capacity.toString(),
+        selectedFloorIds: selectedFloor,
+      );
+
+      String? timeString = '';
+      String? filterString = '';
+      if (filterModel.startTime != null && filterModel.endTime != null) {
+        final startTimeString = filterModel.startTime?.toFormattedString('hh:mm a');
+        final endTimeString = filterModel.endTime?.toFormattedString('hh:mm a');
+        timeString = '$startTimeString - $endTimeString - ';
+      }
+
+      final firstDateString = filterModel.selectedDates.isNotEmpty
+          ? filterModel.selectedDates.first.toFormattedString('d MMM')
+          : '';
+
+      if (firstDateString.isNotEmpty) {
+        filterString = '$timeString${filterModel.selectedDates.length} repeats from $firstDateString';
+      }
+
+      state = state.copyWith(filterData: filterString.isNotEmpty ? filterModel : null);
+      state = state.copyWith(filterDataString: filterString);
+    }
+
+    final param = ParametersModel();
+    param.filterArray = lstQuery;
+    return param;
   }
 
   void onSearch({required String paramSearch}) {
@@ -50,6 +123,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     // state = state.copyWith(lstDataSearch: AsyncData(bookSearchResult ?? []));
   }
 
+  //Search Space Data
   void searchData(String searchText) {
     if (allListData == null || (allListData != null && allListData!.isEmpty)) {
       return;
@@ -62,37 +136,6 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));
     }
-  }
-
-  void updateFilterData() {
-    final filterProvider = ref.read(filterByProvider);
-    if (filterProvider.selectedDateString.isEmpty) {
-      state = state.copyWith(filterDataString: '');
-      state = state.copyWith(filterData: null);
-      getSpaceData();
-      return;
-    }
-    final filterModel = FilterModel(
-      selectedDates: filterProvider.selectedDateList,
-      startTime: filterProvider.startTime,
-      endTime: filterProvider.endTime,
-      capacity: filterProvider.capacity.toString(),
-    );
-
-    state = state.copyWith(filterData: filterModel);
-    final startTimeString = filterModel.startTime.toFormattedString('hh:mm a');
-    final endTimeString = filterModel.endTime.toFormattedString('hh:mm a');
-    final firstDateString = filterModel.selectedDates.isNotEmpty
-        ? filterModel.selectedDates.first.toFormattedString('d MMM')
-        : '';
-
-    var filterString = '$startTimeString - $endTimeString';
-    if (firstDateString.isNotEmpty) {
-      filterString = '$filterString - ${filterModel.selectedDates.length} repeats from $firstDateString';
-    }
-    state = state.copyWith(filterDataString: filterString);
-
-    getSpaceData();
   }
 
   void clearFilterData() {

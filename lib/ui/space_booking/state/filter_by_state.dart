@@ -1,6 +1,6 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pif_flutter/ui/space_booking/index.dart';
 
 part 'filter_by_state.freezed.dart';
 
@@ -15,9 +15,8 @@ class FilterByState with _$FilterByState {
     required DateTime selectedSingleDate,
     required List<DateTime> selectedDateList,
     required List<FloorModel> lstFloors,
-    required DateTime startTime,
-    required DateTime endTime,
-    required String timeString,
+    required DateTime? startTime,
+    required DateTime? endTime,
     required int capacity,
     required RangeValues rangeData,
   }) = _FilterByState;
@@ -29,10 +28,9 @@ class FilterByState with _$FilterByState {
         selectedSingleDate: DateTime.now(),
         selectedDateList: <DateTime>[],
         lstFloors: <FloorModel>[],
-        startTime: DateTime.now(),
-        endTime: DateTime.now(),
+        startTime: null,
+        endTime: null,
         capacity: 1,
-        timeString: '',
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
         rangeData: const RangeValues(660, 675),

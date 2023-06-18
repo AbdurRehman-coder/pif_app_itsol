@@ -8,10 +8,11 @@ import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
+import 'package:pif_flutter/ui/space_booking/widget/capacity_view.dart';
+import 'package:pif_flutter/ui/space_booking/widget/floor_list_view.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
-import 'package:pif_flutter/widgets/time_picker_widget.dart';
 
 Future<void> showFilterPopup({required BuildContext context}) async {
   await showModalBottomSheet<dynamic>(
@@ -248,49 +249,9 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 SizedBox(
                                   height: 8.h,
                                 ),
-                                SizedBox(
-                                  height: 40.h,
-                                  child: ListView.separated(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: provider.lstFloors.length,
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(
-                                        width: 8.w,
-                                      );
-                                    },
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          notifier.updateFloorList(index: index);
-                                        },
-                                        child: Container(
-                                          height: 40.h,
-                                          margin: index == 0
-                                              ? EdgeInsets.only(left: 10.w)
-                                              : EdgeInsets.only(left: 0.w),
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: 10.w,
-                                          ),
-                                          decoration: BoxDecoration(
-                                            color: provider.lstFloors[index].backgroundColor,
-                                            border: Border.all(
-                                              color: provider.lstFloors[index].borderColor!,
-                                            ),
-                                            borderRadius: BorderRadius.circular(8.r),
-                                          ),
-                                          alignment: Alignment.center,
-                                          child: Text(
-                                            provider.lstFloors[index].floorName ?? '',
-                                            style: Style.commonTextStyle(
-                                              color: provider.lstFloors[index].textColor,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
+                                FloorListView(
+                                  lstFloors: provider.lstFloors,
+                                  notifier: notifier,
                                 ),
                                 SizedBox(
                                   height: 15.h,
@@ -302,54 +263,9 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 SizedBox(
                                   height: 15.h,
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        Assets.capacity,
-                                        height: 22,
-                                      ),
-                                      SizedBox(
-                                        width: 10.w,
-                                      ),
-                                      Text(
-                                        S.of(context).capacity,
-                                        style: Style.commonTextStyle(
-                                          color: textColor,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      InkWell(
-                                        onTap: notifier.removeCapacity,
-                                        child: SvgPicture.asset(
-                                          Assets.minus,
-                                          height: 33.h,
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 55.w,
-                                        alignment: Alignment.center,
-                                        child: Text(
-                                          provider.capacity.toString(),
-                                          style: Style.commonTextStyle(
-                                            color: hintColor,
-                                            fontSize: 24.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: notifier.addCapacity,
-                                        child: SvgPicture.asset(
-                                          Assets.plus,
-                                          height: 33.h,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                CapacityView(
+                                  provider: provider,
+                                  notifier: notifier,
                                 ),
                                 SizedBox(
                                   height: 24.h,
@@ -450,7 +366,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                               child: Container(
                                 margin: EdgeInsets.only(top: 100.h),
                                 child: TimePickerPopup(
-                                  timeData: provider.startTime,
+                                  timeData: provider.startTime ?? DateTime.now(),
                                   onCancel: notifier.closeStartTimePickerDialog,
                                   onConfirm: (selectedTime) {
                                     notifier.updateStartTime(startTime: selectedTime);
@@ -464,7 +380,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                               child: Container(
                                 margin: EdgeInsets.only(top: 100.h),
                                 child: TimePickerPopup(
-                                  timeData: provider.endTime,
+                                  timeData: provider.endTime ?? DateTime.now(),
                                   onCancel: notifier.closeEndTimePickerDialog,
                                   onConfirm: (selectedTime) {
                                     notifier.updateEndTime(endTime: selectedTime);
@@ -473,21 +389,21 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 ),
                               ),
                             ),
-                            Visibility(
-                              visible: provider.isOpenTimePicker,
-                              child: TimePickerWidget(
-                                startTime: provider.startTime,
-                                endTime: provider.endTime,
-                                onCancel: notifier.closeTimePickerDialog,
-                                onConfirm: (startTime, endTime) {
-                                  notifier.updateTime(
-                                    startTime: startTime,
-                                    endTime: endTime,
-                                  );
-                                  notifier.closeTimePickerDialog();
-                                },
-                              ),
-                            )
+                            // Visibility(
+                            //   visible: provider.isOpenTimePicker,
+                            //   child: TimePickerWidget(
+                            //     startTime: provider.startTime ?? DateTime.now(),
+                            //     endTime: provider.endTime ?? DateTime.now(),
+                            //     onCancel: notifier.closeTimePickerDialog,
+                            //     onConfirm: (startTime, endTime) {
+                            //       notifier.updateTime(
+                            //         startTime: startTime,
+                            //         endTime: endTime,
+                            //       );
+                            //       notifier.closeTimePickerDialog();
+                            //     },
+                            //   ),
+                            // )
                           ],
                         ),
                       ],

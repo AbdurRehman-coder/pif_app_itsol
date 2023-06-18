@@ -6,18 +6,14 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_request_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
-import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
-import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
 final bookingProvider = StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {

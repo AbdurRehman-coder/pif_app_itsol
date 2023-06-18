@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -13,75 +14,56 @@ final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, Fil
 
 class FilterByNotifier extends StateNotifier<FilterByState> {
   FilterByNotifier({required this.ref}) : super(FilterByState.initial()) {
-    setDefaultTime();
+    // setDefaultTime();
     _initData();
-    getFloors();
   }
 
-  void _initData() {
+  Future<void> _initData() async {
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
-
-    updateDateString(DateTime.now());
+    await _getFloors();
+    // updateDateString(DateTime.now());
 
     final data = ref.read(spaceBookingProvider);
     if (data.filterData != null) {
       state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
       state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
-      state = state.copyWith(startTime: data.filterData!.startTime);
-      state = state.copyWith(endTime: data.filterData!.endTime);
       state = state.copyWith(capacity: int.parse(data.filterData!.capacity));
 
-      updateTime(startTime: state.startTime, endTime: state.endTime);
+      if (data.filterData!.startTime != null) {
+        final startTimeString = DateFormat('hh:mm a').format(data.filterData!.startTime!);
+        startTimeController.text = startTimeString;
+        state = state.copyWith(startTime: data.filterData!.startTime);
+      }
+
+      if (data.filterData!.endTime != null) {
+        final endTimeString = DateFormat('hh:mm a').format(data.filterData!.endTime!);
+        endTimeController.text = endTimeString;
+        state = state.copyWith(endTime: data.filterData!.endTime);
+      }
+
+      final lstFloors = state.lstFloors.toList();
+      for (final item in data.filterData!.selectedFloorIds) {
+        final data = lstFloors.firstWhere((element) => element.id == item);
+        data.isSelected = true;
+      }
+
+      state = state.copyWith(lstFloors: lstFloors);
       formatSelectedDateToString();
     }
   }
 
-  // FilterModel? filterData;
   final Ref ref;
 
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
 
-  void getFloors() {
-    final lstFloors = <FloorModel>[];
-    lstFloors.add(
-      FloorModel(
-        floorId: '1',
-        floorName: 'Base camp',
-        isSelected: false,
-      ),
-    );
-    lstFloors.add(
-      FloorModel(
-        floorId: '2',
-        floorName: 'Floor 1',
-        isSelected: false,
-      ),
-    );
-    lstFloors.add(
-      FloorModel(
-        floorId: '3',
-        floorName: 'Floor2',
-        isSelected: false,
-      ),
-    );
-    lstFloors.add(
-      FloorModel(
-        floorId: '4',
-        floorName: '3’rd Floor',
-        isSelected: false,
-      ),
-    );
-    lstFloors.add(
-      FloorModel(
-        floorId: '5',
-        floorName: 'Floor4',
-        isSelected: false,
-      ),
-    );
-
-    state = state.copyWith(lstFloors: lstFloors);
+  //Get Foors Data
+  Future<void> _getFloors() async {
+    final result = await DixelsSDK.floorService.getPageData(fromJson: FloorModel.fromJson);
+    if (result != null) {
+      state = state.copyWith(lstFloors: result.items!);
+    }
   }
 
   void updateFloorList({required int index}) {
@@ -190,33 +172,11 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Close TimePicker Dialog
   void closeTimePickerDialog() {
-    if (state.startTime.isAfter(state.endTime)) {
+    if (state.startTime != null && state.startTime!.isAfter(state.endTime!)) {
       CommonUtils.showToast(message: S.current.timeValidation);
       return;
     }
     state = state.copyWith(isOpenTimePicker: false);
-  }
-
-  //Update Time
-  void updateTime({required DateTime? startTime, required DateTime? endTime}) {
-    state = state.copyWith(startTime: startTime!);
-    state = state.copyWith(endTime: endTime!);
-
-    final startTimeString = DateFormat('hh:mm a').format(startTime);
-    final endTimeString = DateFormat('hh:mm a').format(endTime);
-
-    state = state.copyWith(timeString: '$startTimeString - $endTimeString');
-  }
-
-  void updateRangeValue({required RangeValues rangeData}) {
-    final startDateTime = DateTime(2023, 1, 1, 0, rangeData.start.toInt());
-    final endDateTime = DateTime(2023, 1, 1, 0, rangeData.end.toInt());
-
-    final startTimeString = DateFormat('hh:mm a').format(startDateTime);
-    final endTimeString = DateFormat('hh:mm a').format(endDateTime);
-
-    state = state.copyWith(rangeData: rangeData);
-    state = state.copyWith(timeString: '$startTimeString - $endTimeString');
   }
 
   //Reset Filter Data
@@ -226,10 +186,18 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(selectedDateList: <DateTime>[]);
     state = state.copyWith(selectedDateString: '');
     state = state.copyWith(capacity: 1);
-    getFloors();
-    updateDateString(DateTime.now());
-    final data = ref.read(spaceBookingProvider.notifier);
-    data.clearFilterData();
+    state = state.copyWith(startTime: null);
+    state = state.copyWith(endTime: null);
+
+    final lstFloor = state.lstFloors.toList();
+    for (final item in lstFloor) {
+      item.isSelected = false;
+    }
+    state = state.copyWith(lstFloors: lstFloor);
+
+    // updateDateString(DateTime.now());
+    // final data = ref.read(spaceBookingProvider.notifier);
+    // data.clearFilterData();
   }
 
   //Set Default DateTime
@@ -243,20 +211,13 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
         DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
-    final startTimeString = DateFormat('h:mm a').format(roundedTime);
-    final endTimeString = DateFormat('h:mm a').format(roundedTime.add(const Duration(minutes: 15)));
-    state = state.copyWith(timeString: '$startTimeString - $endTimeString');
+    updateStartTime(startTime: state.startTime);
+    updateEndTime(endTime: state.endTime);
   }
 
   //Update Start Time
   void updateStartTime({required DateTime? startTime}) {
-    startTime = DateTime(
-      startTime!.year,
-      startTime.month,
-      startTime.day,
-      startTime.hour,
-      startTime.minute,
-    );
+    startTime = DateTime(startTime!.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
@@ -265,14 +226,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Update End Time
   void updateEndTime({required DateTime? endTime}) {
-    endTime = DateTime(
-      endTime!.year,
-      endTime.month,
-      endTime.day,
-      endTime.hour,
-      endTime.minute,
-    );
-    if (state.startTime.isAfter(endTime)) {
+    endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
+    if (state.startTime != null && state.startTime!.isAfter(endTime)) {
       CommonUtils.showToast(message: S.current.timeValidation);
       return;
     }

@@ -1,16 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/routes/app_router.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 
 class SpaceBookingListTile extends StatelessWidget {
   const SpaceBookingListTile({required this.item, super.key});
@@ -28,8 +23,6 @@ class SpaceBookingListTile extends StatelessWidget {
             fit: BoxFit.cover,
             height: 250.h,
             width: context.screenWidth,
-            color: Colors.black.withOpacity(0.3),
-            colorBlendMode: BlendMode.hardLight,
             placeholder: (context, url) => Image.asset(
               Assets.placeHolder,
               fit: BoxFit.fill,
@@ -42,6 +35,11 @@ class SpaceBookingListTile extends StatelessWidget {
             ),
           ),
         ),
+        SvgPicture.asset(
+          Assets.overlayLayer,
+          height: 250.h,
+          fit: BoxFit.fill,
+        ),
         Container(
           height: 250.h,
           padding: EdgeInsets.symmetric(
@@ -49,10 +47,6 @@ class SpaceBookingListTile extends StatelessWidget {
             vertical: 16.h,
           ),
           decoration: BoxDecoration(
-            // image: const DecorationImage(
-            //   image: AssetImage(Assets.spaceBg2),
-            //   fit: BoxFit.fill,
-            // ),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -90,7 +84,7 @@ class SpaceBookingListTile extends StatelessWidget {
                     width: 10.w,
                   ),
                   Text(
-                    '${item.capacity} seats huddle',
+                    '${item.capacity} seats ${item.roomType?.name}',
                     style: Style.commonTextStyle(
                       color: whiteColor,
                       fontSize: 12.sp,

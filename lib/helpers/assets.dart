@@ -45,8 +45,7 @@ class Assets {
   static const String warningIcon = 'assets/svg/warning_icon.svg';
   static const String dotImage = 'assets/svg/ic_dot.svg';
   static const String rightArrow = 'assets/svg/ic_right_arrow.svg';
-  static const String requestBookingConf =
-      'assets/svg/ic_request_booking_conf.svg';
+  static const String requestBookingConf = 'assets/svg/ic_request_booking_conf.svg';
   static const String addIcon = 'assets/svg/ic_add.svg';
   static const String deleteIcon = 'assets/svg/ic_delete.svg';
   static const String duplicateIcon = 'assets/svg/ic_duplicate.svg';
@@ -85,4 +84,5 @@ class Assets {
   static const String info = 'assets/svg/ic_info.svg';
   static const String smallArrowDown = 'assets/svg/ic_small_arrow_down.svg';
   static const String smallArrowUp = 'assets/svg/ic_small_arrow_up.svg';
+  static const String overlayLayer = 'assets/svg/ic_overlay_layer.svg';
 }

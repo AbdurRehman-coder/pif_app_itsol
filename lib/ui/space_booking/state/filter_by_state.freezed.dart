@@ -24,9 +24,8 @@ mixin _$FilterByState {
   DateTime get selectedSingleDate => throw _privateConstructorUsedError;
   List<DateTime> get selectedDateList => throw _privateConstructorUsedError;
   List<FloorModel> get lstFloors => throw _privateConstructorUsedError;
-  DateTime get startTime => throw _privateConstructorUsedError;
-  DateTime get endTime => throw _privateConstructorUsedError;
-  String get timeString => throw _privateConstructorUsedError;
+  DateTime? get startTime => throw _privateConstructorUsedError;
+  DateTime? get endTime => throw _privateConstructorUsedError;
   int get capacity => throw _privateConstructorUsedError;
   RangeValues get rangeData => throw _privateConstructorUsedError;
 
@@ -50,9 +49,8 @@ abstract class $FilterByStateCopyWith<$Res> {
       DateTime selectedSingleDate,
       List<DateTime> selectedDateList,
       List<FloorModel> lstFloors,
-      DateTime startTime,
-      DateTime endTime,
-      String timeString,
+      DateTime? startTime,
+      DateTime? endTime,
       int capacity,
       RangeValues rangeData});
 }
@@ -78,9 +76,8 @@ class _$FilterByStateCopyWithImpl<$Res, $Val extends FilterByState>
     Object? selectedSingleDate = null,
     Object? selectedDateList = null,
     Object? lstFloors = null,
-    Object? startTime = null,
-    Object? endTime = null,
-    Object? timeString = null,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? capacity = null,
     Object? rangeData = null,
   }) {
@@ -117,18 +114,14 @@ class _$FilterByStateCopyWithImpl<$Res, $Val extends FilterByState>
           ? _value.lstFloors
           : lstFloors // ignore: cast_nullable_to_non_nullable
               as List<FloorModel>,
-      startTime: null == startTime
+      startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endTime: null == endTime
+              as DateTime?,
+      endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      timeString: null == timeString
-          ? _value.timeString
-          : timeString // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
@@ -158,9 +151,8 @@ abstract class _$$_FilterByStateCopyWith<$Res>
       DateTime selectedSingleDate,
       List<DateTime> selectedDateList,
       List<FloorModel> lstFloors,
-      DateTime startTime,
-      DateTime endTime,
-      String timeString,
+      DateTime? startTime,
+      DateTime? endTime,
       int capacity,
       RangeValues rangeData});
 }
@@ -184,9 +176,8 @@ class __$$_FilterByStateCopyWithImpl<$Res>
     Object? selectedSingleDate = null,
     Object? selectedDateList = null,
     Object? lstFloors = null,
-    Object? startTime = null,
-    Object? endTime = null,
-    Object? timeString = null,
+    Object? startTime = freezed,
+    Object? endTime = freezed,
     Object? capacity = null,
     Object? rangeData = null,
   }) {
@@ -223,18 +214,14 @@ class __$$_FilterByStateCopyWithImpl<$Res>
           ? _value._lstFloors
           : lstFloors // ignore: cast_nullable_to_non_nullable
               as List<FloorModel>,
-      startTime: null == startTime
+      startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      endTime: null == endTime
+              as DateTime?,
+      endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      timeString: null == timeString
-          ? _value.timeString
-          : timeString // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime?,
       capacity: null == capacity
           ? _value.capacity
           : capacity // ignore: cast_nullable_to_non_nullable
@@ -261,7 +248,6 @@ class _$_FilterByState implements _FilterByState {
       required final List<FloorModel> lstFloors,
       required this.startTime,
       required this.endTime,
-      required this.timeString,
       required this.capacity,
       required this.rangeData})
       : _selectedDateList = selectedDateList,
@@ -297,11 +283,9 @@ class _$_FilterByState implements _FilterByState {
   }
 
   @override
-  final DateTime startTime;
+  final DateTime? startTime;
   @override
-  final DateTime endTime;
-  @override
-  final String timeString;
+  final DateTime? endTime;
   @override
   final int capacity;
   @override
@@ -309,7 +293,7 @@ class _$_FilterByState implements _FilterByState {
 
   @override
   String toString() {
-    return 'FilterByState(selectedDateString: $selectedDateString, isOpenPopup: $isOpenPopup, isOpenTimePicker: $isOpenTimePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, selectedSingleDate: $selectedSingleDate, selectedDateList: $selectedDateList, lstFloors: $lstFloors, startTime: $startTime, endTime: $endTime, timeString: $timeString, capacity: $capacity, rangeData: $rangeData)';
+    return 'FilterByState(selectedDateString: $selectedDateString, isOpenPopup: $isOpenPopup, isOpenTimePicker: $isOpenTimePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, selectedSingleDate: $selectedSingleDate, selectedDateList: $selectedDateList, lstFloors: $lstFloors, startTime: $startTime, endTime: $endTime, capacity: $capacity, rangeData: $rangeData)';
   }
 
   @override
@@ -336,8 +320,6 @@ class _$_FilterByState implements _FilterByState {
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            (identical(other.timeString, timeString) ||
-                other.timeString == timeString) &&
             (identical(other.capacity, capacity) ||
                 other.capacity == capacity) &&
             (identical(other.rangeData, rangeData) ||
@@ -357,7 +339,6 @@ class _$_FilterByState implements _FilterByState {
       const DeepCollectionEquality().hash(_lstFloors),
       startTime,
       endTime,
-      timeString,
       capacity,
       rangeData);
 
@@ -378,9 +359,8 @@ abstract class _FilterByState implements FilterByState {
       required final DateTime selectedSingleDate,
       required final List<DateTime> selectedDateList,
       required final List<FloorModel> lstFloors,
-      required final DateTime startTime,
-      required final DateTime endTime,
-      required final String timeString,
+      required final DateTime? startTime,
+      required final DateTime? endTime,
       required final int capacity,
       required final RangeValues rangeData}) = _$_FilterByState;
 
@@ -401,11 +381,9 @@ abstract class _FilterByState implements FilterByState {
   @override
   List<FloorModel> get lstFloors;
   @override
-  DateTime get startTime;
+  DateTime? get startTime;
   @override
-  DateTime get endTime;
-  @override
-  String get timeString;
+  DateTime? get endTime;
   @override
   int get capacity;
   @override

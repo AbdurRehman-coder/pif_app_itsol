@@ -1,5 +1,4 @@
 export 'model/filter_model.dart';
-export 'model/floor_model.dart';
 export 'model/space_booking_model.dart';
 export 'popup/filter_popup.dart';
 export 'popup/room_booking_filter_popup.dart';

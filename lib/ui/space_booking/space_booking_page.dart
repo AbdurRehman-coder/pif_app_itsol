@@ -28,7 +28,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     super.initState();
     Future.delayed(Duration.zero, () {
       // roomBookingFilterBottomSheet(context: context);
-      ref.read(spaceBookingProvider.notifier).getSpaceData();
+      ref.read(spaceBookingProvider.notifier).getSpaceAsync();
     });
   }
 
@@ -164,7 +164,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                             await showFilterPopup(
                               context: context,
                             );
-                            notifier.updateFilterData();
+                            await notifier.getSpaceAsync(isFilter: true);
                           },
                           icon: SvgPicture.asset(
                             Assets.filter,
@@ -217,7 +217,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   if (data.isEmpty) {
                     return const SpaceBookingEmptyView();
                   } else {
-                    return setListView(data);
+                    return setListView(data, notifier);
                   }
                 },
                 error: (e, s) {
@@ -309,19 +309,24 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     );
   }
 
-  Widget setListView(List<RoomModel> data) {
-    return ListView.separated(
-      shrinkWrap: true,
-      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 80.h),
-      itemBuilder: (context, index) {
-        return SpaceBookingListTile(item: data[index]);
+  Widget setListView(List<RoomModel> data, SpaceBookingNotifier notifier) {
+    return RefreshIndicator(
+      onRefresh: () async {
+        await notifier.getSpaceAsync();
       },
-      separatorBuilder: (context, index) {
-        return SizedBox(
-          height: 15.h,
-        );
-      },
-      itemCount: data.length,
+      child: ListView.separated(
+        shrinkWrap: true,
+        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 80.h),
+        itemBuilder: (context, index) {
+          return SpaceBookingListTile(item: data[index]);
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            height: 15.h,
+          );
+        },
+        itemCount: data.length,
+      ),
     );
   }
 }
