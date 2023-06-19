@@ -78,7 +78,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                 return Stack(
                   children: [
                     QRView(
-                      onQRViewCreated: (controller) =>notifier.onScan(controller: controller, context: context),
+                      onQRViewCreated: (controller) =>notifier.onScanQrCODE(controller: controller, context: context),
                       key: notifier.qrKey,
                     ),
                     QRScannerOverlay(
