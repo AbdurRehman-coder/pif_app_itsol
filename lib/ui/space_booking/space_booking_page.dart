@@ -110,7 +110,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                       ),
                     ],
                   ),
-                ).visibility(visible: provider.filterData != null),
+                ).visibility(visible: provider.filterDataString!.isNotEmpty),
                 Row(
                   children: [
                     SizedBox(
@@ -212,24 +212,26 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   topRight: Radius.circular(30.w),
                 ),
               ),
-              child: provider.lstData.when(
-                data: (data) {
-                  if (data.isEmpty) {
-                    return const SpaceBookingEmptyView();
-                  } else {
-                    return setListView(data, notifier);
-                  }
-                },
-                error: (e, s) {
-                  return SizedBox(
-                    height: 10.h,
-                  );
-                },
-                loading: () {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
+              child: Expanded(
+                child: provider.lstData.when(
+                  data: (data) {
+                    if (data.isEmpty) {
+                      return const SpaceBookingEmptyView();
+                    } else {
+                      return setListView(data, notifier);
+                    }
+                  },
+                  error: (e, s) {
+                    return SizedBox(
+                      height: 10.h,
+                    );
+                  },
+                  loading: () {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
               ),
             ),
             Align(
@@ -275,7 +277,10 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     ),
                     Expanded(
                       child: InkWell(
-                        onTap: () => AppRouter.pushNamed(Routes.bookingScannerScreen),
+                        onTap: () {
+                          notifier.clearSearchBindData();
+                          AppRouter.pushNamed(Routes.bookingScannerScreen);
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -312,6 +317,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   Widget setListView(List<RoomModel> data, SpaceBookingNotifier notifier) {
     return RefreshIndicator(
       onRefresh: () async {
+        notifier.searchController.clear();
         await notifier.getSpaceAsync();
       },
       child: ListView.separated(

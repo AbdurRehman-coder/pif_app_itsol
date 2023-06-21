@@ -62,7 +62,7 @@ class SpaceInfoView extends StatelessWidget {
                 height: 10.h,
               ),
               Text(
-                'Building 2  -  Floor 1',
+                spaceData.rRoomCFloor?.name ?? '',
                 style: Style.commonTextStyle(
                   color: whiteColor,
                   fontSize: 10.sp,

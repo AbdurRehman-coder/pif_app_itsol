@@ -130,5 +130,8 @@
   "dateTimeCompareMsg" : "End date should be greater than start date",
   "storeNotAvailable":"Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available",
   "deliveringTo":"Delivering to",
-  "editBooking":"Edit Booking"
+  "editBooking":"Edit Booking",
+  "alreadyAdded": "Guest Already Added",
+  "somethingWentWrong" : "Something went wrong",
+  "bookingFor": "Booking for"
 }

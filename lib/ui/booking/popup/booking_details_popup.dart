@@ -1,20 +1,16 @@
+import 'dart:io';
+
 import 'package:awesome_calendar/awesome_calendar.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
-import 'package:pif_flutter/widgets/widget_extensions.dart';
 
 void bookingDetailsBottomSheet({
   required BuildContext context,
@@ -47,7 +43,7 @@ void bookingDetailsBottomSheet({
                   });
                 }
                 return SizedBox(
-                  height: context.screenHeight - 180.h,
+                  height: context.screenHeight - 150.h,
                   child: Padding(
                     padding: MediaQuery.of(context).viewInsets,
                     child: Column(
@@ -125,74 +121,71 @@ void bookingDetailsBottomSheet({
                                         ),
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: provider.isOpenDatePicker,
-                                      child: Container(
-                                        margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h),
-                                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                                        height: 400.h,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(16.r),
-                                          color: Colors.white,
-                                          boxShadow: const [
-                                            BoxShadow(
-                                              blurRadius: 10,
-                                              color: grayE3,
-                                            ),
-                                          ],
-                                        ),
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: AwesomeCalendar(
-                                                selectedDates: provider.selectedDates.toList(),
-                                                selectionMode: SelectionMode.multi,
-                                                startDate: DateTime.now(),
-                                                endDate: DateTime.now().add(const Duration(days: 50)),
-                                                dayTileBuilder: CustomDayTileBuilder(),
-                                                onTap: notifier.updateDateString,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 6,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment: MainAxisAlignment.end,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: notifier.closeDatePickerDialog,
-                                                  style: ElevatedButton.styleFrom(
-                                                    elevation: 0,
-                                                    foregroundColor: primaryColor,
-                                                    backgroundColor: Colors.white,
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      S.of(context).cancel,
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: notifier.closeDatePickerDialog,
-                                                  style: ElevatedButton.styleFrom(
-                                                    foregroundColor: Colors.white,
-                                                    backgroundColor: primaryColor,
-                                                  ),
-                                                  child: Center(
-                                                    child: Text(
-                                                      S.of(context).confirm,
-                                                    ),
-                                                  ),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
+                                    Container(
+                                      margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h),
+                                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                                      height: 400.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16.r),
+                                        color: Colors.white,
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            blurRadius: 10,
+                                            color: grayE3,
+                                          ),
+                                        ],
                                       ),
-                                    ),
+                                      child: Column(
+                                        children: [
+                                          Expanded(
+                                            child: AwesomeCalendar(
+                                              selectedDates: provider.selectedDates.toList(),
+                                              selectionMode: SelectionMode.multi,
+                                              startDate: DateTime.now(),
+                                              endDate: DateTime.now().add(const Duration(days: 50)),
+                                              dayTileBuilder: CustomDayTileBuilder(),
+                                              onTap: notifier.updateDateString,
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.end,
+                                            children: [
+                                              ElevatedButton(
+                                                onPressed: notifier.closeDatePickerDialog,
+                                                style: ElevatedButton.styleFrom(
+                                                  elevation: 0,
+                                                  foregroundColor: primaryColor,
+                                                  backgroundColor: Colors.white,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    S.of(context).cancel,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              ElevatedButton(
+                                                onPressed: notifier.closeDatePickerDialog,
+                                                style: ElevatedButton.styleFrom(
+                                                  foregroundColor: Colors.white,
+                                                  backgroundColor: primaryColor,
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    S.of(context).confirm,
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ).visibility(visible: provider.isOpenDatePicker),
                                   ],
                                 ),
                                 SizedBox(
@@ -272,28 +265,22 @@ void bookingDetailsBottomSheet({
                                         ],
                                       ),
                                     ),
-                                    Visibility(
-                                      visible: provider.isOpenStartTimePicker,
-                                      child: TimePickerPopup(
-                                        timeData: provider.startTime ?? DateTime.now(),
-                                        onCancel: notifier.closeStartTimePickerDialog,
-                                        onConfirm: (selectedTime) {
-                                          notifier.updateStartTime(startTime: selectedTime);
-                                          notifier.closeStartTimePickerDialog();
-                                        },
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: provider.isOpenEndTimePicker,
-                                      child: TimePickerPopup(
-                                        timeData: provider.endTime ?? DateTime.now(),
-                                        onCancel: notifier.closeEndTimePickerDialog,
-                                        onConfirm: (selectedTime) {
-                                          notifier.updateEndTime(endTime: selectedTime);
-                                          notifier.closeEndTimePickerDialog();
-                                        },
-                                      ),
-                                    ),
+                                    TimePickerPopup(
+                                      timeData: provider.startTime ?? DateTime.now(),
+                                      onCancel: notifier.closeStartTimePickerDialog,
+                                      onConfirm: (selectedTime) {
+                                        notifier.updateStartTime(startTime: selectedTime);
+                                        notifier.closeStartTimePickerDialog();
+                                      },
+                                    ).visibility(visible: provider.isOpenStartTimePicker),
+                                    TimePickerPopup(
+                                      timeData: provider.endTime ?? DateTime.now(),
+                                      onCancel: notifier.closeEndTimePickerDialog,
+                                      onConfirm: (selectedTime) {
+                                        notifier.updateEndTime(endTime: selectedTime);
+                                        notifier.closeEndTimePickerDialog();
+                                      },
+                                    ).visibility(visible: provider.isOpenEndTimePicker),
                                   ],
                                 ),
                                 SizedBox(
@@ -390,239 +377,9 @@ void bookingDetailsBottomSheet({
                                 SizedBox(
                                   height: 5.h,
                                 ),
-                                Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 18.h),
-                                      child: Align(
-                                        alignment: Alignment.topLeft,
-                                        child: Wrap(
-                                          spacing: 6,
-                                          runSpacing: 6,
-                                          children:
-                                              List<Widget>.generate(provider.lstGuests.length, (int index) {
-                                            return Container(
-                                              width: 110.w,
-                                              padding: EdgeInsets.symmetric(vertical: 4.w, horizontal: 8.h),
-                                              decoration: BoxDecoration(
-                                                color: grayF5,
-                                                border: Border.all(
-                                                  color: grayTextColor,
-                                                  width: 1.w,
-                                                ),
-                                                borderRadius: BorderRadius.circular(14.r),
-                                              ),
-                                              child: Row(
-                                                children: [
-                                                  SizedBox(
-                                                    width: 75.w,
-                                                    child: Text(
-                                                      provider.lstGuests[index].fullName ?? '',
-                                                      maxLines: 1,
-                                                      overflow: TextOverflow.ellipsis,
-                                                      style: Style.commonTextStyle(
-                                                        color: darkBorderColor,
-                                                        fontSize: 14.sp,
-                                                        fontWeight: FontWeight.w400,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    onTap: () {
-                                                      notifier.removeGuest(provider.lstGuests[index]);
-                                                    },
-                                                    child: SvgPicture.asset(
-                                                      Assets.close,
-                                                      height: 15.h,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          }),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 220.h,
-                                      margin: EdgeInsets.symmetric(horizontal: 18.sp),
-                                      padding: EdgeInsets.symmetric(vertical: 10.w, horizontal: 10.h),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12.r),
-                                        color: Colors.white,
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            blurRadius: 10,
-                                            color: grayE3,
-                                          ),
-                                        ],
-                                      ),
-                                      child: provider.lstAutoCompleteGuests.isNotEmpty
-                                          ? ListView.separated(
-                                              shrinkWrap: true,
-                                              itemBuilder: (context, index) {
-                                                return InkWell(
-                                                  onTap: () {
-                                                    notifier.addGuest(provider.lstAutoCompleteGuests[index]);
-                                                  },
-                                                  child: Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 40.h,
-                                                        width: 40.w,
-                                                        decoration: BoxDecoration(
-                                                          color: grayC0,
-                                                          borderRadius: BorderRadius.circular(20.r),
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: 16.w,
-                                                      ),
-                                                      Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          Text(
-                                                            provider.lstAutoCompleteGuests[index].fullName ??
-                                                                '',
-                                                            style: Style.commonTextStyle(
-                                                              color: darkTextColor,
-                                                              fontSize: 16.sp,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                          ),
-                                                          Text(
-                                                            provider.lstAutoCompleteGuests[index].email ?? '',
-                                                            style: Style.commonTextStyle(
-                                                              color: silverTextColor,
-                                                              fontSize: 14.sp,
-                                                              fontWeight: FontWeight.w400,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      // const Spacer(),
-                                                      // InkWell(
-                                                      //   onTap: () {
-                                                      //     notifier.removeGuest(provider.lstAutoCompleteGuests[index]);
-                                                      //   },
-                                                      //   child: SvgPicture.asset(Assets.close),
-                                                      // )
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                              separatorBuilder: (context, index) {
-                                                return Divider(
-                                                  height: 15.h,
-                                                  thickness: 1.h,
-                                                  color: borderColor,
-                                                );
-                                              },
-                                              itemCount: provider.lstAutoCompleteGuests.length,
-                                            )
-                                          : Column(
-                                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                                              children: [
-                                                SizedBox(
-                                                  height: 30.h,
-                                                ),
-                                                SvgPicture.asset(Assets.emptyGuestBg),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                Text(
-                                                  S.of(context).noMatchingResultFound,
-                                                  textAlign: TextAlign.center,
-                                                  style: Style.commonTextStyle(
-                                                    color: textColor,
-                                                    fontSize: 16.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                    ).visibility(visible: provider.isVisibleAddGuestList),
-                                    // Padding(
-                                    //   padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                    //   child: provider.lstGuests.isNotEmpty
-                                    //       ? ListView.separated(
-                                    //           shrinkWrap: true,
-                                    //           physics: const NeverScrollableScrollPhysics(),
-                                    //           itemBuilder: (context, index) {
-                                    //             return Row(
-                                    //               children: [
-                                    //                 Container(
-                                    //                   height: 40.h,
-                                    //                   width: 40.w,
-                                    //                   decoration: BoxDecoration(
-                                    //                     color: grayC0,
-                                    //                     borderRadius: BorderRadius.circular(20.r),
-                                    //                   ),
-                                    //                 ),
-                                    //                 SizedBox(
-                                    //                   width: 16.w,
-                                    //                 ),
-                                    //                 Column(
-                                    //                   crossAxisAlignment: CrossAxisAlignment.start,
-                                    //                   children: [
-                                    //                     Text(
-                                    //                       provider.lstGuests[index].fullName ?? '',
-                                    //                       style: Style.commonTextStyle(
-                                    //                         color: darkTextColor,
-                                    //                         fontSize: 16.sp,
-                                    //                         fontWeight: FontWeight.w400,
-                                    //                       ),
-                                    //                     ),
-                                    //                     Text(
-                                    //                       provider.lstGuests[index].email ?? '',
-                                    //                       style: Style.commonTextStyle(
-                                    //                         color: silverTextColor,
-                                    //                         fontSize: 14.sp,
-                                    //                         fontWeight: FontWeight.w400,
-                                    //                       ),
-                                    //                     ),
-                                    //                   ],
-                                    //                 ),
-                                    //                 const Spacer(),
-                                    //                 InkWell(
-                                    //                   onTap: () {
-                                    //                     notifier.removeGuest(provider.lstGuests[index]);
-                                    //                   },
-                                    //                   child: SvgPicture.asset(Assets.close),
-                                    //                 )
-                                    //               ],
-                                    //             );
-                                    //           },
-                                    //           separatorBuilder: (context, index) {
-                                    //             return Divider(
-                                    //               height: 15.h,
-                                    //               thickness: 1.h,
-                                    //               color: borderColor,
-                                    //             );
-                                    //           },
-                                    //           itemCount: provider.lstGuests.length,
-                                    //         )
-                                    //       : Column(
-                                    //           children: [
-                                    //             SizedBox(
-                                    //               height: 30.h,
-                                    //             ),
-                                    //             SvgPicture.asset(Assets.emptyGuestBg),
-                                    //             SizedBox(
-                                    //               height: 10.h,
-                                    //             ),
-                                    //             Text(
-                                    //               S.of(context).noMatchingResultFound,
-                                    //               style: Style.commonTextStyle(
-                                    //                 color: textColor,
-                                    //                 fontSize: 16.sp,
-                                    //                 fontWeight: FontWeight.w400,
-                                    //               ),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    // ),
-                                  ],
+                                AddGuestView(
+                                  provider: provider,
+                                  notifier: notifier,
                                 ),
                                 SizedBox(
                                   height: 100.h,
@@ -632,7 +389,7 @@ void bookingDetailsBottomSheet({
                                   child: ElevatedButton(
                                     onPressed: () => notifier.bookNowAsync(
                                       context: context,
-                                      isBookEnabled: false,
+                                      isBookEnabled: spaceData.needApproval!,
                                       roomId: spaceData.id!,
                                     ),
                                     style: Style.primaryButtonStyle(
@@ -644,7 +401,7 @@ void bookingDetailsBottomSheet({
                                   ),
                                 ),
                                 SizedBox(
-                                  height: 20.h,
+                                  height: Platform.isIOS ? 40.h : 20.h,
                                 )
                               ],
                             ),

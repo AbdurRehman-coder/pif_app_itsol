@@ -26,8 +26,8 @@ mixin _$BookingState {
   bool get isOpenEndTimePicker => throw _privateConstructorUsedError;
   List<DayHeaderModel> get lstDays => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
-  List<InviteGuestModel> get lstGuests => throw _privateConstructorUsedError;
-  List<InviteGuestModel> get lstAutoCompleteGuests =>
+  List<UserModel> get lstGuests => throw _privateConstructorUsedError;
+  List<UserModel> get lstAutoCompleteGuests =>
       throw _privateConstructorUsedError;
   bool get isVisibleAddGuestList => throw _privateConstructorUsedError;
   List<TimePlannerTask> get lstTasks => throw _privateConstructorUsedError;
@@ -54,8 +54,8 @@ abstract class $BookingStateCopyWith<$Res> {
       bool isOpenEndTimePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
-      List<InviteGuestModel> lstGuests,
-      List<InviteGuestModel> lstAutoCompleteGuests,
+      List<UserModel> lstGuests,
+      List<UserModel> lstAutoCompleteGuests,
       bool isVisibleAddGuestList,
       List<TimePlannerTask> lstTasks});
 }
@@ -132,11 +132,11 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
       lstGuests: null == lstGuests
           ? _value.lstGuests
           : lstGuests // ignore: cast_nullable_to_non_nullable
-              as List<InviteGuestModel>,
+              as List<UserModel>,
       lstAutoCompleteGuests: null == lstAutoCompleteGuests
           ? _value.lstAutoCompleteGuests
           : lstAutoCompleteGuests // ignore: cast_nullable_to_non_nullable
-              as List<InviteGuestModel>,
+              as List<UserModel>,
       isVisibleAddGuestList: null == isVisibleAddGuestList
           ? _value.isVisibleAddGuestList
           : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
@@ -168,8 +168,8 @@ abstract class _$$_BookingStateCopyWith<$Res>
       bool isOpenEndTimePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
-      List<InviteGuestModel> lstGuests,
-      List<InviteGuestModel> lstAutoCompleteGuests,
+      List<UserModel> lstGuests,
+      List<UserModel> lstAutoCompleteGuests,
       bool isVisibleAddGuestList,
       List<TimePlannerTask> lstTasks});
 }
@@ -244,11 +244,11 @@ class __$$_BookingStateCopyWithImpl<$Res>
       lstGuests: null == lstGuests
           ? _value._lstGuests
           : lstGuests // ignore: cast_nullable_to_non_nullable
-              as List<InviteGuestModel>,
+              as List<UserModel>,
       lstAutoCompleteGuests: null == lstAutoCompleteGuests
           ? _value._lstAutoCompleteGuests
           : lstAutoCompleteGuests // ignore: cast_nullable_to_non_nullable
-              as List<InviteGuestModel>,
+              as List<UserModel>,
       isVisibleAddGuestList: null == isVisibleAddGuestList
           ? _value.isVisibleAddGuestList
           : isVisibleAddGuestList // ignore: cast_nullable_to_non_nullable
@@ -275,8 +275,8 @@ class _$_BookingState implements _BookingState {
       required this.isOpenEndTimePicker,
       required final List<DayHeaderModel> lstDays,
       required this.errorMessage,
-      required final List<InviteGuestModel> lstGuests,
-      required final List<InviteGuestModel> lstAutoCompleteGuests,
+      required final List<UserModel> lstGuests,
+      required final List<UserModel> lstAutoCompleteGuests,
       required this.isVisibleAddGuestList,
       required final List<TimePlannerTask> lstTasks})
       : _selectedDates = selectedDates,
@@ -317,17 +317,17 @@ class _$_BookingState implements _BookingState {
 
   @override
   final String errorMessage;
-  final List<InviteGuestModel> _lstGuests;
+  final List<UserModel> _lstGuests;
   @override
-  List<InviteGuestModel> get lstGuests {
+  List<UserModel> get lstGuests {
     if (_lstGuests is EqualUnmodifiableListView) return _lstGuests;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_lstGuests);
   }
 
-  final List<InviteGuestModel> _lstAutoCompleteGuests;
+  final List<UserModel> _lstAutoCompleteGuests;
   @override
-  List<InviteGuestModel> get lstAutoCompleteGuests {
+  List<UserModel> get lstAutoCompleteGuests {
     if (_lstAutoCompleteGuests is EqualUnmodifiableListView)
       return _lstAutoCompleteGuests;
     // ignore: implicit_dynamic_type
@@ -418,8 +418,8 @@ abstract class _BookingState implements BookingState {
       required final bool isOpenEndTimePicker,
       required final List<DayHeaderModel> lstDays,
       required final String errorMessage,
-      required final List<InviteGuestModel> lstGuests,
-      required final List<InviteGuestModel> lstAutoCompleteGuests,
+      required final List<UserModel> lstGuests,
+      required final List<UserModel> lstAutoCompleteGuests,
       required final bool isVisibleAddGuestList,
       required final List<TimePlannerTask> lstTasks}) = _$_BookingState;
 
@@ -444,9 +444,9 @@ abstract class _BookingState implements BookingState {
   @override
   String get errorMessage;
   @override
-  List<InviteGuestModel> get lstGuests;
+  List<UserModel> get lstGuests;
   @override
-  List<InviteGuestModel> get lstAutoCompleteGuests;
+  List<UserModel> get lstAutoCompleteGuests;
   @override
   bool get isVisibleAddGuestList;
   @override

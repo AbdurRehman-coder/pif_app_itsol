@@ -37,51 +37,56 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
 
   // Get Filter Query
   ParametersModel getFilterQuery({required bool isFilter}) {
-    final lstQuery = <String>[];
-    lstQuery.add(
-      FilterUtils.filterBy(
-        key: 'bookable',
-        value: true.toString(),
-        operator: FilterOperator.equal.value,
-      ),
+    var filterQuery = FilterUtils.filterBy(
+      key: 'bookable',
+      value: true.toString(),
+      operator: FilterOperator.equal.value,
     );
 
     if (isFilter) {
       final filterProvider = ref.read(filterByProvider);
       final filterNotifier = ref.read(filterByProvider.notifier);
-      final selectedFloor = filterProvider.lstFloors
-          .where((element) => element.isSelected! == true)
-          .map((element) => element.id)
-          .toList();
+      final selectedFloor = filterProvider.lstFloors.where((element) => element.isSelected! == true).toList();
 
       if (filterProvider.selectedDateList.isNotEmpty) {
         // Date Filter Query
       }
       if (filterNotifier.startTimeController.text.isNotEmpty) {
         // StartTime Filter Query
+        final totalMinutes = filterProvider.startTime?.toTotalMinutes();
+
+        filterQuery = '$filterQuery and ${FilterUtils.filterBy(
+          key: 'bookings/startTime',
+          value: totalMinutes.toString(),
+          operator: FilterOperator.greaterOrEqual.value,
+        )}';
       }
       if (filterNotifier.endTimeController.text.isNotEmpty) {
         // EndTime Filter Query
+        final totalMinutes = filterProvider.endTime?.toTotalMinutes();
+
+        filterQuery = '$filterQuery and ${FilterUtils.filterBy(
+          key: 'bookings/endTime',
+          value: totalMinutes.toString(),
+          operator: FilterOperator.lessOrEqual.value,
+        )}';
       }
       if (selectedFloor.isNotEmpty) {
-        // for (final item in selectedFloor) {
-        //   lstQuery.add(
-        //     FilterUtils.filterBy(
-        //       key: 'r_room_c_floorId',
-        //       value: item.toString(),
-        //       operator: FilterOperator.equal.value,
-        //     ),
-        //   );
-        // }
+        for (final item in selectedFloor) {
+          final id = item.id;
+          filterQuery = '$filterQuery and ${FilterUtils.filterBy(
+            key: 'r_room_c_floorId',
+            value: "'$id'",
+            operator: FilterOperator.equal.value,
+          )}';
+        }
       }
       if (filterProvider.capacity != 1) {
-        // lstQuery.add(
-        //   FilterUtils.filterBy(
-        //     key: 'capacity',
-        //     value: filterProvider.capacity.toString(),
-        //     operator: FilterOperator.equal.value,
-        //   ),
-        // );
+        filterQuery = '$filterQuery and ${FilterUtils.filterBy(
+          key: 'capacity',
+          value: filterProvider.capacity.toString(),
+          operator: FilterOperator.equal.value,
+        )}';
       }
 
       final filterModel = FilterModel(
@@ -89,7 +94,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
         startTime: filterProvider.startTime,
         endTime: filterProvider.endTime,
         capacity: filterProvider.capacity.toString(),
-        selectedFloorIds: selectedFloor,
+        selectedFloors: selectedFloor,
       );
 
       String? timeString = '';
@@ -106,14 +111,19 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
 
       if (firstDateString.isNotEmpty) {
         filterString = '$timeString${filterModel.selectedDates.length} repeats from $firstDateString';
+      } else {
+        filterString = selectedFloor.map((e) => e.name).join(' - ');
       }
 
-      state = state.copyWith(filterData: filterString.isNotEmpty ? filterModel : null);
+      state = state.copyWith(
+        filterData: filterString.isNotEmpty || filterProvider.capacity > 1 ? filterModel : null,
+      );
       state = state.copyWith(filterDataString: filterString);
     }
 
     final param = ParametersModel();
-    param.filterArray = lstQuery;
+    param.filter = filterQuery;
+    param.nestedFields = 'floor,bookings';
     return param;
   }
 
@@ -136,6 +146,13 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));
     }
+  }
+
+  void clearSearchBindData() {
+    if (searchController.text.isNotEmpty) {
+      searchController.clear();
+    }
+    state = state.copyWith(lstData: AsyncData(allListData!));
   }
 
   void clearFilterData() {

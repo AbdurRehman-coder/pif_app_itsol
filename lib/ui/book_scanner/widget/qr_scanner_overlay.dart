@@ -21,7 +21,7 @@ class QRScannerOverlay extends StatelessWidget {
           child: Stack(
             children: [
               Container(
-                decoration:  const BoxDecoration(
+                decoration: const BoxDecoration(
                   color: borderColor,
                   backgroundBlendMode: BlendMode.dstOut,
                 ), // This one will handle background + difference out
@@ -60,6 +60,3 @@ class QRScannerOverlay extends StatelessWidget {
     );
   }
 }
-
-// Creates the white borders
-

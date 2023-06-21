@@ -43,8 +43,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
       }
 
       final lstFloors = state.lstFloors.toList();
-      for (final item in data.filterData!.selectedFloorIds) {
-        final data = lstFloors.firstWhere((element) => element.id == item);
+      for (final item in data.filterData!.selectedFloors) {
+        final data = lstFloors.firstWhere((element) => element.id == item!.id);
         data.isSelected = true;
       }
 

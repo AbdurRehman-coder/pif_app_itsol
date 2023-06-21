@@ -32,8 +32,16 @@ class AppRouter {
       case Routes.bookingScannerScreen:
         return _setPage(page: const BookScannerView(), settings: settings);
       case Routes.bookingScreen:
-        final data = settings.arguments! as RoomModel;
-        return _setPage(page: BookingPage(spaceData: data), settings: settings);
+        final lstArgs = settings.arguments! as List<dynamic>;
+        final roomModel = lstArgs[0] as RoomModel;
+        final isFromScan = lstArgs[1] as bool;
+        return _setPage(
+          page: BookingPage(
+            spaceData: roomModel,
+            isFromScan: isFromScan,
+          ),
+          settings: settings,
+        );
       case Routes.bookingDetailsScreen:
         final data = settings.arguments! as BookingListModel;
         return _setPage(

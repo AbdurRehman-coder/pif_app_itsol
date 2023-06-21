@@ -4,16 +4,16 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
-import 'package:pif_flutter/ui/booking/widget/booking_calendar_view.dart';
-import 'package:pif_flutter/ui/booking/widget/space_info_view.dart';
 
 class BookingPage extends ConsumerStatefulWidget {
   const BookingPage({
     required this.spaceData,
+    required this.isFromScan,
     super.key,
   });
 
   final RoomModel spaceData;
+  final bool isFromScan;
 
   @override
   ConsumerState createState() => _BookingPageState();
@@ -24,7 +24,12 @@ class _BookingPageState extends ConsumerState<BookingPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(bookingProvider.notifier).getBookings(roomId: widget.spaceData.id);
+      final notifier = ref.read(bookingProvider.notifier);
+      notifier.getBookings(roomId: widget.spaceData.id);
+      if (widget.isFromScan) {
+        bookingDetailsBottomSheet(context: context, spaceData: widget.spaceData);
+        notifier.bindScanData();
+      }
     });
   }
 

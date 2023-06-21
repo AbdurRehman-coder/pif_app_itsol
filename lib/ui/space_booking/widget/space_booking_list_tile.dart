@@ -53,7 +53,7 @@ class SpaceBookingListTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Building 2  -  Floor 1',
+                item.rRoomCFloor?.name ?? '',
                 style: Style.commonTextStyle(
                   color: whiteColor,
                   fontSize: 10.sp,
@@ -145,7 +145,7 @@ class SpaceBookingListTile extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  AppRouter.pushNamed(Routes.bookingScreen, args: item);
+                  AppRouter.pushNamed(Routes.bookingScreen, args: [item, false]);
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(context.screenWidth.w, 35.h),
@@ -155,7 +155,7 @@ class SpaceBookingListTile extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  S.current.book,
+                  item.needApproval! ? S.current.requestToBook : S.current.book,
                   style: Style.commonTextStyle(
                     color: whiteColor,
                     fontSize: 14.sp,

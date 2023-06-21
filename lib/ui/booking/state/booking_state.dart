@@ -1,6 +1,6 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pif_flutter/ui/booking/model/day_header_model.dart';
-import 'package:pif_flutter/ui/booking/model/invite_guest_model.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
 part 'booking_state.freezed.dart';
@@ -18,8 +18,8 @@ class BookingState with _$BookingState {
     required bool isOpenEndTimePicker,
     required List<DayHeaderModel> lstDays,
     required String errorMessage,
-    required List<InviteGuestModel> lstGuests,
-    required List<InviteGuestModel> lstAutoCompleteGuests,
+    required List<UserModel> lstGuests,
+    required List<UserModel> lstAutoCompleteGuests,
     required bool isVisibleAddGuestList,
     required List<TimePlannerTask> lstTasks,
   }) = _BookingState;
@@ -34,9 +34,9 @@ class BookingState with _$BookingState {
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
         lstDays: <DayHeaderModel>[],
-        lstGuests: <InviteGuestModel>[],
+        lstGuests: <UserModel>[],
         errorMessage: '',
-        lstAutoCompleteGuests: <InviteGuestModel>[],
+        lstAutoCompleteGuests: <UserModel>[],
         isVisibleAddGuestList: false,
         lstTasks: <TimePlannerTask>[],
       );
