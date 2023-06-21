@@ -20,6 +20,7 @@ void showSuccessMessage({
   showModalBottomSheet<dynamic>(
     backgroundColor: whiteColor,
     isScrollControlled: true,
+    enableDrag: false,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(24.r),

@@ -48,6 +48,7 @@ linter:
     lines_longer_than_80_chars: false
     sort_pub_dependencies: false
     cascade_invocations: false
-
+    avoid_dynamic_calls: false
+    use_build_context_synchronously: false
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

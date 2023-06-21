@@ -84,7 +84,10 @@ class Style {
     );
   }
 
-  static ButtonStyle primaryButtonStyle({required BuildContext context}) {
+  static ButtonStyle primaryButtonStyle({
+    required BuildContext context,
+    Color primaryColor = primaryColor,
+  }) {
     return ElevatedButton.styleFrom(
       elevation: 0,
       fixedSize: Size(context.screenWidth.w, 42.h),
