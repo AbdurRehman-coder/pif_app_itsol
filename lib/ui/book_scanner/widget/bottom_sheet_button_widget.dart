@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/utils/colors.dart';
+import 'package:pif_flutter/common/index.dart';
 
 class BottomSheetButtonWidget extends StatelessWidget {
   const BottomSheetButtonWidget({

@@ -200,115 +200,111 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
             ),
           ),
         ),
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 5.h),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30.w),
-                  topRight: Radius.circular(30.w),
-                ),
-              ),
-              child: Expanded(
-                child: provider.lstData.when(
-                  data: (data) {
-                    if (data.isEmpty) {
-                      return const SpaceBookingEmptyView();
-                    } else {
-                      return setListView(data, notifier);
-                    }
-                  },
-                  error: (e, s) {
-                    return SizedBox(
-                      height: 10.h,
-                    );
-                  },
-                  loading: () {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
+        floatingActionButton: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: 50.h,
+            margin: EdgeInsets.only(bottom: 24.h, left: 60.w, right: 60.w),
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(Assets.tabBg),
+                fit: BoxFit.fitWidth,
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 50.h,
-                margin: EdgeInsets.only(bottom: 24.h, left: 60.w, right: 60.w),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(Assets.tabBg),
-                    fit: BoxFit.fitWidth,
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.instant,
-                            height: 18.h,
-                            colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
-                          ),
-                          SizedBox(
-                            width: 6.w,
-                          ),
-                          Text(
-                            S.current.instanceBooking,
-                            style: Style.commonTextStyle(
-                              color: blackColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+            child: Row(
+              children: [
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.instant,
+                        height: 18.h,
+                        colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 11.h),
-                      width: 1,
-                      color: whiteColor,
-                    ),
-                    Expanded(
-                      child: InkWell(
-                        onTap: () {
-                          notifier.clearSearchBindData();
-                          AppRouter.pushNamed(Routes.bookingScannerScreen);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              Assets.scanner,
-                              height: 18.h,
-                              colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
-                            ),
-                            SizedBox(
-                              width: 6.w,
-                            ),
-                            Text(
-                              S.current.scanToBook,
-                              style: Style.commonTextStyle(
-                                color: blackColor,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                      SizedBox(
+                        width: 6.w,
+                      ),
+                      Text(
+                        S.current.instanceBooking,
+                        style: Style.commonTextStyle(
+                          color: blackColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                    )
-                  ],
+                    ],
+                  ),
                 ),
-              ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 11.h),
+                  width: 1,
+                  color: whiteColor,
+                ),
+                Expanded(
+                  child: InkWell(
+                    onTap: () {
+                      AppRouter.pushNamed(Routes.bookingScannerScreen);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(
+                          Assets.scanner,
+                          height: 18.h,
+                          colorFilter: const ColorFilter.mode(
+                            textColor,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 6.w,
+                        ),
+                        Text(
+                          S.current.scanToBook,
+                          style: Style.commonTextStyle(
+                            color: blackColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
-          ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Container(
+          margin: EdgeInsets.only(top: 5.h),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.w),
+              topRight: Radius.circular(30.w),
+            ),
+          ),
+          child: provider.lstData.when(
+            data: (data) {
+              if (data.isEmpty) {
+                return const SpaceBookingEmptyView();
+              } else {
+                return setListView(data, notifier);
+              }
+            },
+            error: (e, s) {
+              return SizedBox(
+                height: 10.h,
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -321,7 +317,6 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         await notifier.getSpaceAsync();
       },
       child: ListView.separated(
-        shrinkWrap: true,
         padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 80.h),
         itemBuilder: (context, index) {
           return SpaceBookingListTile(item: data[index]);

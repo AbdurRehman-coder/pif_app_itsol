@@ -1,14 +1,11 @@
 import 'package:dixels_sdk/features/commerce/rooms/models/room_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
+import 'package:pif_flutter/ui/book_scanner/provider/scan_booking_list_provider.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 class BookSearchWidget extends ConsumerStatefulWidget {
@@ -30,8 +27,8 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = ref.read(spaceBookingProvider.notifier);
-    final provider = ref.watch(spaceBookingProvider);
+    final notifier = ref.read(scanBookingListProvider.notifier);
+    final provider = ref.watch(scanBookingListProvider);
     return Column(
       children: [
         InkWell(
@@ -68,7 +65,7 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
             labelText: S.of(context).roomName,
             suffixIcon: notifier.searchController.text.isNotEmpty
                 ? IconButton(
-                    onPressed: notifier.clearSearchBindData,
+                    onPressed: notifier.clearSearchData,
                     icon: const Icon(
                       Icons.close,
                       color: primaryColor,
@@ -79,48 +76,48 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
           ),
         ),
         SizedBox(height: 16.h),
-        provider.lstData.when(
-          data: (data) {
-            if (data.isEmpty) {
-              return const SpaceBookingEmptyView();
-            } else {
-              return setListView(data, notifier);
-            }
-          },
-          error: (e, s) {
-            return SizedBox(
-              height: 10.h,
-            );
-          },
-          loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+        Expanded(
+          child: provider.lstData.when(
+            data: (data) {
+              if (data.isEmpty) {
+                return const SpaceBookingEmptyView();
+              } else {
+                return setListView(data, notifier);
+              }
+            },
+            error: (e, s) {
+              return SizedBox(
+                height: 10.h,
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ],
     );
   }
 
-  Widget setListView(List<RoomModel> data, SpaceBookingNotifier notifier) {
-    return Expanded(
-      child: ListView.separated(
-        shrinkWrap: true,
-        physics: PanelScrollPhysics(
-          controller: widget.panelController,
-        ),
-        controller: widget.scrollController,
-        padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 80.h),
-        itemBuilder: (context, index) {
-          return SpaceBookingListTile(item: data[index]);
-        },
-        separatorBuilder: (context, index) {
-          return SizedBox(
-            height: 15.h,
-          );
-        },
-        itemCount: data.length,
+  Widget setListView(List<RoomModel> data, ScanBookingListNotifier notifier) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: PanelScrollPhysics(
+        controller: widget.panelController,
       ),
+      controller: widget.scrollController,
+      padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 80.h),
+      itemBuilder: (context, index) {
+        return SpaceBookingListTile(item: data[index]);
+      },
+      separatorBuilder: (context, index) {
+        return SizedBox(
+          height: 15.h,
+        );
+      },
+      itemCount: data.length,
     );
   }
 }

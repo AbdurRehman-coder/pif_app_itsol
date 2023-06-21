@@ -46,7 +46,8 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     if (isFilter) {
       final filterProvider = ref.read(filterByProvider);
       final filterNotifier = ref.read(filterByProvider.notifier);
-      final selectedFloor = filterProvider.lstFloors.where((element) => element.isSelected! == true).toList();
+      final selectedFloor =
+          filterProvider.lstFloors.where((element) => element.isSelected ?? false == true).toList();
 
       if (filterProvider.selectedDateList.isNotEmpty) {
         // Date Filter Query
@@ -146,17 +147,6 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));
     }
-  }
-
-  void clearSearchBindData() {
-    if (searchController.text.isNotEmpty) {
-      searchController.clear();
-    }
-    state = state.copyWith(lstData: AsyncData(allListData!));
-  }
-
-  void clearFilterData() {
-    state = SpaceBookingState.initial();
   }
 
   @override

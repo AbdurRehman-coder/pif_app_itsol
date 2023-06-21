@@ -84,7 +84,7 @@ dependencies:
   dixels_sdk:
     git:
       url: https://Obaida_Alqassem2:ATBBFanZ4FQ28aEWgP7k6yTr65pf6EBA959F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
-      ref: feature/scan_qrcode_api
+      ref: main
 
 dev_dependencies:
   flutter_test:

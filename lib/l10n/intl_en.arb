@@ -131,7 +131,7 @@
   "storeNotAvailable":"Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available",
   "deliveringTo":"Delivering to",
   "editBooking":"Edit Booking",
-  "visitorAlreadyFound":"This email address is already used to invite another visitor you added. !"
+  "visitorAlreadyFound":"This email address is already used to invite another visitor you added. !",
   "alreadyAdded": "Guest Already Added",
   "somethingWentWrong" : "Something went wrong",
   "bookingFor": "Booking for"

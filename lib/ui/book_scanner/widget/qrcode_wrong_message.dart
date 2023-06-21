@@ -1,12 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
+import 'package:pif_flutter/common/index.dart';
 
 class QRCodeWrongMessage extends StatefulWidget {
   const QRCodeWrongMessage({super.key});
@@ -21,9 +17,9 @@ class _QRCodeWrongMessageState extends State<QRCodeWrongMessage> {
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
-    timer =  Timer.periodic(
+    timer = Timer.periodic(
       oneSec,
-          (Timer timer) {
+      (Timer timer) {
         if (start == 0) {
           setState(() {
             timer.cancel();
@@ -42,8 +38,9 @@ class _QRCodeWrongMessageState extends State<QRCodeWrongMessage> {
     timer.cancel();
     super.dispose();
   }
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
     startTimer();
   }
@@ -57,7 +54,7 @@ class _QRCodeWrongMessageState extends State<QRCodeWrongMessage> {
       ),
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 20.h),
+        padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 20.h),
         decoration: BoxDecoration(
           color: whiteColor,
           borderRadius: BorderRadius.all(

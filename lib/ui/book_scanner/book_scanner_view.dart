@@ -3,12 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/book_scanner/popup/scan_help.dart';
-import 'package:pif_flutter/ui/book_scanner/provider/book_scanner_provider.dart';
-import 'package:pif_flutter/ui/book_scanner/widget/book_search_widget.dart';
-import 'package:pif_flutter/ui/book_scanner/widget/bottom_sheet_button_widget.dart';
-import 'package:pif_flutter/ui/book_scanner/widget/qr_scanner_overlay.dart';
-import 'package:pif_flutter/ui/space_booking/index.dart';
+import 'package:pif_flutter/ui/book_scanner/index.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
@@ -25,16 +20,15 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(bookingScannerProvider);
-    final spaceNotifier = ref.read(spaceBookingProvider.notifier);
+    final scanListNotifier = ref.read(scanBookingListProvider.notifier);
     return SlidingUpPanel(
       onPanelClosed: () {
-        spaceNotifier.clearSearchBindData();
+        scanListNotifier.clearSearchData();
         FocusManager.instance.primaryFocus?.unfocus();
         provider.qrViewController.resumeCamera();
       },
       onPanelOpened: () {
         provider.qrViewController.pauseCamera();
-        spaceNotifier.getSpaceAsync();
       },
       panelBuilder: () => BookSearchWidget(
         scrollController: provider.scrollController,
