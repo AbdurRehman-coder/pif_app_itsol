@@ -134,5 +134,6 @@
   "visitorAlreadyFound":"This email address is already used to invite another visitor you added. !",
   "alreadyAdded": "Guest Already Added",
   "somethingWentWrong" : "Something went wrong",
-  "bookingFor": "Booking for"
+  "bookingFor": "Booking for",
+  "pastBookingAlert" : "Please select future time"
 }

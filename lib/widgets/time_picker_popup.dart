@@ -50,7 +50,7 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
         );
       }
     } else {
-      for (var i = 0; i < 12; i++) {
+      for (var i = 0; i < 24; i++) {
         lstData?.add(
           WheelChoice(
             value: date.add(Duration(minutes: i * 60)),

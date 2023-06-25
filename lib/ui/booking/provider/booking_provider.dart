@@ -5,6 +5,7 @@ import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_request_model.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -240,6 +241,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
       final startTimeInMinutes = state.startTime!.toTotalMinutes();
       final endTimeInMinutes = state.endTime!.toTotalMinutes();
 
+      final currentDateData = lstDates.firstWhereOrNull((element) => element.isSameDate(DateTime.now()));
+      if (currentDateData != null) {
+        if (state.startTime!.isBefore(DateTime.now())) {
+          errorMessage(errorMessage: S.current.pastBookingAlert, context: context);
+          return;
+        }
+      }
+
       for (final item in lstDates) {
         final data = allBookingTasks.firstWhereOrNull((element) => element.dateTime.isSameDate(item));
         if (data != null) {
@@ -260,10 +269,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
         r_bookings_c_roomId: roomId,
         attendees: state.lstGuests
             .map(
-              (attendees) => Attendee(
-                attendees: [
-                  attendees.emailAddress ?? '',
-                ],
+              (e) => Visitors(
+                givenName: e.givenName ?? '',
+                familyName: e.familyName ?? '',
+                emailAddress: e.emailAddress ?? '',
+                alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
               ),
             )
             .toList(),
@@ -427,7 +437,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   void _setNearestTimeSlot() {
     final dateTime = DateTime.now();
     final minute = dateTime.minute;
-    final minuteModulo = minute % 60;
+    final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
     roundedTime =

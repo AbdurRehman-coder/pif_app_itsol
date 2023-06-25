@@ -152,5 +152,6 @@
   "editBooking": "Edit Booking",
   "alreadyAdded": "Guest Already Added",
   "somethingWentWrong": "Something went wrong",
-  "bookingFor": "Booking for"
+  "bookingFor": "Booking for",
+  "pastBookingAlert" : "Please select future time"
 }

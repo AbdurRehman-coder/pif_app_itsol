@@ -4,70 +4,76 @@ import 'package:pif_flutter/common/index.dart';
 
 void scanHelpBottomSheet({required BuildContext context}) {
   showModalBottomSheet<dynamic>(
+    useSafeArea: true,
+    isScrollControlled: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(24.r),
         topRight: Radius.circular(24.r),
       ),
     ),
-    // <= this is set to 3/4 of screen size.
-    isScrollControlled: true,
-    // <= set to true. setting this without constrains may cause full screen bottomsheet.
     context: context,
     builder: (context) {
-      return SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 25.w,
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            height: 35.h,
           ),
-          child: ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              SizedBox(height: 35.h),
-              SvgPicture.asset(
-                Assets.qrcode,
-                width: 150.w,
-                height: 150.h,
-              ),
-              SizedBox(height: 32.h),
-              Center(
-                child: Text(
-                  S.of(context).scanQRCodeToBook,
-                  style: Style.commonTextStyle(
-                    color: blackColor,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              SizedBox(height: 5.h),
-              Text(
-                S.of(context).scanHelpMessage,
-                textAlign: TextAlign.center,
-                style: Style.commonTextStyle(
-                  color: grayTextColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(height: 32.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 60.w),
-                child: ElevatedButton(
-                  onPressed: AppRouter.pop,
-                  child: Text(
-                    S.of(context).gotIt,
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          SvgPicture.asset(
+            Assets.qrcode,
+            width: 192.w,
+            height: 192.h,
           ),
-        ),
+          SizedBox(
+            height: 32.h,
+          ),
+          Text(
+            S.of(context).scanQRCodeToBook,
+            textAlign: TextAlign.center,
+            style: Style.commonTextStyle(
+              color: textColor,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(
+            height: 5.h,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.w),
+            child: Text(
+              S.of(context).scanHelpMessage,
+              textAlign: TextAlign.center,
+              style: Style.commonTextStyle(
+                color: grayTextColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          ElevatedButton(
+            onPressed: AppRouter.pop,
+            style: Style.primaryButtonStyle(
+              context: context,
+              width: 172.w,
+            ),
+            child: Text(
+              S.of(context).gotIt,
+              style: Style.commonTextStyle(
+                color: whiteColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+        ],
       );
     },
   );

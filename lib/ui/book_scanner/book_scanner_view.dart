@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/book_scanner/index.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 class BookScannerView extends ConsumerStatefulWidget {
@@ -17,6 +18,16 @@ class BookScannerView extends ConsumerStatefulWidget {
 }
 
 class _BookScannerViewState extends ConsumerState<BookScannerView> {
+  final scrollController = ScrollController();
+  final panelController = PanelController();
+  late MobileScannerController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = MobileScannerController();
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(bookingScannerProvider);
@@ -25,14 +36,12 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
       onPanelClosed: () {
         scanListNotifier.clearSearchData();
         FocusManager.instance.primaryFocus?.unfocus();
-        provider.qrViewController.resumeCamera();
+        controller.start();
       },
-      onPanelOpened: () {
-        provider.qrViewController.pauseCamera();
-      },
+      onPanelOpened: controller.stop,
       panelBuilder: () => BookSearchWidget(
-        scrollController: provider.scrollController,
-        panelController: provider.panelController,
+        scrollController: scrollController,
+        panelController: panelController,
       ),
       body: Scaffold(
         appBar: AppBar(
@@ -68,10 +77,32 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
         ),
         body: Stack(
           children: [
-            QRView(
-              onQRViewCreated: (controller) =>
-                  provider.onScanQrCODE(controller: controller, context: context),
-              key: provider.qrKey,
+            MobileScanner(
+              controller: controller,
+              onDetect: (capture) async {
+                final barcodes = capture.barcodes;
+                if (barcodes.isNotEmpty &&
+                    barcodes.first.rawValue!.isNotEmpty &&
+                    provider.isNumeric(barcodes.first.rawValue)) {
+                  await controller.stop();
+                  await provider.getBookingInformation(
+                    roomId: barcodes[0].rawValue!.trim(),
+                    context: context,
+                  );
+                  Future.delayed(const Duration(milliseconds: 100), () async {
+                    await controller.start();
+                  });
+                } else {
+                  controller.events?.pause();
+                  errorMessage(
+                    errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
+                    context: context,
+                  );
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    controller.events?.resume();
+                  });
+                }
+              },
             ),
             QRScannerOverlay(
               overlayColour: Colors.black.withOpacity(0.5),
@@ -101,14 +132,21 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
       maxHeight: context.screenHeight * 0.9,
       backdropEnabled: true,
       backdropTapClosesPanel: false,
-      controller: provider.panelController,
-      scrollController: provider.scrollController,
+      controller: panelController,
+      scrollController: scrollController,
       padding: EdgeInsets.zero,
       minHeight: 80.h,
       collapsed: BottomSheetButtonWidget(
         bottomText: S.of(context).troubleScanningQRCodeEnterManually,
-        onTap: provider.panelController.open,
+        onTap: panelController.open,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    scrollController.dispose();
+    super.dispose();
   }
 }

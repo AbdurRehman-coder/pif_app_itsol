@@ -22,7 +22,11 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
     await _getFloors();
-    // updateDateString(DateTime.now());
+    final currentDateTime = DateTime.now();
+    final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
+    if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
+      updateDateString(currentDate);
+    }
 
     final data = ref.read(spaceBookingProvider);
     if (data.filterData != null) {

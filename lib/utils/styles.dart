@@ -87,10 +87,12 @@ class Style {
   static ButtonStyle primaryButtonStyle({
     required BuildContext context,
     Color primaryColor = primaryColor,
+    double? width,
   }) {
+    final btnWidth = width ?? context.screenWidth.w;
     return ElevatedButton.styleFrom(
       elevation: 0,
-      fixedSize: Size(context.screenWidth.w, 42.h),
+      fixedSize: Size(btnWidth, 42.h),
       foregroundColor: whiteColor,
       disabledBackgroundColor: primaryDisabledColor,
       disabledForegroundColor: whiteColor,

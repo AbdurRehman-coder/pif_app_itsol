@@ -7,22 +7,15 @@ import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 final bookingScannerProvider = Provider.autoDispose<BookingScannerNotifier>((ref) {
-  return BookingScannerNotifier(ref: ref);
+  return BookingScannerNotifier();
 });
 
 class BookingScannerNotifier {
-  BookingScannerNotifier({required this.ref});
-
-  final Ref ref;
-  late QRViewController qrViewController;
+  BookingScannerNotifier();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  ScrollController scrollController = ScrollController();
-  final panelController = PanelController();
 
   bool isNumeric(String? s) {
     if (s == null) {
@@ -31,36 +24,9 @@ class BookingScannerNotifier {
     return double.tryParse(s) != null;
   }
 
-  void onScanQrCODE({
-    required QRViewController controller,
-    required BuildContext context,
-  }) {
-    qrViewController = controller;
-    controller.scannedDataStream.listen((scanData) {
-      if (scanData.code != null && isNumeric(scanData.code)) {
-        controller.pauseCamera();
-        getBookingInformation(
-          roomId: scanData.code!.trim(),
-          context: context,
-          controller: controller,
-        );
-      } else {
-        controller.pauseCamera();
-        errorMessage(
-          errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
-          context: context,
-        );
-        Future.delayed(const Duration(milliseconds: 200), () {
-          controller.resumeCamera();
-        });
-      }
-    });
-  }
-
   Future<void> getBookingInformation({
     required String roomId,
     required BuildContext context,
-    required QRViewController controller,
   }) async {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
@@ -74,23 +40,15 @@ class BookingScannerNotifier {
     final result = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
     await appProgressDialog.stop();
     if (result != null && result.items!.isNotEmpty) {
-      Future.delayed(Duration.zero, () async {
-        await AppRouter.pushNamed(
-          Routes.bookingScreen,
-          args: [result.items![0], true],
-        ).then(
-          (value) => controller.resumeCamera(),
-        );
-      });
+      await AppRouter.pushNamed(
+        Routes.bookingScreen,
+        args: [result.items![0], true],
+      );
     } else {
       errorMessage(
         errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
         context: context,
       );
-
-      Future.delayed(const Duration(milliseconds: 200), () {
-        controller.resumeCamera();
-      });
     }
   }
 }
