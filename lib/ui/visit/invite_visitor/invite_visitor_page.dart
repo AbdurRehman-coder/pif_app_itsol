@@ -214,11 +214,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                           ),
                           const Spacer(),
                           TextButton(
-                            onPressed: () {
-                              notifier.addPreviousVisitor(
-                                context: context,
-                              );
-                            },
+                            onPressed: () => notifier.addPreviousVisitor(
+                              context: context,
+                            ),
                             child: Text(
                               S.of(context).addPreviousVisitor,
                               style: Style.commonTextStyle(

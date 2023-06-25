@@ -113,22 +113,6 @@ Future<void> previousVisitorPopup({
                     },
                   ),
                 ),
-                MarginWidget(
-                  horizontal: -16,
-                  child: Container(
-                    color: whiteColor,
-                    padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 11.h, bottom: 15.h),
-                    child: ElevatedButton(
-                      onPressed: AppRouter.pop,
-                      style: Style.primaryButtonStyle(
-                        context: context,
-                      ),
-                      child: Text(
-                        S.of(context).addVisitors,
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           );

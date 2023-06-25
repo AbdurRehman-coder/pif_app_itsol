@@ -4,8 +4,14 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 
+import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
+
 class PreviousVisitorListTile extends StatelessWidget {
-  const PreviousVisitorListTile({required this.item, required this.notifier, super.key});
+  const PreviousVisitorListTile({
+    required this.item,
+    required this.notifier,
+    super.key,
+  });
 
   final InviteVisitorModel item;
   final PreviousVisitorNotifier notifier;
@@ -14,26 +20,12 @@ class PreviousVisitorListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          height: 40.h,
-          width: 40.w,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
-          child: Text(
-            item.shortName,
-            style: Style.commonTextStyle(
-              color: whiteColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+        ImageProfileVisitor(
+          lastName: item.firstName ?? '',
+          firstName: item.lastName ?? '',
+          status: true,
         ),
-        SizedBox(
-          width: 16.w,
-        ),
+        SizedBox(width: 16.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,9 +64,10 @@ class PreviousVisitorListTile extends StatelessWidget {
         ),
         Checkbox(
           value: item.isSelected,
-          onChanged: (value) {
-            notifier.updateListData(item);
-          },
+          onChanged: (value) => notifier.updateListData(
+            context: context,
+            inviteModel: item,
+          ),
         )
       ],
     );

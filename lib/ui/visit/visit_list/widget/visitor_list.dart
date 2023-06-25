@@ -2,7 +2,7 @@ import 'package:dixels_sdk/features/commerce/visit/models/visitor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
-import 'package:pif_flutter/ui/visit/visit_list/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
 
 class VisitorList extends StatelessWidget {
   const VisitorList({

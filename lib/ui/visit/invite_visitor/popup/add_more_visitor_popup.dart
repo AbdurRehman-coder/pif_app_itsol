@@ -104,7 +104,7 @@ void addMoreVisitorPopup({
                         height: 24.h,
                       ),
                       ElevatedButton(
-                        onPressed: notifier.addVisitor,
+                        onPressed: () => notifier.addVisitor(context: context),
                         style: Style.primaryButtonStyle(
                           context: context,
                         ),

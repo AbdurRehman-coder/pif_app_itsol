@@ -103,6 +103,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
               drinkTitle: element.name,
               calories: '${element.expando!.calories} cal',
               count: 0,
+              skus: element.skus?.first.id,
               duration: '5 min',
               drinkOption: element.productOptions,
             ),
@@ -234,7 +235,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
             (e) => CartItems(
               options: '',
               quantity: e.count,
-              skuId: 148326,
+              skuId: e.skus,
               productId: e.id,
             ),
           )
@@ -275,7 +276,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     } else {
       await appProgressDialog.stop();
       errorMessage(
-        errorMessage:S.current.storeNotAvailable,
+        errorMessage: S.current.storeNotAvailable,
         context: context,
       );
       AppRouter.popUntil(Routes.homeScreen);

@@ -9,6 +9,7 @@ class DrinkModel {
     this.drinkTitle,
     this.calories,
     this.count,
+    this.skus,
     this.duration,
     this.drinkOption,
   }) : optionList = drinkOption != null
@@ -29,12 +30,14 @@ class DrinkModel {
   String? drinkTitle;
   String? calories;
   int? count = 0;
+  int? skus = 0;
   String? duration;
   List<ProductOptionsModel>? drinkOption;
   List<Options>? optionList;
 
-  String get imageUrl =>
-      drinkImage != null ? drinkImage!.replaceAll('https://localhost:8080', 'http://20.74.136.229') : '';
+  String get imageUrl => drinkImage != null
+      ? drinkImage!.replaceAll('https://localhost:8080', 'http://20.74.136.229')
+      : '';
 }
 
 class Options {

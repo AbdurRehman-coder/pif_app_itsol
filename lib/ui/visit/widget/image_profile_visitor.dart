@@ -24,7 +24,7 @@ class ImageProfileVisitor extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Text(
-        '${firstName[0]}${lastName[0]}'.toUpperCase(),
+        '${firstName[0].toUpperCase()}${lastName[0].toUpperCase()}'.toUpperCase(),
         style: Style.commonTextStyle(
           color: whiteColor,
           fontSize: 14.sp,

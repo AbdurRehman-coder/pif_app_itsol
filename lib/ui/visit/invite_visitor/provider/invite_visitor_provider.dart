@@ -6,6 +6,7 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
@@ -58,28 +59,64 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     _updateDisableFields();
   }
 
+  // Check text
+  bool checkEntryData({required BuildContext context}) {
+    if (state.lstData.isEmpty &&
+        !state.isFieldDisable &&
+        emailController.text.isValidEmail()) {
+      if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
+        final lstData = state.lstData.toList();
+        final visitor = InviteVisitorModel(
+          firstNameController.text,
+          lastNameController.text,
+          emailController.text,
+          'Verified',
+        );
+        lstData.add(visitor);
+        state = state.copyWith(lstData: lstData);
+        firstNameController.clear();
+        lastNameController.clear();
+        emailController.clear();
+        return true;
+      } else {
+        errorMessage(
+          errorMessage: S.current.visitorAlreadyFound,
+          context: context,
+        );
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+
   //Add Previous Visitor
   Future<void> addPreviousVisitor({required BuildContext context}) async {
-    await previousVisitorPopup(context: context);
+    if (checkEntryData(context: context)) {
+      final previousProvider = ref.read(previousVisitorProvider);
+      await previousVisitorPopup(context: context);
 
-    final previousProvider = ref.read(previousVisitorProvider);
-    final selectedData = previousProvider.lstData
-        .where((element) => element.isSelected == true)
-        .toList();
+      final selectedData = previousProvider.lstData
+          .where((element) => element.isSelected == true)
+          .toList();
 
-    final lstData = state.lstData.toList();
-    for (final item in selectedData) {
-      final data = lstData.firstWhereOrNull(
-        (element) => element.email!.toLowerCase() == item.email!.toLowerCase(),
-      );
-      if (data == null) {
-        lstData.add(item);
+      final lstData = state.lstData.toList();
+      for (final item in selectedData) {
+        final data = lstData.firstWhereOrNull(
+          (element) =>
+              element.email!.toLowerCase() == item.email!.toLowerCase(),
+        );
+        if (data == null) {
+          lstData.add(item);
+        }
       }
+
+      state = state.copyWith(lstData: lstData);
+
+      _updateDisableFields();
+    } else {
+      // await appProgressDialog.stop();
     }
-
-    state = state.copyWith(lstData: lstData);
-
-    _updateDisableFields();
   }
 
   //Add More Visitor
@@ -87,8 +124,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     if (state.isFieldDisable) {
       return;
     }
-
-    addMoreVisitorPopup(context: context);
+    if (checkEntryData(context: context)) {
+      addMoreVisitorPopup(context: context);
+    }
   }
 
   //Send Invitation
@@ -120,13 +158,52 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     }
   }
 
-  //Add Visitor
-  void addVisitor(InviteVisitorModel item) {
-    final lstData = state.lstData.toList();
-    lstData.add(item);
+  //Check if visitor not found
+  bool visitorNotFoundLocally({required String email}) {
+    if (state.lstData
+            .where(
+              (visitor) => visitor.email?.toLowerCase() == email.toLowerCase(),
+            )
+            .firstOrNull ==
+        null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-    state = state.copyWith(lstData: lstData);
-    _updateDisableFields();
+  //Check if visitor not found from history
+  bool visitorNotFoundFromVisitorHistory({required String email}) {
+    final previousProvider = ref.read(previousVisitorProvider);
+    if (previousProvider.lstData
+            .where(
+              (visitor) => visitor.email?.toLowerCase() == email.toLowerCase(),
+            )
+            .firstOrNull ==
+        null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  //Add Visitor
+  void addVisitorFromAddMoreVisitor({
+    required BuildContext context,
+    required InviteVisitorModel item,
+  }) {
+    if (visitorNotFoundLocally(email: item.email ?? '') && visitorNotFoundFromVisitorHistory(email: item.email ?? '')) {
+      final lstData = state.lstData.toList();
+      lstData.add(item);
+      state = state.copyWith(lstData: lstData);
+      _updateDisableFields();
+      AppRouter.pop();
+    } else {
+      errorMessage(
+        errorMessage: S.current.visitorAlreadyFound,
+        context: context,
+      );
+    }
   }
 
   //Remove Visitor List Item
@@ -293,8 +370,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     final result = await DixelsSDK.visitService.postPageDataWithEither(
       reqModel: visit.VisitParam(
         state: visit.State(key: 'pendingVerification'),
-        visitEndDate: startDate.toIso8601String(),
-        visitStartDate: endDate.toIso8601String(),
+        visitStartDate: startDate.toIso8601String(),
+        visitEndDate: endDate.toIso8601String(),
         visitors: state.lstData.isNotEmpty
             ? state.lstData
                 .map(

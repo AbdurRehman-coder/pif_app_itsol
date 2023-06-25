@@ -72,7 +72,7 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
                 VisitsModel(
                   id: visit.id,
                   startDateTimeVisit: visit.visitStartDate ?? DateTime.now(),
-                  endDateTimeVisit: visit.visitStartDate ?? DateTime.now(),
+                  endDateTimeVisit: visit.visitEndDate ?? DateTime.now(),
                   visitModel: visitor,
                 ),
               );
