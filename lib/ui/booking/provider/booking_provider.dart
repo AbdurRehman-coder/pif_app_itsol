@@ -11,6 +11,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
@@ -135,7 +136,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open DatePicker Dialog
   void openDatePickerDialog() {
-    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker) {
+    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker || titleFocus.hasFocus || addGuestFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenDatePicker: true);
@@ -148,6 +149,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
+    if (titleFocus.hasFocus || addGuestFocus.hasFocus || state.isOpenDatePicker) {
+      return;
+    }
     state = state.copyWith(isOpenStartTimePicker: true);
   }
 
@@ -158,6 +162,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
+    if (titleFocus.hasFocus || addGuestFocus.hasFocus || state.isOpenDatePicker) {
+      return;
+    }
     state = state.copyWith(isOpenEndTimePicker: true);
   }
 
@@ -236,65 +243,140 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }) async {
     if (formKey.currentState!.validate()) {
       final lstDates = state.selectedDates;
-      final dayListString =
-          lstDates.map((e) => '\"${e.toFormattedString('yyyy-MM-dd')}\"').toList().join(',');
       final startTimeInMinutes = state.startTime!.toTotalMinutes();
       final endTimeInMinutes = state.endTime!.toTotalMinutes();
 
       final currentDateData = lstDates.firstWhereOrNull((element) => element.isSameDate(DateTime.now()));
       if (currentDateData != null) {
         if (state.startTime!.isBefore(DateTime.now())) {
-          errorMessage(errorMessage: S.current.pastBookingAlert, context: context);
+          errorMessage(
+            errorMessage: S.current.pastBookingAlert,
+            context: context,
+          );
           return;
         }
       }
 
-      for (final item in lstDates) {
-        final data = allBookingTasks.firstWhereOrNull((element) => element.dateTime.isSameDate(item));
-        if (data != null) {
-          if (startTimeInMinutes + 1 > data.dateTime.toTotalMinutes() &&
-              startTimeInMinutes - 1 < data.dateTime.toTotalMinutes()) {
-            errorMessage(errorMessage: S.current.bookingAlert, context: context);
-            return;
-          }
-        }
-      }
-
-      final requestModel = BookingRequestModel(
-        subject: titleController.text,
-        bookedDates: '[$dayListString]',
-        startTime: startTimeInMinutes,
-        endTime: endTimeInMinutes,
-        r_host_userId: 20125,
-        r_bookings_c_roomId: roomId,
-        attendees: state.lstGuests
-            .map(
-              (e) => Visitors(
-                givenName: e.givenName ?? '',
-                familyName: e.familyName ?? '',
-                emailAddress: e.emailAddress ?? '',
-                alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
-              ),
-            )
-            .toList(),
+      await checkBookingFound(
+        roomId: roomId,
+        startTimeInMinutes: startTimeInMinutes,
+        endTimeInMinutes: endTimeInMinutes,
+        isBookEnabled: isBookEnabled,
+        context: context,
       );
+    }
+  }
 
-      final result = await DixelsSDK.bookingService.postPageData(
-        reqModel: requestModel,
-        fromJson: BookingModel.fromJson,
-      );
-      if (result != null) {
-        await AppRouter.pop();
-        if (mounted) {
-          bookingConfirmationPopup(
-            context: context,
-            isRequestBooking: isBookEnabled,
-          );
-        }
+  //Check if we hae a booking in the same time
+  Future<void> checkBookingFound({
+    required int roomId,
+    required int startTimeInMinutes,
+    required int endTimeInMinutes,
+    required bool isBookEnabled,
+    required BuildContext context,
+  }) async {
+    final appProgress = AppProgressDialog(context: context);
+    await appProgress.start();
+    final lstDates = state.selectedDates;
+    final dayListString = lstDates
+        .map(
+          (e) => " and contains(bookedDates,'${e.toFormattedString('yyyy-MM-dd')}')",
+        )
+        .toList()
+        .join('');
+    final param = ParametersModel();
+    final filterParam = '${FilterUtils.filterBy(
+      key: 'r_bookings_c_roomId',
+      value: "'$roomId'",
+      operator: FilterOperator.equal.value,
+    )} and ${FilterUtils.filterBy(
+      key: 'startTime',
+      value: '$startTimeInMinutes',
+      operator: FilterOperator.equal.value,
+    )} and ${FilterUtils.filterBy(
+      key: 'endTime',
+      value: '$endTimeInMinutes',
+      operator: FilterOperator.equal.value,
+    )}$dayListString';
+    param.filter = filterParam;
+    final result = await DixelsSDK.bookingService.getPageDataWithEither(
+      fromJson: BookingModel.fromJson,
+      params: param,
+    );
+    if (result.isRight()) {
+      if (result.getRight()!.items!.isEmpty) {
+        await createBooking(
+          roomId: roomId,
+          startTimeInMinutes: startTimeInMinutes,
+          endTimeInMinutes: endTimeInMinutes,
+          isBookEnabled: isBookEnabled,
+          context: context,
+          appProgress: appProgress,
+        );
       } else {
-        if (mounted) {
-          errorMessage(errorMessage: S.current.somethingWentWrong, context: context);
-        }
+        await appProgress.stop();
+        errorMessage(
+          errorMessage: S.current.bookingAlert,
+          context: context,
+        );
+      }
+    } else {
+      await appProgress.stop();
+      errorMessage(
+        errorMessage: result.getLeft().message,
+        context: context,
+      );
+    }
+  }
+
+  //Create booking
+  Future<void> createBooking({
+    required int roomId,
+    required int startTimeInMinutes,
+    required int endTimeInMinutes,
+    required bool isBookEnabled,
+    required BuildContext context,
+    required AppProgressDialog appProgress,
+  }) async {
+    final lstDates = state.selectedDates;
+    final dayListString = lstDates.map((e) => '\"${e.toFormattedString('yyyy-MM-dd')}\"').toList().join(',');
+    final requestModel = BookingRequestModel(
+      subject: titleController.text,
+      bookedDates: '[$dayListString]',
+      startTime: startTimeInMinutes,
+      endTime: endTimeInMinutes,
+      r_bookings_c_roomId: roomId,
+      attendees: state.lstGuests
+          .map(
+            (e) => Visitors(
+              givenName: e.givenName ?? '',
+              familyName: e.familyName ?? '',
+              emailAddress: e.emailAddress ?? '',
+              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+            ),
+          )
+          .toList(),
+    );
+
+    final result = await DixelsSDK.bookingService.postPageData(
+      reqModel: requestModel,
+      fromJson: BookingModel.fromJson,
+    );
+    await appProgress.stop();
+    if (result != null) {
+      await AppRouter.pop();
+      if (mounted) {
+        bookingConfirmationPopup(
+          context: context,
+          isRequestBooking: isBookEnabled,
+        );
+      }
+    } else {
+      if (mounted) {
+        errorMessage(
+          errorMessage: S.current.somethingWentWrong,
+          context: context,
+        );
       }
     }
   }
@@ -366,8 +448,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Filter Task Data
   void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData =
-        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
@@ -381,8 +462,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       ),
     );
 
-    final result =
-        await DixelsSDK.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
+    final result = await DixelsSDK.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
     if (result != null && result.items != null) {
       for (final mainElement in result.items!) {
         final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
@@ -392,8 +472,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
             final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime =
-                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
                 color: primaryColor,
@@ -440,8 +519,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime =
-        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);

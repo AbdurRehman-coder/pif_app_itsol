@@ -71,7 +71,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,

@@ -383,7 +383,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                   timeData: provider.endTime ?? DateTime.now(),
                                   onCancel: notifier.closeEndTimePickerDialog,
                                   onConfirm: (selectedTime) {
-                                    notifier.updateEndTime(endTime: selectedTime);
+                                    notifier.updateEndTime(endTime: selectedTime, context: context);
                                     notifier.closeEndTimePickerDialog();
                                   },
                                 ),

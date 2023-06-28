@@ -46,6 +46,8 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
+      splitScreenMode: true,
+      minTextAdapt: true,
       designSize: const Size(390, 844),
       builder: (context, child) => MaterialApp(
         title: 'PIF',
@@ -62,9 +64,30 @@ class MyApp extends ConsumerWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: S.delegate.supportedLocales,
-        home: child,
-        builder: EasyLoading.init(),
+        builder: (context, child) {
+          return UnFocusWidget(child: child!);
+        },
       ),
+    );
+  }
+}
+
+class UnFocusWidget extends StatelessWidget {
+  const UnFocusWidget({
+    required this.child,
+    super.key,
+  });
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: child,
     );
   }
 }

@@ -216,7 +216,6 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
     updateStartTime(startTime: state.startTime);
-    updateEndTime(endTime: state.endTime);
   }
 
   //Update Start Time
@@ -229,10 +228,10 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   }
 
   //Update End Time
-  void updateEndTime({required DateTime? endTime}) {
+  void updateEndTime({required DateTime? endTime, required BuildContext context}) {
     endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
     if (state.startTime != null && state.startTime!.isAfter(endTime)) {
-      CommonUtils.showToast(message: S.current.timeValidation);
+      errorMessage(errorMessage: S.current.timeValidation, context: context);
       return;
     }
     state = state.copyWith(endTime: endTime);

@@ -20,6 +20,7 @@ class InviteVisitorFormListView extends StatelessWidget {
           children: [
             CustomTextField(
               textEditingController: notifier.firstNameController,
+              focusNode: notifier.firstNameFocus,
               checkEmpty: true,
               labelText: S.current.firstName,
               onChanged: notifier.onChangeText,
@@ -29,6 +30,7 @@ class InviteVisitorFormListView extends StatelessWidget {
             ),
             CustomTextField(
               textEditingController: notifier.lastNameController,
+              focusNode: notifier.lastNameFocus,
               checkEmpty: true,
               labelText: S.current.lastName,
               onChanged: notifier.onChangeText,
@@ -38,6 +40,7 @@ class InviteVisitorFormListView extends StatelessWidget {
             ),
             CustomTextField(
               textEditingController: notifier.emailController,
+              focusNode: notifier.emailFocus,
               checkEmpty: true,
               labelText: S.current.email,
               isEmailField: true,

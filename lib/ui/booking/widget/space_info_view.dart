@@ -208,6 +208,7 @@ class SpaceInfoView extends StatelessWidget {
     final image1 = spaceData.image1;
     final image2 = spaceData.image2;
     final image3 = spaceData.image3;
+    lstData.add(spaceData.imagePrimary!.getImageUrl);
     if (image1 != null) {
       if (image1.link != null || image1.link!.href!.isNotEmpty) {
         final endIndex = image1.link!.href!.indexOf(image1.link!.label!);
@@ -234,10 +235,6 @@ class SpaceInfoView extends StatelessWidget {
           lstData.add(Constant.imageBaseUrl + url);
         }
       }
-    }
-
-    if (lstData.isEmpty) {
-      lstData.add(spaceData.imagePrimary!.getImageUrl);
     }
     return lstData;
   }

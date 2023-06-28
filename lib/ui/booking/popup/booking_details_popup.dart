@@ -29,389 +29,414 @@ void bookingDetailsBottomSheet({
         builder: (context, ref, child) {
           final provider = ref.watch(bookingProvider);
           final notifier = ref.read(bookingProvider.notifier);
-          return Form(
-            key: notifier.formKey,
-            child: KeyboardVisibilityBuilder(
-              builder: (context, isKeyboardVisible) {
-                if (isKeyboardVisible && notifier.addGuestFocus.hasFocus) {
-                  Future.delayed(Duration.zero, () {
-                    controller.animateTo(
-                      300,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.ease,
-                    );
-                  });
-                }
-                return SizedBox(
-                  height: context.screenHeight - 150.h,
-                  child: Padding(
-                    padding: MediaQuery.of(context).viewInsets,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        Text(
-                          S.of(context).roomCalendar,
-                          style: Style.commonTextStyle(
-                            color: primaryColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
+          return GestureDetector(
+            onTap: () {
+              if (provider.isOpenDatePicker) {
+                notifier.closeDatePickerDialog();
+              }
+
+              if (provider.isOpenStartTimePicker) {
+                notifier.closeStartTimePickerDialog();
+              }
+
+              if (provider.isOpenEndTimePicker) {
+                notifier.closeEndTimePickerDialog();
+              }
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: Form(
+              key: notifier.formKey,
+              child: KeyboardVisibilityBuilder(
+                builder: (context, isKeyboardVisible) {
+                  if (isKeyboardVisible && notifier.addGuestFocus.hasFocus) {
+                    Future.delayed(Duration.zero, () {
+                      controller.animateTo(
+                        300,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    });
+                  }
+                  return SizedBox(
+                    height: context.screenHeight - 150.h,
+                    child: Padding(
+                      padding: MediaQuery.of(context).viewInsets,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 15.h,
                           ),
-                        ),
-                        SizedBox(
-                          height: 7.h,
-                        ),
-                        Center(
-                          child: SvgPicture.asset(
-                            Assets.downArrow,
-                            height: 13.h,
+                          Text(
+                            S.of(context).roomCalendar,
+                            style: Style.commonTextStyle(
+                              color: primaryColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: SingleChildScrollView(
-                            controller: controller,
-                            child: Column(
-                              children: [
-                                SizedBox(
-                                  height: 22.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                  child: CustomTextField(
-                                    textEditingController: notifier.titleController,
-                                    maxLength: 100,
-                                    checkEmpty: true,
-                                    labelText: S.current.bookingTitle,
-                                    focusNode: notifier.titleFocus,
+                          SizedBox(
+                            height: 7.h,
+                          ),
+                          Center(
+                            child: SvgPicture.asset(
+                              Assets.downArrow,
+                              height: 13.h,
+                            ),
+                          ),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              controller: controller,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 22.h,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Container(
-                                  height: 1.h,
-                                  color: grayBorderColor,
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                      child: InkWell(
-                                        onTap: notifier.openDatePickerDialog,
-                                        child: Theme(
-                                          data: ThemeData(
-                                            disabledColor: textColor,
-                                          ),
-                                          child: CustomTextField(
-                                            textEditingController: notifier.dateController,
-                                            checkEmpty: true,
-                                            enabled: false,
-                                            suffixIcon: SvgPicture.asset(
-                                              Assets.calendar,
-                                              height: 10.h,
-                                              width: 10.w,
-                                              fit: BoxFit.scaleDown,
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                    child: CustomTextField(
+                                      textEditingController: notifier.titleController,
+                                      maxLength: 100,
+                                      checkEmpty: true,
+                                      labelText: S.current.bookingTitle,
+                                      focusNode: notifier.titleFocus,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Container(
+                                    height: 1.h,
+                                    color: grayBorderColor,
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Stack(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                        child: InkWell(
+                                          onTap: notifier.openDatePickerDialog,
+                                          child: Theme(
+                                            data: ThemeData(
+                                              disabledColor: textColor,
                                             ),
-                                            labelText: S.current.date,
+                                            child: CustomTextField(
+                                              textEditingController: notifier.dateController,
+                                              checkEmpty: true,
+                                              enabled: false,
+                                              suffixIcon: SvgPicture.asset(
+                                                Assets.calendar,
+                                                height: 10.h,
+                                                width: 10.w,
+                                                fit: BoxFit.scaleDown,
+                                              ),
+                                              labelText: S.current.date,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h),
-                                      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-                                      height: 400.h,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(16.r),
-                                        color: Colors.white,
-                                        boxShadow: const [
-                                          BoxShadow(
-                                            blurRadius: 10,
-                                            color: grayE3,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: AwesomeCalendar(
-                                              selectedDates: provider.selectedDates.toList(),
-                                              selectionMode: SelectionMode.multi,
-                                              startDate: DateTime.now(),
-                                              endDate: DateTime.now().add(const Duration(days: 50)),
-                                              dayTileBuilder: CustomDayTileBuilder(),
-                                              onTap: notifier.updateDateString,
+                                      Container(
+                                        margin: EdgeInsets.only(left: 16.w, right: 16.w, top: 50.h),
+                                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+                                        height: 400.h,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(16.r),
+                                          color: Colors.white,
+                                          boxShadow: const [
+                                            BoxShadow(
+                                              blurRadius: 10,
+                                              color: grayE3,
                                             ),
-                                          ),
-                                          const SizedBox(
-                                            height: 6,
-                                          ),
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
+                                          ],
+                                        ),
+                                        child: InkWell(
+                                          onTap: () {},
+                                          child: Column(
                                             children: [
-                                              ElevatedButton(
-                                                onPressed: notifier.closeDatePickerDialog,
-                                                style: ElevatedButton.styleFrom(
-                                                  elevation: 0,
-                                                  foregroundColor: primaryColor,
-                                                  backgroundColor: Colors.white,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    S.of(context).cancel,
-                                                  ),
+                                              Expanded(
+                                                child: AwesomeCalendar(
+                                                  selectedDates: provider.selectedDates.toList(),
+                                                  selectionMode: SelectionMode.multi,
+                                                  startDate: DateTime.now(),
+                                                  endDate: DateTime.now().add(const Duration(days: 50)),
+                                                  dayTileBuilder: CustomDayTileBuilder(),
+                                                  onTap: notifier.updateDateString,
                                                 ),
                                               ),
                                               const SizedBox(
-                                                width: 10,
+                                                height: 6,
                                               ),
-                                              ElevatedButton(
-                                                onPressed: notifier.closeDatePickerDialog,
-                                                style: ElevatedButton.styleFrom(
-                                                  foregroundColor: Colors.white,
-                                                  backgroundColor: primaryColor,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    S.of(context).confirm,
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: notifier.closeDatePickerDialog,
+                                                    style: ElevatedButton.styleFrom(
+                                                      elevation: 0,
+                                                      foregroundColor: primaryColor,
+                                                      backgroundColor: Colors.white,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        S.of(context).cancel,
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  ElevatedButton(
+                                                    onPressed: notifier.closeDatePickerDialog,
+                                                    style: ElevatedButton.styleFrom(
+                                                      foregroundColor: Colors.white,
+                                                      backgroundColor: primaryColor,
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        S.of(context).confirm,
+                                                      ),
+                                                    ),
+                                                  )
+                                                ],
                                               )
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                    ).visibility(visible: provider.isOpenDatePicker),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Container(
-                                  height: 1.h,
-                                  color: grayBorderColor,
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Stack(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: notifier.openStartTimePickerDialog,
-                                              child: Theme(
-                                                data: ThemeData(
-                                                  disabledColor: textColor,
-                                                ),
-                                                child: CustomTextField(
-                                                  textEditingController: notifier.startTimeController,
-                                                  enabled: false,
-                                                  checkEmpty: true,
-                                                  labelText: S.current.startingTime,
-                                                  suffixIcon: SvgPicture.asset(
-                                                    Assets.arrowDown,
-                                                    height: 10.h,
-                                                    width: 10.w,
-                                                    fit: BoxFit.scaleDown,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
                                           ),
-                                          SizedBox(
-                                            width: 6.w,
-                                          ),
-                                          Text(
-                                            '-',
-                                            style: Style.commonTextStyle(
-                                              color: blackColor,
-                                              fontSize: 14.sp,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 6.w,
-                                          ),
-                                          Expanded(
-                                            child: InkWell(
-                                              onTap: notifier.openEndTimePickerDialog,
-                                              child: Theme(
-                                                data: ThemeData(
-                                                  disabledColor: textColor,
-                                                ),
-                                                child: CustomTextField(
-                                                  textEditingController: notifier.endTimeController,
-                                                  enabled: false,
-                                                  checkEmpty: true,
-                                                  labelText: S.current.endingTime,
-                                                  suffixIcon: SvgPicture.asset(
-                                                    Assets.arrowDown,
-                                                    height: 10.h,
-                                                    width: 10.w,
-                                                    fit: BoxFit.scaleDown,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    TimePickerPopup(
-                                      timeData: provider.startTime ?? DateTime.now(),
-                                      onCancel: notifier.closeStartTimePickerDialog,
-                                      onConfirm: (selectedTime) {
-                                        notifier.updateStartTime(startTime: selectedTime);
-                                        notifier.closeStartTimePickerDialog();
-                                      },
-                                    ).visibility(visible: provider.isOpenStartTimePicker),
-                                    TimePickerPopup(
-                                      timeData: provider.endTime ?? DateTime.now(),
-                                      onCancel: notifier.closeEndTimePickerDialog,
-                                      onConfirm: (selectedTime) {
-                                        notifier.updateEndTime(endTime: selectedTime);
-                                        notifier.closeEndTimePickerDialog();
-                                      },
-                                    ).visibility(visible: provider.isOpenEndTimePicker),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 8.h,
-                                ),
-                                InkWell(
-                                  onTap: AppRouter.pop,
-                                  child: Text(
-                                    S.of(context).selectTimeOnRoomCalendar,
-                                    style: Style.commonTextStyle(
-                                      color: primaryColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
+                                        ),
+                                      ).visibility(visible: provider.isOpenDatePicker),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Container(
-                                  height: 1.h,
-                                  color: grayBorderColor,
-                                ),
-                                SizedBox(
-                                  height: 24.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                  child: Row(
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Container(
+                                    height: 1.h,
+                                    color: grayBorderColor,
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Stack(
                                     children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          style: DefaultTextStyle.of(context).style,
-                                          children: <TextSpan>[
-                                            TextSpan(
-                                              text: S.of(context).guest,
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: notifier.openStartTimePickerDialog,
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                    disabledColor: textColor,
+                                                  ),
+                                                  child: CustomTextField(
+                                                    textEditingController: notifier.startTimeController,
+                                                    enabled: false,
+                                                    checkEmpty: true,
+                                                    labelText: S.current.startingTime,
+                                                    suffixIcon: SvgPicture.asset(
+                                                      Assets.arrowDown,
+                                                      height: 10.h,
+                                                      width: 10.w,
+                                                      fit: BoxFit.scaleDown,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 6.w,
+                                            ),
+                                            Text(
+                                              '-',
                                               style: Style.commonTextStyle(
-                                                color: textColor,
-                                                fontSize: 18.sp,
+                                                color: blackColor,
+                                                fontSize: 14.sp,
                                                 fontWeight: FontWeight.w400,
                                               ),
                                             ),
-                                            const TextSpan(text: ' '),
-                                            TextSpan(
-                                              text: S.of(context).optional,
-                                              style: Style.commonTextStyle(
-                                                color: textColor,
-                                                fontSize: 12.sp,
-                                                fontWeight: FontWeight.w400,
+                                            SizedBox(
+                                              width: 6.w,
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: notifier.openEndTimePickerDialog,
+                                                child: Theme(
+                                                  data: ThemeData(
+                                                    disabledColor: textColor,
+                                                  ),
+                                                  child: CustomTextField(
+                                                    textEditingController: notifier.endTimeController,
+                                                    enabled: false,
+                                                    checkEmpty: true,
+                                                    labelText: S.current.endingTime,
+                                                    suffixIcon: SvgPicture.asset(
+                                                      Assets.arrowDown,
+                                                      height: 10.h,
+                                                      width: 10.w,
+                                                      fit: BoxFit.scaleDown,
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      const Spacer(),
-                                      SvgPicture.asset(
-                                        Assets.user,
-                                      ),
-                                      SizedBox(
-                                        width: 8.w,
+                                      InkWell(
+                                        onTap: () {},
+                                        child: TimePickerPopup(
+                                          timeData: provider.startTime ?? DateTime.now(),
+                                          onCancel: notifier.closeStartTimePickerDialog,
+                                          onConfirm: (selectedTime) {
+                                            notifier.updateStartTime(startTime: selectedTime);
+                                            notifier.closeStartTimePickerDialog();
+                                          },
+                                        ).visibility(visible: provider.isOpenStartTimePicker),
                                       ),
                                       InkWell(
-                                        onTap: () {
-                                          addVisitorBottomSheet(
-                                            context: context,
-                                            provider: provider,
-                                            notifier: notifier,
-                                          );
-                                        },
-                                        child: Text(
-                                          S.of(context).newVisitors,
-                                          style: Style.commonTextStyle(
-                                            color: primaryColor,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
+                                        onTap: () {},
+                                        child: TimePickerPopup(
+                                          timeData: provider.endTime ?? DateTime.now(),
+                                          onCancel: notifier.closeEndTimePickerDialog,
+                                          onConfirm: (selectedTime) {
+                                            notifier.updateEndTime(endTime: selectedTime);
+                                            notifier.closeEndTimePickerDialog();
+                                          },
+                                        ).visibility(visible: provider.isOpenEndTimePicker),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                  child: CustomTextField(
-                                    textEditingController: notifier.addGuestController,
-                                    onChanged: notifier.searchGuest,
-                                    labelText: S.current.addGuest,
-                                    focusNode: notifier.addGuestFocus,
+                                  SizedBox(
+                                    height: 8.h,
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 5.h,
-                                ),
-                                AddGuestView(
-                                  provider: provider,
-                                  notifier: notifier,
-                                ),
-                                SizedBox(
-                                  height: 100.h,
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 18.sp),
-                                  child: ElevatedButton(
-                                    onPressed: () => notifier.bookNowAsync(
-                                      context: context,
-                                      isBookEnabled: spaceData.needApproval!,
-                                      roomId: spaceData.id!,
-                                    ),
-                                    style: Style.primaryButtonStyle(
-                                      context: context,
-                                    ),
+                                  InkWell(
+                                    onTap: AppRouter.pop,
                                     child: Text(
-                                      S.current.book,
+                                      S.of(context).selectTimeOnRoomCalendar,
+                                      style: Style.commonTextStyle(
+                                        color: primaryColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(
-                                  height: Platform.isIOS ? 40.h : 20.h,
-                                )
-                              ],
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Container(
+                                    height: 1.h,
+                                    color: grayBorderColor,
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                    child: Row(
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            style: DefaultTextStyle.of(context).style,
+                                            children: <TextSpan>[
+                                              TextSpan(
+                                                text: S.of(context).guest,
+                                                style: Style.commonTextStyle(
+                                                  color: textColor,
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                              const TextSpan(text: ' '),
+                                              TextSpan(
+                                                text: S.of(context).optional,
+                                                style: Style.commonTextStyle(
+                                                  color: textColor,
+                                                  fontSize: 12.sp,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Spacer(),
+                                        SvgPicture.asset(
+                                          Assets.user,
+                                        ),
+                                        SizedBox(
+                                          width: 8.w,
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            addVisitorBottomSheet(
+                                              context: context,
+                                              provider: provider,
+                                              notifier: notifier,
+                                            );
+                                          },
+                                          child: Text(
+                                            S.of(context).newVisitors,
+                                            style: Style.commonTextStyle(
+                                              color: primaryColor,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 10.h,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                    child: CustomTextField(
+                                      textEditingController: notifier.addGuestController,
+                                      onChanged: notifier.searchGuest,
+                                      labelText: S.current.addGuest,
+                                      focusNode: notifier.addGuestFocus,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 5.h,
+                                  ),
+                                  AddGuestView(
+                                    provider: provider,
+                                    notifier: notifier,
+                                  ),
+                                  SizedBox(
+                                    height: 100.h,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 18.sp),
+                                    child: ElevatedButton(
+                                      onPressed: () => notifier.bookNowAsync(
+                                        context: context,
+                                        isBookEnabled: spaceData.needApproval!,
+                                        roomId: spaceData.id!,
+                                      ),
+                                      style: Style.primaryButtonStyle(
+                                        context: context,
+                                      ),
+                                      child: Text(
+                                        S.current.book,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: Platform.isIOS ? 40.h : 20.h,
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           );
         },

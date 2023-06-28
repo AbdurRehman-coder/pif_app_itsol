@@ -29,75 +29,77 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
   Widget build(BuildContext context) {
     final notifier = ref.read(scanBookingListProvider.notifier);
     final provider = ref.watch(scanBookingListProvider);
-    return Column(
-      children: [
-        InkWell(
-          onTap: () => widget.panelController.close(),
-          child: Column(
-            children: [
-              SizedBox(height: 51.h),
-              Center(
-                child: SvgPicture.asset(
-                  Assets.downArrow,
-                  height: 13.h,
+    return Scaffold(
+      body: Column(
+        children: [
+          InkWell(
+            onTap: () => widget.panelController.close(),
+            child: Column(
+              children: [
+                SizedBox(height: 51.h),
+                Center(
+                  child: SvgPicture.asset(
+                    Assets.downArrow,
+                    height: 13.h,
+                  ),
                 ),
-              ),
-              SizedBox(height: 23.h),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Text(
-            S.of(context).troubleScanningQRCodeEnterManually,
-            style: Style.commonTextStyle(
-              fontSize: 18.sp,
-              color: blackColor,
-              fontWeight: FontWeight.w500,
+                SizedBox(height: 23.h),
+              ],
             ),
           ),
-        ),
-        SizedBox(height: 10.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: CustomTextField(
-            textEditingController: notifier.searchController,
-            labelText: S.of(context).roomName,
-            suffixIcon: notifier.searchController.text.isNotEmpty
-                ? IconButton(
-                    onPressed: notifier.clearSearchData,
-                    icon: const Icon(
-                      Icons.close,
-                      color: primaryColor,
-                    ),
-                  )
-                : null,
-            onChanged: notifier.searchData,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Text(
+              S.of(context).troubleScanningQRCodeEnterManually,
+              style: Style.commonTextStyle(
+                fontSize: 18.sp,
+                color: blackColor,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-        ),
-        SizedBox(height: 16.h),
-        Expanded(
-          child: provider.lstData.when(
-            data: (data) {
-              if (data.isEmpty) {
-                return const SpaceBookingEmptyView();
-              } else {
-                return setListView(data, notifier);
-              }
-            },
-            error: (e, s) {
-              return SizedBox(
-                height: 10.h,
-              );
-            },
-            loading: () {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+          SizedBox(height: 10.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: CustomTextField(
+              textEditingController: notifier.searchController,
+              labelText: S.of(context).roomName,
+              suffixIcon: notifier.searchController.text.isNotEmpty
+                  ? IconButton(
+                      onPressed: notifier.clearSearchData,
+                      icon: const Icon(
+                        Icons.close,
+                        color: primaryColor,
+                      ),
+                    )
+                  : null,
+              onChanged: notifier.searchData,
+            ),
           ),
-        ),
-      ],
+          SizedBox(height: 16.h),
+          Expanded(
+            child: provider.lstData.when(
+              data: (data) {
+                if (data.isEmpty) {
+                  return const SpaceBookingEmptyView();
+                } else {
+                  return setListView(data, notifier);
+                }
+              },
+              error: (e, s) {
+                return SizedBox(
+                  height: 10.h,
+                );
+              },
+              loading: () {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 

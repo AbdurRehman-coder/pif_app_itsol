@@ -1,8 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
-import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
-    as visit;
+import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart' as visit;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -17,18 +16,19 @@ import 'package:pif_flutter/ui/visit/invite_visitor/popup/previous_visitor_popup
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
-final inviteVisitorProvider = StateNotifierProvider.autoDispose<
-    InviteVisitorNotifier, InviteVisitorState>((ref) {
+final inviteVisitorProvider = StateNotifierProvider.autoDispose<InviteVisitorNotifier, InviteVisitorState>((ref) {
   return InviteVisitorNotifier(ref: ref);
 });
 
 class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
-  InviteVisitorNotifier({required this.ref})
-      : super(InviteVisitorState.initial()) {
+  InviteVisitorNotifier({required this.ref}) : super(InviteVisitorState.initial()) {
     _initData();
   }
 
   final Ref ref;
+  late FocusNode firstNameFocus;
+  late FocusNode lastNameFocus;
+  late FocusNode emailFocus;
   late GlobalKey<FormState> formKey;
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -41,6 +41,14 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   late TextEditingController endTimeController;
 
   void _initData() {
+    firstNameFocus = FocusNode();
+    lastNameFocus = FocusNode();
+    emailFocus = FocusNode();
+
+    lastNameFocus.addListener(_onNameFocus);
+    firstNameFocus.addListener(_onNameFocus);
+    emailFocus.addListener(_onNameFocus);
+
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     emailController = TextEditingController();
@@ -61,9 +69,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   // Check text
   bool checkEntryData({required BuildContext context}) {
-    if (state.lstData.isEmpty &&
-        !state.isFieldDisable &&
-        emailController.text.isValidEmail()) {
+    if (state.lstData.isEmpty && !state.isFieldDisable && emailController.text.isValidEmail()) {
       if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final lstData = state.lstData.toList();
         final visitor = InviteVisitorModel(
@@ -96,15 +102,12 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       final previousProvider = ref.read(previousVisitorProvider);
       await previousVisitorPopup(context: context);
 
-      final selectedData = previousProvider.lstData
-          .where((element) => element.isSelected == true)
-          .toList();
+      final selectedData = previousProvider.lstData.where((element) => element.isSelected == true).toList();
 
       final lstData = state.lstData.toList();
       for (final item in selectedData) {
         final data = lstData.firstWhereOrNull(
-          (element) =>
-              element.email!.toLowerCase() == item.email!.toLowerCase(),
+          (element) => element.email!.toLowerCase() == item.email!.toLowerCase(),
         );
         if (data == null) {
           lstData.add(item);
@@ -131,6 +134,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Send Invitation
   void sendInvitation(BuildContext context) {
+    if (state.isFieldDisable) {
+      return;
+    }
     if (state.startDate.isAfter(state.endDate)) {
       errorMessage(
         context: context,
@@ -139,14 +145,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       return;
     }
     final startDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
-      '${startDateSelectController.text} ${startTimeController.text}'
-          .replaceAll('pm', 'PM')
-          .replaceAll('am', 'AM'),
+      '${startDateSelectController.text} ${startTimeController.text}'.replaceAll('pm', 'PM').replaceAll('am', 'AM'),
     );
     final endDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
-      '${endDateSelectController.text} ${endTimeController.text}'
-          .replaceAll('pm', 'PM')
-          .replaceAll('am', 'AM'),
+      '${endDateSelectController.text} ${endTimeController.text}'.replaceAll('pm', 'PM').replaceAll('am', 'AM'),
     );
 
     if (formKey.currentState!.validate()) {
@@ -217,10 +219,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }
 
   void _updateDisableFields() {
-    final isDisable = state.lstData.isEmpty &&
-        (firstNameController.text.isEmpty ||
-            lastNameController.text.isEmpty ||
-            emailController.text.isEmpty);
+    final isDisable = state.lstData.isEmpty && (firstNameController.text.isEmpty || lastNameController.text.isEmpty || emailController.text.isEmpty);
     state = state.copyWith(isFieldDisable: isDisable);
   }
 
@@ -229,6 +228,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     state = state.copyWith(startDate: date);
     startDateController.text = DateFormat('MM/dd/yyyy').format(date);
     startDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
+
+    state = state.copyWith(endDate: date);
+    endDateController.text = DateFormat('MM/dd/yyyy').format(date);
+    endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
     closeStartDatePickerDialog();
   }
@@ -276,7 +279,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   void openStartDatePickerDialog() {
     if (state.isOpenStartTimePicker ||
         state.isOpenEndTimePicker ||
-        state.isOpenEndDatePicker) {
+        state.isOpenEndDatePicker ||
+        firstNameFocus.hasFocus ||
+        lastNameFocus.hasFocus ||
+        emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenStartDatePicker: true);
@@ -289,7 +295,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open End DatePicker Dialog
   void openEndDatePickerDialog() {
-    if (state.isOpenEndTimePicker) {
+    if (state.isOpenEndTimePicker || firstNameFocus.hasFocus || lastNameFocus.hasFocus || emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenEndDatePicker: true);
@@ -304,7 +310,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   void openStartTimePickerDialog() {
     if (state.isOpenStartDatePicker ||
         state.isOpenEndTimePicker ||
-        state.isOpenEndDatePicker) {
+        state.isOpenEndDatePicker ||
+        firstNameFocus.hasFocus ||
+        lastNameFocus.hasFocus ||
+        emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenStartTimePicker: true);
@@ -317,7 +326,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
-    if (state.isOpenEndDatePicker) {
+    if (state.isOpenEndDatePicker || firstNameFocus.hasFocus || lastNameFocus.hasFocus || emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenEndTimePicker: true);
@@ -354,8 +363,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       roundedTime.minute,
     );
 
-    updateStartDate(state.startDate);
-    updateEndDate(state.endDate);
     updateStartTime(startTime: roundedTime);
     updateEndTime(endTime: roundedTime.add(const Duration(hours: 1)));
   }
@@ -386,8 +393,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
             : [
                 visit.Visitors(
                   emailAddress: emailController.text,
-                  alternateName: emailController.text
-                      .substring(0, emailController.text.indexOf('@')),
+                  alternateName: emailController.text.substring(0, emailController.text.indexOf('@')),
                   givenName: firstNameController.text,
                   familyName: lastNameController.text,
                 ),
@@ -413,5 +419,12 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
         context: context,
       );
     }
+  }
+
+  void _onNameFocus() {
+    closeEndDatePickerDialog();
+    closeStartDatePickerDialog();
+    closeStartTimePickerDialog();
+    closeEndTimePickerDialog();
   }
 }

@@ -14,39 +14,41 @@ class BottomSheetButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: lightPrimaryColor,
-        ),
-        height: 80.h,
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          children: [
-            SizedBox(
-              height: 15.h,
-            ),
-            RotatedBox(
-              quarterTurns: 2,
-              child: SvgPicture.asset(
-                Assets.downArrow,
-                colorFilter: const ColorFilter.mode(borderColor, BlendMode.srcIn),
-                height: 13.h,
+    return Scaffold(
+      body: InkWell(
+        onTap: onTap,
+        child: Container(
+          decoration: const BoxDecoration(
+            color: lightPrimaryColor,
+          ),
+          height: 80.h,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 15.h,
               ),
-            ),
-            SizedBox(
-              height: 7.h,
-            ),
-            Text(
-              bottomText,
-              style: TextStyle(
-                color: textColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
+              RotatedBox(
+                quarterTurns: 2,
+                child: SvgPicture.asset(
+                  Assets.downArrow,
+                  colorFilter: const ColorFilter.mode(borderColor, BlendMode.srcIn),
+                  height: 13.h,
+                ),
               ),
-            )
-          ],
+              SizedBox(
+                height: 7.h,
+              ),
+              Text(
+                bottomText,
+                style: TextStyle(
+                  color: textColor,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -31,12 +31,18 @@ class BookingScannerNotifier {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
 
-    final param = ParametersModel();
-    param.filter = FilterUtils.filterBy(
+    var filterQuery = FilterUtils.filterBy(
+      key: 'bookable',
+      value: true.toString(),
+      operator: FilterOperator.equal.value,
+    );
+    filterQuery = '$filterQuery and ${FilterUtils.filterBy(
       key: 'id',
       value: "'$roomId'",
       operator: FilterOperator.equal.value,
-    );
+    )}';
+    final param = ParametersModel();
+    param.filter = filterQuery;
     final result = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
     await appProgressDialog.stop();
     if (result != null && result.items!.isNotEmpty) {
