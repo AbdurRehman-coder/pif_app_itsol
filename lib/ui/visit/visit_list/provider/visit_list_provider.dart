@@ -4,13 +4,11 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visitor_status_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/state/visit_list_state.dart';
 
-final visitListProvider =
-    StateNotifierProvider.autoDispose<VisitListNotifier, VisitListState>((ref) {
+final visitListProvider = StateNotifierProvider.autoDispose<VisitListNotifier, VisitListState>((ref) {
   return VisitListNotifier(ref: ref);
 });
 
@@ -55,17 +53,18 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
     allVisitsData.clear();
     state = state.copyWith(allVisitsModel: const AsyncLoading());
     final featureList = <Future<dynamic>>[];
-    final result = await DixelsSDK.visitService.getPageData(
+    final result = await DixelsSDK.instance.visitService.getPageData(
       fromJson: VisitModel.fromJson,
       params: ParametersModel(sort: 'dateCreated:desc'),
     );
     if (result?.items != null) {
       for (final visit in result!.items!) {
         featureList.add(
-          DixelsSDK.visitService
+          DixelsSDK.instance.visitService
               .getVisitorsForVisit(
             visitorId: visit.id,
-          ).then((getVisitors) {
+          )
+              .then((getVisitors) {
             if (getVisitors.isRight()) {
               final visitor = getVisitors.getRight()?.items ?? [];
               allVisitsData.add(

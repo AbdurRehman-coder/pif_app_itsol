@@ -16,8 +16,7 @@ import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
 import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
 
-final drinksProvider =
-    StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
+final drinksProvider = StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
   return DrinksNotifier(ref: ref);
 });
 
@@ -42,16 +41,13 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   late TextEditingController notesController;
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation =
-        await DixelsSDK.structureContentService.getStoreInformation(
+    final storeInformation = await DixelsSDK.instance.structureContentService.getStoreInformation(
       webContentId: '147637',
       siteId: '20120',
     );
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime =
-        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime =
-        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -78,15 +74,14 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   bool checkDateEnd(DateTime dateTime) {
     final dateTimeNow = DateTime.now();
     if (dateTime.hour != dateTimeNow.hour) {
-      return dateTimeNow.hour > dateTime.hour &&
-          dateTimeNow.minute > dateTime.minute;
+      return dateTimeNow.hour > dateTime.hour && dateTimeNow.minute > dateTime.minute;
     } else {
       return dateTimeNow.minute > dateTime.minute;
     }
   }
 
   Future<void> _getDrinks() async {
-    final result = await DixelsSDK.productService.getProductsByChannelAsync(
+    final result = await DixelsSDK.instance.productService.getProductsByChannelAsync(
       channelId: '147240',
       accountId: '148293',
     );
@@ -118,7 +113,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   Future<void> _getCategories() async {
-    final result = await DixelsSDK.productService.getCategories();
+    final result = await DixelsSDK.instance.productService.getCategories();
     if (result != null) {
       state = state.copyWith(lstCategory: result.items!);
     }
@@ -134,9 +129,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
     lstData[index].isSelected = true;
 
-    final lstDrink = allDrinks
-        .where((element) => element.categoryId == int.parse(lstData[index].id!))
-        .toList();
+    final lstDrink =
+        allDrinks.where((element) => element.categoryId == int.parse(lstData[index].id!)).toList();
 
     selectedCatDrinks = lstDrink;
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
@@ -146,9 +140,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void searchData(String searchTxt) {
     final lstData = allDrinks
         .where(
-          (element) => element.drinkTitle!
-              .toLowerCase()
-              .contains(searchTxt.toLowerCase()),
+          (element) => element.drinkTitle!.toLowerCase().contains(searchTxt.toLowerCase()),
         )
         .toList();
 
@@ -178,8 +170,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void removeDrinks({required DrinkModel item}) {
     if (state.lstCarts.isEmpty) {
       final navigation = NavigationHistoryObserver().history.last;
-      if (navigation.settings.name == Routes.drinkDetailsScreen &&
-          item.count == 1) {
+      if (navigation.settings.name == Routes.drinkDetailsScreen && item.count == 1) {
         return;
       }
     }
@@ -251,14 +242,12 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
           restricted: true,
         )
       ];
-      final result = await DixelsSDK.cartService.addCartAsync(
+      final result = await DixelsSDK.instance.cartService.addCartAsync(
         request: request,
         channelId: '147240',
       );
       if (result != null) {
-        await DixelsSDK.cartService
-            .checkoutAsync(cartId: result.id.toString())
-            .then(
+        await DixelsSDK.instance.cartService.checkoutAsync(cartId: result.id.toString()).then(
           (value) async {
             await appProgressDialog.stop();
             showSuccessMessage(
@@ -290,8 +279,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       item.count = 0;
     }
 
-    final selectedCategory =
-        state.lstCategory.firstWhere((element) => element.isSelected! == true);
+    final selectedCategory = state.lstCategory.firstWhere((element) => element.isSelected! == true);
 
     final lstDrink = allDrinks
         .where(

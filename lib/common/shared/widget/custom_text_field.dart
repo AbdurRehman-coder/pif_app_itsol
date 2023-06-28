@@ -19,6 +19,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLines = 1,
     this.enabled = true,
     this.checkEmpty = false,
+    this.obscureText = false,
     this.decoration,
     this.validateEmptyString,
     this.prefixIcon,
@@ -53,12 +54,14 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? style;
   final Color? fillColor;
   final bool isEmailField;
+  final bool obscureText;
   final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       style: style,
+      obscureText: obscureText,
       onChanged: onChanged,
       controller: textEditingController,
       keyboardType: keyboardType,

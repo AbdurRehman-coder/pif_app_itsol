@@ -152,7 +152,7 @@ class SpaceInfoView extends StatelessWidget {
                 ),
                 Container(
                   height: 20.h,
-                  width: 50.w,
+                  width: 60.w,
                   decoration: BoxDecoration(
                     color: whiteColor,
                     borderRadius: BorderRadius.circular(16.r),

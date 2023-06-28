@@ -153,5 +153,7 @@
   "alreadyAdded": "Guest Already Added",
   "somethingWentWrong": "Something went wrong",
   "bookingFor": "Booking for",
-  "pastBookingAlert" : "Please select future time"
+  "pastBookingAlert" : "Please select future time",
+  "password":"Password",
+  "login":"LogIn"
 }

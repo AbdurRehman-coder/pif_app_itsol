@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -32,7 +33,12 @@ class SplashPage extends HookWidget {
     );
   }
 
-  void _navigateUser() {
-    AppRouter.pushReplacement(Routes.homeScreen);
+  Future<void> _navigateUser() async {
+    final token = await DixelsSDK.instance.getToken;
+    if (token != null && token.isNotEmpty) {
+      await AppRouter.pushReplacement(Routes.homeScreen);
+    } else {
+      await AppRouter.pushReplacement(Routes.logInScreen);
+    }
   }
 }

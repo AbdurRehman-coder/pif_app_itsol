@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
@@ -64,7 +65,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Get Foors Data
   Future<void> _getFloors() async {
-    final result = await DixelsSDK.floorService.getPageData(fromJson: FloorModel.fromJson);
+    final result = await DixelsSDK.instance.floorService.getPageData(fromJson: FloorModel.fromJson);
     if (result != null) {
       state = state.copyWith(lstFloors: result.items!);
     }

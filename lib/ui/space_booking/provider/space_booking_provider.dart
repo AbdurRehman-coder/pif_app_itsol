@@ -26,7 +26,8 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
 
   //Get Space Data
   Future<void> getSpaceAsync({bool isFilter = false}) async {
-    final data = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: getFilterQuery(isFilter: isFilter));
+    final data = await DixelsSDK.instance.roomService
+        .getPageData(fromJson: RoomModel.fromJson, params: getFilterQuery(isFilter: isFilter));
     if (data != null) {
       allListData = data.items;
       state = state.copyWith(lstData: AsyncData(data.items!));

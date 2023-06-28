@@ -5,6 +5,7 @@ class Routes {
   const Routes._();
 
   static const String splashScreen = 'splash';
+  static const String logInScreen = '/logInScreen';
   static const String homeScreen = '/home';
   static const String spaceBookingScreen = '/spaceBooking';
   static const String bookingScreen = '/booking';

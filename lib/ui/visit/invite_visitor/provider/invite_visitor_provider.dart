@@ -16,7 +16,8 @@ import 'package:pif_flutter/ui/visit/invite_visitor/popup/previous_visitor_popup
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
-final inviteVisitorProvider = StateNotifierProvider.autoDispose<InviteVisitorNotifier, InviteVisitorState>((ref) {
+final inviteVisitorProvider =
+    StateNotifierProvider.autoDispose<InviteVisitorNotifier, InviteVisitorState>((ref) {
   return InviteVisitorNotifier(ref: ref);
 });
 
@@ -194,7 +195,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     required BuildContext context,
     required InviteVisitorModel item,
   }) {
-    if (visitorNotFoundLocally(email: item.email ?? '') && visitorNotFoundFromVisitorHistory(email: item.email ?? '')) {
+    if (visitorNotFoundLocally(email: item.email ?? '') &&
+        visitorNotFoundFromVisitorHistory(email: item.email ?? '')) {
       final lstData = state.lstData.toList();
       lstData.add(item);
       state = state.copyWith(lstData: lstData);
@@ -219,7 +221,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }
 
   void _updateDisableFields() {
-    final isDisable = state.lstData.isEmpty && (firstNameController.text.isEmpty || lastNameController.text.isEmpty || emailController.text.isEmpty);
+    final isDisable = state.lstData.isEmpty &&
+        (firstNameController.text.isEmpty || lastNameController.text.isEmpty || emailController.text.isEmpty);
     state = state.copyWith(isFieldDisable: isDisable);
   }
 
@@ -374,7 +377,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }) async {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
-    final result = await DixelsSDK.visitService.postPageDataWithEither(
+    final result = await DixelsSDK.instance.visitService.postPageDataWithEither(
       reqModel: visit.VisitParam(
         state: visit.State(key: 'pendingVerification'),
         visitStartDate: startDate.toIso8601String(),

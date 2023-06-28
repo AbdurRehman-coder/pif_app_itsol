@@ -53,20 +53,25 @@ class _HomePageState extends ConsumerState<HomePage> {
         child: const SizedBox(),
       ),
     );
-    loginAsync();
+    // loginAsync();
   }
 
-  Future<void> loginAsync() async {
-    await DixelsSDK.initialize(
-      baseUrl: 'http://20.74.136.229',
-      auth: OAuth2PasswordGrant(
-        username: 'mwafeeq@appswave.io',
-        password: 'Mwni127199411',
-        clientId: 'id-b84ecd78-bb26-7be2-7c9d-661ee729b6a',
-        clientSecret: 'secret-52b3de81-3a44-b6c9-d63b-92e1ecf16e',
-      ),
-    );
-  }
+  // Future<void> loginAsync() async {
+  //   final userName = await SecurePreferences.instance
+  //       .read(key: SecurePreferencesKeys.userName);
+  //   final password = await SecurePreferences.instance
+  //       .read(key: SecurePreferencesKeys.password);
+  //
+  //   await DixelsSDK.initialize(
+  //     baseUrl: 'http://20.74.136.229',
+  //     auth: OAuth2PasswordGrant(
+  //       username: userName ?? '',
+  //       password: password ?? '',
+  //       clientId: 'id-b84ecd78-bb26-7be2-7c9d-661ee729b6a',
+  //       clientSecret: 'secret-52b3de81-3a44-b6c9-d63b-92e1ecf16e',
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +113,10 @@ class _HomePageState extends ConsumerState<HomePage> {
               )
             : null,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {
+            DixelsSDK.instance.logout();
+            AppRouter.startNewRoute(Routes.logInScreen);
+          },
           icon: SvgPicture.asset(
             Assets.menu,
             height: 30.h,

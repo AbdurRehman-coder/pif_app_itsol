@@ -43,7 +43,8 @@ class BookingScannerNotifier {
     )}';
     final param = ParametersModel();
     param.filter = filterQuery;
-    final result = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
+    final result =
+        await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
     await appProgressDialog.stop();
     if (result != null && result.items!.isNotEmpty) {
       await AppRouter.pushNamed(

@@ -34,7 +34,8 @@ class ScanBookingListNotifier extends StateNotifier<ScanBookingListState> {
     final param = ParametersModel();
     param.filter = filterQuery;
     param.nestedFields = 'floor,bookings';
-    final data = await DixelsSDK.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
+    final data =
+        await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
     if (data != null) {
       allListData = data.items;
       state = state.copyWith(lstData: AsyncData(data.items!));

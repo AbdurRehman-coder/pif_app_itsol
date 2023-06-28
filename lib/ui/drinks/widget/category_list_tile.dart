@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dixels_sdk/constants/service_constant.dart';
 import 'package:dixels_sdk/features/commerce/products/models/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 
 class CategoryListTile extends StatelessWidget {
   const CategoryListTile({
@@ -26,9 +26,8 @@ class CategoryListTile extends StatelessWidget {
             ? whiteColor
             : darkBorderColor
         : darkBorderColor;
-    final iconUrl = (item.taxonomyCategoryProperties != null &&
-            item.taxonomyCategoryProperties!.isNotEmpty)
-        ? ServiceConstant.baseUrl + item.taxonomyCategoryProperties![0].value!
+    final iconUrl = (item.taxonomyCategoryProperties != null && item.taxonomyCategoryProperties!.isNotEmpty)
+        ? Constants.baseUrl + item.taxonomyCategoryProperties![0].value!
         : '';
 
     return Container(

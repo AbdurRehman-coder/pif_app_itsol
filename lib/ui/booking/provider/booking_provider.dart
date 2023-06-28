@@ -88,7 +88,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   // Get Guest Data
   Future<void> getGuestData() async {
-    final result = await DixelsSDK.accountService.getUsers();
+    final result = await DixelsSDK.instance.accountService.getUsers();
     if (result != null && result.items!.isNotEmpty) {
       filterAuoCompleteGuestData = result.items!;
     }
@@ -136,7 +136,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open DatePicker Dialog
   void openDatePickerDialog() {
-    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker || titleFocus.hasFocus || addGuestFocus.hasFocus) {
+    if (state.isOpenStartTimePicker ||
+        state.isOpenEndTimePicker ||
+        titleFocus.hasFocus ||
+        addGuestFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenDatePicker: true);
@@ -299,7 +302,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       operator: FilterOperator.equal.value,
     )}$dayListString';
     param.filter = filterParam;
-    final result = await DixelsSDK.bookingService.getPageDataWithEither(
+    final result = await DixelsSDK.instance.bookingService.getPageDataWithEither(
       fromJson: BookingModel.fromJson,
       params: param,
     );
@@ -358,7 +361,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
           .toList(),
     );
 
-    final result = await DixelsSDK.bookingService.postPageData(
+    final result = await DixelsSDK.instance.bookingService.postPageData(
       reqModel: requestModel,
       fromJson: BookingModel.fromJson,
     );
@@ -448,7 +451,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Filter Task Data
   void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final taskData =
+        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
@@ -462,7 +466,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
       ),
     );
 
-    final result = await DixelsSDK.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
+    final result =
+        await DixelsSDK.instance.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
     if (result != null && result.items != null) {
       for (final mainElement in result.items!) {
         final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
@@ -472,7 +477,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
             final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final bookingDateTime =
+                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
                 color: primaryColor,
@@ -519,7 +525,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime =
+        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);
