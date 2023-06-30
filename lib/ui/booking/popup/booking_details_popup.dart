@@ -159,7 +159,7 @@ void bookingDetailsBottomSheet({
                                                   selectedDates: provider.selectedDates.toList(),
                                                   selectionMode: SelectionMode.multi,
                                                   startDate: DateTime.now(),
-                                                  endDate: DateTime.now().add(const Duration(days: 50)),
+                                                  endDate: DateTime.now().add(const Duration(days: 30)),
                                                   dayTileBuilder: CustomDayTileBuilder(),
                                                   onTap: notifier.updateDateString,
                                                 ),
@@ -171,7 +171,10 @@ void bookingDetailsBottomSheet({
                                                 mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   ElevatedButton(
-                                                    onPressed: notifier.closeDatePickerDialog,
+                                                    onPressed: () {
+                                                      notifier.cancel();
+                                                      notifier.closeDatePickerDialog();
+                                                    },
                                                     style: ElevatedButton.styleFrom(
                                                       elevation: 0,
                                                       foregroundColor: primaryColor,
@@ -187,7 +190,10 @@ void bookingDetailsBottomSheet({
                                                     width: 10,
                                                   ),
                                                   ElevatedButton(
-                                                    onPressed: notifier.closeDatePickerDialog,
+                                                    onPressed: () {
+                                                      notifier.confirm();
+                                                      notifier.closeDatePickerDialog();
+                                                    },
                                                     style: ElevatedButton.styleFrom(
                                                       foregroundColor: Colors.white,
                                                       backgroundColor: primaryColor,
@@ -300,7 +306,7 @@ void bookingDetailsBottomSheet({
                                           timeData: provider.endTime ?? DateTime.now(),
                                           onCancel: notifier.closeEndTimePickerDialog,
                                           onConfirm: (selectedTime) {
-                                            notifier.updateEndTime(endTime: selectedTime);
+                                            notifier.updateEndTime(endTime: selectedTime, context: context);
                                             notifier.closeEndTimePickerDialog();
                                           },
                                         ).visibility(visible: provider.isOpenEndTimePicker),

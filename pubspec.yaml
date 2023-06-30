@@ -73,6 +73,7 @@ dependencies:
   navigation_history_observer: ^1.1.0
   table_calendar: ^3.0.9
   shimmer: ^3.0.0
+  focus_detector: ^2.0.1
   awesome_calendar:
     path: awesome_calendar-main
 

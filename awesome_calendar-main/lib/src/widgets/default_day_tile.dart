@@ -52,7 +52,7 @@ class DefaultDayTile extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           final length = selectedDateList?.length ?? 0;
-          final isContainData = selectedDateList?.contains(date);
+          final isContainData = selectedDateList?.contains(date.add(const Duration(hours: 12)));
           (date.weekday == DateTime.friday || date.weekday == DateTime.saturday || length >= 10)
               ? isContainData!
                   ? handleTap(context)

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 const blackColor = Color(0xFF000000);
@@ -68,3 +70,15 @@ const greyDivider = Color(0xFFE9E9E9);
 const grayF5 = Color(0xFFF5F5F5);
 const grayF9 = Color(0xFFF9F9F9);
 const gray45 = Color(0xFF45597A);
+
+final List<Color> colorOptions = [
+  primaryColor,
+  darkBlueColor,
+  goldenColor,
+];
+
+Color getRandomColor() {
+  final random = Random();
+  final index = random.nextInt(colorOptions.length);
+  return colorOptions[index];
+}

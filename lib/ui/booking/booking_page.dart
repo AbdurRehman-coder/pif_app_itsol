@@ -25,7 +25,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
     super.initState();
     Future.delayed(Duration.zero, () {
       final notifier = ref.read(bookingProvider.notifier);
-      notifier.getBookings(roomId: widget.spaceData.id);
+      notifier.getBookings(spaceData: widget.spaceData);
       if (widget.isFromScan) {
         bookingDetailsBottomSheet(context: context, spaceData: widget.spaceData);
         notifier.bindScanData();

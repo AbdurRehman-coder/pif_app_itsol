@@ -146,10 +146,14 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       return;
     }
     final startDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
-      '${startDateSelectController.text} ${startTimeController.text}'.replaceAll('pm', 'PM').replaceAll('am', 'AM'),
+      '${startDateSelectController.text} ${startTimeController.text}'
+          .replaceAll('pm', 'PM')
+          .replaceAll('am', 'AM'),
     );
     final endDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
-      '${endDateSelectController.text} ${endTimeController.text}'.replaceAll('pm', 'PM').replaceAll('am', 'AM'),
+      '${endDateSelectController.text} ${endTimeController.text}'
+          .replaceAll('pm', 'PM')
+          .replaceAll('am', 'AM'),
     );
 
     if (formKey.currentState!.validate()) {
@@ -229,11 +233,11 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   //Update Start Date
   void updateStartDate(DateTime date) {
     state = state.copyWith(startDate: date);
-    startDateController.text = DateFormat('MM/dd/yyyy').format(date);
+    startDateController.text = DateFormat('dd/MM/yyyy').format(date);
     startDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
     state = state.copyWith(endDate: date);
-    endDateController.text = DateFormat('MM/dd/yyyy').format(date);
+    endDateController.text = DateFormat('dd/MM/yyyy').format(date);
     endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
     closeStartDatePickerDialog();
@@ -242,7 +246,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   //Update End Date
   void updateEndDate(DateTime date) {
     state = state.copyWith(endDate: date);
-    endDateController.text = DateFormat('MM/dd/yyyy').format(date);
+    endDateController.text = DateFormat('dd/MM/yyyy').format(date);
     endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
     closeEndDatePickerDialog();
@@ -298,7 +302,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open End DatePicker Dialog
   void openEndDatePickerDialog() {
-    if (state.isOpenEndTimePicker || firstNameFocus.hasFocus || lastNameFocus.hasFocus || emailFocus.hasFocus) {
+    if (state.isOpenEndTimePicker ||
+        firstNameFocus.hasFocus ||
+        lastNameFocus.hasFocus ||
+        emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenEndDatePicker: true);
@@ -329,7 +336,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
-    if (state.isOpenEndDatePicker || firstNameFocus.hasFocus || lastNameFocus.hasFocus || emailFocus.hasFocus) {
+    if (state.isOpenEndDatePicker ||
+        firstNameFocus.hasFocus ||
+        lastNameFocus.hasFocus ||
+        emailFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenEndTimePicker: true);

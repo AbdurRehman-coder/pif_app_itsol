@@ -3,6 +3,7 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/generated/l10n.dart';
@@ -25,15 +26,6 @@ class SpaceBookingPage extends ConsumerStatefulWidget {
 
 class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      // roomBookingFilterBottomSheet(context: context);
-      ref.read(spaceBookingProvider.notifier).getSpaceAsync();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final provider = ref.watch(spaceBookingProvider);
     final notifier = ref.read(spaceBookingProvider.notifier);
@@ -41,7 +33,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
       resizeToAvoidBottomInset: false,
       backgroundColor: grayF5,
       appBar: AppBar(
-        toolbarHeight: (provider.filterDataString != null && provider.filterDataString!.isNotEmpty) ? 120.h : 100.h,
+        toolbarHeight:
+            (provider.filterDataString != null && provider.filterDataString!.isNotEmpty) ? 120.h : 100.h,
         backgroundColor: grayF5,
         elevation: 0,
         automaticallyImplyLeading: false,
@@ -276,33 +269,36 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Container(
-        margin: EdgeInsets.only(top: 5.h),
-        decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.w),
-            topRight: Radius.circular(30.w),
+      body: FocusDetector(
+        onFocusGained: notifier.getSpaceAsync,
+        child: Container(
+          margin: EdgeInsets.only(top: 5.h),
+          decoration: BoxDecoration(
+            color: whiteColor,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.w),
+              topRight: Radius.circular(30.w),
+            ),
           ),
-        ),
-        child: provider.lstData.when(
-          data: (data) {
-            if (data.isEmpty) {
-              return const SpaceBookingEmptyView();
-            } else {
-              return setListView(data, notifier);
-            }
-          },
-          error: (e, s) {
-            return SizedBox(
-              height: 10.h,
-            );
-          },
-          loading: () {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          },
+          child: provider.lstData.when(
+            data: (data) {
+              if (data.isEmpty) {
+                return const SpaceBookingEmptyView();
+              } else {
+                return setListView(data, notifier);
+              }
+            },
+            error: (e, s) {
+              return SizedBox(
+                height: 10.h,
+              );
+            },
+            loading: () {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -312,6 +308,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     return RefreshIndicator(
       onRefresh: () async {
         notifier.searchController.clear();
+        notifier.clearFilterData();
         await notifier.getSpaceAsync();
       },
       child: ListView.separated(

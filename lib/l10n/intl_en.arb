@@ -137,5 +137,6 @@
   "bookingFor": "Booking for",
   "pastBookingAlert" : "Please select future time",
   "password":"Password",
-  "login":"LogIn"
+  "login":"LogIn",
+  "scanQrToBook": "Scan QR to book"
 }

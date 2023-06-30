@@ -1,4 +1,3 @@
-import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -56,7 +55,7 @@ class VisitCard extends StatelessWidget {
               height: 6.h,
             ),
             VisitInformation(
-              svgImage: Assets.calendarDate,
+              svgImage: Assets.clock,
               text: visitModel?.endDateTimeVisit == null
                   ? ''
                   : '${visitModel?.endDateTimeVisit?.getTime()} - ${visitModel?.endDateTimeVisit?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
@@ -71,18 +70,14 @@ class VisitCard extends StatelessWidget {
               ),
             ).visibility(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitModel != null
-                  ? visitModel!.visitModel!.length > 1
-                  : false,
+              visible: visitModel?.visitModel != null ? visitModel!.visitModel!.length > 1 : false,
             ),
             SingleVisitor(
               status: true,
               visitorsModel: visitModel?.visitModel?.first,
             ).visibility(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitModel != null
-                  ? visitModel!.visitModel!.length == 1
-                  : false,
+              visible: visitModel?.visitModel != null ? visitModel!.visitModel!.length == 1 : false,
             ),
           ],
         ),

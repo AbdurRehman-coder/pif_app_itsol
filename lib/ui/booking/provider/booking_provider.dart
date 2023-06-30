@@ -45,6 +45,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late TextEditingController addGuestController;
   late List<TimePlannerTask> allBookingTasks = [];
   late List<UserModel> filterAuoCompleteGuestData = [];
+  late FocusNode firstNameFocus;
+  late FocusNode lastNameFocus;
+  late FocusNode emailFocus;
+
+  List<DateTime> selectedDateLst = <DateTime>[];
+  List<DateTime> confirmDateLst = <DateTime>[];
 
   // Init Data
   void _initData() {
@@ -62,9 +68,20 @@ class BookingNotifier extends StateNotifier<BookingState> {
     addGuestFocus.addListener(_onTitleFocus);
     titleFocus.addListener(_onTitleFocus);
     formKey = GlobalKey<FormState>();
+    firstNameFocus = FocusNode();
+    lastNameFocus = FocusNode();
+    emailFocus = FocusNode();
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getGuestData();
+    final currentDateTime = DateTime.now();
+    final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
+    if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
+      updateDateString(currentDate);
+      confirmDateLst.addAll(selectedDateLst);
+      state = state.copyWith(selectedDates: confirmDateLst);
+      formatSelectedDateToString();
+    }
 
     //Bind Filter Data
     final data = ref.read(spaceBookingProvider);
@@ -72,13 +89,17 @@ class BookingNotifier extends StateNotifier<BookingState> {
       updateStartTime(startTime: data.filterData!.startTime);
       updateEndTime(endTime: data.filterData!.endTime);
       state = state.copyWith(selectedDates: data.filterData!.selectedDates);
+
+      selectedDateLst.addAll(data.filterData!.selectedDates);
+      confirmDateLst.addAll(data.filterData!.selectedDates);
       formatSelectedDateToString();
     }
   }
 
   //Set Default Data For Scan
-  void bindScanData() {
-    titleController.text = '${S.current.bookingFor} Alaa';
+  Future<void> bindScanData() async {
+    final userDetails = await DixelsSDK.instance.userDetails;
+    titleController.text = S.current.bookingFor + userDetails!.name!;
     final currentDateTime = DateTime.now();
     final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
     state = state.copyWith(selectedDates: [currentDate]);
@@ -113,7 +134,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   //Update End Time
-  void updateEndTime({required DateTime? endTime}) {
+  void updateEndTime({required DateTime? endTime, BuildContext? context}) {
     if (endTime == null) {
       return;
     }
@@ -125,7 +146,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
       endTime.minute,
     );
     if (state.startTime!.isAfter(endTime)) {
-      CommonUtils.showToast(message: S.current.timeValidation);
+      errorMessage(
+        errorMessage: S.current.timeValidation,
+        context: context ?? AppRouter.navigatorKey.currentContext!,
+      );
+
       return;
     }
     state = state.copyWith(endTime: endTime);
@@ -136,10 +161,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open DatePicker Dialog
   void openDatePickerDialog() {
-    if (state.isOpenStartTimePicker ||
-        state.isOpenEndTimePicker ||
-        titleFocus.hasFocus ||
-        addGuestFocus.hasFocus) {
+    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker || titleFocus.hasFocus || addGuestFocus.hasFocus) {
       return;
     }
     state = state.copyWith(isOpenDatePicker: true);
@@ -178,17 +200,26 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Update Selected Date Data
   void updateDateString(DateTime date) {
-    final dateList = state.selectedDates.toList();
-    if (dateList.contains(date)) {
-      dateList.remove(date);
+    if (selectedDateLst.contains(date)) {
+      selectedDateLst.remove(date);
     } else {
-      if (dateList.length < 10) {
-        dateList.add(date);
+      if (selectedDateLst.length < 10) {
+        selectedDateLst.add(date);
       }
     }
+  }
 
-    state = state.copyWith(selectedDates: dateList);
+  void confirm() {
+    confirmDateLst.clear();
+    confirmDateLst.addAll(selectedDateLst);
+    state = state.copyWith(selectedDates: confirmDateLst);
     formatSelectedDateToString();
+  }
+
+  void cancel() {
+    state = state.copyWith(selectedDates: confirmDateLst);
+    selectedDateLst.clear();
+    selectedDateLst.addAll(confirmDateLst);
   }
 
   //Format Selected Date String
@@ -202,7 +233,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     }
     final groupedDates = groupBy<DateTime, String>(
       dateList,
-      (date) => DateFormat('MMM').format(date),
+      (date) => DateFormat('MMM yyyy').format(date),
     );
 
     var lastDateString = '';
@@ -451,25 +482,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Filter Task Data
   void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData =
-        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
   // Get Booking Task Data
-  Future<void> getBookings({required int? roomId}) async {
-    final params = ParametersModel(
-      filter: FilterUtils.filterBy(
-        key: 'r_bookings_c_roomId',
-        value: "'$roomId'",
-        operator: FilterOperator.equal.value,
-      ),
-    );
-
-    final result =
-        await DixelsSDK.instance.bookingService.getPageData(fromJson: BookingModel.fromJson, params: params);
-    if (result != null && result.items != null) {
-      for (final mainElement in result.items!) {
+  Future<void> getBookings({required RoomModel? spaceData}) async {
+    if (spaceData != null && spaceData.bookings != null && spaceData.bookings!.isNotEmpty) {
+      final userDetails = await DixelsSDK.instance.userDetails;
+      for (final mainElement in spaceData.bookings!) {
         final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
         final duration = mainElement.endTime! - mainElement.startTime!;
         if (dateList.isNotEmpty) {
@@ -477,12 +498,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
             final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime =
-                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
                 color: primaryColor,
                 leftSpace: 40,
+                isBlocked: userDetails?.id != mainElement.creator?.id,
                 dateTime: bookingDateTime,
                 minutesDuration: duration,
                 onTap: () {},
@@ -525,8 +546,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime =
-        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);

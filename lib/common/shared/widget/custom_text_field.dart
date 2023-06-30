@@ -30,6 +30,8 @@ class CustomTextField extends StatelessWidget {
     this.contentPadding = const EdgeInsets.only(left: 12, right: 12, top: 20),
     this.isEmailField = false,
     this.keyboardType = TextInputType.text,
+    this.isFocus = false,
+    this.autoFocus = false,
     super.key,
   });
 
@@ -56,9 +58,12 @@ class CustomTextField extends StatelessWidget {
   final bool isEmailField;
   final bool obscureText;
   final TextInputType keyboardType;
+  final bool isFocus;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
+    final isEnableFiled = focusNode == null ? isFocus : focusNode?.hasFocus;
     return TextFormField(
       style: style,
       obscureText: obscureText,
@@ -84,10 +89,17 @@ class CustomTextField extends StatelessWidget {
       focusNode: focusNode,
       maxLines: maxLines,
       onEditingComplete: onEditingComplete,
+      autofocus: autoFocus,
       decoration: decoration ??
           InputDecoration(
             fillColor: fillColor ?? lightGrayBgColor,
             contentPadding: contentPadding,
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(6.r),
+              ),
+              borderSide: BorderSide(color: isEnableFiled! ? primaryColor : borderColor, width: 1.w),
+            ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(6.r),
@@ -95,7 +107,7 @@ class CustomTextField extends StatelessWidget {
               borderSide: BorderSide(color: borderColor, width: 1.w),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: borderColor, width: 1.w),
+              borderSide: BorderSide(color: isEnableFiled ? primaryColor : borderColor, width: 1.w),
               borderRadius: BorderRadius.all(
                 Radius.circular(6.r),
               ),
@@ -118,6 +130,11 @@ class CustomTextField extends StatelessWidget {
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon,
             counterText: '',
+            floatingLabelStyle: Style.commonTextStyle(
+              color: isEnableFiled ? primaryColor : grayTextColor,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w400,
+            ),
             border: OutlineInputBorder(
               borderSide: BorderSide(color: borderColor, width: 1.w),
               borderRadius: BorderRadius.all(

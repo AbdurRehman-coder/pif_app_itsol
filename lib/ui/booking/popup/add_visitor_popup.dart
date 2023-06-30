@@ -79,6 +79,7 @@ void addVisitorBottomSheet({
                     Expanded(
                       child: TextField(
                         controller: notifier.visitorFirstNameController,
+                        focusNode: notifier.firstNameFocus,
                         decoration: InputDecoration(
                           isDense: true,
                           fillColor: lightGrayBgColor,
@@ -90,7 +91,7 @@ void addVisitorBottomSheet({
                             borderSide: BorderSide(color: borderColor, width: 1.w),
                           ),
                           labelStyle: Style.commonTextStyle(
-                            color: grayTextColor,
+                            color: notifier.firstNameFocus.hasFocus ? primaryColor : grayTextColor,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -102,7 +103,7 @@ void addVisitorBottomSheet({
                             borderSide: BorderSide(color: borderColor, width: 1.w),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: borderColor, width: 1.w),
+                            borderSide: BorderSide(color: notifier.firstNameFocus.hasFocus ? primaryColor : borderColor, width: 1.w),
                             borderRadius: BorderRadius.all(
                               Radius.circular(6.r),
                             ),
@@ -123,6 +124,7 @@ void addVisitorBottomSheet({
                     Expanded(
                       child: TextField(
                         controller: notifier.visitorLastNameController,
+                        focusNode: notifier.lastNameFocus,
                         decoration: InputDecoration(
                           isDense: true,
                           fillColor: lightGrayBgColor,
@@ -134,7 +136,7 @@ void addVisitorBottomSheet({
                             borderSide: BorderSide(color: borderColor, width: 1.w),
                           ),
                           labelStyle: Style.commonTextStyle(
-                            color: grayTextColor,
+                            color: notifier.lastNameFocus.hasFocus ? primaryColor : grayTextColor,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -146,7 +148,7 @@ void addVisitorBottomSheet({
                             borderSide: BorderSide(color: borderColor, width: 1.w),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: borderColor, width: 1.w),
+                            borderSide: BorderSide(color: notifier.lastNameFocus.hasFocus ? primaryColor : borderColor, width: 1.w),
                             borderRadius: BorderRadius.all(
                               Radius.circular(6.r),
                             ),
@@ -168,6 +170,7 @@ void addVisitorBottomSheet({
                 ),
                 TextField(
                   controller: notifier.visitorEmailController,
+                  focusNode: notifier.emailFocus,
                   decoration: InputDecoration(
                     isDense: true,
                     fillColor: lightGrayBgColor,
@@ -183,7 +186,7 @@ void addVisitorBottomSheet({
                       borderSide: BorderSide(color: borderColor, width: 1.w),
                     ),
                     labelStyle: Style.commonTextStyle(
-                      color: grayTextColor,
+                      color: notifier.emailFocus.hasFocus ? primaryColor : grayTextColor,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -195,7 +198,7 @@ void addVisitorBottomSheet({
                       borderSide: BorderSide(color: borderColor, width: 1.w),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: borderColor, width: 1.w),
+                      borderSide: BorderSide(color: notifier.emailFocus.hasFocus ? primaryColor : borderColor, width: 1.w),
                       borderRadius: BorderRadius.all(
                         Radius.circular(6.r),
                       ),

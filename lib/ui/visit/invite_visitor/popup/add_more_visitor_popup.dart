@@ -79,6 +79,7 @@ void addMoreVisitorPopup({
                       ),
                       CustomTextField(
                         textEditingController: notifier.firstNameController,
+                        autoFocus: true,
                         checkEmpty: true,
                         labelText: S.current.firstName,
                       ),
@@ -96,7 +97,11 @@ void addMoreVisitorPopup({
                       CustomTextField(
                         textEditingController: notifier.emailController,
                         checkEmpty: true,
-                        labelText: S.current.email,
+                        labelText: S.current.visitorEmail,
+                        prefixIcon: SvgPicture.asset(
+                          Assets.email,
+                          fit: BoxFit.scaleDown,
+                        ),
                         isEmailField: true,
                         keyboardType: TextInputType.emailAddress,
                       ),

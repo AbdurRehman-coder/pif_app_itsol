@@ -42,8 +42,7 @@ class AwesomeCalendar extends StatefulWidget {
   final List<DateTime>? selectedDates;
 
   /// Function to get the state of awesome_calendar
-  static AwesomeCalendarState? of(BuildContext context) =>
-      context.findAncestorStateOfType<AwesomeCalendarState>();
+  static AwesomeCalendarState? of(BuildContext context) => context.findAncestorStateOfType<AwesomeCalendarState>();
 
   @override
   AwesomeCalendarState createState() => AwesomeCalendarState(
@@ -170,8 +169,7 @@ class AwesomeCalendarState extends State<AwesomeCalendar> {
     if (widget.selectionMode == SelectionMode.single) {
       return CalendarHelper.isSameDay(selectedSingleDate!, date);
     } else {
-      final DateTime? matchedSelectedDate =
-          selectedDates!.firstWhereOrNull((DateTime d) => CalendarHelper.isSameDay(d, date));
+      final DateTime? matchedSelectedDate = selectedDates!.firstWhereOrNull((DateTime d) => CalendarHelper.isSameDay(d, date));
       return matchedSelectedDate != null;
     }
   }
@@ -239,7 +237,9 @@ class AwesomeCalendarState extends State<AwesomeCalendar> {
     if (selectedDates!.contains(date)) {
       selectedDates!.remove(date);
     } else {
-      selectedDates!.add(date);
+      if (selectedDates!.length < 10) {
+        selectedDates!.add(date);
+      }
     }
   }
 }

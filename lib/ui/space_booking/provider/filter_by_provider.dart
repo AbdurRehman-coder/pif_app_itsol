@@ -26,7 +26,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     final currentDateTime = DateTime.now();
     final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
     if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
-      updateDateString(currentDate);
+      confirmDateLst.addAll(selectedDateLst);
+      state = state.copyWith(selectedDateList: confirmDateLst);
+      formatSelectedDateToString();
     }
 
     final data = ref.read(spaceBookingProvider);
@@ -63,6 +65,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
 
+  List<DateTime> selectedDateLst = <DateTime>[];
+  List<DateTime> confirmDateLst = <DateTime>[];
+
   //Get Foors Data
   Future<void> _getFloors() async {
     final result = await DixelsSDK.instance.floorService.getPageData(fromJson: FloorModel.fromJson);
@@ -98,17 +103,26 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Insert or Remove Date into List
   void updateDateString(DateTime date) {
-    final dateList = state.selectedDateList.toList();
-    if (dateList.contains(date)) {
-      dateList.remove(date);
+    if (selectedDateLst.contains(date)) {
+      selectedDateLst.remove(date);
     } else {
-      if (dateList.length < 10) {
-        dateList.add(date);
+      if (selectedDateLst.length < 10) {
+        selectedDateLst.add(date);
       }
     }
+  }
 
-    state = state.copyWith(selectedDateList: dateList);
+  void confirm() {
+    confirmDateLst.clear();
+    confirmDateLst.addAll(selectedDateLst);
+    state = state.copyWith(selectedDateList: confirmDateLst);
     formatSelectedDateToString();
+  }
+
+  void cancel() {
+    state = state.copyWith(selectedDateList: confirmDateLst);
+    selectedDateLst.clear();
+    selectedDateLst.addAll(confirmDateLst);
   }
 
   //Format Selected Date String
@@ -135,7 +149,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open DatePicker Dialog
   void openDialog() {
-    if (state.isOpenTimePicker) {
+    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker) {
       return;
     }
     state = state.copyWith(isOpenPopup: true);
@@ -157,6 +171,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
+    if (state.isOpenEndTimePicker || state.isOpenPopup) {
+      return;
+    }
     state = state.copyWith(isOpenStartTimePicker: true);
   }
 
@@ -167,6 +184,9 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
+    if (state.isOpenStartTimePicker || state.isOpenPopup) {
+      return;
+    }
     state = state.copyWith(isOpenEndTimePicker: true);
   }
 
@@ -212,8 +232,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime =
-        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
     updateStartTime(startTime: state.startTime);

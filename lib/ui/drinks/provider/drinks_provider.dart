@@ -88,7 +88,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     if (result != null && result.items != null) {
       final lstDrinks = <DrinkModel>[];
       for (final element in result.items!) {
-        if (element.categories!.isNotEmpty) {
+        if (element.categories != null && element.categories!.isNotEmpty) {
           final cateId = element.categories![0].id;
           lstDrinks.add(
             DrinkModel(

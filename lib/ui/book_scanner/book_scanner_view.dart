@@ -58,7 +58,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
             ),
           ),
           title: Text(
-            S.current.spaceBooking,
+            S.current.scanQrToBook,
             style: Style.commonTextStyle(
               color: blackColor,
               fontSize: 18.sp,
@@ -81,9 +81,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
               controller: controller,
               onDetect: (capture) async {
                 final barcodes = capture.barcodes;
-                if (barcodes.isNotEmpty &&
-                    barcodes.first.rawValue!.isNotEmpty &&
-                    provider.isNumeric(barcodes.first.rawValue)) {
+                if (barcodes.isNotEmpty && barcodes.first.rawValue!.isNotEmpty && provider.isNumeric(barcodes.first.rawValue)) {
                   await controller.stop();
                   await provider.getBookingInformation(
                     roomId: barcodes[0].rawValue!.trim(),

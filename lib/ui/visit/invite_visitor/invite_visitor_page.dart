@@ -93,6 +93,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     ),
                                     child: CustomTextField(
                                       textEditingController: notifier.startDateController,
+                                      isFocus: provider.isOpenStartDatePicker,
                                       enabled: false,
                                       labelText: S.current.startingDate,
                                       suffixIcon: SvgPicture.asset(
@@ -125,6 +126,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     child: CustomTextField(
                                       textEditingController: notifier.startTimeController,
                                       enabled: false,
+                                      isFocus: provider.isOpenStartTimePicker,
                                       labelText: S.current.time,
                                       suffixIcon: SvgPicture.asset(
                                         Assets.arrowDown,
@@ -162,6 +164,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     ),
                                     child: CustomTextField(
                                       textEditingController: notifier.endDateController,
+                                      isFocus: provider.isOpenEndDatePicker,
                                       enabled: false,
                                       labelText: S.current.endingDate,
                                       suffixIcon: SvgPicture.asset(
@@ -193,6 +196,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     ),
                                     child: CustomTextField(
                                       textEditingController: notifier.endTimeController,
+                                      isFocus: provider.isOpenEndTimePicker,
                                       enabled: false,
                                       labelText: S.current.time,
                                       suffixIcon: SvgPicture.asset(

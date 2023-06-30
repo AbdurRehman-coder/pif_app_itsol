@@ -20,7 +20,7 @@ class ImageProfileVisitor extends StatelessWidget {
       height: 40.h,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: status ? darkBlueColor : primaryColor,
+        color: status ? getRandomColor() : primaryColor,
         shape: BoxShape.circle,
       ),
       child: Text(
