@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
-
 import 'package:pif_flutter/ui/visit/visit_list/widget/popup_menu_button.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/single_visitor.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/visit_information.dart';
@@ -15,7 +13,7 @@ class InvitationDetailsView extends StatelessWidget {
     super.key,
   });
 
-  final VisitsModel? visitModel;
+  final VisitModel? visitModel;
 
   @override
   Widget build(BuildContext context) {
@@ -97,18 +95,18 @@ class InvitationDetailsView extends StatelessWidget {
                 ),
                 VisitInformation(
                   svgImage: Assets.calendar,
-                  text: visitModel?.startDateTimeVisit == null
+                  text: visitModel?.visitStartDate == null
                       ? ''
-                      : '${visitModel?.startDateTimeVisit?.getTime()} - ${visitModel?.startDateTimeVisit?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
+                      : '${visitModel?.visitStartDate?.getTime()} - ${visitModel?.visitStartDate?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
                 ),
                 SizedBox(
                   height: 15.h,
                 ),
                 VisitInformation(
                   svgImage: Assets.calendarDate,
-                  text: visitModel?.endDateTimeVisit == null
+                  text: visitModel?.visitEndDate == null
                       ? ''
-                      : '${visitModel?.endDateTimeVisit?.getTime()} - ${visitModel?.endDateTimeVisit?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
+                      : '${visitModel?.visitEndDate?.getTime()} - ${visitModel?.visitEndDate?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
                 ),
                 SizedBox(
                   height: 25.h,
@@ -121,7 +119,7 @@ class InvitationDetailsView extends StatelessWidget {
                   shrinkWrap: true,
                   padding: EdgeInsets.only(top: 20.h),
                   itemBuilder: (_, index) {
-                    final visit = visitModel!.visitModel![index];
+                    final visit = visitModel!.visitors![index];
                     return SingleVisitor(
                       status: true,
                       showStatus: true,
@@ -135,7 +133,7 @@ class InvitationDetailsView extends StatelessWidget {
                       thickness: 0.5,
                     );
                   },
-                  itemCount: visitModel!.visitModel!.length,
+                  itemCount: visitModel!.visitors!.length,
                 ),
               ],
             ),

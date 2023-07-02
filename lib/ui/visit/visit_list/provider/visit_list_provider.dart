@@ -4,11 +4,11 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visitor_status_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/state/visit_list_state.dart';
 
-final visitListProvider = StateNotifierProvider.autoDispose<VisitListNotifier, VisitListState>((ref) {
+final visitListProvider =
+    StateNotifierProvider.autoDispose<VisitListNotifier, VisitListState>((ref) {
   return VisitListNotifier(ref: ref);
 });
 
@@ -18,7 +18,7 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
   }
 
   late TextEditingController searchVisitController;
-  List<VisitsModel> allVisitsData = <VisitsModel>[];
+  List<VisitModel> allVisitsData = <VisitModel>[];
   final Ref ref;
 
   void _initData() {
@@ -43,7 +43,7 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
     if (data.title == 'Upcoming') {
       state = state.copyWith(allVisitsModel: AsyncData(allVisitsData));
     } else {
-      state = state.copyWith(allVisitsModel: const AsyncData(<VisitsModel>[]));
+      state = state.copyWith(allVisitsModel: const AsyncData(<VisitModel>[]));
     }
 
     state = state.copyWith(lstStatus: lstData);
@@ -52,35 +52,19 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
   Future<void> getVisits() async {
     allVisitsData.clear();
     state = state.copyWith(allVisitsModel: const AsyncLoading());
-    final featureList = <Future<dynamic>>[];
     final result = await DixelsSDK.instance.visitService.getPageData(
       fromJson: VisitModel.fromJson,
-      params: ParametersModel(sort: 'dateCreated:desc'),
+      params: ParametersModel(
+        sort: 'dateCreated:desc',
+        restrictFields: 'actions',
+        nestedFields: 'visitors',
+      ),
     );
-    if (result?.items != null) {
-      for (final visit in result!.items!) {
-        featureList.add(
-          DixelsSDK.instance.visitService
-              .getVisitorsForVisit(
-            visitorId: visit.id,
-          )
-              .then((getVisitors) {
-            if (getVisitors.isRight()) {
-              final visitor = getVisitors.getRight()?.items ?? [];
-              allVisitsData.add(
-                VisitsModel(
-                  id: visit.id,
-                  startDateTimeVisit: visit.visitStartDate ?? DateTime.now(),
-                  endDateTimeVisit: visit.visitEndDate ?? DateTime.now(),
-                  visitModel: visitor,
-                ),
-              );
-            }
-          }),
-        );
-      }
-    }
-    await Future.wait<dynamic>(featureList);
+    allVisitsData = result!.items ?? [];
+    allVisitsData.sort((a, b) {
+      //sorting in ascending order
+      return a.visitStartDate!.compareTo(b.visitEndDate!);
+    });
     state = state.copyWith(allVisitsModel: AsyncData(allVisitsData));
   }
 }

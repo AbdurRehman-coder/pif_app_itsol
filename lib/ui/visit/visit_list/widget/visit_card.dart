@@ -1,8 +1,8 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/popup_menu_button.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/single_visitor.dart';
@@ -17,7 +17,7 @@ class VisitCard extends StatelessWidget {
   });
 
   final VisitListNotifier notifier;
-  final VisitsModel? visitModel;
+  final VisitModel? visitModel;
 
   @override
   Widget build(BuildContext context) {
@@ -44,9 +44,9 @@ class VisitCard extends StatelessWidget {
               children: [
                 VisitInformation(
                   svgImage: Assets.calendar,
-                  text: visitModel?.startDateTimeVisit == null
+                  text: visitModel?.visitStartDate == null
                       ? ''
-                      : '${visitModel?.startDateTimeVisit?.getTime()} - ${visitModel?.startDateTimeVisit?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
+                      : '${visitModel?.visitStartDate?.getTime()} - ${visitModel?.visitStartDate?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
                 ),
                 const CustomPopupMenuButton(),
               ],
@@ -56,9 +56,9 @@ class VisitCard extends StatelessWidget {
             ),
             VisitInformation(
               svgImage: Assets.clock,
-              text: visitModel?.endDateTimeVisit == null
+              text: visitModel?.visitEndDate == null
                   ? ''
-                  : '${visitModel?.endDateTimeVisit?.getTime()} - ${visitModel?.endDateTimeVisit?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
+                  : '${visitModel?.visitEndDate?.getTime()} - ${visitModel?.visitEndDate?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
             ),
             SizedBox(
               height: 13.h,
@@ -66,18 +66,18 @@ class VisitCard extends StatelessWidget {
             SizedBox(
               height: 70.h,
               child: VisitorList(
-                visitModel: visitModel?.visitModel,
+                visitModel: visitModel?.visitors,
               ),
             ).visibility(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitModel != null ? visitModel!.visitModel!.length > 1 : false,
+              visible: visitModel?.visitors != null ? visitModel!.visitors!.length > 1 : false,
             ),
             SingleVisitor(
               status: true,
-              visitorsModel: visitModel?.visitModel?.first,
+              visitorsModel: visitModel?.visitors?.first,
             ).visibility(
               // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitModel != null ? visitModel!.visitModel!.length == 1 : false,
+              visible: visitModel?.visitors != null ? visitModel!.visitors!.length == 1 : false,
             ),
           ],
         ),

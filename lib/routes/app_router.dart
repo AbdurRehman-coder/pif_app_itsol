@@ -10,9 +10,8 @@ import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/login/login_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
-import 'package:pif_flutter/ui/visit/visit_list/invitation_details.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/invite_visitor_page.dart';
-import 'package:pif_flutter/ui/visit/visit_list/model/visit_model.dart';
+import 'package:pif_flutter/ui/visit/visit_list/invitation_details.dart';
 import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 
 class AppRouter {
@@ -60,7 +59,7 @@ class AppRouter {
       case Routes.visitListScreen:
         return _setPage(page: const VisitsListView(), settings: settings);
       case Routes.invitationDetailsScreen:
-        final data = settings.arguments! as VisitsModel;
+        final data = settings.arguments! as VisitModel;
         return _setPage(
           page: InvitationDetailsView(
             visitModel: data,

@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$VisitListState {
-  AsyncValue<List<VisitsModel>> get allVisitsModel =>
+  AsyncValue<List<VisitModel>> get allVisitsModel =>
       throw _privateConstructorUsedError;
   List<VisitorStatusModel> get lstStatus => throw _privateConstructorUsedError;
 
@@ -32,7 +32,7 @@ abstract class $VisitListStateCopyWith<$Res> {
       _$VisitListStateCopyWithImpl<$Res, VisitListState>;
   @useResult
   $Res call(
-      {AsyncValue<List<VisitsModel>> allVisitsModel,
+      {AsyncValue<List<VisitModel>> allVisitsModel,
       List<VisitorStatusModel> lstStatus});
 }
 
@@ -56,7 +56,7 @@ class _$VisitListStateCopyWithImpl<$Res, $Val extends VisitListState>
       allVisitsModel: null == allVisitsModel
           ? _value.allVisitsModel
           : allVisitsModel // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<VisitsModel>>,
+              as AsyncValue<List<VisitModel>>,
       lstStatus: null == lstStatus
           ? _value.lstStatus
           : lstStatus // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,7 @@ abstract class _$$_VisitListStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {AsyncValue<List<VisitsModel>> allVisitsModel,
+      {AsyncValue<List<VisitModel>> allVisitsModel,
       List<VisitorStatusModel> lstStatus});
 }
 
@@ -96,7 +96,7 @@ class __$$_VisitListStateCopyWithImpl<$Res>
       allVisitsModel: null == allVisitsModel
           ? _value.allVisitsModel
           : allVisitsModel // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<VisitsModel>>,
+              as AsyncValue<List<VisitModel>>,
       lstStatus: null == lstStatus
           ? _value._lstStatus
           : lstStatus // ignore: cast_nullable_to_non_nullable
@@ -114,7 +114,7 @@ class _$_VisitListState implements _VisitListState {
       : _lstStatus = lstStatus;
 
   @override
-  final AsyncValue<List<VisitsModel>> allVisitsModel;
+  final AsyncValue<List<VisitModel>> allVisitsModel;
   final List<VisitorStatusModel> _lstStatus;
   @override
   List<VisitorStatusModel> get lstStatus {
@@ -152,11 +152,11 @@ class _$_VisitListState implements _VisitListState {
 
 abstract class _VisitListState implements VisitListState {
   const factory _VisitListState(
-      {required final AsyncValue<List<VisitsModel>> allVisitsModel,
+      {required final AsyncValue<List<VisitModel>> allVisitsModel,
       required final List<VisitorStatusModel> lstStatus}) = _$_VisitListState;
 
   @override
-  AsyncValue<List<VisitsModel>> get allVisitsModel;
+  AsyncValue<List<VisitModel>> get allVisitsModel;
   @override
   List<VisitorStatusModel> get lstStatus;
   @override
