@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
+import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 
 class ProductSubOption extends StatefulWidget {
   const ProductSubOption({
     required this.drinkOption,
     required this.reBuild,
+    required this.drinksNotifier,
     super.key,
   });
 
+  final DrinksNotifier drinksNotifier;
   final Options drinkOption;
   final void Function() reBuild;
 
@@ -22,14 +25,17 @@ class _ProductSubOptionState extends State<ProductSubOption> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(
-        widget.drinkOption.productOptionsModel.productOptionValues!.length,
+        widget.drinkOption.valueOptionModel.length,
         (index) {
-          final drinkSubOption = widget
-              .drinkOption.productOptionsModel.productOptionValues![index];
+          final drinkSubOption = widget.drinkOption.valueOptionModel[index];
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: InkWell(
               onTap: () {
+                widget.drinksNotifier.updateValueOption(
+                  options: widget.drinkOption,
+                  valueOptions: drinkSubOption,
+                );
                 widget.drinkOption.customPopupMenuController.hideMenu();
                 widget.drinkOption.isOptionSelect = true;
                 widget.reBuild();
@@ -44,7 +50,7 @@ class _ProductSubOptionState extends State<ProductSubOption> {
                     width: 48.w,
                   ),
                   Text(
-                    drinkSubOption.name ?? '',
+                    drinkSubOption.valueOptionKey ?? '',
                     style: Style.commonTextStyle(
                       color: primaryColor,
                       fontSize: 10.sp,

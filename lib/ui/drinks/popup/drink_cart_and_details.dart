@@ -163,7 +163,17 @@ class FloatActionWidget extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                 ),
-                onPressed: () => notifier.orderNow(context),
+                onPressed: () {
+                  if (provider.lstCarts.isEmpty) {
+                    notifier.addItemToCart(
+                      item: drinkModel!,
+                      context: context,
+                      withOrder: true,
+                    );
+                  } else {
+                    notifier.orderNow(context: context);
+                  }
+                },
                 child: Text(
                   S.of(context).orderNow,
                   style: Style.commonTextStyle(

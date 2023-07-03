@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/carts/models/cart_request_model.dart';
+import 'package:dixels_sdk/features/commerce/orders/model/orders_model.dart';
+import 'package:dixels_sdk/features/commerce/orders/model/orders_param.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
@@ -13,10 +17,12 @@ import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
+import 'package:pif_flutter/ui/drinks/model/drinks_oprions.dart';
 import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
 
-final drinksProvider = StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
+final drinksProvider =
+    StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
   return DrinksNotifier(ref: ref);
 });
 
@@ -41,13 +47,16 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   late TextEditingController notesController;
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService.getStoreInformation(
+    final storeInformation =
+        await DixelsSDK.instance.structureContentService.getStoreInformation(
       webContentId: '147637',
       siteId: '20120',
     );
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime =
+        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime =
+        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -74,14 +83,16 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   bool checkDateEnd(DateTime dateTime) {
     final dateTimeNow = DateTime.now();
     if (dateTime.hour != dateTimeNow.hour) {
-      return dateTimeNow.hour > dateTime.hour && dateTimeNow.minute > dateTime.minute;
+      return dateTimeNow.hour > dateTime.hour &&
+          dateTimeNow.minute > dateTime.minute;
     } else {
       return dateTimeNow.minute > dateTime.minute;
     }
   }
 
   Future<void> _getDrinks() async {
-    final result = await DixelsSDK.instance.productService.getProductsByChannelAsync(
+    final result =
+        await DixelsSDK.instance.productService.getProductsByChannelAsync(
       channelId: '147240',
       accountId: '148293',
     );
@@ -129,8 +140,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
     lstData[index].isSelected = true;
 
-    final lstDrink =
-        allDrinks.where((element) => element.categoryId == int.parse(lstData[index].id!)).toList();
+    final lstDrink = allDrinks
+        .where((element) => element.categoryId == int.parse(lstData[index].id!))
+        .toList();
 
     selectedCatDrinks = lstDrink;
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
@@ -140,26 +152,13 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void searchData(String searchTxt) {
     final lstData = allDrinks
         .where(
-          (element) => element.drinkTitle!.toLowerCase().contains(searchTxt.toLowerCase()),
+          (element) => element.drinkTitle!
+              .toLowerCase()
+              .contains(searchTxt.toLowerCase()),
         )
         .toList();
 
     state = state.copyWith(allDrinks: AsyncData(lstData));
-  }
-
-  void addItemToCart({
-    required DrinkModel item,
-    required BuildContext context,
-  }) {
-    if (item.count == 0) {
-      item.count = 1;
-    }
-
-    final lstCart = state.lstCarts.toList();
-    lstCart.add(item);
-
-    state = state.copyWith(lstCarts: lstCart);
-    updateDrinkList(item: item);
   }
 
   void addDrinks({required DrinkModel item}) {
@@ -170,7 +169,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void removeDrinks({required DrinkModel item}) {
     if (state.lstCarts.isEmpty) {
       final navigation = NavigationHistoryObserver().history.last;
-      if (navigation.settings.name == Routes.drinkDetailsScreen && item.count == 1) {
+      if (navigation.settings.name == Routes.drinkDetailsScreen &&
+          item.count == 1) {
         return;
       }
     }
@@ -212,7 +212,27 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
   }
 
-  Future<void> orderNow(BuildContext context) async {
+  void addItemToCart({
+    required DrinkModel item,
+    required BuildContext context,
+    bool withOrder = false,
+  }) {
+    if (item.count == 0) {
+      item.count = 1;
+    }
+
+    final lstCart = state.lstCarts.toList();
+    lstCart.add(item);
+
+    state = state.copyWith(lstCarts: lstCart);
+    if (withOrder) {
+      orderNow(context: context);
+    } else {
+      updateDrinkList(item: item);
+    }
+  }
+
+  Future<void> orderNow({required BuildContext context}) async {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
     final availableTime = await getStoreInformation();
@@ -220,43 +240,51 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       openTime: availableTime.storeStartTime,
       closedTime: availableTime.storeEndTime,
     )) {
-      final data = state.lstCarts
-          .toList()
-          .map(
-            (e) => CartItems(
-              options: '',
-              quantity: e.count,
-              skuId: e.skus,
-              productId: e.id,
-            ),
-          )
-          .toList();
-
-      final request = CartRequestModel();
-      request.accountId = 148293;
-      request.cartItems = data;
-      request.currencyCode = 'USD';
-      request.notes = <Notes>[
-        Notes(
-          content: notesController.text,
-          restricted: true,
-        )
-      ];
-      final result = await DixelsSDK.instance.cartService.addCartAsync(
-        request: request,
-        channelId: '147240',
+      final itemCart = state.lstCarts.toList().map(
+            (itemInCart) {
+          final item = itemInCart.optionList!
+              .where((element) => element.isOptionSelect)
+              .toList()
+              .map(
+                (e) {
+              final listString = e.valueOptionModel
+                  .where((element) => element.valueOptionSelected)
+                  .first
+                  .valueOptionKey;
+              return DrinksOptions(
+                key: e.productOptionsModel.key!,
+                required: false,
+                value: [listString],
+              );
+            },
+          ).toList();
+          return OrderItem(
+            options:
+            item.isNotEmpty ? jsonEncode(item).replaceAll('"', r'\"') : '',
+            quantity: itemInCart.count!,
+            skuId: itemInCart.skus!,
+            productId: itemInCart.id!,
+          );
+        },
+      ).toList();
+      final orderParam = OrdersParam(
+        accountId: 148293,
+        channelId: 147240,
+        currencyCode: 'USD',
+        printedNote: notesController.text,
+        orderItems: itemCart,
       );
-      if (result != null) {
-        await DixelsSDK.instance.cartService.checkoutAsync(cartId: result.id.toString()).then(
-          (value) async {
-            await appProgressDialog.stop();
-            showSuccessMessage(
-              context: context,
-              titleText: S.of(context).drinkOrder,
-              subTitle: S.of(context).orderByMistake,
-              navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
-            );
-          },
+    final result=  await DixelsSDK.instance.ordersService.postPageDataWithEither(
+        reqModel: orderParam,
+        fromJson: OrdersModel.fromJson,
+      );
+      if (result.isRight()) {
+        await appProgressDialog.stop();
+        showSuccessMessage(
+          context: context,
+          titleText: S.of(context).drinkOrder,
+          subTitle: S.of(context).orderByMistake,
+          navigateAfterEndTime: () => AppRouter.popUntil(Routes.homeScreen),
         );
         clearData();
       } else {
@@ -279,7 +307,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       item.count = 0;
     }
 
-    final selectedCategory = state.lstCategory.firstWhere((element) => element.isSelected! == true);
+    final selectedCategory =
+        state.lstCategory.firstWhere((element) => element.isSelected! == true);
 
     final lstDrink = allDrinks
         .where(
@@ -289,5 +318,17 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
 
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
     notesController.clear();
+  }
+
+  void updateValueOption({
+    required Options options,
+    required ValueOptions valueOptions,
+  }) {
+    options.valueOptionModel
+        .any((element) => element.valueOptionSelected = false);
+    options.valueOptionModel
+        .where((value) => value == valueOptions)
+        .first
+        .valueOptionSelected = true;
   }
 }

@@ -45,9 +45,24 @@ class Options {
     required this.isOptionSelect,
     required this.customPopupMenuController,
     required this.productOptionsModel,
-  });
+  }) : valueOptionModel = productOptionsModel.productOptionValues!
+            .map(
+              (valueOption) =>
+                  ValueOptions(valueOptionKey: valueOption.key ?? ''),
+            )
+            .toList();
 
   bool isOptionSelect;
   final CustomPopupMenuController customPopupMenuController;
   final ProductOptionsModel productOptionsModel;
+  final List<ValueOptions> valueOptionModel;
+}
+
+class ValueOptions {
+  ValueOptions({
+    required this.valueOptionKey,
+  }) : valueOptionSelected = false;
+
+  bool valueOptionSelected;
+  final String valueOptionKey;
 }
