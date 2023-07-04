@@ -6,7 +6,11 @@ import 'package:pif_flutter/ui/visit/invite_visitor/state/invite_visitor_state.d
 import 'package:pif_flutter/ui/visit/invite_visitor/widget/visitor_list_tile.dart';
 
 class InviteVisitorFormListView extends StatelessWidget {
-  const InviteVisitorFormListView({required this.notifier, required this.provider, super.key});
+  const InviteVisitorFormListView({
+    required this.notifier,
+    required this.provider,
+    super.key,
+  });
 
   final InviteVisitorNotifier notifier;
   final InviteVisitorState provider;
@@ -21,8 +25,8 @@ class InviteVisitorFormListView extends StatelessWidget {
             CustomTextField(
               textEditingController: notifier.firstNameController,
               focusNode: notifier.firstNameFocus,
-              checkEmpty: true,
               labelText: S.current.firstName,
+              checkEmpty: true,
               onChanged: notifier.onChangeText,
             ),
             SizedBox(
@@ -31,9 +35,9 @@ class InviteVisitorFormListView extends StatelessWidget {
             CustomTextField(
               textEditingController: notifier.lastNameController,
               focusNode: notifier.lastNameFocus,
-              checkEmpty: true,
               labelText: S.current.lastName,
               onChanged: notifier.onChangeText,
+              checkEmpty: true,
             ),
             SizedBox(
               height: 24.h,
@@ -41,9 +45,9 @@ class InviteVisitorFormListView extends StatelessWidget {
             CustomTextField(
               textEditingController: notifier.emailController,
               focusNode: notifier.emailFocus,
-              checkEmpty: true,
               labelText: S.current.email,
               isEmailField: true,
+              checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.onChangeText,
             ),

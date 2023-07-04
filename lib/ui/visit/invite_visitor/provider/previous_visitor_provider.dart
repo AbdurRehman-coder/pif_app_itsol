@@ -30,7 +30,8 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
         'Abdul',
         'Moqatder',
         'test@yopmail.com',
-        'Verified',
+        fromHistory: true,
+        isVisitorVerified: true,
       ),
     );
     lstData.add(
@@ -38,7 +39,8 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
         'Muath',
         'Awad',
         'muath@yopmail.com',
-        'Verified',
+        fromHistory: true,
+        isVisitorVerified: true,
       ),
     );
     lstData.add(
@@ -46,7 +48,8 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
         'Alaa',
         'Awad',
         'alaa@yopmail.com',
-        'Verified',
+        isVisitorVerified: true,
+        fromHistory: true,
       ),
     );
     lstData.add(
@@ -54,7 +57,8 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
         'Viral',
         'Panchal',
         'viral@yopmail.com',
-        'Verified',
+        isVisitorVerified: true,
+        fromHistory: true,
       ),
     );
 
@@ -69,23 +73,25 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
       }
     }
 
-    state = state.copyWith(lstData: lstData);
+    state = state.copyWith(previousVisitorList: lstData);
     allData = lstData;
   }
 
   void searchData(String searchText) {
     state = state.copyWith(isVisibleCancel: searchController.text.isNotEmpty);
     final lstData = allData
-        .where((element) =>
-            element.name.toLowerCase().contains(searchText.toLowerCase()),)
+        .where(
+          (element) =>
+              element.name.toLowerCase().contains(searchText.toLowerCase()),
+        )
         .toList();
-    state = state.copyWith(lstData: lstData);
+    state = state.copyWith(previousVisitorList: lstData);
   }
 
   void clearSearch() {
     searchController.clear();
     searchFocusNode.unfocus();
-    state = state.copyWith(lstData: allData);
+    state = state.copyWith(previousVisitorList: allData);
     state = state.copyWith(isVisibleCancel: false);
   }
 
@@ -93,11 +99,18 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
     required BuildContext context,
     required InviteVisitorModel inviteModel,
   }) {
-    final index = state.lstData.indexOf(inviteModel);
+    final index = state.previousVisitorList.indexWhere(
+      (element) => element == inviteModel,
+    );
     if (index != -1) {
       final notifier = ref.read(inviteVisitorProvider.notifier);
-      if (notifier.visitorNotFoundLocally(email: inviteModel.email ?? '')) {
-        state.lstData[index].isSelected = !state.lstData[index].isSelected;
+      if (notifier.visitorNotFoundLocally(email: inviteModel.email ?? '') ||
+          state.previousVisitorList[index].isSelected) {
+        state.previousVisitorList[index].isSelected =
+            !state.previousVisitorList[index].isSelected;
+        if (!state.previousVisitorList[index].isSelected) {
+          notifier.removeVisitor(inviteModel);
+        }
       } else {
         errorMessage(
           errorMessage: S.current.visitorAlreadyFound,
@@ -105,8 +118,7 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
         );
       }
     }
-
-    state = state.copyWith(lstData: state.lstData);
+    state = state.copyWith(previousVisitorList: state.previousVisitorList);
   }
 
   @override

@@ -34,7 +34,8 @@ class AddMoreVisitorNotifier {
         firstNameController.text,
         lastNameController.text,
         emailController.text,
-        'Verified',
+        fromHistory: false,
+        isVisitorVerified: false,
       );
       final notifier = ref.read(inviteVisitorProvider.notifier);
       notifier.addVisitorFromAddMoreVisitor(

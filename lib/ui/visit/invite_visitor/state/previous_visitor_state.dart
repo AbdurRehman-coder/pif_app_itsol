@@ -6,12 +6,12 @@ part 'previous_visitor_state.freezed.dart';
 @freezed
 class PreviousVisitorState with _$PreviousVisitorState {
   const factory PreviousVisitorState({
-    required List<InviteVisitorModel> lstData,
+    required List<InviteVisitorModel> previousVisitorList,
     required bool isVisibleCancel,
   }) = _PreviousVisitorState;
 
   factory PreviousVisitorState.initial() => const PreviousVisitorState(
-        lstData: <InviteVisitorModel>[],
+        previousVisitorList: <InviteVisitorModel>[],
         isVisibleCancel: false,
       );
 }

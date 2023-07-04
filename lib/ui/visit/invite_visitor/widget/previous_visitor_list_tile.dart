@@ -50,7 +50,7 @@ class PreviousVisitorListTile extends StatelessWidget {
                     width: 6.w,
                   ),
                   Text(
-                    item.status ?? '',
+                    item.isVisitorVerified ? 'Verified' : 'Not Verified',
                     style: Style.commonTextStyle(
                       color: primaryColor,
                       fontSize: 12.sp,

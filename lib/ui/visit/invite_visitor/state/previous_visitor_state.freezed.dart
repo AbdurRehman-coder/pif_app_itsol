@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$PreviousVisitorState {
-  List<InviteVisitorModel> get lstData => throw _privateConstructorUsedError;
+  List<InviteVisitorModel> get previousVisitorList =>
+      throw _privateConstructorUsedError;
   bool get isVisibleCancel => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -30,7 +31,8 @@ abstract class $PreviousVisitorStateCopyWith<$Res> {
           $Res Function(PreviousVisitorState) then) =
       _$PreviousVisitorStateCopyWithImpl<$Res, PreviousVisitorState>;
   @useResult
-  $Res call({List<InviteVisitorModel> lstData, bool isVisibleCancel});
+  $Res call(
+      {List<InviteVisitorModel> previousVisitorList, bool isVisibleCancel});
 }
 
 /// @nodoc
@@ -47,13 +49,13 @@ class _$PreviousVisitorStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lstData = null,
+    Object? previousVisitorList = null,
     Object? isVisibleCancel = null,
   }) {
     return _then(_value.copyWith(
-      lstData: null == lstData
-          ? _value.lstData
-          : lstData // ignore: cast_nullable_to_non_nullable
+      previousVisitorList: null == previousVisitorList
+          ? _value.previousVisitorList
+          : previousVisitorList // ignore: cast_nullable_to_non_nullable
               as List<InviteVisitorModel>,
       isVisibleCancel: null == isVisibleCancel
           ? _value.isVisibleCancel
@@ -71,7 +73,8 @@ abstract class _$$_PreviousVisitorStateCopyWith<$Res>
       __$$_PreviousVisitorStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<InviteVisitorModel> lstData, bool isVisibleCancel});
+  $Res call(
+      {List<InviteVisitorModel> previousVisitorList, bool isVisibleCancel});
 }
 
 /// @nodoc
@@ -85,13 +88,13 @@ class __$$_PreviousVisitorStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? lstData = null,
+    Object? previousVisitorList = null,
     Object? isVisibleCancel = null,
   }) {
     return _then(_$_PreviousVisitorState(
-      lstData: null == lstData
-          ? _value._lstData
-          : lstData // ignore: cast_nullable_to_non_nullable
+      previousVisitorList: null == previousVisitorList
+          ? _value._previousVisitorList
+          : previousVisitorList // ignore: cast_nullable_to_non_nullable
               as List<InviteVisitorModel>,
       isVisibleCancel: null == isVisibleCancel
           ? _value.isVisibleCancel
@@ -105,16 +108,17 @@ class __$$_PreviousVisitorStateCopyWithImpl<$Res>
 
 class _$_PreviousVisitorState implements _PreviousVisitorState {
   const _$_PreviousVisitorState(
-      {required final List<InviteVisitorModel> lstData,
+      {required final List<InviteVisitorModel> previousVisitorList,
       required this.isVisibleCancel})
-      : _lstData = lstData;
+      : _previousVisitorList = previousVisitorList;
 
-  final List<InviteVisitorModel> _lstData;
+  final List<InviteVisitorModel> _previousVisitorList;
   @override
-  List<InviteVisitorModel> get lstData {
-    if (_lstData is EqualUnmodifiableListView) return _lstData;
+  List<InviteVisitorModel> get previousVisitorList {
+    if (_previousVisitorList is EqualUnmodifiableListView)
+      return _previousVisitorList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_lstData);
+    return EqualUnmodifiableListView(_previousVisitorList);
   }
 
   @override
@@ -122,7 +126,7 @@ class _$_PreviousVisitorState implements _PreviousVisitorState {
 
   @override
   String toString() {
-    return 'PreviousVisitorState(lstData: $lstData, isVisibleCancel: $isVisibleCancel)';
+    return 'PreviousVisitorState(previousVisitorList: $previousVisitorList, isVisibleCancel: $isVisibleCancel)';
   }
 
   @override
@@ -130,14 +134,17 @@ class _$_PreviousVisitorState implements _PreviousVisitorState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_PreviousVisitorState &&
-            const DeepCollectionEquality().equals(other._lstData, _lstData) &&
+            const DeepCollectionEquality()
+                .equals(other._previousVisitorList, _previousVisitorList) &&
             (identical(other.isVisibleCancel, isVisibleCancel) ||
                 other.isVisibleCancel == isVisibleCancel));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_lstData), isVisibleCancel);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_previousVisitorList),
+      isVisibleCancel);
 
   @JsonKey(ignore: true)
   @override
@@ -149,11 +156,11 @@ class _$_PreviousVisitorState implements _PreviousVisitorState {
 
 abstract class _PreviousVisitorState implements PreviousVisitorState {
   const factory _PreviousVisitorState(
-      {required final List<InviteVisitorModel> lstData,
+      {required final List<InviteVisitorModel> previousVisitorList,
       required final bool isVisibleCancel}) = _$_PreviousVisitorState;
 
   @override
-  List<InviteVisitorModel> get lstData;
+  List<InviteVisitorModel> get previousVisitorList;
   @override
   bool get isVisibleCancel;
   @override

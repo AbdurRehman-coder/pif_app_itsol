@@ -72,7 +72,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 15.w),
               child: Form(
-                key: notifier.formKey,
+                key: notifier.formKeyForDate,
                 child: SingleChildScrollView(
                   child: Stack(
                     children: [
@@ -92,9 +92,11 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                       disabledColor: textColor,
                                     ),
                                     child: CustomTextField(
-                                      textEditingController: notifier.startDateController,
+                                      textEditingController:
+                                          notifier.startDateController,
                                       isFocus: provider.isOpenStartDatePicker,
                                       enabled: false,
+                                      checkEmpty: true,
                                       labelText: S.current.startingDate,
                                       suffixIcon: SvgPicture.asset(
                                         Assets.calendar,
@@ -124,8 +126,10 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                       disabledColor: textColor,
                                     ),
                                     child: CustomTextField(
-                                      textEditingController: notifier.startTimeController,
+                                      textEditingController:
+                                          notifier.startTimeController,
                                       enabled: false,
+                                      checkEmpty: true,
                                       isFocus: provider.isOpenStartTimePicker,
                                       labelText: S.current.time,
                                       suffixIcon: SvgPicture.asset(
@@ -163,9 +167,11 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                       disabledColor: textColor,
                                     ),
                                     child: CustomTextField(
-                                      textEditingController: notifier.endDateController,
+                                      textEditingController:
+                                          notifier.endDateController,
                                       isFocus: provider.isOpenEndDatePicker,
                                       enabled: false,
+                                      checkEmpty: true,
                                       labelText: S.current.endingDate,
                                       suffixIcon: SvgPicture.asset(
                                         Assets.calendar,
@@ -195,9 +201,11 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                       disabledColor: textColor,
                                     ),
                                     child: CustomTextField(
-                                      textEditingController: notifier.endTimeController,
+                                      textEditingController:
+                                          notifier.endTimeController,
                                       isFocus: provider.isOpenEndTimePicker,
                                       enabled: false,
+                                      checkEmpty: true,
                                       labelText: S.current.time,
                                       suffixIcon: SvgPicture.asset(
                                         Assets.arrowDown,
@@ -261,11 +269,16 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                             height: 15.h,
                           ),
                           TextButton(
-                            onPressed: provider.isFieldDisable ? null : () => notifier.addMoreVisitor(context: context),
+                            onPressed: provider.isFieldDisable
+                                ? null
+                                : () =>
+                                    notifier.addMoreVisitor(context: context),
                             child: Text(
                               S.of(context).addMoreVisitors,
                               style: Style.commonTextStyle(
-                                color: provider.isFieldDisable ? primaryDisabledColor : primaryColor,
+                                color: provider.isFieldDisable
+                                    ? primaryDisabledColor
+                                    : primaryColor,
                                 fontSize: 14.sp,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -278,7 +291,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                             onPressed: () => notifier.sendInvitation(context),
                             style: Style.primaryButtonStyle(
                               context: context,
-                              primaryColor: provider.isFieldDisable ? primaryDisabledColor : primaryColor,
+                              primaryColor: provider.isFieldDisable
+                                  ? primaryDisabledColor
+                                  : primaryColor,
                             ),
                             child: Text(
                               S.of(context).sendInvitation,
@@ -311,7 +326,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                               timeGap: TimeGap.oneHour,
                               onCancel: notifier.closeStartTimePickerDialog,
                               onConfirm: (selectedTime) {
-                                notifier.updateStartTime(startTime: selectedTime);
+                                notifier.updateStartTime(
+                                  startTime: selectedTime,
+                                );
                                 notifier.closeStartTimePickerDialog();
                               },
                             ),

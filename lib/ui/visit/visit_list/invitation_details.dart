@@ -116,6 +116,7 @@ class InvitationDetailsView extends StatelessWidget {
                   style: boldStyle,
                 ),
                 ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   padding: EdgeInsets.only(top: 20.h),
                   itemBuilder: (_, index) {

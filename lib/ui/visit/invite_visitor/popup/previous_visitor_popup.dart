@@ -4,13 +4,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/widget/previous_visitor_list_tile.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
-Future<void> previousVisitorPopup({
+Future<List<InviteVisitorModel>> previousVisitorPopup({
   required BuildContext context,
 }) async {
+  var previousVisitorSelected = <InviteVisitorModel>[];
   await showModalBottomSheet<dynamic>(
     backgroundColor: whiteColor,
     isScrollControlled: true,
@@ -27,7 +29,7 @@ Future<void> previousVisitorPopup({
         builder: (context, ref, child) {
           final provider = ref.watch(previousVisitorProvider);
           final notifier = ref.read(previousVisitorProvider.notifier);
-
+          previousVisitorSelected = provider.previousVisitorList;
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
@@ -90,14 +92,15 @@ Future<void> previousVisitorPopup({
                     icon: SvgPicture.asset(
                       Assets.close,
                       height: 24.h,
-                      colorFilter: const ColorFilter.mode(blackColor, BlendMode.srcIn),
+                      colorFilter:
+                          const ColorFilter.mode(blackColor, BlendMode.srcIn),
                     ),
                   ).visibility(visible: provider.isVisibleCancel),
                 ),
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
-                    itemCount: provider.lstData.length,
+                    itemCount: provider.previousVisitorList.length,
                     separatorBuilder: (_, index) {
                       return Divider(
                         height: 30.h,
@@ -107,7 +110,7 @@ Future<void> previousVisitorPopup({
                     },
                     itemBuilder: (_, index) {
                       return PreviousVisitorListTile(
-                        item: provider.lstData[index],
+                        item: provider.previousVisitorList[index],
                         notifier: notifier,
                       );
                     },
@@ -120,4 +123,5 @@ Future<void> previousVisitorPopup({
       );
     },
   );
+  return previousVisitorSelected.where((element) => element.isSelected).toList();
 }

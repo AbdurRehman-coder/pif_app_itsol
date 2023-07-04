@@ -46,7 +46,9 @@ class VisitCard extends StatelessWidget {
                   svgImage: Assets.calendar,
                   text: visitModel?.visitStartDate == null
                       ? ''
-                      : '${visitModel?.visitStartDate?.getTime()} - ${visitModel?.visitStartDate?.getCommonFormatDate(pattern: 'dd/MM/yyyy')}',
+                      : '${visitModel?.visitStartDate?.getTime()} - ${visitModel?.visitStartDate?.getCommonFormatDate(
+                          pattern: 'dd/MM/yyyy',
+                        )}',
                 ),
                 const CustomPopupMenuButton(),
               ],
@@ -63,22 +65,28 @@ class VisitCard extends StatelessWidget {
             SizedBox(
               height: 13.h,
             ),
-            SizedBox(
-              height: 70.h,
-              child: VisitorList(
-                visitModel: visitModel?.visitors,
+            if (visitModel?.visitors != null &&
+                visitModel!.visitors!.isNotEmpty) ...[
+              SizedBox(
+                height: 70.h,
+                child: VisitorList(
+                  visitModel: visitModel?.visitors,
+                ),
+              ).visibility(
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                visible: visitModel!.visitors!.length > 1,
               ),
-            ).visibility(
-              // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitors != null ? visitModel!.visitors!.length > 1 : false,
-            ),
-            SingleVisitor(
-              status: true,
-              visitorsModel: visitModel?.visitors?.first,
-            ).visibility(
-              // ignore: avoid_bool_literals_in_conditional_expressions
-              visible: visitModel?.visitors != null ? visitModel!.visitors!.length == 1 : false,
-            ),
+            ],
+            if (visitModel?.visitors != null &&
+                visitModel!.visitors!.isNotEmpty) ...[
+              SingleVisitor(
+                status: true,
+                visitorsModel: visitModel?.visitors?.first,
+              ).visibility(
+                // ignore: avoid_bool_literals_in_conditional_expressions
+                visible: visitModel!.visitors!.length == 1,
+              ),
+            ],
           ],
         ),
       ),
