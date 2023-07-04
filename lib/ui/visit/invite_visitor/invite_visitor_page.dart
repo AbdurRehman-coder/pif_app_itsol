@@ -50,6 +50,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
       ),
       body: GestureDetector(
         onTap: () {
+          print('4567654567890');
           if (provider.isOpenStartDatePicker) {
             notifier.closeStartDatePickerDialog();
           }
@@ -82,67 +83,73 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                           SizedBox(
                             height: 10.h,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: notifier.openStartDatePickerDialog,
-                                  child: Theme(
-                                    data: ThemeData(
-                                      disabledColor: textColor,
-                                    ),
-                                    child: CustomTextField(
-                                      textEditingController:
-                                          notifier.startDateController,
-                                      isFocus: provider.isOpenStartDatePicker,
-                                      enabled: false,
-                                      checkEmpty: true,
-                                      labelText: S.current.startingDate,
-                                      suffixIcon: SvgPicture.asset(
-                                        Assets.calendar,
-                                        height: 10.h,
-                                        width: 10.w,
-                                        fit: BoxFit.scaleDown,
+                          InkWell(
+                            splashColor: whiteColor,
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap:()=> notifier.openStartDatePickerDialog(context: context),
+                                    child: Theme(
+                                      data: ThemeData(
+                                        disabledColor: textColor,
+                                      ),
+                                      child: CustomTextField(
+                                        textEditingController:
+                                            notifier.startDateController,
+                                        isFocus: provider.isOpenStartDatePicker,
+                                        enabled: false,
+                                        checkEmpty: true,
+                                        labelText: S.current.startingDate,
+                                        suffixIcon: SvgPicture.asset(
+                                          Assets.calendar,
+                                          height: 10.h,
+                                          width: 10.w,
+                                          fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              SvgPicture.asset(
-                                Assets.arrowRightBack,
-                                height: 12.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: notifier.openStartTimePickerDialog,
-                                  child: Theme(
-                                    data: ThemeData(
-                                      disabledColor: textColor,
-                                    ),
-                                    child: CustomTextField(
-                                      textEditingController:
-                                          notifier.startTimeController,
-                                      enabled: false,
-                                      checkEmpty: true,
-                                      isFocus: provider.isOpenStartTimePicker,
-                                      labelText: S.current.time,
-                                      suffixIcon: SvgPicture.asset(
-                                        Assets.arrowDown,
-                                        height: 10.h,
-                                        width: 10.w,
-                                        fit: BoxFit.scaleDown,
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                SvgPicture.asset(
+                                  Assets.arrowRightBack,
+                                  height: 12.h,
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: notifier.openStartTimePickerDialog,
+                                    child: Theme(
+                                      data: ThemeData(
+                                        disabledColor: textColor,
+                                      ),
+                                      child: CustomTextField(
+                                        textEditingController:
+                                            notifier.startTimeController,
+                                        enabled: false,
+                                        checkEmpty: true,
+                                        isFocus: provider.isOpenStartTimePicker,
+                                        labelText: S.current.time,
+                                        suffixIcon: SvgPicture.asset(
+                                          Assets.arrowDown,
+                                          height: 10.h,
+                                          width: 10.w,
+                                          fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20.h,
@@ -157,67 +164,69 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                           SizedBox(
                             height: 25.h,
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: InkWell(
-                                  onTap: notifier.openEndDatePickerDialog,
-                                  child: Theme(
-                                    data: ThemeData(
-                                      disabledColor: textColor,
-                                    ),
-                                    child: CustomTextField(
-                                      textEditingController:
-                                          notifier.endDateController,
-                                      isFocus: provider.isOpenEndDatePicker,
-                                      enabled: false,
-                                      checkEmpty: true,
-                                      labelText: S.current.endingDate,
-                                      suffixIcon: SvgPicture.asset(
-                                        Assets.calendar,
-                                        height: 10.h,
-                                        width: 10.w,
-                                        fit: BoxFit.scaleDown,
+                          InkWell(
+                            splashColor: whiteColor,
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: notifier.openEndDatePickerDialog,
+                                    child: Theme(
+                                      data: ThemeData(
+                                        disabledColor: textColor,
+                                      ),
+                                      child: CustomTextField(
+                                        textEditingController:
+                                            notifier.endDateController,
+                                        isFocus: provider.isOpenEndDatePicker,
+                                        enabled: false,
+                                        checkEmpty: true,
+                                        labelText: S.current.endingDate,
+                                        suffixIcon: SvgPicture.asset(
+                                          Assets.calendar,
+                                          height: 10.h,
+                                          width: 10.w,
+                                          fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              SvgPicture.asset(
-                                Assets.arrowRightBack,
-                                height: 12.h,
-                              ),
-                              SizedBox(
-                                width: 8.w,
-                              ),
-                              Expanded(
-                                child: InkWell(
-                                  onTap: notifier.openEndTimePickerDialog,
-                                  child: Theme(
-                                    data: ThemeData(
-                                      disabledColor: textColor,
-                                    ),
-                                    child: CustomTextField(
-                                      textEditingController:
-                                          notifier.endTimeController,
-                                      isFocus: provider.isOpenEndTimePicker,
-                                      enabled: false,
-                                      checkEmpty: true,
-                                      labelText: S.current.time,
-                                      suffixIcon: SvgPicture.asset(
-                                        Assets.arrowDown,
-                                        height: 10.h,
-                                        width: 10.w,
-                                        fit: BoxFit.scaleDown,
+                                SizedBox(width: 8.w),
+                                SvgPicture.asset(
+                                  Assets.arrowRightBack,
+                                  height: 12.h,
+                                ),
+                                SizedBox(width: 8.w),
+                                Expanded(
+                                  child: InkWell(
+                                    onTap: notifier.openEndTimePickerDialog,
+                                    child: Theme(
+                                      data: ThemeData(
+                                        disabledColor: textColor,
+                                      ),
+                                      child: CustomTextField(
+                                        textEditingController:
+                                            notifier.endTimeController,
+                                        isFocus: provider.isOpenEndTimePicker,
+                                        enabled: false,
+                                        checkEmpty: true,
+                                        labelText: S.current.time,
+                                        suffixIcon: SvgPicture.asset(
+                                          Assets.arrowDown,
+                                          height: 10.h,
+                                          width: 10.w,
+                                          fit: BoxFit.scaleDown,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 20.h,
@@ -306,7 +315,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 10.h),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
                             child: DatePickerWidget(
                               selectedDate: provider.startDate,
                               onConfirm: notifier.updateStartDate,
@@ -320,7 +331,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 60.h),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
                             child: TimePickerPopup(
                               timeData: provider.startTime,
                               timeGap: TimeGap.oneHour,
@@ -340,7 +353,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 105.h),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
                             child: DatePickerWidget(
                               selectedDate: provider.endDate,
                               onConfirm: notifier.updateEndDate,
@@ -354,7 +369,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 155.h),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+                                ? notifier.closeDateAndTime()
+                                : null,
                             child: TimePickerPopup(
                               timeData: provider.endTime,
                               timeGap: TimeGap.oneHour,

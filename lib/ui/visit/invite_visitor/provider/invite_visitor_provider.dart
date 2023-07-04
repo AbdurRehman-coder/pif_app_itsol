@@ -2,7 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
-import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart' as visit;
+import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
+    as visit;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -18,13 +19,14 @@ import 'package:pif_flutter/ui/visit/invite_visitor/popup/previous_visitor_popup
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
-final inviteVisitorProvider =
-    StateNotifierProvider.autoDispose<InviteVisitorNotifier, InviteVisitorState>((ref) {
+final inviteVisitorProvider = StateNotifierProvider.autoDispose<
+    InviteVisitorNotifier, InviteVisitorState>((ref) {
   return InviteVisitorNotifier(ref: ref);
 });
 
 class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
-  InviteVisitorNotifier({required this.ref}) : super(InviteVisitorState.initial()) {
+  InviteVisitorNotifier({required this.ref})
+      : super(InviteVisitorState.initial()) {
     _initData();
   }
 
@@ -75,7 +77,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   bool checkEntryData({
     required BuildContext context,
   }) {
-    if (state.lstData.isEmpty && !state.isFieldDisable && emailController.text.isValidEmail()) {
+    if (state.lstData.isEmpty &&
+        !state.isFieldDisable &&
+        emailController.text.isValidEmail()) {
       if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final lstData = state.lstData.toList();
         final visitor = InviteVisitorModel(
@@ -106,11 +110,13 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   //Add Previous Visitor
   Future<void> addPreviousVisitor({required BuildContext context}) async {
     if (checkEntryData(context: context)) {
-      final previousVisitorSelected = await previousVisitorPopup(context: context);
+      final previousVisitorSelected =
+          await previousVisitorPopup(context: context);
       final lstData = state.lstData.toList();
       for (final item in previousVisitorSelected) {
         final data = lstData.firstWhereOrNull(
-          (element) => element.email!.toLowerCase() == item.email!.toLowerCase(),
+          (element) =>
+              element.email!.toLowerCase() == item.email!.toLowerCase(),
         );
         if (data == null) {
           lstData.add(item);
@@ -174,6 +180,28 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     }
   }
 
+  void closeDateAndTime() {
+    state = state.copyWith(isOpenStartDatePicker: false);
+    state = state.copyWith(isOpenEndDatePicker: false);
+    state = state.copyWith(isOpenStartTimePicker: false);
+    state = state.copyWith(isOpenEndTimePicker: false);
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  bool checkIfAnyDateOrTimeIsOpen() {
+    if (state.isOpenStartDatePicker ||
+        state.isOpenEndDatePicker ||
+        state.isOpenStartTimePicker ||
+        state.isOpenEndTimePicker ||
+        firstNameFocus.hasFocus ||
+        emailFocus.hasFocus ||
+        lastNameFocus.hasFocus) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   //Check if visitor not found from history
   bool visitorNotFoundFromVisitorHistory({required String email}) {
     final previousProvider = ref.read(previousVisitorProvider);
@@ -222,7 +250,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   void _updateDisableFields() {
     final isDisable = state.lstData.isEmpty &&
-        (firstNameController.text.isEmpty || lastNameController.text.isEmpty || emailController.text.isEmpty);
+        (firstNameController.text.isEmpty ||
+            lastNameController.text.isEmpty ||
+            emailController.text.isEmpty);
     state = state.copyWith(isFieldDisable: isDisable);
   }
 
@@ -279,13 +309,16 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }
 
   //Open Start DatePicker Dialog
-  void openStartDatePickerDialog() {
-    if (state.isOpenStartTimePicker ||
-        state.isOpenEndTimePicker ||
-        state.isOpenEndDatePicker ||
-        firstNameFocus.hasFocus ||
+  void openStartDatePickerDialog({required BuildContext context}) {
+    if (firstNameFocus.hasFocus ||
         lastNameFocus.hasFocus ||
         emailFocus.hasFocus) {
+      FocusManager.instance.primaryFocus?.unfocus();
+      state = state.copyWith(isOpenStartDatePicker: true);
+      return;
+    }
+    if (checkIfAnyDateOrTimeIsOpen()) {
+      closeDateAndTime();
       return;
     }
     state = state.copyWith(isOpenStartDatePicker: true);
@@ -298,10 +331,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open End DatePicker Dialog
   void openEndDatePickerDialog() {
-    if (state.isOpenEndTimePicker ||
-        firstNameFocus.hasFocus ||
-        lastNameFocus.hasFocus ||
-        emailFocus.hasFocus) {
+    if (checkIfAnyDateOrTimeIsOpen()) {
+      closeDateAndTime();
       return;
     }
     state = state.copyWith(isOpenEndDatePicker: true);
@@ -314,12 +345,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
-    if (state.isOpenStartDatePicker ||
-        state.isOpenEndTimePicker ||
-        state.isOpenEndDatePicker ||
-        firstNameFocus.hasFocus ||
-        lastNameFocus.hasFocus ||
-        emailFocus.hasFocus) {
+    if (checkIfAnyDateOrTimeIsOpen()) {
+      closeDateAndTime();
       return;
     }
     state = state.copyWith(isOpenStartTimePicker: true);
@@ -332,10 +359,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
-    if (state.isOpenEndDatePicker ||
-        firstNameFocus.hasFocus ||
-        lastNameFocus.hasFocus ||
-        emailFocus.hasFocus) {
+    if (checkIfAnyDateOrTimeIsOpen()) {
+      closeDateAndTime();
       return;
     }
     state = state.copyWith(isOpenEndTimePicker: true);
@@ -344,18 +369,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   //Close EndTime Picker Dialog
   void closeEndTimePickerDialog() {
     state = state.copyWith(isOpenEndTimePicker: false);
-  }
-
-  @override
-  void dispose() {
-    firstNameController.dispose();
-    lastNameController.dispose();
-    emailController.dispose();
-    startTimeController.dispose();
-    startDateController.dispose();
-    endDateController.dispose();
-    endTimeController.dispose();
-    super.dispose();
   }
 
   void _setDefaultDateTime() {
@@ -396,7 +409,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
         subTitle: S.current.inviteByMistake,
         navigateAfterEndTime: () async {
           await appProgressDialog.start();
-          final result = await DixelsSDK.instance.visitService.postPageDataWithEither(
+          final result =
+              await DixelsSDK.instance.visitService.postPageDataWithEither(
             reqModel: visit.VisitParam(
               state: visit.State(key: 'pendingVerification'),
               visitStartDate: startDate.toIso8601String(),
@@ -407,7 +421,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
                       givenName: e.firstName ?? '',
                       familyName: e.lastName ?? '',
                       emailAddress: e.email ?? '',
-                      alternateName: e.email!.substring(0, e.email!.indexOf('@')),
+                      alternateName:
+                          e.email!.substring(0, e.email!.indexOf('@')),
                     ),
                   )
                   .toList(),
@@ -424,9 +439,11 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
                   operator: FilterOperator.equal.value,
                 ),
               );
-              final userInformation = await DixelsSDK.instance.accountService.getUserByEmail(param: param);
+              final userInformation = await DixelsSDK.instance.accountService
+                  .getUserByEmail(param: param);
               if (userInformation.isRight()) {
-                final addVisitorHistory = await DixelsSDK.instance.visitService.addVisitorByAccountId(
+                final addVisitorHistory =
+                    await DixelsSDK.instance.visitService.addVisitorByAccountId(
                   visitId: result.getRight()!.id,
                   accountId: userInformation.getRight()?.items?.first.id ?? 0,
                 );
