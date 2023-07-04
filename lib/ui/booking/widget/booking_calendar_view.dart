@@ -50,20 +50,25 @@ class BookingCalendarView extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              Container(
-                height: 30.h,
-                width: 90.w,
-                decoration: BoxDecoration(
-                  border: Border.all(color: darkBorderColor),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Today',
-                  style: Style.commonTextStyle(
-                    color: darkBorderColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
+              InkWell(
+                onTap: () {
+                  notifier.updateDays(index: 0);
+                },
+                child: Container(
+                  height: 30.h,
+                  width: 90.w,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: darkBorderColor),
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Today',
+                    style: Style.commonTextStyle(
+                      color: darkBorderColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               )

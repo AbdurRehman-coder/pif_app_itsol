@@ -52,7 +52,7 @@ class BookingScannerNotifier {
         args: [result.items![0], true],
       );
     } else {
-      errorMessage(
+      alertMessage(
         errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
         context: context,
       );

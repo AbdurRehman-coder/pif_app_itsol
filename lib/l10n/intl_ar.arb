@@ -137,5 +137,8 @@
   "pastBookingAlert" : "Please select future time",
   "password":"Password",
   "login":"LogIn",
-  "scanQrToBook": "Scan QR to book"
+  "scanQrToBook": "Scan QR to book",
+  "bookingSlotSuccess" : "Booking Created Successfully",
+  "drinkOrderSuccess": "Order Sent Successfully",
+  "inviteVisitorSuccess" : "Invitation Sent Successfully"
 }

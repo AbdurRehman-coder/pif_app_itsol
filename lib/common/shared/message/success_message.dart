@@ -2,12 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
+import 'package:pif_flutter/common/index.dart';
 
 void showSuccessMessage({
   required BuildContext context,
@@ -69,6 +65,7 @@ class _SuccessMessageState extends State<SuccessMessage> {
       });
       if (sliderValue == 3000) {
         _timer?.cancel();
+        AppRouter.pop();
         widget.navigateAfterEndTime();
       }
     });
@@ -125,7 +122,10 @@ class _SuccessMessageState extends State<SuccessMessage> {
                 ],
               ),
               InkWell(
-                onTap: widget.navigateAfterEndTime,
+                onTap: () {
+                  AppRouter.pop();
+                  widget.navigateAfterEndTime();
+                },
                 child: Text(
                   S.of(context).skip,
                   style: Style.commonTextStyle(
@@ -168,7 +168,11 @@ class _SuccessMessageState extends State<SuccessMessage> {
                 const TextSpan(text: ' '),
                 TextSpan(
                   text: widget.cancelText ?? S.of(context).cancel,
-                  recognizer: TapGestureRecognizer()..onTap = () {},
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      _timer?.cancel();
+                      AppRouter.pop();
+                    },
                   style: Style.commonTextStyle(
                     color: redColor,
                     fontSize: 14.sp,

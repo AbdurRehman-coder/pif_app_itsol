@@ -2,9 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
-import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
-    as visit;
-import 'package:dixels_sdk/features/commerce/visit/models/visitor_account_model.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart' as visit;
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -20,14 +18,13 @@ import 'package:pif_flutter/ui/visit/invite_visitor/popup/previous_visitor_popup
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
-final inviteVisitorProvider = StateNotifierProvider.autoDispose<
-    InviteVisitorNotifier, InviteVisitorState>((ref) {
+final inviteVisitorProvider =
+    StateNotifierProvider.autoDispose<InviteVisitorNotifier, InviteVisitorState>((ref) {
   return InviteVisitorNotifier(ref: ref);
 });
 
 class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
-  InviteVisitorNotifier({required this.ref})
-      : super(InviteVisitorState.initial()) {
+  InviteVisitorNotifier({required this.ref}) : super(InviteVisitorState.initial()) {
     _initData();
   }
 
@@ -78,9 +75,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   bool checkEntryData({
     required BuildContext context,
   }) {
-    if (state.lstData.isEmpty &&
-        !state.isFieldDisable &&
-        emailController.text.isValidEmail()) {
+    if (state.lstData.isEmpty && !state.isFieldDisable && emailController.text.isValidEmail()) {
       if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final lstData = state.lstData.toList();
         final visitor = InviteVisitorModel(
@@ -97,7 +92,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
         emailController.clear();
         return true;
       } else {
-        errorMessage(
+        alertMessage(
           errorMessage: S.current.visitorAlreadyFound,
           context: context,
         );
@@ -111,13 +106,11 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   //Add Previous Visitor
   Future<void> addPreviousVisitor({required BuildContext context}) async {
     if (checkEntryData(context: context)) {
-      final previousVisitorSelected =
-          await previousVisitorPopup(context: context);
+      final previousVisitorSelected = await previousVisitorPopup(context: context);
       final lstData = state.lstData.toList();
       for (final item in previousVisitorSelected) {
         final data = lstData.firstWhereOrNull(
-          (element) =>
-              element.email!.toLowerCase() == item.email!.toLowerCase(),
+          (element) => element.email!.toLowerCase() == item.email!.toLowerCase(),
         );
         if (data == null) {
           lstData.add(item);
@@ -130,7 +123,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Add More Visitor
   void addMoreVisitor({required BuildContext context}) {
-
     if (checkEntryData(context: context)) {
       addMoreVisitorPopup(context: context);
     }
@@ -138,14 +130,13 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Send Invitation
   void sendInvitation(BuildContext context) {
-
     if (formKeyForDate.currentState!.validate()) {
       if (state.isFieldDisable) {
         return;
       }
 
       if (state.startDate.isAfter(state.endDate)) {
-        errorMessage(
+        alertMessage(
           context: context,
           errorMessage: S.current.dateTimeCompareMsg,
         );
@@ -212,7 +203,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       _updateDisableFields();
       AppRouter.pop();
     } else {
-      errorMessage(
+      alertMessage(
         errorMessage: S.current.visitorAlreadyFound,
         context: context,
       );
@@ -231,9 +222,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   void _updateDisableFields() {
     final isDisable = state.lstData.isEmpty &&
-        (firstNameController.text.isEmpty ||
-            lastNameController.text.isEmpty ||
-            emailController.text.isEmpty);
+        (firstNameController.text.isEmpty || lastNameController.text.isEmpty || emailController.text.isEmpty);
     state = state.copyWith(isFieldDisable: isDisable);
   }
 
@@ -394,87 +383,96 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }) async {
     if (checkEntryData(context: context)) {
       final appProgressDialog = AppProgressDialog(context: context);
-      await appProgressDialog.start();
       final visitorFromHistoryList = state.lstData.isNotEmpty
           ? state.lstData.where((visitor) => visitor.fromHistory).toList()
           : <InviteVisitorModel>[];
       final visitorAddedLocallyList = state.lstData.isNotEmpty
           ? state.lstData.where((visitor) => !visitor.fromHistory).toList()
           : <InviteVisitorModel>[];
-      final result =
-          await DixelsSDK.instance.visitService.postPageDataWithEither(
-        reqModel: visit.VisitParam(
-          state: visit.State(key: 'pendingVerification'),
-          visitStartDate: startDate.toIso8601String(),
-          visitEndDate: endDate.toIso8601String(),
-          visitors: visitorAddedLocallyList
-              .map(
-                (e) => visit.Visitors(
-                  givenName: e.firstName ?? '',
-                  familyName: e.lastName ?? '',
-                  emailAddress: e.email ?? '',
-                  alternateName: e.email!.substring(0, e.email!.indexOf('@')),
-                ),
-              )
-              .toList(),
-        ),
-        fromJson: VisitModel.fromJson,
-      );
-      if (visitorFromHistoryList.isNotEmpty) {
-        for (final visitorFromHistory in visitorFromHistoryList) {
-          final param = ParametersModel(
-            filter: FilterUtils.filterBy(
-              key: 'emailAddress',
-              value: "'usera@mail.com'",
-              // value: "'${visitorFromHistory.email}'",
-              operator: FilterOperator.equal.value,
+
+      showSuccessMessage(
+        context: context,
+        titleText: S.current.inviteVisitor,
+        subTitle: S.current.inviteByMistake,
+        navigateAfterEndTime: () async {
+          await appProgressDialog.start();
+          final result = await DixelsSDK.instance.visitService.postPageDataWithEither(
+            reqModel: visit.VisitParam(
+              state: visit.State(key: 'pendingVerification'),
+              visitStartDate: startDate.toIso8601String(),
+              visitEndDate: endDate.toIso8601String(),
+              visitors: visitorAddedLocallyList
+                  .map(
+                    (e) => visit.Visitors(
+                      givenName: e.firstName ?? '',
+                      familyName: e.lastName ?? '',
+                      emailAddress: e.email ?? '',
+                      alternateName: e.email!.substring(0, e.email!.indexOf('@')),
+                    ),
+                  )
+                  .toList(),
             ),
+            fromJson: VisitModel.fromJson,
           );
-          final userInformation = await DixelsSDK.instance.accountService
-              .getUserByEmail(param: param);
-          if (userInformation.isRight()) {
-            final addVisitorHistory =
-                await DixelsSDK.instance.visitService.addVisitorByAccountId(
-              visitId: result.getRight()!.id,
-              accountId: userInformation.getRight()?.items?.first.id ?? 0,
-            );
-            if (addVisitorHistory.isRight()) {
-            } else {
-              await appProgressDialog.stop();
-              errorMessage(
-                errorMessage: addVisitorHistory.getLeft().message,
-                context: context,
+          if (visitorFromHistoryList.isNotEmpty) {
+            for (final visitorFromHistory in visitorFromHistoryList) {
+              final param = ParametersModel(
+                filter: FilterUtils.filterBy(
+                  key: 'emailAddress',
+                  value: "'usera@mail.com'",
+                  // value: "'${visitorFromHistory.email}'",
+                  operator: FilterOperator.equal.value,
+                ),
               );
-              return;
+              final userInformation = await DixelsSDK.instance.accountService.getUserByEmail(param: param);
+              if (userInformation.isRight()) {
+                final addVisitorHistory = await DixelsSDK.instance.visitService.addVisitorByAccountId(
+                  visitId: result.getRight()!.id,
+                  accountId: userInformation.getRight()?.items?.first.id ?? 0,
+                );
+                if (addVisitorHistory.isRight()) {
+                } else {
+                  await appProgressDialog.stop();
+                  alertMessage(
+                    errorMessage: addVisitorHistory.getLeft().message,
+                    context: context,
+                  );
+                  return;
+                }
+              } else {
+                await appProgressDialog.stop();
+                alertMessage(
+                  errorMessage: userInformation.getLeft().message,
+                  context: context,
+                );
+                return;
+              }
             }
-          } else {
-            await appProgressDialog.stop();
-            errorMessage(
-              errorMessage: userInformation.getLeft().message,
+          }
+          await appProgressDialog.stop();
+          if (result.isRight()) {
+            final notifier = ref.read(visitListProvider.notifier);
+            alertMessage(
+              errorMessage: S.current.inviteVisitorSuccess,
               context: context,
             );
-            return;
+            showSuccessMessage(
+              context: context,
+              titleText: S.current.inviteVisitor,
+              subTitle: S.current.inviteByMistake,
+              navigateAfterEndTime: () {
+                notifier.getVisits();
+                AppRouter.popUntil(Routes.visitListScreen);
+              },
+            );
+          } else {
+            alertMessage(
+              errorMessage: result.getLeft().message,
+              context: context,
+            );
           }
-        }
-      }
-      await appProgressDialog.stop();
-      if (result.isRight()) {
-        final notifier = ref.read(visitListProvider.notifier);
-        showSuccessMessage(
-          context: context,
-          titleText: S.current.inviteVisitor,
-          subTitle: S.current.inviteByMistake,
-          navigateAfterEndTime: () {
-            notifier.getVisits();
-            AppRouter.popUntil(Routes.visitListScreen);
-          },
-        );
-      } else {
-        errorMessage(
-          errorMessage: result.getLeft().message,
-          context: context,
-        );
-      }
+        },
+      );
     }
   }
 

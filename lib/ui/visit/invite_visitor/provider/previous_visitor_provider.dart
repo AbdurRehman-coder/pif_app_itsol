@@ -6,14 +6,13 @@ import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/state/previous_visitor_state.dart';
 
-final previousVisitorProvider = StateNotifierProvider.autoDispose<
-    PreviousVisitorNotifier, PreviousVisitorState>((ref) {
+final previousVisitorProvider =
+    StateNotifierProvider.autoDispose<PreviousVisitorNotifier, PreviousVisitorState>((ref) {
   return PreviousVisitorNotifier(ref: ref);
 });
 
 class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
-  PreviousVisitorNotifier({required this.ref})
-      : super(PreviousVisitorState.initial()) {
+  PreviousVisitorNotifier({required this.ref}) : super(PreviousVisitorState.initial()) {
     _initData();
   }
 
@@ -112,7 +111,7 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
           notifier.removeVisitor(inviteModel);
         }
       } else {
-        errorMessage(
+        alertMessage(
           errorMessage: S.current.visitorAlreadyFound,
           context: context,
         );

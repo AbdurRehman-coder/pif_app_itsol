@@ -125,6 +125,7 @@ void bookingDetailsBottomSheet({
                                               textEditingController: notifier.dateController,
                                               checkEmpty: true,
                                               enabled: false,
+                                              isFocus: provider.isOpenDatePicker,
                                               suffixIcon: SvgPicture.asset(
                                                 Assets.calendar,
                                                 height: 10.h,
@@ -239,6 +240,7 @@ void bookingDetailsBottomSheet({
                                                     textEditingController: notifier.startTimeController,
                                                     enabled: false,
                                                     checkEmpty: true,
+                                                    isFocus: provider.isOpenStartTimePicker,
                                                     labelText: S.current.startingTime,
                                                     suffixIcon: SvgPicture.asset(
                                                       Assets.arrowDown,
@@ -275,6 +277,7 @@ void bookingDetailsBottomSheet({
                                                     textEditingController: notifier.endTimeController,
                                                     enabled: false,
                                                     checkEmpty: true,
+                                                    isFocus: provider.isOpenEndTimePicker,
                                                     labelText: S.current.endingTime,
                                                     suffixIcon: SvgPicture.asset(
                                                       Assets.arrowDown,
@@ -289,27 +292,33 @@ void bookingDetailsBottomSheet({
                                           ],
                                         ),
                                       ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: TimePickerPopup(
-                                          timeData: provider.startTime ?? DateTime.now(),
-                                          onCancel: notifier.closeStartTimePickerDialog,
-                                          onConfirm: (selectedTime) {
-                                            notifier.updateStartTime(startTime: selectedTime);
-                                            notifier.closeStartTimePickerDialog();
-                                          },
-                                        ).visibility(visible: provider.isOpenStartTimePicker),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 50.h),
+                                        child: InkWell(
+                                          onTap: () {},
+                                          child: TimePickerPopup(
+                                            timeData: provider.startTime ?? DateTime.now(),
+                                            onCancel: notifier.closeStartTimePickerDialog,
+                                            onConfirm: (selectedTime) {
+                                              notifier.updateStartTime(startTime: selectedTime);
+                                              notifier.closeStartTimePickerDialog();
+                                            },
+                                          ).visibility(visible: provider.isOpenStartTimePicker),
+                                        ),
                                       ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: TimePickerPopup(
-                                          timeData: provider.endTime ?? DateTime.now(),
-                                          onCancel: notifier.closeEndTimePickerDialog,
-                                          onConfirm: (selectedTime) {
-                                            notifier.updateEndTime(endTime: selectedTime, context: context);
-                                            notifier.closeEndTimePickerDialog();
-                                          },
-                                        ).visibility(visible: provider.isOpenEndTimePicker),
+                                      Container(
+                                        margin: EdgeInsets.only(top: 50.h),
+                                        child: InkWell(
+                                          onTap: () {},
+                                          child: TimePickerPopup(
+                                            timeData: provider.endTime ?? DateTime.now(),
+                                            onCancel: notifier.closeEndTimePickerDialog,
+                                            onConfirm: (selectedTime) {
+                                              notifier.updateEndTime(endTime: selectedTime, context: context);
+                                              notifier.closeEndTimePickerDialog();
+                                            },
+                                          ).visibility(visible: provider.isOpenEndTimePicker),
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -5,14 +5,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
-void errorMessage({
+void alertMessage({
   required String errorMessage,
   required BuildContext context,
+  AlertStatusEnum statusEnum = AlertStatusEnum.error,
   TextStyle? errorMessageStyle,
   int? secondDuration,
   Curve curves = Curves.elasticOut,
   Curve reverseCurve = Curves.easeInSine,
 }) {
+  final bgColor = statusEnum == AlertStatusEnum.error ? pinkColor : lightPrimaryColor;
+  final textColor = statusEnum == AlertStatusEnum.error ? dangerousColor : primaryColor;
   showToastWidget(
     Container(
       padding: EdgeInsets.symmetric(
@@ -24,7 +27,7 @@ void errorMessage({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0.r),
         ),
-        color: pinkColor,
+        color: bgColor,
       ),
       child: Row(
         children: [
@@ -32,6 +35,7 @@ void errorMessage({
             Assets.warningIcon,
             width: 18.w,
             height: 20.h,
+            colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
           ),
           SizedBox(width: 12.w),
           Expanded(
@@ -39,7 +43,7 @@ void errorMessage({
               errorMessage,
               style: errorMessageStyle ??
                   TextStyle(
-                    color: dangerousColor,
+                    color: textColor,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),
@@ -58,3 +62,5 @@ void errorMessage({
     reverseCurve: reverseCurve,
   );
 }
+
+enum AlertStatusEnum { error, success }

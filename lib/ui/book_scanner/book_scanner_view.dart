@@ -81,7 +81,9 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
               controller: controller,
               onDetect: (capture) async {
                 final barcodes = capture.barcodes;
-                if (barcodes.isNotEmpty && barcodes.first.rawValue!.isNotEmpty && provider.isNumeric(barcodes.first.rawValue)) {
+                if (barcodes.isNotEmpty &&
+                    barcodes.first.rawValue!.isNotEmpty &&
+                    provider.isNumeric(barcodes.first.rawValue)) {
                   await controller.stop();
                   await provider.getBookingInformation(
                     roomId: barcodes[0].rawValue!.trim(),
@@ -92,7 +94,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                   });
                 } else {
                   controller.events?.pause();
-                  errorMessage(
+                  alertMessage(
                     errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
                     context: context,
                   );

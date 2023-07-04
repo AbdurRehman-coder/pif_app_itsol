@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
 final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
@@ -19,12 +18,21 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     _initData();
   }
 
+  final Ref ref;
+
+  late TextEditingController startTimeController;
+  late TextEditingController endTimeController;
+
+  List<DateTime> selectedDateLst = <DateTime>[];
+  List<DateTime> confirmDateLst = <DateTime>[];
+
   Future<void> _initData() async {
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
     await _getFloors();
     final currentDateTime = DateTime.now();
     final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
+    selectedDateLst.add(currentDate);
     if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
       confirmDateLst.addAll(selectedDateLst);
       state = state.copyWith(selectedDateList: confirmDateLst);
@@ -59,14 +67,6 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
       formatSelectedDateToString();
     }
   }
-
-  final Ref ref;
-
-  late TextEditingController startTimeController;
-  late TextEditingController endTimeController;
-
-  List<DateTime> selectedDateLst = <DateTime>[];
-  List<DateTime> confirmDateLst = <DateTime>[];
 
   //Get Foors Data
   Future<void> _getFloors() async {
@@ -149,10 +149,16 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open DatePicker Dialog
   void openDialog() {
-    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker) {
-      return;
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
     }
-    state = state.copyWith(isOpenPopup: true);
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenPopup: true);
+    });
   }
 
   //Close DatePicker Dialog
@@ -160,19 +166,14 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(isOpenPopup: false);
   }
 
-  //Open TimePicker Dialog
-  void openTimePickerDialog() {
-    if (state.selectedDateString.isEmpty) {
-      CommonUtils.showToast(message: S.current.dateValidation);
-      return;
-    }
-    state = state.copyWith(isOpenTimePicker: true);
-  }
-
   //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
-    if (state.isOpenEndTimePicker || state.isOpenPopup) {
-      return;
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
+    if (state.isOpenPopup) {
+      closeDialog();
     }
     state = state.copyWith(isOpenStartTimePicker: true);
   }
@@ -184,8 +185,11 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
-    if (state.isOpenStartTimePicker || state.isOpenPopup) {
-      return;
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
+    }
+    if (state.isOpenPopup) {
+      closeDialog();
     }
     state = state.copyWith(isOpenEndTimePicker: true);
   }
@@ -193,15 +197,6 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   //Close StartTime Picker Dialog
   void closeEndTimePickerDialog() {
     state = state.copyWith(isOpenEndTimePicker: false);
-  }
-
-  //Close TimePicker Dialog
-  void closeTimePickerDialog() {
-    if (state.startTime != null && state.startTime!.isAfter(state.endTime!)) {
-      CommonUtils.showToast(message: S.current.timeValidation);
-      return;
-    }
-    state = state.copyWith(isOpenTimePicker: false);
   }
 
   //Reset Filter Data
@@ -232,7 +227,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime =
+        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
     updateStartTime(startTime: state.startTime);
@@ -251,7 +247,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   void updateEndTime({required DateTime? endTime, required BuildContext context}) {
     endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
     if (state.startTime != null && state.startTime!.isAfter(endTime)) {
-      errorMessage(errorMessage: S.current.timeValidation, context: context);
+      alertMessage(errorMessage: S.current.timeValidation, context: context);
       return;
     }
     state = state.copyWith(endTime: endTime);

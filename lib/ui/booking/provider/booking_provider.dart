@@ -12,9 +12,11 @@ import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
+import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
@@ -39,15 +41,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late TextEditingController dateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
-  late TextEditingController visitorFirstNameController;
-  late TextEditingController visitorLastNameController;
-  late TextEditingController visitorEmailController;
+
   late TextEditingController addGuestController;
   late List<TimePlannerTask> allBookingTasks = [];
   late List<UserModel> filterAuoCompleteGuestData = [];
-  late FocusNode firstNameFocus;
-  late FocusNode lastNameFocus;
-  late FocusNode emailFocus;
 
   List<DateTime> selectedDateLst = <DateTime>[];
   List<DateTime> confirmDateLst = <DateTime>[];
@@ -58,9 +55,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     dateController = TextEditingController();
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
-    visitorFirstNameController = TextEditingController();
-    visitorLastNameController = TextEditingController();
-    visitorEmailController = TextEditingController();
     addGuestController = TextEditingController();
 
     titleFocus = FocusNode();
@@ -68,9 +62,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     addGuestFocus.addListener(_onTitleFocus);
     titleFocus.addListener(_onTitleFocus);
     formKey = GlobalKey<FormState>();
-    firstNameFocus = FocusNode();
-    lastNameFocus = FocusNode();
-    emailFocus = FocusNode();
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getGuestData();
@@ -145,8 +136,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
       endTime.hour,
       endTime.minute,
     );
-    if (state.startTime!.isAfter(endTime)) {
-      errorMessage(
+    if (state.startTime != null && state.startTime!.isAfter(endTime)) {
+      alertMessage(
         errorMessage: S.current.timeValidation,
         context: context ?? AppRouter.navigatorKey.currentContext!,
       );
@@ -161,10 +152,22 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open DatePicker Dialog
   void openDatePickerDialog() {
-    if (state.isOpenStartTimePicker || state.isOpenEndTimePicker || titleFocus.hasFocus || addGuestFocus.hasFocus) {
-      return;
+    if (titleFocus.hasFocus) {
+      titleFocus.unfocus();
     }
-    state = state.copyWith(isOpenDatePicker: true);
+    if (addGuestFocus.hasFocus) {
+      addGuestFocus.unfocus();
+    }
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
+    }
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenDatePicker: true);
+    });
   }
 
   //Close DatePicker Dialog
@@ -174,10 +177,22 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open StartTime Picker Dialog
   void openStartTimePickerDialog() {
-    if (titleFocus.hasFocus || addGuestFocus.hasFocus || state.isOpenDatePicker) {
-      return;
+    if (titleFocus.hasFocus) {
+      titleFocus.unfocus();
     }
-    state = state.copyWith(isOpenStartTimePicker: true);
+    if (addGuestFocus.hasFocus) {
+      addGuestFocus.unfocus();
+    }
+    if (state.isOpenDatePicker) {
+      closeDatePickerDialog();
+    }
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenStartTimePicker: true);
+    });
   }
 
   //Close StartTime Picker Dialog
@@ -187,10 +202,22 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
-    if (titleFocus.hasFocus || addGuestFocus.hasFocus || state.isOpenDatePicker) {
-      return;
+    if (titleFocus.hasFocus) {
+      titleFocus.unfocus();
     }
-    state = state.copyWith(isOpenEndTimePicker: true);
+    if (addGuestFocus.hasFocus) {
+      addGuestFocus.unfocus();
+    }
+    if (state.isOpenDatePicker) {
+      closeDatePickerDialog();
+    }
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
+    }
+
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenEndTimePicker: true);
+    });
   }
 
   //Close StartTime Picker Dialog
@@ -283,7 +310,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       final currentDateData = lstDates.firstWhereOrNull((element) => element.isSameDate(DateTime.now()));
       if (currentDateData != null) {
         if (state.startTime!.isBefore(DateTime.now())) {
-          errorMessage(
+          alertMessage(
             errorMessage: S.current.pastBookingAlert,
             context: context,
           );
@@ -349,14 +376,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
       } else {
         await appProgress.stop();
-        errorMessage(
+        alertMessage(
           errorMessage: S.current.bookingAlert,
           context: context,
         );
       }
     } else {
       await appProgress.stop();
-      errorMessage(
+      alertMessage(
         errorMessage: result.getLeft().message,
         context: context,
       );
@@ -391,70 +418,44 @@ class BookingNotifier extends StateNotifier<BookingState> {
           )
           .toList(),
     );
-
-    final result = await DixelsSDK.instance.bookingService.postPageData(
-      reqModel: requestModel,
-      fromJson: BookingModel.fromJson,
-    );
     await appProgress.stop();
-    if (result != null) {
-      await AppRouter.pop();
-      if (mounted) {
-        bookingConfirmationPopup(
-          context: context,
-          isRequestBooking: isBookEnabled,
+    showSuccessMessage(
+      context: context,
+      titleText: isBookEnabled ? S.of(context).requestBookTitle : S.of(context).bookingRoom,
+      subTitle: S.of(context).bookedByMistake,
+      cancelText: isBookEnabled ? S.of(context).cancelRequest : S.of(context).cancel,
+      image: isBookEnabled ? Assets.requestBookingConf : Assets.bookConfirmation,
+      navigateAfterEndTime: () async {
+        Future.delayed(Duration.zero, () async {
+          await appProgress.start();
+        });
+        final result = await DixelsSDK.instance.bookingService.postPageData(
+          reqModel: requestModel,
+          fromJson: BookingModel.fromJson,
         );
-      }
-    } else {
-      if (mounted) {
-        errorMessage(
-          errorMessage: S.current.somethingWentWrong,
-          context: context,
-        );
-      }
-    }
-  }
-
-  // Invite Now Event
-  void inviteAsync({required BuildContext context}) {
-    final firstName = visitorFirstNameController.text.trim();
-    final lastName = visitorLastNameController.text.trim();
-    final email = visitorEmailController.text.trim();
-
-    String? errorMsg = '';
-    if (firstName.isEmpty) {
-      errorMsg = S.current.firstNameEmpty;
-      return;
-    }
-
-    if (lastName.isEmpty) {
-      errorMsg = S.current.lastNameEmpty;
-      return;
-    }
-
-    if (email.isEmpty) {
-      errorMsg = S.current.emailEmpty;
-      return;
-    }
-
-    state = state.copyWith(errorMessage: errorMsg);
-
-    final model = UserModel(
-      familyName: firstName,
-      givenName: lastName,
-      emailAddress: email,
-      name: '$firstName $lastName',
+        if (result != null) {
+          final notifier = ref.read(spaceBookingProvider.notifier);
+          await notifier.getSpaceAsync();
+          await appProgress.stop();
+          AppRouter.popUntil(Routes.spaceBookingScreen);
+          if (mounted) {
+            alertMessage(
+              errorMessage: S.current.bookingSlotSuccess,
+              context: context,
+              statusEnum: AlertStatusEnum.success,
+            );
+          }
+        } else {
+          await appProgress.stop();
+          if (mounted) {
+            alertMessage(
+              errorMessage: S.current.somethingWentWrong,
+              context: context,
+            );
+          }
+        }
+      },
     );
-    final data = state.lstGuests.toList();
-    final isDataAvailable = data.firstWhereOrNull((element) => element.emailAddress == model.emailAddress);
-    if (isDataAvailable != null) {
-      errorMessage(errorMessage: S.current.alreadyAdded, context: context);
-      return;
-    }
-    data.add(model);
-    state = state.copyWith(lstGuests: data);
-    _clearData();
-    AppRouter.pop();
   }
 
   //Add Guest
@@ -465,7 +466,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     final isDataAvailable = data.firstWhereOrNull((element) => element.emailAddress == item.emailAddress);
     if (isDataAvailable != null) {
-      errorMessage(errorMessage: S.current.alreadyAdded, context: context);
+      alertMessage(errorMessage: S.current.alreadyAdded, context: context);
       return;
     }
     data.add(item);
@@ -482,7 +483,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Filter Task Data
   void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final taskData =
+        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
@@ -498,7 +500,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
             final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final bookingDateTime =
+                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
                 color: primaryColor,
@@ -531,13 +534,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
     closeEndTimePickerDialog();
   }
 
-// Clear Data
-  void _clearData() {
-    visitorFirstNameController.text = '';
-    visitorLastNameController.text = '';
-    visitorEmailController.text = '';
-    state = state.copyWith(errorMessage: '');
-  }
+// // Clear Data
+//   void _clearData() {
+//     visitorFirstNameController.text = '';
+//     visitorLastNameController.text = '';
+//     visitorEmailController.text = '';
+//     state = state.copyWith(errorMessage: '');
+//   }
 
   //Get Nearest Time Slot
   void _setNearestTimeSlot() {
@@ -546,11 +549,16 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime =
+        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);
     updateEndTime(endTime: state.endTime);
+  }
+
+  void updateInviteList(List<UserModel> lstData) {
+    state = state.copyWith(lstGuests: lstData);
   }
 
   @override
@@ -559,9 +567,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     dateController.dispose();
     startTimeController.dispose();
     endTimeController.dispose();
-    visitorFirstNameController.dispose();
-    visitorLastNameController.dispose();
-    visitorEmailController.dispose();
     titleFocus.dispose();
     titleFocus.removeListener(_onTitleFocus);
     super.dispose();

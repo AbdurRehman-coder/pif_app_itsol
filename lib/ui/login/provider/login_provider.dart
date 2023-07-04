@@ -42,7 +42,7 @@ class LogInNotifier {
       if (result) {
         await AppRouter.pushReplacement(Routes.homeScreen);
       } else {
-        errorMessage(
+        alertMessage(
           errorMessage: 'User not found',
           context: context,
         );
