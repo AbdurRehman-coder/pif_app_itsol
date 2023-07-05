@@ -23,7 +23,6 @@ class PreviousVisitorListTile extends StatelessWidget {
         ImageProfileVisitor(
           lastName: item.firstName ?? '',
           firstName: item.lastName ?? '',
-          status: true,
         ),
         SizedBox(width: 16.w),
         Expanded(

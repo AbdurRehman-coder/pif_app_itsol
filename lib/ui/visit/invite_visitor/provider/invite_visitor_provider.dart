@@ -302,7 +302,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
       endTime.hour,
       endTime.minute,
     );
-
     state = state.copyWith(endTime: endTime);
     final endTimeString = DateFormat('hh:mm a').format(endTime);
     endTimeController.text = endTimeString;
@@ -310,18 +309,12 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
 
   //Open Start DatePicker Dialog
   void openStartDatePickerDialog({required BuildContext context}) {
-    if (firstNameFocus.hasFocus ||
-        lastNameFocus.hasFocus ||
-        emailFocus.hasFocus) {
-      FocusManager.instance.primaryFocus?.unfocus();
-      state = state.copyWith(isOpenStartDatePicker: true);
-      return;
-    }
     if (checkIfAnyDateOrTimeIsOpen()) {
       closeDateAndTime();
-      return;
     }
-    state = state.copyWith(isOpenStartDatePicker: true);
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenStartDatePicker: true);
+    });
   }
 
   //Close Start DatePicker Dialog
@@ -333,9 +326,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   void openEndDatePickerDialog() {
     if (checkIfAnyDateOrTimeIsOpen()) {
       closeDateAndTime();
-      return;
     }
-    state = state.copyWith(isOpenEndDatePicker: true);
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenEndDatePicker: true);
+    });
   }
 
   //Close End DatePicker Dialog
@@ -347,9 +341,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   void openStartTimePickerDialog() {
     if (checkIfAnyDateOrTimeIsOpen()) {
       closeDateAndTime();
-      return;
     }
-    state = state.copyWith(isOpenStartTimePicker: true);
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenStartTimePicker: true);
+    });
   }
 
   //Close StartTime Picker Dialog
@@ -361,9 +356,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   void openEndTimePickerDialog() {
     if (checkIfAnyDateOrTimeIsOpen()) {
       closeDateAndTime();
-      return;
     }
-    state = state.copyWith(isOpenEndTimePicker: true);
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenEndTimePicker: true);
+    });
   }
 
   //Close EndTime Picker Dialog

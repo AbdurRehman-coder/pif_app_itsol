@@ -29,7 +29,6 @@ class VisitorList extends StatelessWidget {
                     ImageProfileVisitor(
                       firstName: user?.givenName ?? '',
                       lastName: user?.familyName ?? '',
-                      status: true,
                     ),
                     SizedBox(height: 5.h),
                     Text(

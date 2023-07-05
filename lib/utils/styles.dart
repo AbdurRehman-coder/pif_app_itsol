@@ -31,10 +31,10 @@ class Style {
       onBackground: primaryColor,
       onSurface: primaryColor,
       secondary: primaryColor,
-      error: Colors.red,
-      onError: Colors.white,
-      onPrimary: Colors.white,
-      onSecondary: Colors.white,
+      error: redColor,
+      onError: whiteColor,
+      onPrimary: whiteColor,
+      onSecondary: whiteColor,
     ).copyWith(background: whiteColor),
   );
 

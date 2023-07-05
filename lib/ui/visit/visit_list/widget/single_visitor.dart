@@ -26,7 +26,6 @@ class SingleVisitor extends StatelessWidget {
         ImageProfileVisitor(
           firstName: visitorsModel?.givenName ?? '',
           lastName: visitorsModel?.familyName ?? '',
-          status: status,
         ),
         SizedBox(width: 8.w),
         Column(
