@@ -105,7 +105,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 color: lightGrayBgColor,
                                 borderRadius: BorderRadius.circular(6.r),
                                 border: Border.all(
-                                  color: borderColor,
+                                  color: provider.isOpenPopup ? primaryColor : borderColor,
                                 ),
                               ),
                               child: Row(
@@ -158,6 +158,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                               ),
                                               child: CustomTextField(
                                                 textEditingController: notifier.startTimeController,
+                                                isFocus: provider.isOpenStartTimePicker,
                                                 enabled: false,
                                                 checkEmpty: true,
                                                 labelText: S.current.startingTime,
@@ -196,6 +197,7 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                                 textEditingController: notifier.endTimeController,
                                                 enabled: false,
                                                 checkEmpty: true,
+                                                isFocus: provider.isOpenEndTimePicker,
                                                 labelText: S.current.endingTime,
                                                 suffixIcon: SvgPicture.asset(
                                                   Assets.arrowDown,

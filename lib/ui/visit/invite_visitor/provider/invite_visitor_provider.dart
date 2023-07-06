@@ -465,18 +465,11 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
           await appProgressDialog.stop();
           if (result.isRight()) {
             final notifier = ref.read(visitListProvider.notifier);
+            await notifier.getVisits();
+            AppRouter.popUntil(Routes.visitListScreen);
             alertMessage(
               errorMessage: S.current.inviteVisitorSuccess,
               context: context,
-            );
-            showSuccessMessage(
-              context: context,
-              titleText: S.current.inviteVisitor,
-              subTitle: S.current.inviteByMistake,
-              navigateAfterEndTime: () {
-                notifier.getVisits();
-                AppRouter.popUntil(Routes.visitListScreen);
-              },
             );
           } else {
             alertMessage(
