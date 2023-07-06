@@ -85,4 +85,10 @@ class Assets {
   static const String smallArrowDown = 'assets/svg/ic_small_arrow_down.svg';
   static const String smallArrowUp = 'assets/svg/ic_small_arrow_up.svg';
   static const String overlayLayer = 'assets/svg/ic_overlay_layer.svg';
+  // Amenities
+  static const String gamePad = 'assets/svg/amenities/gamepad.svg';
+  static const String screencast = 'assets/svg/amenities/screencast.svg';
+  static const String tv = 'assets/svg/amenities/tv.svg';
+  static const String wiFi = 'assets/svg/amenities/wi_fi.svg';
+  static const String wirelessCharge = 'assets/svg/amenities/wireless_charge.svg';
 }

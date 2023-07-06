@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/utilities/constant.dart';
+import 'package:pif_flutter/ui/space_booking/extension/amenities_extension.dart';
 import 'package:pif_flutter/widgets/dotindicator.dart';
 
 class SpaceInfoView extends StatelessWidget {
@@ -118,28 +119,23 @@ class SpaceInfoView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            Assets.videoConf,
+                            spaceData.amenities![index].key!.getAmenities,
+                            colorFilter: const ColorFilter.mode(
+                              whiteColor,
+                              BlendMode.srcIn,
+                            ),
                             height: 16.h,
                           ),
                           SizedBox(
                             width: 8.w,
                           ),
-                          Text(
-                            spaceData.amenities![index].name ?? '',
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w300,
+                          if (index != spaceData.amenities!.length - 1) ...[
+                            Container(
+                              height: 9.h,
+                              width: 1.w,
+                              color: grayBorderColor,
                             ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Container(
-                            height: 9.h,
-                            width: 1.w,
-                            color: grayBorderColor,
-                          )
+                          ],
                         ],
                       );
                     },
@@ -180,7 +176,11 @@ class SpaceInfoView extends StatelessWidget {
           InkWell(
             onTap: AppRouter.pop,
             child: Container(
-              margin: EdgeInsets.only(top: context.statusBarHeight.h, left: 16.w, right: 16.w),
+              margin: EdgeInsets.only(
+                top: context.statusBarHeight.h,
+                left: 16.w,
+                right: 16.w,
+              ),
               height: 40.h,
               width: 40.w,
               decoration: BoxDecoration(
@@ -192,7 +192,8 @@ class SpaceInfoView extends StatelessWidget {
               child: SvgPicture.asset(
                 Assets.back,
                 fit: BoxFit.scaleDown,
-                colorFilter: const ColorFilter.mode(primaryColor, BlendMode.srcIn),
+                colorFilter:
+                    const ColorFilter.mode(primaryColor, BlendMode.srcIn),
                 height: 5.h,
                 width: 5.w,
               ),
@@ -213,7 +214,8 @@ class SpaceInfoView extends StatelessWidget {
       if (image1.link != null || image1.link!.href!.isNotEmpty) {
         final endIndex = image1.link!.href!.indexOf(image1.link!.label!);
         if (endIndex != -1) {
-          final url = image1.link!.href!.substring(0, endIndex) + image1.link!.label!;
+          final url =
+              image1.link!.href!.substring(0, endIndex) + image1.link!.label!;
           lstData.add(Constant.imageBaseUrl + url);
         }
       }
@@ -222,7 +224,8 @@ class SpaceInfoView extends StatelessWidget {
       if (image2.link != null || image2.link!.href!.isNotEmpty) {
         final endIndex = image2.link!.href!.indexOf(image2.link!.label!);
         if (endIndex != -1) {
-          final url = image2.link!.href!.substring(0, endIndex) + image2.link!.label!;
+          final url =
+              image2.link!.href!.substring(0, endIndex) + image2.link!.label!;
           lstData.add(Constant.imageBaseUrl + url);
         }
       }
@@ -231,7 +234,8 @@ class SpaceInfoView extends StatelessWidget {
       if (image3.link != null || image3.link!.href!.isNotEmpty) {
         final endIndex = image3.link!.href!.indexOf(image3.link!.label!);
         if (endIndex != -1) {
-          final url = image3.link!.href!.substring(0, endIndex) + image3.link!.label!;
+          final url =
+              image3.link!.href!.substring(0, endIndex) + image3.link!.label!;
           lstData.add(Constant.imageBaseUrl + url);
         }
       }

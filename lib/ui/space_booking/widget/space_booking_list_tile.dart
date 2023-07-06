@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/space_booking/extension/amenities_extension.dart';
 
 class SpaceBookingListTile extends StatelessWidget {
   const SpaceBookingListTile({required this.item, super.key});
@@ -112,28 +113,23 @@ class SpaceBookingListTile extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           SvgPicture.asset(
-                            Assets.videoConf,
+                            item.amenities![index].key!.getAmenities,
                             height: 16.h,
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Text(
-                            item.amenities![index].name ?? '',
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w300,
+                            colorFilter: const ColorFilter.mode(
+                              whiteColor,
+                              BlendMode.srcIn,
                             ),
                           ),
                           SizedBox(
                             width: 8.w,
                           ),
-                          Container(
-                            height: 9.h,
-                            width: 1.w,
-                            color: grayBorderColor,
-                          )
+                          if (index != item.amenities!.length - 1) ...[
+                            Container(
+                              height: 9.h,
+                              width: 1.w,
+                              color: grayBorderColor,
+                            ),
+                          ],
                         ],
                       );
                     },
@@ -145,7 +141,10 @@ class SpaceBookingListTile extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  AppRouter.pushNamed(Routes.bookingScreen, args: [item, false]);
+                  AppRouter.pushNamed(
+                    Routes.bookingScreen,
+                    args: [item, false],
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   fixedSize: Size(context.screenWidth.w, 35.h),
