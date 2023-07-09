@@ -85,6 +85,15 @@ class Assets {
   static const String smallArrowDown = 'assets/svg/ic_small_arrow_down.svg';
   static const String smallArrowUp = 'assets/svg/ic_small_arrow_up.svg';
   static const String overlayLayer = 'assets/svg/ic_overlay_layer.svg';
+  static const String svgLogo = 'assets/svg/ic_logo.svg';
+  static const String pifLogo = 'assets/ic_pif_logo.png';
+  static const String svgNotification = 'assets/svg/ic_notification_black.svg';
+  static const String homeWidget = 'assets/ic_home_widget.png';
+  static const String svgCreativeTab = 'assets/svg/ic_creative_tab.svg';
+  static const String qrView = 'assets/ic_qr_view.png';
+  static const String person = 'assets/ic_person.png';
+  static const String creative = 'assets/ic_creatives.png';
+  static const String visitor = 'assets/ic_visitor.png';
   // Amenities
   static const String gamePad = 'assets/svg/amenities/gamepad.svg';
   static const String screencast = 'assets/svg/amenities/screencast.svg';

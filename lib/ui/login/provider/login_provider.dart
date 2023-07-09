@@ -40,7 +40,7 @@ class LogInNotifier {
       );
       await appProgressDialog.stop();
       if (result) {
-        await AppRouter.pushReplacement(Routes.homeScreen);
+        await AppRouter.pushReplacement(Routes.dashboardScreen);
       } else {
         alertMessage(
           errorMessage: 'User not found',

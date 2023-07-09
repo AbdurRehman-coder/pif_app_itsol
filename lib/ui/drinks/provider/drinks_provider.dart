@@ -277,7 +277,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
                 statusEnum: AlertStatusEnum.success,
               );
               clearData();
-              AppRouter.popUntil(Routes.homeScreen);
+              AppRouter.popUntil(Routes.dashboardScreen);
             } else {
               await appProgressDialog.stop();
               alertMessage(
@@ -294,7 +294,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         errorMessage: S.current.storeNotAvailable,
         context: context,
       );
-      AppRouter.popUntil(Routes.homeScreen);
+      AppRouter.popUntil(Routes.dashboardScreen);
     }
   }
 

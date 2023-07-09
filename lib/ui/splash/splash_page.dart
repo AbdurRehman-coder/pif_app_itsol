@@ -36,7 +36,7 @@ class SplashPage extends HookWidget {
   Future<void> _navigateUser() async {
     final data = await DixelsSDK.instance.userDetails;
     if (data != null) {
-      await AppRouter.pushReplacement(Routes.homeScreen);
+      await AppRouter.pushReplacement(Routes.dashboardScreen);
     } else {
       await AppRouter.pushReplacement(Routes.logInScreen);
     }
