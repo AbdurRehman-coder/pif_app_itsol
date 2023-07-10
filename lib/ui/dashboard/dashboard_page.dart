@@ -1,5 +1,4 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,6 +8,7 @@ import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
 import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
+import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -52,25 +52,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         child: const SizedBox(),
       ),
     );
-    // loginAsync();
   }
-
-  // Future<void> loginAsync() async {
-  //   final userName = await SecurePreferences.instance
-  //       .read(key: SecurePreferencesKeys.userName);
-  //   final password = await SecurePreferences.instance
-  //       .read(key: SecurePreferencesKeys.password);
-  //
-  //   await DixelsSDK.initialize(
-  //     baseUrl: 'http://20.74.136.229',
-  //     auth: OAuth2PasswordGrant(
-  //       username: userName ?? '',
-  //       password: password ?? '',
-  //       clientId: 'id-b84ecd78-bb26-7be2-7c9d-661ee729b6a',
-  //       clientSecret: 'secret-52b3de81-3a44-b6c9-d63b-92e1ecf16e',
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -134,44 +116,24 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         backgroundColor: _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
         centerTitle: true,
         title: title,
-        leading: _bottomNavIndex == 0
-            ? Padding(
-                padding: EdgeInsets.only(left: 16.w),
+        leading: Builder(
+          builder: (context) {
+            return Padding(
+              padding: EdgeInsets.only(left: 16.w),
+              child: InkWell(
+                onTap: () {
+                  Scaffold.of(context).openDrawer();
+                },
                 child: Image.asset(
                   Assets.person,
                   height: 40.h,
                   width: 40.w,
                   fit: BoxFit.scaleDown,
                 ),
-              )
-            // ? Container(
-            //     height: 40.h,
-            //     width: 40.w,
-            //     margin: EdgeInsets.only(left: 16.w),
-            //     decoration: ShapeDecoration(
-            //       shape: CircleBorder(
-            //         side: BorderSide(
-            //           width: 1.r,
-            //           color: primaryColor,
-            //         ),
-            //       ),
-            //     ),
-            //     child: SvgPicture.asset(
-            //       Assets.svgNotification,
-            //       fit: BoxFit.scaleDown,
-            //     ),
-            //   )
-            : IconButton(
-                onPressed: () {
-                  DixelsSDK.instance.logout();
-                  AppRouter.startNewRoute(Routes.logInScreen);
-                },
-                icon: SvgPicture.asset(
-                  Assets.menu,
-                  height: 30.h,
-                  width: 30.w,
-                ),
               ),
+            );
+          },
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -208,13 +170,13 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             ),
         ],
       ),
+      drawer: const SideMenuPage(),
       body: NotificationListener<ScrollNotification>(
         child: lstMenu.elementAt(_bottomNavIndex).child!,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        tooltip: 'Increment',
         child: SvgPicture.asset(
           Assets.instant,
           fit: BoxFit.cover,

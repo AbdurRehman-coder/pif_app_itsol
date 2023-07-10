@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 const blackColor = Color(0xFF000000);
@@ -39,6 +37,7 @@ const darkBlueColor = Color(0xFF0E6AA7);
 const pendingBgColor = Color(0xFFE0F3FB);
 const gradientStart = Color(0xFF272627);
 const gradientEnd = Color(0xFFC29B5B);
+const grayBorder = Color(0xFFC0BABC);
 
 // GRAY
 const gray29 = Color(0xFF292929);

@@ -100,4 +100,17 @@ class Assets {
   static const String tv = 'assets/svg/amenities/tv.svg';
   static const String wiFi = 'assets/svg/amenities/wi_fi.svg';
   static const String wirelessCharge = 'assets/svg/amenities/wireless_charge.svg';
+
+  //SideMenu
+  static const String profileIcon = 'assets/svg/ic_account.svg';
+  static const String handBookIcon = 'assets/svg/ic_book.svg';
+  static const String appTourIcon = 'assets/svg/ic_app_tour.svg';
+  static const String termsIcon = 'assets/svg/ic_terms_condition.svg';
+  static const String faqIcon = 'assets/svg/ic_faq.svg';
+  static const String languageIcon = 'assets/svg/ic_language.svg';
+  static const String logoutIcon = 'assets/svg/ic_logout.svg';
+  static const String darkModeIcon = 'assets/svg/ic_dark_mode.svg';
+  static const String lightModeIcon = 'assets/svg/ic_light_mode.svg';
+  static const String darkAutoIcon = 'assets/svg/ic_dark_auto.svg';
+  static const String cancelIcon = 'assets/svg/ic_cancel.svg';
 }

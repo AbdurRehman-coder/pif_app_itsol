@@ -141,5 +141,13 @@
   "scanQrToBook": "Scan QR to book",
   "bookingSlotSuccess" : "Booking Created Successfully",
   "drinkOrderSuccess": "Order Sent Successfully",
-  "inviteVisitorSuccess" : "Invitation Sent Successfully"
+  "inviteVisitorSuccess" : "Invitation Sent Successfully",
+  "profileSetting" : "Profile Settings",
+  "handBook" : "Handbook",
+  "appTour" : "App Tour",
+  "termsOfService" : "Terms of Service",
+  "faq" : "FAQs",
+  "arabic" : "العربية",
+  "english" : "English",
+  "logout" : "Logout"
 }
