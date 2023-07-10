@@ -141,6 +141,10 @@
   "bookingSlotSuccess" : "Booking Created Successfully",
   "drinkOrderSuccess": "Order Sent Successfully",
   "inviteVisitorSuccess" : "Invitation Sent Successfully",
+  "ticketEmpty":"NO TICKETS TO SHOW",
+   "youDidNotRaiseAnyTicketsYet":"You didn’t raise any tickets yet",
+   "character":"character !",
+   "maxLengthOf":"Max length of"
   "profileSetting" : "Profile Settings",
   "handBook" : "Handbook",
   "appTour" : "App Tour",

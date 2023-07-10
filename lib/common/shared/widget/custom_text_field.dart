@@ -64,98 +64,122 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isEnableFiled = focusNode == null ? isFocus : focusNode?.hasFocus;
-    return TextFormField(
-      style: style,
-      obscureText: obscureText,
-      onChanged: onChanged,
-      controller: textEditingController,
-      keyboardType: keyboardType,
-      validator: (val) {
-        if (checkEmpty) {
-          if (val!.isEmpty) {
-            return validateEmptyString ?? S.of(context).thisFieldIsRequired;
-          }
-          if (isEmailField && !val.isValidEmail()) {
-            return S.of(context).enterValidEmail;
-          } else {
-            return null;
-          }
-        } else {
-          return null;
-        }
-      },
-      maxLength: maxLength,
-      enabled: enabled,
-      focusNode: focusNode,
-      maxLines: maxLines,
-      onEditingComplete: onEditingComplete,
-      autofocus: autoFocus,
-      decoration: decoration ??
-          InputDecoration(
-            fillColor: fillColor ?? lightGrayBgColor,
-            contentPadding: contentPadding,
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-              borderSide: BorderSide(color: isEnableFiled! ? primaryColor : borderColor, width: 1.w),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-              borderSide: BorderSide(color: borderColor, width: 1.w),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: isEnableFiled ? primaryColor : borderColor, width: 1.w),
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-            ),
-            errorStyle: TextStyle(
-              color: Theme.of(context).colorScheme.error,
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-              borderSide: BorderSide(color: redColor, width: 1.w),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-              borderSide: BorderSide(color: redColor, width: 1.w),
-            ),
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
-            counterText: '',
-            floatingLabelStyle: Style.commonTextStyle(
-              color: isEnableFiled ? primaryColor : grayTextColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
-            ),
-            border: OutlineInputBorder(
-              borderSide: BorderSide(color: borderColor, width: 1.w),
-              borderRadius: BorderRadius.all(
-                Radius.circular(6.r),
-              ),
-            ),
-            filled: filled,
-            hintText: hintText,
-            hintStyle: Style.commonTextStyle(
-              color: grayTextColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w400,
-            ),
-            labelStyle: labelStyle ??
-                Style.commonTextStyle(
-                  color: grayTextColor,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TextFormField(
+          style: style,
+          obscureText: obscureText,
+          onChanged: onChanged,
+          controller: textEditingController,
+          keyboardType: keyboardType,
+          validator: (val) {
+            if (checkEmpty) {
+              if (val!.isEmpty) {
+                return validateEmptyString ?? S.of(context).thisFieldIsRequired;
+              }
+              if (isEmailField && !val.isValidEmail()) {
+                return S.of(context).enterValidEmail;
+              } else {
+                return null;
+              }
+            } else {
+              return null;
+            }
+          },
+          maxLength: maxLength,
+          enabled: enabled,
+          focusNode: focusNode,
+          maxLines: maxLines,
+          onEditingComplete: onEditingComplete,
+          autofocus: autoFocus,
+          decoration: decoration ??
+              InputDecoration(
+                fillColor: fillColor ?? lightGrayBgColor,
+                contentPadding: contentPadding,
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                  borderSide: BorderSide(
+                    color: isEnableFiled! ? primaryColor : borderColor,
+                    width: 1.w,
+                  ),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                  borderSide: BorderSide(color: borderColor, width: 1.w),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: isEnableFiled ? primaryColor : borderColor,
+                    width: 1.w,
+                  ),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                ),
+                errorStyle: TextStyle(
+                  color: Theme.of(context).colorScheme.error,
+                ),
+                errorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                  borderSide: BorderSide(color: redColor, width: 1.w),
+                ),
+                focusedErrorBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                  borderSide: BorderSide(color: redColor, width: 1.w),
+                ),
+                suffixIcon: suffixIcon,
+                prefixIcon: prefixIcon,
+                counterText: '',
+                floatingLabelStyle: Style.commonTextStyle(
+                  color: isEnableFiled ? primaryColor : grayTextColor,
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
                 ),
-            labelText: labelText,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: borderColor, width: 1.w),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                ),
+                filled: filled,
+                hintText: hintText,
+                hintStyle: Style.commonTextStyle(
+                  color: hintColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+                labelStyle: labelStyle ??
+                    Style.commonTextStyle(
+                      color: hintColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                labelText: labelText,
+              ),
+        ),
+        if (maxLength != null) ...[
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.h),
+            child: Text(
+              '${S.current.maxLengthOf} ${maxLength!} ${S.current.character}',
+              style: Style.commonTextStyle(
+                color: darkBorderColor,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
+        ],
+      ],
     );
   }
 }

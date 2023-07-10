@@ -56,7 +56,7 @@ class SingleVisitor extends StatelessWidget {
                     style: Style.commonTextStyle(
                       color: visitorsModel!.customFields![0].customValue!.data!
                           ? primaryColor
-                          : gradientEnd,
+                          : secondary,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
                     ),

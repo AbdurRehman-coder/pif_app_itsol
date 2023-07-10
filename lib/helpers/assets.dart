@@ -94,6 +94,7 @@ class Assets {
   static const String person = 'assets/ic_person.png';
   static const String creative = 'assets/ic_creatives.png';
   static const String visitor = 'assets/ic_visitor.png';
+  static const String emptyTicket = 'assets/svg/empty_ticket.svg';
   // Amenities
   static const String gamePad = 'assets/svg/amenities/gamepad.svg';
   static const String screencast = 'assets/svg/amenities/screencast.svg';

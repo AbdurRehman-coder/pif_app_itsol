@@ -113,7 +113,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
+        backgroundColor:
+            _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
         centerTitle: true,
         title: title,
         leading: Builder(
@@ -144,19 +145,22 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             ),
           ).visibility(visible: _bottomNavIndex != 0),
           if (_bottomNavIndex == 0)
-            Container(
-              height: 40.h,
-              width: 40.h,
-              margin: EdgeInsets.only(right: 16.w),
-              decoration: const BoxDecoration(
-                color: activeBgColor,
-                shape: BoxShape.circle,
-              ),
-              child: SvgPicture.asset(
-                Assets.svgNotification,
-                height: 24.h,
-                width: 24.w,
-                fit: BoxFit.scaleDown,
+            InkWell(
+              onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
+              child: Container(
+                height: 40.h,
+                width: 40.h,
+                margin: EdgeInsets.only(right: 16.w),
+                decoration: const BoxDecoration(
+                  color: activeBgColor,
+                  shape: BoxShape.circle,
+                ),
+                child: SvgPicture.asset(
+                  Assets.svgNotification,
+                  height: 24.h,
+                  width: 24.w,
+                  fit: BoxFit.scaleDown,
+                ),
               ),
             )
           else

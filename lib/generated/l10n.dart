@@ -569,6 +569,956 @@ class S {
       args: [],
     );
   }
+
+  /// `Trouble scanning QR code? Enter manually`
+  String get troubleScanningQRCodeEnterManually {
+    return Intl.message(
+      'Trouble scanning QR code? Enter manually',
+      name: 'troubleScanningQRCodeEnterManually',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Align QR code within frame\n to scan`
+  String get alignQRCodeWithinFrameToScan {
+    return Intl.message(
+      'Align QR code within frame\n to scan',
+      name: 'alignQRCodeWithinFrameToScan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Name`
+  String get roomName {
+    return Intl.message(
+      'Room Name',
+      name: 'roomName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced Search & Filters`
+  String get advancedSearchAndFilters {
+    return Intl.message(
+      'Advanced Search & Filters',
+      name: 'advancedSearchAndFilters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not matching what you are looking for?`
+  String get notMatchingWhatYouAreLookingFor {
+    return Intl.message(
+      'Not matching what you are looking for?',
+      name: 'notMatchingWhatYouAreLookingFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan QR code to book`
+  String get scanQRCodeToBook {
+    return Intl.message(
+      'Scan QR code to book',
+      name: 'scanQRCodeToBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Got it`
+  String get gotIt {
+    return Intl.message(
+      'Got it',
+      name: 'gotIt',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can book a meeting room by scanning the QR code on displays beside the rooms door`
+  String get scanHelpMessage {
+    return Intl.message(
+      'You can book a meeting room by scanning the QR code on displays beside the rooms door',
+      name: 'scanHelpMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please make sure you are scanning a valid room QR code`
+  String get pleaseMakeSureYouAreScanningAValidRoomQRCode {
+    return Intl.message(
+      'Please make sure you are scanning a valid room QR code',
+      name: 'pleaseMakeSureYouAreScanningAValidRoomQRCode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End time should be greater than start time`
+  String get timeValidation {
+    return Intl.message(
+      'End time should be greater than start time',
+      name: 'timeValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Request to book`
+  String get requestToBook {
+    return Intl.message(
+      'Request to book',
+      name: 'requestToBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We received your request, and will send you update\nwithin 3hrs`
+  String get requestBookTitle {
+    return Intl.message(
+      'We received your request, and will send you update\nwithin 3hrs',
+      name: 'requestBookTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel Request`
+  String get cancelRequest {
+    return Intl.message(
+      'Cancel Request',
+      name: 'cancelRequest',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select date`
+  String get dateValidation {
+    return Intl.message(
+      'Please select date',
+      name: 'dateValidation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date & Time`
+  String get dateTime {
+    return Intl.message(
+      'Date & Time',
+      name: 'dateTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show all`
+  String get showAll {
+    return Intl.message(
+      'Show all',
+      name: 'showAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reset`
+  String get reset {
+    return Intl.message(
+      'Reset',
+      name: 'reset',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is a required field !`
+  String get thisFieldIsRequired {
+    return Intl.message(
+      'This is a required field !',
+      name: 'thisFieldIsRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select different slot that slot is not available`
+  String get bookingAlert {
+    return Intl.message(
+      'Please select different slot that slot is not available',
+      name: 'bookingAlert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending approval`
+  String get pendingStatus {
+    return Intl.message(
+      'Pending approval',
+      name: 'pendingStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get expireStatus {
+    return Intl.message(
+      'Expired',
+      name: 'expireStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get activeStatus {
+    return Intl.message(
+      'Active',
+      name: 'activeStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged`
+  String get loggedStatus {
+    return Intl.message(
+      'Logged',
+      name: 'loggedStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upcoming`
+  String get upComing {
+    return Intl.message(
+      'Upcoming',
+      name: 'upComing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `History`
+  String get history {
+    return Intl.message(
+      'History',
+      name: 'history',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filters`
+  String get filters {
+    return Intl.message(
+      'Filters',
+      name: 'filters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search by booking title`
+  String get searchByBookingTitle {
+    return Intl.message(
+      'Search by booking title',
+      name: 'searchByBookingTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show filtered rooms`
+  String get showFilterRooms {
+    return Intl.message(
+      'Show filtered rooms',
+      name: 'showFilterRooms',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Details`
+  String get bookingDetails {
+    return Intl.message(
+      'Booking Details',
+      name: 'bookingDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Idea Generation with Client`
+  String get ideaGenerationWithClient {
+    return Intl.message(
+      'Idea Generation with Client',
+      name: 'ideaGenerationWithClient',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message(
+      'Delete',
+      name: 'delete',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Duplicate`
+  String get duplicate {
+    return Intl.message(
+      'Duplicate',
+      name: 'duplicate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Logged`
+  String get logged {
+    return Intl.message(
+      'Logged',
+      name: 'logged',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Host`
+  String get host {
+    return Intl.message(
+      'Host',
+      name: 'host',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guests`
+  String get guests {
+    return Intl.message(
+      'Guests',
+      name: 'guests',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Room Details`
+  String get roomDetails {
+    return Intl.message(
+      'Room Details',
+      name: 'roomDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to Delete booking?`
+  String get deleteMessageBooking {
+    return Intl.message(
+      'Are you sure you want to Delete booking?',
+      name: 'deleteMessageBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yeah`
+  String get yeah {
+    return Intl.message(
+      'Yeah',
+      name: 'yeah',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get no {
+    return Intl.message(
+      'No',
+      name: 'no',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message(
+      'Edit',
+      name: 'edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order`
+  String get order {
+    return Intl.message(
+      'Order',
+      name: 'order',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `or Add more items`
+  String get addMoreItems {
+    return Intl.message(
+      'or Add more items',
+      name: 'addMoreItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order now`
+  String get orderNow {
+    return Intl.message(
+      'Order now',
+      name: 'orderNow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drinks ordered`
+  String get drinkOrder {
+    return Intl.message(
+      'Drinks ordered',
+      name: 'drinkOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NO Drinks TO SHOW`
+  String get noDrinkToShow {
+    return Intl.message(
+      'NO Drinks TO SHOW',
+      name: 'noDrinkToShow',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You Ordered this by mistake?`
+  String get orderByMistake {
+    return Intl.message(
+      'You Ordered this by mistake?',
+      name: 'orderByMistake',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to order`
+  String get addToCart {
+    return Intl.message(
+      'Add to order',
+      name: 'addToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Drinks Bag`
+  String get drinksBag {
+    return Intl.message(
+      'Drinks Bag',
+      name: 'drinksBag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Item`
+  String get item {
+    return Intl.message(
+      'Item',
+      name: 'item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Notes`
+  String get notes {
+    return Intl.message(
+      'Notes',
+      name: 'notes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get today {
+    return Intl.message(
+      'Today',
+      name: 'today',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite Visitors`
+  String get inviteVisitors {
+    return Intl.message(
+      'Invite Visitors',
+      name: 'inviteVisitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get time {
+    return Intl.message(
+      'Time',
+      name: 'time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Starting Date`
+  String get startingDate {
+    return Intl.message(
+      'Starting Date',
+      name: 'startingDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Ending Date`
+  String get endingDate {
+    return Intl.message(
+      'Ending Date',
+      name: 'endingDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visitors`
+  String get visitors {
+    return Intl.message(
+      'Visitors',
+      name: 'visitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add previous visitors`
+  String get addPreviousVisitor {
+    return Intl.message(
+      'Add previous visitors',
+      name: 'addPreviousVisitor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add More Visitors`
+  String get addMoreVisitors {
+    return Intl.message(
+      'Add More Visitors',
+      name: 'addMoreVisitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `E-mail`
+  String get email {
+    return Intl.message(
+      'E-mail',
+      name: 'email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Invitation`
+  String get sendInvitation {
+    return Intl.message(
+      'Send Invitation',
+      name: 'sendInvitation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid email address`
+  String get enterValidEmail {
+    return Intl.message(
+      'Please enter a valid email address',
+      name: 'enterValidEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Previous Visitors`
+  String get previousVisitors {
+    return Intl.message(
+      'Previous Visitors',
+      name: 'previousVisitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search from your visitors history`
+  String get searchFromVisitorHistory {
+    return Intl.message(
+      'Search from your visitors history',
+      name: 'searchFromVisitorHistory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Visitor`
+  String get searchVisitor {
+    return Intl.message(
+      'Search Visitor',
+      name: 'searchVisitor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending verification`
+  String get pendingVerification {
+    return Intl.message(
+      'Pending verification',
+      name: 'pendingVerification',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Visitors`
+  String get addVisitors {
+    return Intl.message(
+      'Add Visitors',
+      name: 'addVisitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search by Visitor name`
+  String get searchByVisitorName {
+    return Intl.message(
+      'Search by Visitor name',
+      name: 'searchByVisitorName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitation Details`
+  String get invitationDetails {
+    return Intl.message(
+      'Invitation Details',
+      name: 'invitationDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visits list`
+  String get visitsList {
+    return Intl.message(
+      'Visits list',
+      name: 'visitsList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Verified`
+  String get verified {
+    return Intl.message(
+      'Verified',
+      name: 'verified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unverified`
+  String get unverified {
+    return Intl.message(
+      'Unverified',
+      name: 'unverified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message(
+      'Add',
+      name: 'add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oops! You didn’t added any visitor yet`
+  String get visitorEmptyMsg {
+    return Intl.message(
+      'Oops! You didn’t added any visitor yet',
+      name: 'visitorEmptyMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NO VISITORS TO SHOW`
+  String get noVisitors {
+    return Intl.message(
+      'NO VISITORS TO SHOW',
+      name: 'noVisitors',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitation Sent`
+  String get invitationSent {
+    return Intl.message(
+      'Invitation Sent',
+      name: 'invitationSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invited visitors by mistake?`
+  String get inviteByMistake {
+    return Intl.message(
+      'Invited visitors by mistake?',
+      name: 'inviteByMistake',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End date should be greater than start date`
+  String get dateTimeCompareMsg {
+    return Intl.message(
+      'End date should be greater than start date',
+      name: 'dateTimeCompareMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available`
+  String get storeNotAvailable {
+    return Intl.message(
+      'Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available',
+      name: 'storeNotAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delivering to`
+  String get deliveringTo {
+    return Intl.message(
+      'Delivering to',
+      name: 'deliveringTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Booking`
+  String get editBooking {
+    return Intl.message(
+      'Edit Booking',
+      name: 'editBooking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This email address is already used to invite another visitor you added. !`
+  String get visitorAlreadyFound {
+    return Intl.message(
+      'This email address is already used to invite another visitor you added. !',
+      name: 'visitorAlreadyFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Guest Already Added`
+  String get alreadyAdded {
+    return Intl.message(
+      'Guest Already Added',
+      name: 'alreadyAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking for`
+  String get bookingFor {
+    return Intl.message(
+      'Booking for',
+      name: 'bookingFor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select future time`
+  String get pastBookingAlert {
+    return Intl.message(
+      'Please select future time',
+      name: 'pastBookingAlert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password`
+  String get password {
+    return Intl.message(
+      'Password',
+      name: 'password',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `LogIn`
+  String get login {
+    return Intl.message(
+      'LogIn',
+      name: 'login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Scan QR to book`
+  String get scanQrToBook {
+    return Intl.message(
+      'Scan QR to book',
+      name: 'scanQrToBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Booking Created Successfully`
+  String get bookingSlotSuccess {
+    return Intl.message(
+      'Booking Created Successfully',
+      name: 'bookingSlotSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Order Sent Successfully`
+  String get drinkOrderSuccess {
+    return Intl.message(
+      'Order Sent Successfully',
+      name: 'drinkOrderSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitation Sent Successfully`
+  String get inviteVisitorSuccess {
+    return Intl.message(
+      'Invitation Sent Successfully',
+      name: 'inviteVisitorSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `NO TICKETS TO SHOW`
+  String get ticketEmpty {
+    return Intl.message(
+      'NO TICKETS TO SHOW',
+      name: 'ticketEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You didn’t raise any tickets yet`
+  String get youDidNotRaiseAnyTicketsYet {
+    return Intl.message(
+      'You didn’t raise any tickets yet',
+      name: 'youDidNotRaiseAnyTicketsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `character !`
+  String get character {
+    return Intl.message(
+      'character !',
+      name: 'character',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Max length of`
+  String get maxLengthOf {
+    return Intl.message(
+      'Max length of',
+      name: 'maxLengthOf',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
