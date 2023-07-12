@@ -1,3 +1,4 @@
+import 'package:disposable_cached_images/disposable_cached_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -18,6 +19,7 @@ void main() async {
     if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
     return stack;
   };
+  await DisposableImages.init();
   runApp(const ProviderScope(child: MyApp()));
   configLoading();
 }

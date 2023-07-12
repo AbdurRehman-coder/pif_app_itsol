@@ -1,0 +1,12 @@
+export 'model/comment_model.dart';
+export 'provider/ticket_details_provider.dart';
+export 'state/ticket_details_state.dart';
+export 'widgets/add_comment_view.dart';
+export 'widgets/person_join_view.dart';
+export 'widgets/receiver/receiver_image_view.dart';
+export 'widgets/receiver/receiver_text_view.dart';
+export 'widgets/receiver/receiver_video_view.dart';
+export 'widgets/sender/sender_image_view.dart';
+export 'widgets/sender/sender_text_view.dart';
+export 'widgets/sender/sender_viedeo_view.dart';
+export 'widgets/ticker_details_card.dart';

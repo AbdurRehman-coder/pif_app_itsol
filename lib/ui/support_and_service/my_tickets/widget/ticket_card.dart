@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
@@ -18,7 +17,7 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=>AppRouter.pushNamed(Routes.supportScreen),
+      onTap: () => AppRouter.pushNamed(Routes.ticketDetailsScreen, args: ticketModel),
       child: Container(
         decoration: BoxDecoration(
           color: whiteColor,

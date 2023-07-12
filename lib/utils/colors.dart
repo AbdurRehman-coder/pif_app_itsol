@@ -4,6 +4,7 @@ const blackColor = Color(0xFF000000);
 const whiteColor = Color(0xFFFFFFFF);
 const primaryColor = Color(0xFF088542);
 const primaryDarkColor = Color(0xFF00652E);
+const primaryLightColor = Color(0xFF15964E);
 const primaryDisabledColor = Color(0xFF9DDBB2);
 const lightPrimaryColor = Color(0xFFE6F6EC);
 const darkPrimaryColor = Color(0xFF004B34);
@@ -39,6 +40,8 @@ const gradientStart = Color(0xFF272627);
 const secondary = Color(0xFFC29B5B);
 const gradientEnd = Color(0xFFC29B5B);
 const grayBorder = Color(0xFFC0BABC);
+const greenBorderColor = Color(0xFF2AB864);
+const grayBgColor = Color(0xFFEDEDED);
 
 // GRAY
 const gray29 = Color(0xFF292929);

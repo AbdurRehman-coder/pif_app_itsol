@@ -3,8 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/state/my_tickets_state.dart';
 
-final myTicketsProvider =
-    StateNotifierProvider.autoDispose<MyTicketsNotifier, MyTicketsState>((ref) {
+final myTicketsProvider = StateNotifierProvider.autoDispose<MyTicketsNotifier, MyTicketsState>((ref) {
   return MyTicketsNotifier(ref: ref);
 });
 
@@ -32,13 +31,11 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     myTicketsList = List.generate(
       5,
       (index) => TicketModel(
-        ticketText:
-            'Issue description Issue description  Issue description  Issue description',
-        ticketStatus: index.isEven
-            ? TicketStatusEnum.InProgress
-            : TicketStatusEnum.Pending,
+        ticketText: 'Issue description Issue description  Issue description  Issue description',
+        ticketStatus: index.isEven ? TicketStatusEnum.InProgress : TicketStatusEnum.Pending,
         ticketStart: DateTime.now(),
         countMessage: index,
+        attachment: 'https://picsum.photos/200/300',
       ),
     );
     state = state.copyWith(myTicketList: AsyncData(myTicketsList));

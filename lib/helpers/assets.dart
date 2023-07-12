@@ -114,4 +114,8 @@ class Assets {
   static const String lightModeIcon = 'assets/svg/ic_light_mode.svg';
   static const String darkAutoIcon = 'assets/svg/ic_dark_auto.svg';
   static const String cancelIcon = 'assets/svg/ic_cancel.svg';
+
+  //Support
+  static const String pauseIcon = 'assets/svg/ic_pause.svg';
+  static const String playIcon = 'assets/svg/ic_play.svg';
 }

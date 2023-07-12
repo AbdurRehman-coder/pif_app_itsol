@@ -18,6 +18,5 @@ class Routes {
   static const String homeScreen = '/home';
   static const String myTicketsScreen = '/myTickets';
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
-  static const String chatScreen = '/chat';
-  static const String supportScreen = '/SupportScreen';
+  static const String ticketDetailsScreen = '/ticketDetails';
 }

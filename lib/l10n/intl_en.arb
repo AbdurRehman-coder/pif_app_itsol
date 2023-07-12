@@ -153,5 +153,8 @@
   "faq": "FAQs",
   "arabic": "العربية",
   "english": "English",
-  "logout": "Logout"
+  "logout": "Logout",
+  "support": "Support",
+  "addComment" : "Add a comment...",
+  "commentAlert" : "Please enter comment"
 }
