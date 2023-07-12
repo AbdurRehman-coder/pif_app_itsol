@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/circle_paint.dart';
 
 class ImageLoader extends StatefulWidget {
   const ImageLoader({super.key});
-
 
   @override
   State<ImageLoader> createState() => _ImageLoaderState();
@@ -20,9 +17,9 @@ class _ImageLoaderState extends State<ImageLoader> {
   void _initTimer() {
     _timer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
       setState(() {
-        sliderValue += 5;
+        sliderValue += 0.001;
       });
-      if (sliderValue == 100) {
+      if (sliderValue == 1) {
         _timer?.cancel();
       }
     });

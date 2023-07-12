@@ -17,6 +17,14 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AddOrEditTicketState {
   XFile? get image => throw _privateConstructorUsedError;
+  bool get loadImage => throw _privateConstructorUsedError;
+  bool get isTeamSelected => throw _privateConstructorUsedError;
+  AsyncValue<List<TeamsModel>> get teamList =>
+      throw _privateConstructorUsedError;
+  SubCategoryModel? get subcategorySelected =>
+      throw _privateConstructorUsedError;
+  AsyncValue<List<SubCategoryModel>> get subCategoryList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $AddOrEditTicketStateCopyWith<AddOrEditTicketState> get copyWith =>
@@ -29,7 +37,13 @@ abstract class $AddOrEditTicketStateCopyWith<$Res> {
           $Res Function(AddOrEditTicketState) then) =
       _$AddOrEditTicketStateCopyWithImpl<$Res, AddOrEditTicketState>;
   @useResult
-  $Res call({XFile? image});
+  $Res call(
+      {XFile? image,
+      bool loadImage,
+      bool isTeamSelected,
+      AsyncValue<List<TeamsModel>> teamList,
+      SubCategoryModel? subcategorySelected,
+      AsyncValue<List<SubCategoryModel>> subCategoryList});
 }
 
 /// @nodoc
@@ -47,12 +61,37 @@ class _$AddOrEditTicketStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? image = freezed,
+    Object? loadImage = null,
+    Object? isTeamSelected = null,
+    Object? teamList = null,
+    Object? subcategorySelected = freezed,
+    Object? subCategoryList = null,
   }) {
     return _then(_value.copyWith(
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      loadImage: null == loadImage
+          ? _value.loadImage
+          : loadImage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isTeamSelected: null == isTeamSelected
+          ? _value.isTeamSelected
+          : isTeamSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      teamList: null == teamList
+          ? _value.teamList
+          : teamList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TeamsModel>>,
+      subcategorySelected: freezed == subcategorySelected
+          ? _value.subcategorySelected
+          : subcategorySelected // ignore: cast_nullable_to_non_nullable
+              as SubCategoryModel?,
+      subCategoryList: null == subCategoryList
+          ? _value.subCategoryList
+          : subCategoryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SubCategoryModel>>,
     ) as $Val);
   }
 }
@@ -65,7 +104,13 @@ abstract class _$$_AddOrEditTicketStateCopyWith<$Res>
       __$$_AddOrEditTicketStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({XFile? image});
+  $Res call(
+      {XFile? image,
+      bool loadImage,
+      bool isTeamSelected,
+      AsyncValue<List<TeamsModel>> teamList,
+      SubCategoryModel? subcategorySelected,
+      AsyncValue<List<SubCategoryModel>> subCategoryList});
 }
 
 /// @nodoc
@@ -80,12 +125,37 @@ class __$$_AddOrEditTicketStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? image = freezed,
+    Object? loadImage = null,
+    Object? isTeamSelected = null,
+    Object? teamList = null,
+    Object? subcategorySelected = freezed,
+    Object? subCategoryList = null,
   }) {
     return _then(_$_AddOrEditTicketState(
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as XFile?,
+      loadImage: null == loadImage
+          ? _value.loadImage
+          : loadImage // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isTeamSelected: null == isTeamSelected
+          ? _value.isTeamSelected
+          : isTeamSelected // ignore: cast_nullable_to_non_nullable
+              as bool,
+      teamList: null == teamList
+          ? _value.teamList
+          : teamList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TeamsModel>>,
+      subcategorySelected: freezed == subcategorySelected
+          ? _value.subcategorySelected
+          : subcategorySelected // ignore: cast_nullable_to_non_nullable
+              as SubCategoryModel?,
+      subCategoryList: null == subCategoryList
+          ? _value.subCategoryList
+          : subCategoryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SubCategoryModel>>,
     ));
   }
 }
@@ -93,14 +163,30 @@ class __$$_AddOrEditTicketStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_AddOrEditTicketState implements _AddOrEditTicketState {
-  const _$_AddOrEditTicketState({required this.image});
+  const _$_AddOrEditTicketState(
+      {required this.image,
+      required this.loadImage,
+      required this.isTeamSelected,
+      required this.teamList,
+      required this.subcategorySelected,
+      required this.subCategoryList});
 
   @override
   final XFile? image;
+  @override
+  final bool loadImage;
+  @override
+  final bool isTeamSelected;
+  @override
+  final AsyncValue<List<TeamsModel>> teamList;
+  @override
+  final SubCategoryModel? subcategorySelected;
+  @override
+  final AsyncValue<List<SubCategoryModel>> subCategoryList;
 
   @override
   String toString() {
-    return 'AddOrEditTicketState(image: $image)';
+    return 'AddOrEditTicketState(image: $image, loadImage: $loadImage, isTeamSelected: $isTeamSelected, teamList: $teamList, subcategorySelected: $subcategorySelected, subCategoryList: $subCategoryList)';
   }
 
   @override
@@ -108,11 +194,22 @@ class _$_AddOrEditTicketState implements _AddOrEditTicketState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_AddOrEditTicketState &&
-            (identical(other.image, image) || other.image == image));
+            (identical(other.image, image) || other.image == image) &&
+            (identical(other.loadImage, loadImage) ||
+                other.loadImage == loadImage) &&
+            (identical(other.isTeamSelected, isTeamSelected) ||
+                other.isTeamSelected == isTeamSelected) &&
+            (identical(other.teamList, teamList) ||
+                other.teamList == teamList) &&
+            (identical(other.subcategorySelected, subcategorySelected) ||
+                other.subcategorySelected == subcategorySelected) &&
+            (identical(other.subCategoryList, subCategoryList) ||
+                other.subCategoryList == subCategoryList));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, image);
+  int get hashCode => Object.hash(runtimeType, image, loadImage, isTeamSelected,
+      teamList, subcategorySelected, subCategoryList);
 
   @JsonKey(ignore: true)
   @override
@@ -123,11 +220,27 @@ class _$_AddOrEditTicketState implements _AddOrEditTicketState {
 }
 
 abstract class _AddOrEditTicketState implements AddOrEditTicketState {
-  const factory _AddOrEditTicketState({required final XFile? image}) =
+  const factory _AddOrEditTicketState(
+          {required final XFile? image,
+          required final bool loadImage,
+          required final bool isTeamSelected,
+          required final AsyncValue<List<TeamsModel>> teamList,
+          required final SubCategoryModel? subcategorySelected,
+          required final AsyncValue<List<SubCategoryModel>> subCategoryList}) =
       _$_AddOrEditTicketState;
 
   @override
   XFile? get image;
+  @override
+  bool get loadImage;
+  @override
+  bool get isTeamSelected;
+  @override
+  AsyncValue<List<TeamsModel>> get teamList;
+  @override
+  SubCategoryModel? get subcategorySelected;
+  @override
+  AsyncValue<List<SubCategoryModel>> get subCategoryList;
   @override
   @JsonKey(ignore: true)
   _$$_AddOrEditTicketStateCopyWith<_$_AddOrEditTicketState> get copyWith =>

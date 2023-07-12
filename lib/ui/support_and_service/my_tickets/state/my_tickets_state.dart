@@ -10,11 +10,13 @@ class MyTicketsState with _$MyTicketsState {
     required int ticketStatusIndex,
     required AsyncValue<List<TicketModel>> myTicketList,
     required List<TicketModel> ticketListSelect,
+    required List<TicketModel> searchTicketListSelect,
   }) = _MyTicketsState;
 
   factory MyTicketsState.initial() => const MyTicketsState(
         ticketStatusIndex: 0,
         myTicketList: AsyncLoading(),
         ticketListSelect: [],
+        searchTicketListSelect: [],
       );
 }

@@ -8,7 +8,7 @@ class EmptyTicketView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 100.h),
+      padding: EdgeInsets.symmetric(horizontal: 40.w,vertical: 100.h),
       child: Column(
         children: [
           SvgPicture.asset(

@@ -44,18 +44,26 @@ class TicketCard extends StatelessWidget {
                       size: 25,
                       color: hintColor,
                     ),
+                  )
+                ] else ...[
+                  const Icon(
+                    Icons.email_outlined,
+                    size: 25,
+                    color: hintColor,
                   ),
                 ],
               ],
             ),
             SizedBox(height: 10.h),
             Text(
-              ticketModel?.ticketText ?? '',
+              ticketModel?.ticketDescription ?? '',
               style: Style.commonTextStyle(
                 color: blackColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
             ),
             SizedBox(height: 10.h),
             Row(

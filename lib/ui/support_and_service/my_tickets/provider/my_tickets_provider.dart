@@ -29,10 +29,13 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
   Future<void> getMyTickets() async {
     var myTicketsList = <TicketModel>[];
     myTicketsList = List.generate(
-      5,
+      20,
       (index) => TicketModel(
-        ticketText: 'Issue description Issue description  Issue description  Issue description',
-        ticketStatus: index.isEven ? TicketStatusEnum.InProgress : TicketStatusEnum.Pending,
+        ticketDescription:
+            'Issue description Issue ${index + 1} description Issue description  Issue descriptionIssue description  Issue descriptionIssue description  Issue descriptionIssue description  Issue description ',
+        ticketStatus: index.isEven
+            ? TicketStatusEnum.InProgress
+            : TicketStatusEnum.Pending,
         ticketStart: DateTime.now(),
         countMessage: index,
         attachment: 'https://picsum.photos/200/300',
@@ -40,6 +43,22 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     );
     state = state.copyWith(myTicketList: AsyncData(myTicketsList));
     updateSelectTicketStatus(indexNewSelect: 0);
+  }
+
+  void onSearchTicket() {
+    if (searchController.text.isNotEmpty) {
+      state = state.copyWith(
+        ticketListSelect: state.myTicketList.value!
+            .where(
+              (ticket) => ticket.ticketDescription.toLowerCase().contains(
+                    searchController.text.toLowerCase(),
+                  ),
+            )
+            .toList(),
+      );
+    } else {
+      state = state.copyWith(ticketListSelect: state.myTicketList.value!);
+    }
   }
 
   void updateSelectTicketStatus({required int indexNewSelect}) {

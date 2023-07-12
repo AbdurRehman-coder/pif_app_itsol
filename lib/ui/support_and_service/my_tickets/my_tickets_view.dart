@@ -24,11 +24,12 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
     final provider = ref.watch(myTicketsProvider);
     final notifier = ref.read(myTicketsProvider.notifier);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: expireBgColor,
         elevation: 0,
         leading: Padding(
-          padding:  EdgeInsets.symmetric(horizontal:8.w),
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: InkWell(
             onTap: AppRouter.pop,
             child: Container(
@@ -48,14 +49,21 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
           padding: EdgeInsets.symmetric(horizontal: 10.w),
           child: SearchTextField(
             textEditingController: notifier.searchController,
-            hintText: 'Search Support',
+            hintText: S.current.searchByDescription,
+            onChanged: (textSearch) =>notifier.onSearchTicket(),
           ),
         ),
         titleSpacing: 0,
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -74,37 +82,42 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
           child: Column(
             children: [
               SizedBox(height: 20.h),
-              TicketListStatus(
-                notifier: notifier,
-                provider: provider,
-              ),
-              SizedBox(height: 20.h),
+              if (notifier.searchController.text.isEmpty) ...[
+                TicketListStatus(
+                  notifier: notifier,
+                  provider: provider,
+                ),
+              ],
               if (provider.ticketListSelect.isNotEmpty) ...[
                 Expanded(
-                  child: ListView.separated(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                    shrinkWrap: true,
-                    itemBuilder: (_, index) {
-                      final myTickets = provider.ticketListSelect[index];
-                      return TicketCard(
-                        ticketModel: myTickets,
-                        index: index,
-                      );
-                    },
-                    separatorBuilder: (_, index) {
-                      return SizedBox(height: 24.h);
-                    },
-                    itemCount: provider.myTicketList.isLoading
-                        ? 3
-                        : provider.ticketListSelect.length,
-                  ).shimmerLoading(
-                    loading: provider.myTicketList.isLoading,
+                  child: RefreshIndicator(
+                    onRefresh: notifier.getMyTickets,
+                    child: ListView.separated(
+                      padding:
+                      EdgeInsets.only(right: 16.w,left: 16.w,bottom: 60.h,top: 10.h),
+                      shrinkWrap: true,
+                      itemBuilder: (_, index) {
+                        final myTickets = provider.ticketListSelect[index];
+                        return TicketCard(
+                          ticketModel: myTickets,
+                          index: index,
+                        );
+                      },
+                      separatorBuilder: (_, index) {
+                        return SizedBox(height: 15.h);
+                      },
+                      itemCount: provider.myTicketList.isLoading
+                          ? 3
+                          : provider.ticketListSelect.length,
+                    ).shimmerLoading(
+                      loading: provider.myTicketList.isLoading,
+                    ),
                   ),
                 ),
-              ] else ...[
-                const EmptyTicketView(),
-              ],
+              ] else
+                ...[
+                  const EmptyTicketView(),
+                ],
             ],
           ),
         ),
@@ -123,7 +136,7 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
               child: Row(
                 children: [
                   SvgPicture.asset(
-                    Assets.message,
+                    Assets.forum,
                     colorFilter: const ColorFilter.mode(
                       whiteColor,
                       BlendMode.srcIn,
@@ -131,7 +144,7 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
                   ),
                   SizedBox(width: 10.w),
                   Text(
-                    'Get Support',
+                    S.current.getSupport,
                     style: Style.commonTextStyle(
                       color: whiteColor,
                       fontSize: 16.sp,

@@ -12,7 +12,7 @@ class ImageLoader extends StatefulWidget {
 }
 
 class _ImageLoaderState extends State<ImageLoader> {
-  double sliderValue = 0.0;
+  double sliderValue = 0;
   Timer? _timer;
 
   void _initTimer() {

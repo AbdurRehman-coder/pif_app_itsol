@@ -1,13 +1,13 @@
 class TicketModel {
   TicketModel({
-    required this.ticketText,
+    required this.ticketDescription,
     required this.ticketStatus,
     required this.ticketStart,
     required this.countMessage,
     required this.attachment,
   });
 
-  final String ticketText;
+  final String ticketDescription;
   final TicketStatusEnum ticketStatus;
   final DateTime ticketStart;
   final int countMessage;

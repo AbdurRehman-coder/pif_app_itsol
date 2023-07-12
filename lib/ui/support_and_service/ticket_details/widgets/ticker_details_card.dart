@@ -62,7 +62,7 @@ class TicketDetailsCard extends StatelessWidget {
             height: 10.h,
           ),
           Text(
-            ticketData.ticketText ?? '',
+            ticketData.ticketDescription ?? '',
             style: Style.commonTextStyle(
               color: blackColor,
               fontSize: 16.sp,

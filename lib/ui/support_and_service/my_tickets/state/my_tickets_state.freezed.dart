@@ -20,6 +20,8 @@ mixin _$MyTicketsState {
   AsyncValue<List<TicketModel>> get myTicketList =>
       throw _privateConstructorUsedError;
   List<TicketModel> get ticketListSelect => throw _privateConstructorUsedError;
+  List<TicketModel> get searchTicketListSelect =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyTicketsStateCopyWith<MyTicketsState> get copyWith =>
@@ -35,7 +37,8 @@ abstract class $MyTicketsStateCopyWith<$Res> {
   $Res call(
       {int ticketStatusIndex,
       AsyncValue<List<TicketModel>> myTicketList,
-      List<TicketModel> ticketListSelect});
+      List<TicketModel> ticketListSelect,
+      List<TicketModel> searchTicketListSelect});
 }
 
 /// @nodoc
@@ -54,6 +57,7 @@ class _$MyTicketsStateCopyWithImpl<$Res, $Val extends MyTicketsState>
     Object? ticketStatusIndex = null,
     Object? myTicketList = null,
     Object? ticketListSelect = null,
+    Object? searchTicketListSelect = null,
   }) {
     return _then(_value.copyWith(
       ticketStatusIndex: null == ticketStatusIndex
@@ -67,6 +71,10 @@ class _$MyTicketsStateCopyWithImpl<$Res, $Val extends MyTicketsState>
       ticketListSelect: null == ticketListSelect
           ? _value.ticketListSelect
           : ticketListSelect // ignore: cast_nullable_to_non_nullable
+              as List<TicketModel>,
+      searchTicketListSelect: null == searchTicketListSelect
+          ? _value.searchTicketListSelect
+          : searchTicketListSelect // ignore: cast_nullable_to_non_nullable
               as List<TicketModel>,
     ) as $Val);
   }
@@ -83,7 +91,8 @@ abstract class _$$_MyTicketsStateCopyWith<$Res>
   $Res call(
       {int ticketStatusIndex,
       AsyncValue<List<TicketModel>> myTicketList,
-      List<TicketModel> ticketListSelect});
+      List<TicketModel> ticketListSelect,
+      List<TicketModel> searchTicketListSelect});
 }
 
 /// @nodoc
@@ -100,6 +109,7 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
     Object? ticketStatusIndex = null,
     Object? myTicketList = null,
     Object? ticketListSelect = null,
+    Object? searchTicketListSelect = null,
   }) {
     return _then(_$_MyTicketsState(
       ticketStatusIndex: null == ticketStatusIndex
@@ -114,6 +124,10 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
           ? _value._ticketListSelect
           : ticketListSelect // ignore: cast_nullable_to_non_nullable
               as List<TicketModel>,
+      searchTicketListSelect: null == searchTicketListSelect
+          ? _value._searchTicketListSelect
+          : searchTicketListSelect // ignore: cast_nullable_to_non_nullable
+              as List<TicketModel>,
     ));
   }
 }
@@ -124,8 +138,10 @@ class _$_MyTicketsState implements _MyTicketsState {
   const _$_MyTicketsState(
       {required this.ticketStatusIndex,
       required this.myTicketList,
-      required final List<TicketModel> ticketListSelect})
-      : _ticketListSelect = ticketListSelect;
+      required final List<TicketModel> ticketListSelect,
+      required final List<TicketModel> searchTicketListSelect})
+      : _ticketListSelect = ticketListSelect,
+        _searchTicketListSelect = searchTicketListSelect;
 
   @override
   final int ticketStatusIndex;
@@ -140,9 +156,18 @@ class _$_MyTicketsState implements _MyTicketsState {
     return EqualUnmodifiableListView(_ticketListSelect);
   }
 
+  final List<TicketModel> _searchTicketListSelect;
+  @override
+  List<TicketModel> get searchTicketListSelect {
+    if (_searchTicketListSelect is EqualUnmodifiableListView)
+      return _searchTicketListSelect;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_searchTicketListSelect);
+  }
+
   @override
   String toString() {
-    return 'MyTicketsState(ticketStatusIndex: $ticketStatusIndex, myTicketList: $myTicketList, ticketListSelect: $ticketListSelect)';
+    return 'MyTicketsState(ticketStatusIndex: $ticketStatusIndex, myTicketList: $myTicketList, ticketListSelect: $ticketListSelect, searchTicketListSelect: $searchTicketListSelect)';
   }
 
   @override
@@ -155,12 +180,18 @@ class _$_MyTicketsState implements _MyTicketsState {
             (identical(other.myTicketList, myTicketList) ||
                 other.myTicketList == myTicketList) &&
             const DeepCollectionEquality()
-                .equals(other._ticketListSelect, _ticketListSelect));
+                .equals(other._ticketListSelect, _ticketListSelect) &&
+            const DeepCollectionEquality().equals(
+                other._searchTicketListSelect, _searchTicketListSelect));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, ticketStatusIndex, myTicketList,
-      const DeepCollectionEquality().hash(_ticketListSelect));
+  int get hashCode => Object.hash(
+      runtimeType,
+      ticketStatusIndex,
+      myTicketList,
+      const DeepCollectionEquality().hash(_ticketListSelect),
+      const DeepCollectionEquality().hash(_searchTicketListSelect));
 
   @JsonKey(ignore: true)
   @override
@@ -171,9 +202,11 @@ class _$_MyTicketsState implements _MyTicketsState {
 
 abstract class _MyTicketsState implements MyTicketsState {
   const factory _MyTicketsState(
-      {required final int ticketStatusIndex,
-      required final AsyncValue<List<TicketModel>> myTicketList,
-      required final List<TicketModel> ticketListSelect}) = _$_MyTicketsState;
+          {required final int ticketStatusIndex,
+          required final AsyncValue<List<TicketModel>> myTicketList,
+          required final List<TicketModel> ticketListSelect,
+          required final List<TicketModel> searchTicketListSelect}) =
+      _$_MyTicketsState;
 
   @override
   int get ticketStatusIndex;
@@ -181,6 +214,8 @@ abstract class _MyTicketsState implements MyTicketsState {
   AsyncValue<List<TicketModel>> get myTicketList;
   @override
   List<TicketModel> get ticketListSelect;
+  @override
+  List<TicketModel> get searchTicketListSelect;
   @override
   @JsonKey(ignore: true)
   _$$_MyTicketsStateCopyWith<_$_MyTicketsState> get copyWith =>
