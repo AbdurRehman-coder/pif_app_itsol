@@ -1,7 +1,8 @@
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
 
 class TicketCard extends StatelessWidget {
@@ -11,13 +12,16 @@ class TicketCard extends StatelessWidget {
     super.key,
   });
 
-  final TicketModel? ticketModel;
+  final SupportTicketModel? ticketModel;
   final int index;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => AppRouter.pushNamed(Routes.ticketDetailsScreen, args: ticketModel),
+      onTap: () => AppRouter.pushNamed(
+        Routes.ticketDetailsScreen,
+        args: ticketModel,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: whiteColor,
@@ -28,12 +32,13 @@ class TicketCard extends StatelessWidget {
           vertical: 15.h,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TicketStatus(
-                  ticketStatus: ticketModel!.ticketStatus,
+                  ticketStatus: ticketModel!.ticketStatus!,
                 ),
                 if (index > 0) ...[
                   Badge(
@@ -54,9 +59,11 @@ class TicketCard extends StatelessWidget {
                 ],
               ],
             ),
-            SizedBox(height: 10.h),
+            SizedBox(
+              height: 10.h,
+            ),
             Text(
-              ticketModel?.ticketDescription ?? '',
+              ticketModel?.description ?? '',
               style: Style.commonTextStyle(
                 color: blackColor,
                 fontSize: 16.sp,
@@ -65,7 +72,9 @@ class TicketCard extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            SizedBox(height: 10.h),
+            SizedBox(
+              height: 10.h,
+            ),
             Row(
               children: [
                 const Icon(
@@ -73,9 +82,11 @@ class TicketCard extends StatelessWidget {
                   size: 20,
                   color: hintColor,
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(
+                  width: 8.w,
+                ),
                 Text(
-                  '7:00 pm - 21/3/2023',
+                  ticketModel!.dateCreated!.toFormattedString('hh:mm a - dd/MM/yyyy'),
                   style: Style.commonTextStyle(
                     color: grayTextColor,
                     fontSize: 15.sp,

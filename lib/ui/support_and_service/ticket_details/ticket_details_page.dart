@@ -1,14 +1,15 @@
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
+import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/ticket_details/index.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
 class TicketDetailsPage extends ConsumerStatefulWidget {
   const TicketDetailsPage({required this.ticketData, super.key});
 
-  final TicketModel ticketData;
+  final SupportTicketModel ticketData;
 
   @override
   ConsumerState createState() => _SupportDetailsPageState();
@@ -20,7 +21,7 @@ class _SupportDetailsPageState extends ConsumerState<TicketDetailsPage> {
     super.initState();
     final notifier = ref.read(ticketDetailsProvider.notifier);
     notifier.ticketData = widget.ticketData;
-    notifier.scrollToEnd();
+    notifier.getCommentsData();
   }
 
   @override
@@ -75,8 +76,9 @@ class _SupportDetailsPageState extends ConsumerState<TicketDetailsPage> {
                     key: ValueKey(index),
                     controller: notifier.scrollController,
                     index: index,
-                    child:
-                        index == 0 ? TicketDetailsCard(ticketData: widget.ticketData) : getCommentView(item),
+                    child: index == 0
+                        ? TicketDetailsCard(ticketData: widget.ticketData)
+                        : getCommentView(item, notifier),
                   );
                 },
                 separatorBuilder: (_, index) {
@@ -96,25 +98,30 @@ class _SupportDetailsPageState extends ConsumerState<TicketDetailsPage> {
     );
   }
 
-  Widget getCommentView(CommentModel item) {
-    if (item.viewType == CommentViewEnum.sender) {
-      if (item.type == CommentTypeEnum.text) {
+  Widget getCommentView(TicketCommentModel item, TicketDetailsNotifier notifier) {
+    final viewType = item.creator?.id == notifier.userId ? CommentViewEnum.sender : CommentViewEnum.receiver;
+    final type = item.commentAttachment != null ? CommentTypeEnum.image : CommentTypeEnum.text;
+
+    if (viewType == CommentViewEnum.sender) {
+      if (type == CommentTypeEnum.text) {
         return SendTextView(
           item: item,
         );
-      } else if (item.type == CommentTypeEnum.image) {
-        return const SenderImageView();
-      } else if (item.type == CommentTypeEnum.video) {
+      } else if (type == CommentTypeEnum.image) {
+        return SenderImageView(
+          item: item,
+        );
+      } else if (type == CommentTypeEnum.video) {
         return const SenderVideoView();
       }
-    } else if (item.viewType == CommentViewEnum.receiver) {
-      if (item.type == CommentTypeEnum.text) {
+    } else if (viewType == CommentViewEnum.receiver) {
+      if (type == CommentTypeEnum.text) {
         return ReceiverTextView(
           item: item,
         );
-      } else if (item.type == CommentTypeEnum.image) {
-        return const ReceiverImageView();
-      } else if (item.type == CommentTypeEnum.video) {
+      } else if (type == CommentTypeEnum.image) {
+        return ReceiverImageView(item: item);
+      } else if (type == CommentTypeEnum.video) {
         return const ReceiverVideoView();
       }
     } else {

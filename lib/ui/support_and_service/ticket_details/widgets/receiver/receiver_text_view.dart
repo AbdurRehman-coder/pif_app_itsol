@@ -1,12 +1,13 @@
+import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/support_and_service/ticket_details/model/comment_model.dart';
 import 'package:pif_flutter/widgets/custom_image.dart';
 
 class ReceiverTextView extends StatelessWidget {
   const ReceiverTextView({required this.item, super.key});
 
-  final CommentModel item;
+  final TicketCommentModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +31,18 @@ class ReceiverTextView extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                  alignment: Alignment.center,
                   decoration: BoxDecoration(
                     color: expireBgColor,
                     border: Border.all(color: grayBorderColor),
                     borderRadius: BorderRadius.circular(16.r),
                   ),
                   child: Text(
-                    'I am assigning this to an expert to help you more',
+                    item.commentDescription ?? '',
+                    textAlign: TextAlign.start,
                     style: Style.commonTextStyle(
                       color: textColor,
                       fontSize: 14.sp,
@@ -54,7 +56,7 @@ class ReceiverTextView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text(
-                    '12:30 PM',
+                    item.dateCreated!.toFormattedString('hh:mm a'),
                     style: Style.commonTextStyle(
                       color: dayTextColor,
                       fontSize: 12.sp,

@@ -1,14 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
-import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
 
 class TicketDetailsCard extends StatelessWidget {
   const TicketDetailsCard({required this.ticketData, super.key});
 
-  final TicketModel ticketData;
+  final SupportTicketModel ticketData;
 
   @override
   Widget build(BuildContext context) {
@@ -31,38 +29,38 @@ class TicketDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (ticketData.attachment.isNotEmpty) ...[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(6),
-              child: CachedNetworkImage(
-                imageUrl: ticketData.attachment,
-                fit: BoxFit.cover,
-                height: 170.h,
-                width: context.screenWidth,
-                placeholder: (context, url) => Image.asset(
-                  Assets.placeHolder,
-                  fit: BoxFit.fill,
-                  height: 170.h,
-                ),
-                errorWidget: (context, url, error) => Image.asset(
-                  Assets.placeHolder,
-                  fit: BoxFit.fill,
-                  height: 170.h,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            )
-          ],
+          // if (ticketData.attachment.isNotEmpty) ...[
+          //   ClipRRect(
+          //     borderRadius: BorderRadius.circular(6),
+          //     child: CachedNetworkImage(
+          //       imageUrl: ticketData.attachment,
+          //       fit: BoxFit.cover,
+          //       height: 170.h,
+          //       width: context.screenWidth,
+          //       placeholder: (context, url) => Image.asset(
+          //         Assets.placeHolder,
+          //         fit: BoxFit.fill,
+          //         height: 170.h,
+          //       ),
+          //       errorWidget: (context, url, error) => Image.asset(
+          //         Assets.placeHolder,
+          //         fit: BoxFit.fill,
+          //         height: 170.h,
+          //       ),
+          //     ),
+          //   ),
+          //   SizedBox(
+          //     height: 10.h,
+          //   )
+          // ],
           TicketStatus(
-            ticketStatus: ticketData.ticketStatus,
+            ticketStatus: ticketData.ticketStatus!,
           ),
           SizedBox(
             height: 10.h,
           ),
           Text(
-            ticketData.ticketDescription ?? '',
+            ticketData.description ?? '',
             style: Style.commonTextStyle(
               color: blackColor,
               fontSize: 16.sp,

@@ -16,7 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TicketDetailsState {
-  List<CommentModel> get lstComments => throw _privateConstructorUsedError;
+  List<TicketCommentModel> get lstComments =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TicketDetailsStateCopyWith<TicketDetailsState> get copyWith =>
@@ -29,7 +30,7 @@ abstract class $TicketDetailsStateCopyWith<$Res> {
           TicketDetailsState value, $Res Function(TicketDetailsState) then) =
       _$TicketDetailsStateCopyWithImpl<$Res, TicketDetailsState>;
   @useResult
-  $Res call({List<CommentModel> lstComments});
+  $Res call({List<TicketCommentModel> lstComments});
 }
 
 /// @nodoc
@@ -51,7 +52,7 @@ class _$TicketDetailsStateCopyWithImpl<$Res, $Val extends TicketDetailsState>
       lstComments: null == lstComments
           ? _value.lstComments
           : lstComments // ignore: cast_nullable_to_non_nullable
-              as List<CommentModel>,
+              as List<TicketCommentModel>,
     ) as $Val);
   }
 }
@@ -64,7 +65,7 @@ abstract class _$$_SupportDetailsStateCopyWith<$Res>
       __$$_SupportDetailsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<CommentModel> lstComments});
+  $Res call({List<TicketCommentModel> lstComments});
 }
 
 /// @nodoc
@@ -84,7 +85,7 @@ class __$$_SupportDetailsStateCopyWithImpl<$Res>
       lstComments: null == lstComments
           ? _value._lstComments
           : lstComments // ignore: cast_nullable_to_non_nullable
-              as List<CommentModel>,
+              as List<TicketCommentModel>,
     ));
   }
 }
@@ -92,12 +93,13 @@ class __$$_SupportDetailsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_SupportDetailsState implements _SupportDetailsState {
-  const _$_SupportDetailsState({required final List<CommentModel> lstComments})
+  const _$_SupportDetailsState(
+      {required final List<TicketCommentModel> lstComments})
       : _lstComments = lstComments;
 
-  final List<CommentModel> _lstComments;
+  final List<TicketCommentModel> _lstComments;
   @override
-  List<CommentModel> get lstComments {
+  List<TicketCommentModel> get lstComments {
     if (_lstComments is EqualUnmodifiableListView) return _lstComments;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_lstComments);
@@ -131,10 +133,11 @@ class _$_SupportDetailsState implements _SupportDetailsState {
 
 abstract class _SupportDetailsState implements TicketDetailsState {
   const factory _SupportDetailsState(
-      {required final List<CommentModel> lstComments}) = _$_SupportDetailsState;
+          {required final List<TicketCommentModel> lstComments}) =
+      _$_SupportDetailsState;
 
   @override
-  List<CommentModel> get lstComments;
+  List<TicketCommentModel> get lstComments;
   @override
   @JsonKey(ignore: true)
   _$$_SupportDetailsStateCopyWith<_$_SupportDetailsState> get copyWith =>

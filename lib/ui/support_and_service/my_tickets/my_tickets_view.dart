@@ -1,6 +1,8 @@
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -50,20 +52,14 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
           child: SearchTextField(
             textEditingController: notifier.searchController,
             hintText: S.current.searchByDescription,
-            onChanged: (textSearch) =>notifier.onSearchTicket(),
+            onChanged: (textSearch) => notifier.onSearchTicket(),
           ),
         ),
         titleSpacing: 0,
       ),
       body: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        height: context.screenHeight,
+        width: context.screenWidth,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
@@ -81,43 +77,28 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
           bottom: false,
           child: Column(
             children: [
-              SizedBox(height: 20.h),
-              if (notifier.searchController.text.isEmpty) ...[
-                TicketListStatus(
-                  notifier: notifier,
-                  provider: provider,
-                ),
-              ],
-              if (provider.ticketListSelect.isNotEmpty) ...[
-                Expanded(
-                  child: RefreshIndicator(
-                    onRefresh: notifier.getMyTickets,
-                    child: ListView.separated(
-                      padding:
-                      EdgeInsets.only(right: 16.w,left: 16.w,bottom: 60.h,top: 10.h),
-                      shrinkWrap: true,
-                      itemBuilder: (_, index) {
-                        final myTickets = provider.ticketListSelect[index];
-                        return TicketCard(
-                          ticketModel: myTickets,
-                          index: index,
-                        );
-                      },
-                      separatorBuilder: (_, index) {
-                        return SizedBox(height: 15.h);
-                      },
-                      itemCount: provider.myTicketList.isLoading
-                          ? 3
-                          : provider.ticketListSelect.length,
-                    ).shimmerLoading(
-                      loading: provider.myTicketList.isLoading,
-                    ),
-                  ),
-                ),
-              ] else
-                ...[
-                  const EmptyTicketView(),
-                ],
+              SizedBox(
+                height: 20.h,
+              ),
+              TicketListStatus(
+                notifier: notifier,
+                provider: provider,
+              ),
+              provider.lstData.when(
+                data: (data) {
+                  if (data.isNotEmpty) {
+                    return _setListView(notifier, data);
+                  } else {
+                    return const EmptyTicketView();
+                  }
+                },
+                error: (e, s) {
+                  return const EmptyTicketView();
+                },
+                loading: () {
+                  return const Center(child: CircularProgressIndicator());
+                },
+              )
             ],
           ),
         ),
@@ -156,6 +137,32 @@ class _MyTicketsViewState extends ConsumerState<MyTicketsView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _setListView(
+    MyTicketsNotifier notifier,
+    List<SupportTicketModel> lstData,
+  ) {
+    return Expanded(
+      child: RefreshIndicator(
+        onRefresh: notifier.getMyTickets,
+        child: ListView.separated(
+          padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 60.h, top: 10.h),
+          itemBuilder: (_, index) {
+            return TicketCard(
+              ticketModel: lstData[index],
+              index: index,
+            );
+          },
+          separatorBuilder: (_, index) {
+            return SizedBox(
+              height: 15.h,
+            );
+          },
+          itemCount: lstData.length,
+        ),
       ),
     );
   }

@@ -15,7 +15,7 @@ class TicketModel {
 }
 
 enum TicketStatusEnum {
-  InProgress,
-  Pending,
-  Closed,
+  inProgress(),
+  pending,
+  closed,
 }

@@ -1,7 +1,7 @@
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/extensions/tickets_status_extensions.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 
 class TicketStatus extends StatelessWidget {
   const TicketStatus({
@@ -9,7 +9,7 @@ class TicketStatus extends StatelessWidget {
     super.key,
   });
 
-  final TicketStatusEnum ticketStatus;
+  final TicketPriority ticketStatus;
 
   @override
   Widget build(BuildContext context) {

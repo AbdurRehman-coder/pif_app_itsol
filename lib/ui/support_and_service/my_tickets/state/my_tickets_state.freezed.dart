@@ -16,12 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MyTicketsState {
-  int get ticketStatusIndex => throw _privateConstructorUsedError;
-  AsyncValue<List<TicketModel>> get myTicketList =>
+  StatusModel? get selectedStatus => throw _privateConstructorUsedError;
+  AsyncValue<List<SupportTicketModel>> get lstData =>
       throw _privateConstructorUsedError;
-  List<TicketModel> get ticketListSelect => throw _privateConstructorUsedError;
-  List<TicketModel> get searchTicketListSelect =>
-      throw _privateConstructorUsedError;
+  List<StatusModel> get lstStatus => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyTicketsStateCopyWith<MyTicketsState> get copyWith =>
@@ -35,10 +33,9 @@ abstract class $MyTicketsStateCopyWith<$Res> {
       _$MyTicketsStateCopyWithImpl<$Res, MyTicketsState>;
   @useResult
   $Res call(
-      {int ticketStatusIndex,
-      AsyncValue<List<TicketModel>> myTicketList,
-      List<TicketModel> ticketListSelect,
-      List<TicketModel> searchTicketListSelect});
+      {StatusModel? selectedStatus,
+      AsyncValue<List<SupportTicketModel>> lstData,
+      List<StatusModel> lstStatus});
 }
 
 /// @nodoc
@@ -54,28 +51,23 @@ class _$MyTicketsStateCopyWithImpl<$Res, $Val extends MyTicketsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ticketStatusIndex = null,
-    Object? myTicketList = null,
-    Object? ticketListSelect = null,
-    Object? searchTicketListSelect = null,
+    Object? selectedStatus = freezed,
+    Object? lstData = null,
+    Object? lstStatus = null,
   }) {
     return _then(_value.copyWith(
-      ticketStatusIndex: null == ticketStatusIndex
-          ? _value.ticketStatusIndex
-          : ticketStatusIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      myTicketList: null == myTicketList
-          ? _value.myTicketList
-          : myTicketList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<TicketModel>>,
-      ticketListSelect: null == ticketListSelect
-          ? _value.ticketListSelect
-          : ticketListSelect // ignore: cast_nullable_to_non_nullable
-              as List<TicketModel>,
-      searchTicketListSelect: null == searchTicketListSelect
-          ? _value.searchTicketListSelect
-          : searchTicketListSelect // ignore: cast_nullable_to_non_nullable
-              as List<TicketModel>,
+      selectedStatus: freezed == selectedStatus
+          ? _value.selectedStatus
+          : selectedStatus // ignore: cast_nullable_to_non_nullable
+              as StatusModel?,
+      lstData: null == lstData
+          ? _value.lstData
+          : lstData // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SupportTicketModel>>,
+      lstStatus: null == lstStatus
+          ? _value.lstStatus
+          : lstStatus // ignore: cast_nullable_to_non_nullable
+              as List<StatusModel>,
     ) as $Val);
   }
 }
@@ -89,10 +81,9 @@ abstract class _$$_MyTicketsStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int ticketStatusIndex,
-      AsyncValue<List<TicketModel>> myTicketList,
-      List<TicketModel> ticketListSelect,
-      List<TicketModel> searchTicketListSelect});
+      {StatusModel? selectedStatus,
+      AsyncValue<List<SupportTicketModel>> lstData,
+      List<StatusModel> lstStatus});
 }
 
 /// @nodoc
@@ -106,28 +97,23 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ticketStatusIndex = null,
-    Object? myTicketList = null,
-    Object? ticketListSelect = null,
-    Object? searchTicketListSelect = null,
+    Object? selectedStatus = freezed,
+    Object? lstData = null,
+    Object? lstStatus = null,
   }) {
     return _then(_$_MyTicketsState(
-      ticketStatusIndex: null == ticketStatusIndex
-          ? _value.ticketStatusIndex
-          : ticketStatusIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      myTicketList: null == myTicketList
-          ? _value.myTicketList
-          : myTicketList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<TicketModel>>,
-      ticketListSelect: null == ticketListSelect
-          ? _value._ticketListSelect
-          : ticketListSelect // ignore: cast_nullable_to_non_nullable
-              as List<TicketModel>,
-      searchTicketListSelect: null == searchTicketListSelect
-          ? _value._searchTicketListSelect
-          : searchTicketListSelect // ignore: cast_nullable_to_non_nullable
-              as List<TicketModel>,
+      selectedStatus: freezed == selectedStatus
+          ? _value.selectedStatus
+          : selectedStatus // ignore: cast_nullable_to_non_nullable
+              as StatusModel?,
+      lstData: null == lstData
+          ? _value.lstData
+          : lstData // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<SupportTicketModel>>,
+      lstStatus: null == lstStatus
+          ? _value._lstStatus
+          : lstStatus // ignore: cast_nullable_to_non_nullable
+              as List<StatusModel>,
     ));
   }
 }
@@ -136,38 +122,26 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
 
 class _$_MyTicketsState implements _MyTicketsState {
   const _$_MyTicketsState(
-      {required this.ticketStatusIndex,
-      required this.myTicketList,
-      required final List<TicketModel> ticketListSelect,
-      required final List<TicketModel> searchTicketListSelect})
-      : _ticketListSelect = ticketListSelect,
-        _searchTicketListSelect = searchTicketListSelect;
+      {required this.selectedStatus,
+      required this.lstData,
+      required final List<StatusModel> lstStatus})
+      : _lstStatus = lstStatus;
 
   @override
-  final int ticketStatusIndex;
+  final StatusModel? selectedStatus;
   @override
-  final AsyncValue<List<TicketModel>> myTicketList;
-  final List<TicketModel> _ticketListSelect;
+  final AsyncValue<List<SupportTicketModel>> lstData;
+  final List<StatusModel> _lstStatus;
   @override
-  List<TicketModel> get ticketListSelect {
-    if (_ticketListSelect is EqualUnmodifiableListView)
-      return _ticketListSelect;
+  List<StatusModel> get lstStatus {
+    if (_lstStatus is EqualUnmodifiableListView) return _lstStatus;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ticketListSelect);
-  }
-
-  final List<TicketModel> _searchTicketListSelect;
-  @override
-  List<TicketModel> get searchTicketListSelect {
-    if (_searchTicketListSelect is EqualUnmodifiableListView)
-      return _searchTicketListSelect;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_searchTicketListSelect);
+    return EqualUnmodifiableListView(_lstStatus);
   }
 
   @override
   String toString() {
-    return 'MyTicketsState(ticketStatusIndex: $ticketStatusIndex, myTicketList: $myTicketList, ticketListSelect: $ticketListSelect, searchTicketListSelect: $searchTicketListSelect)';
+    return 'MyTicketsState(selectedStatus: $selectedStatus, lstData: $lstData, lstStatus: $lstStatus)';
   }
 
   @override
@@ -175,23 +149,16 @@ class _$_MyTicketsState implements _MyTicketsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_MyTicketsState &&
-            (identical(other.ticketStatusIndex, ticketStatusIndex) ||
-                other.ticketStatusIndex == ticketStatusIndex) &&
-            (identical(other.myTicketList, myTicketList) ||
-                other.myTicketList == myTicketList) &&
+            (identical(other.selectedStatus, selectedStatus) ||
+                other.selectedStatus == selectedStatus) &&
+            (identical(other.lstData, lstData) || other.lstData == lstData) &&
             const DeepCollectionEquality()
-                .equals(other._ticketListSelect, _ticketListSelect) &&
-            const DeepCollectionEquality().equals(
-                other._searchTicketListSelect, _searchTicketListSelect));
+                .equals(other._lstStatus, _lstStatus));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      ticketStatusIndex,
-      myTicketList,
-      const DeepCollectionEquality().hash(_ticketListSelect),
-      const DeepCollectionEquality().hash(_searchTicketListSelect));
+  int get hashCode => Object.hash(runtimeType, selectedStatus, lstData,
+      const DeepCollectionEquality().hash(_lstStatus));
 
   @JsonKey(ignore: true)
   @override
@@ -202,20 +169,16 @@ class _$_MyTicketsState implements _MyTicketsState {
 
 abstract class _MyTicketsState implements MyTicketsState {
   const factory _MyTicketsState(
-          {required final int ticketStatusIndex,
-          required final AsyncValue<List<TicketModel>> myTicketList,
-          required final List<TicketModel> ticketListSelect,
-          required final List<TicketModel> searchTicketListSelect}) =
-      _$_MyTicketsState;
+      {required final StatusModel? selectedStatus,
+      required final AsyncValue<List<SupportTicketModel>> lstData,
+      required final List<StatusModel> lstStatus}) = _$_MyTicketsState;
 
   @override
-  int get ticketStatusIndex;
+  StatusModel? get selectedStatus;
   @override
-  AsyncValue<List<TicketModel>> get myTicketList;
+  AsyncValue<List<SupportTicketModel>> get lstData;
   @override
-  List<TicketModel> get ticketListSelect;
-  @override
-  List<TicketModel> get searchTicketListSelect;
+  List<StatusModel> get lstStatus;
   @override
   @JsonKey(ignore: true)
   _$$_MyTicketsStateCopyWith<_$_MyTicketsState> get copyWith =>

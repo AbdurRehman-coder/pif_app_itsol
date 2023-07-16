@@ -21,19 +21,18 @@ class TicketListStatus extends StatelessWidget {
         shrinkWrap: true,
         padding: EdgeInsets.symmetric(horizontal: 10.w),
         scrollDirection: Axis.horizontal,
-        itemCount: notifier.ticketsStatusList.length,
+        itemCount: provider.lstStatus.length,
         itemBuilder: (_, index) {
-          final isTicketSelect = provider.ticketStatusIndex == index;
+          final item = provider.lstStatus[index];
           return Padding(
             padding: EdgeInsets.symmetric(vertical: 5.h),
             child: InkWell(
-              onTap: () =>
-                  notifier.updateSelectTicketStatus(indexNewSelect: index),
+              onTap: () => notifier.updateStatusData(model: item),
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 4.h),
                 decoration: BoxDecoration(
-                  color: isTicketSelect ? secondary : whiteColor,
+                  color: item.isSelected! ? secondary : whiteColor,
                   borderRadius: BorderRadius.circular(30.r),
                   boxShadow: const [
                     BoxShadow(
@@ -45,9 +44,9 @@ class TicketListStatus extends StatelessWidget {
                   ],
                 ),
                 child: Text(
-                  notifier.ticketsStatusList[index],
+                  item.name ?? '',
                   style: Style.commonTextStyle(
-                    color: isTicketSelect ? whiteColor : darkBorderColor,
+                    color: item.isSelected! ? whiteColor : darkBorderColor,
                     fontSize: 14.sp,
                     height: 1.4,
                     fontWeight: FontWeight.w400,

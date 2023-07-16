@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -12,7 +13,6 @@ import 'package:pif_flutter/ui/login/login_page.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/add_view.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/my_tickets_view.dart';
 import 'package:pif_flutter/ui/support_and_service/ticket_details/ticket_details_page.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/invite_visitor_page.dart';
@@ -77,7 +77,7 @@ class AppRouter {
       case Routes.homeScreen:
         return _setPage(page: const HomePage(), settings: settings);
       case Routes.ticketDetailsScreen:
-        final data = settings.arguments! as TicketModel;
+        final data = settings.arguments! as SupportTicketModel;
         return _setPage(page: TicketDetailsPage(ticketData: data), settings: settings);
       default:
         return _errorRoute();

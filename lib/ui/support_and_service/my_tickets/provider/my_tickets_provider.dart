@@ -1,6 +1,10 @@
+import 'package:dixels_sdk/common/models/parameters_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/support/model/status_model.dart';
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/ui/support_and_service/my_tickets/model/tiicket_model.dart';
+import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/state/my_tickets_state.dart';
 
 final myTicketsProvider = StateNotifierProvider.autoDispose<MyTicketsNotifier, MyTicketsState>((ref) {
@@ -12,82 +16,74 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     _initData();
   }
 
-  final searchController = TextEditingController();
-
+  late TextEditingController searchController;
   final Ref ref;
-  final ticketsStatusList = [
-    'All',
-    'Pending',
-    'In Progress',
-    'Closed',
-  ];
 
   void _initData() {
-    getMyTickets();
+    searchController = TextEditingController();
+    getStatusAsync();
+  }
+
+  Future<void> getStatusAsync() async {
+    final result = await DixelsSDK.instance.supportService.getStatusAsync();
+    if (result != null) {
+      final lstData = result.listTypeEntries!;
+      lstData.insert(0, StatusModel(name: 'All', key: 'all'));
+
+      state = state.copyWith(lstStatus: lstData);
+      state = state.copyWith(selectedStatus: state.lstStatus.first);
+      updateStatusData(model: state.selectedStatus!);
+      await getMyTickets();
+    }
   }
 
   Future<void> getMyTickets() async {
-    var myTicketsList = <TicketModel>[];
-    myTicketsList = List.generate(
-      20,
-      (index) => TicketModel(
-        ticketDescription:
-            'Issue description Issue ${index + 1} description Issue description  Issue descriptionIssue description  Issue descriptionIssue description  Issue descriptionIssue description  Issue description ',
-        ticketStatus: index.isEven
-            ? TicketStatusEnum.InProgress
-            : TicketStatusEnum.Pending,
-        ticketStart: DateTime.now(),
-        countMessage: index,
-        attachment: 'https://picsum.photos/200/300',
-      ),
-    );
-    state = state.copyWith(myTicketList: AsyncData(myTicketsList));
-    updateSelectTicketStatus(indexNewSelect: 0);
+    final param = ParametersModel();
+    if (state.selectedStatus!.key != 'all') {
+      param.filter = FilterUtils.filterBy(
+        key: 'ticketStatus',
+        value: "'${state.selectedStatus!.key}'",
+        operator: FilterOperator.equal.value,
+      );
+    }
+    final result = await DixelsSDK.instance.supportService
+        .getPageData(fromJson: SupportTicketModel.fromJson, params: param);
+    if (result != null) {
+      state = state.copyWith(lstData: AsyncData(result.items!));
+    }
   }
 
   void onSearchTicket() {
-    if (searchController.text.isNotEmpty) {
-      state = state.copyWith(
-        ticketListSelect: state.myTicketList.value!
-            .where(
-              (ticket) => ticket.ticketDescription.toLowerCase().contains(
-                    searchController.text.toLowerCase(),
-                  ),
-            )
-            .toList(),
-      );
-    } else {
-      state = state.copyWith(ticketListSelect: state.myTicketList.value!);
-    }
+    // if (searchController.text.isNotEmpty) {
+    //   state = state.copyWith(
+    //     ticketListSelect: state.myTicketList.value!
+    //         .where(
+    //           (ticket) => ticket.ticketDescription.toLowerCase().contains(
+    //                 searchController.text.toLowerCase(),
+    //               ),
+    //         )
+    //         .toList(),
+    //   );
+    // } else {
+    //   state = state.copyWith(ticketListSelect: state.myTicketList.value!);
+    // }
   }
 
-  void updateSelectTicketStatus({required int indexNewSelect}) {
+  void updateStatusData({required StatusModel model}) {
     state = state.copyWith(
-      ticketListSelect: getListTicket(newIndexSelect: indexNewSelect),
+      selectedStatus: model,
     );
-    state = state.copyWith(ticketStatusIndex: indexNewSelect);
+
+    for (final element in state.lstStatus) {
+      element.isSelected = state.selectedStatus!.key == element.key;
+    }
+    state = state.copyWith(lstStatus: state.lstStatus);
+    getMyTickets();
   }
 
-  List<TicketModel> getListTicket({required int newIndexSelect}) {
-    switch (newIndexSelect) {
-      case 0:
-        return state.myTicketList.value ?? [];
-      case 1:
-        return state.myTicketList.value!
-            .where((ticket) => ticket.ticketStatus == TicketStatusEnum.Pending)
-            .toList();
-      case 2:
-        return state.myTicketList.value!
-            .where(
-              (ticket) => ticket.ticketStatus == TicketStatusEnum.InProgress,
-            )
-            .toList();
-      case 3:
-        return state.myTicketList.value!
-            .where((ticket) => ticket.ticketStatus == TicketStatusEnum.Closed)
-            .toList();
-      default:
-        return state.myTicketList.value ?? [];
-    }
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }

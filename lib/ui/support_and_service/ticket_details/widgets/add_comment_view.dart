@@ -47,7 +47,9 @@ class AddCommentView extends StatelessWidget {
                     Icons.attachment,
                     color: hintColor,
                   ),
-                  onPressed: notifier.onAttachmentTap,
+                  onPressed: () {
+                    notifier.onAttachmentTap(context: context);
+                  },
                 )
               ],
             ),
@@ -76,6 +78,6 @@ class AddCommentView extends StatelessWidget {
           ),
         )
       ],
-    );
+    ).visibility(visible: notifier.ticketData!.ticketStatus!.key != 'closed');
   }
 }

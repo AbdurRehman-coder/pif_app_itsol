@@ -1,9 +1,14 @@
+import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/widgets/custom_image.dart';
 
 class ReceiverImageView extends StatelessWidget {
-  const ReceiverImageView({super.key});
+  const ReceiverImageView({required this.item, super.key});
+
+  final TicketCommentModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +16,7 @@ class ReceiverImageView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: 8.h),
+          padding: EdgeInsets.only(bottom: 10.h),
           child: CustomImage(
             height: 24.h,
             width: 24.w,
@@ -37,7 +42,7 @@ class ReceiverImageView extends StatelessWidget {
               child: CustomImage(
                 fit: BoxFit.cover,
                 borderRadius: BorderRadius.circular(16.r),
-                image: const NetworkImage('https://picsum.photos/200/300'),
+                image: NetworkImage(item.commentAttachment!.getImageUrl),
               ),
             ),
             SizedBox(
@@ -46,7 +51,7 @@ class ReceiverImageView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Text(
-                '12:30 PM',
+                item.dateCreated!.toFormattedString('hh:mm a'),
                 style: Style.commonTextStyle(
                   color: dayTextColor,
                   fontSize: 12.sp,
