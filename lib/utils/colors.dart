@@ -42,6 +42,8 @@ const gradientEnd = Color(0xFFC29B5B);
 const grayBorder = Color(0xFFC0BABC);
 const greenBorderColor = Color(0xFF2AB864);
 const grayBgColor = Color(0xFFEDEDED);
+const blackGradiant = Color(0xFFC4C4C400);
+const blackIcon = Color(0xFF1C1B1F);
 
 // GRAY
 const gray29 = Color(0xFF292929);

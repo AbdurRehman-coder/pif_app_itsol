@@ -173,6 +173,7 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                     selectedValue: provider.subcategorySelected,
                     dropDownMenuItemList:
                         addDividersAfterItems(provider.subCategoryList.value!),
+                    withBottomText: true,
                   ),
                 ],
               ],

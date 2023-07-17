@@ -9,7 +9,9 @@ import 'package:pif_flutter/ui/booking_details/booking_details_view.dart';
 import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
-import 'package:pif_flutter/ui/login/login_page.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_screen.dart';
+import 'package:pif_flutter/ui/on_boarding/login/login_page.dart';
+import 'package:pif_flutter/ui/on_boarding/login/verify_otp.dart';
 import 'package:pif_flutter/ui/space_booking/space_booking_page.dart';
 import 'package:pif_flutter/ui/splash/splash_page.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/add_view.dart';
@@ -22,7 +24,8 @@ import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -66,6 +69,16 @@ class AppRouter {
         return _setPage(page: const MyTicketsView(), settings: settings);
       case Routes.addOrEditTicketScreen:
         return _setPage(page: const AddTicketView(), settings: settings);
+      case Routes.welcomeScreen:
+        final userName = settings.arguments! as String;
+        return _setPage(
+          page: WelcomeScreen(
+            userName: userName,
+          ),
+          settings: settings,
+        );
+      case Routes.verifyOTPScreen:
+        return _setPage(page: const VerifyOTP(), settings: settings);
       case Routes.invitationDetailsScreen:
         final data = settings.arguments! as VisitModel;
         return _setPage(
@@ -124,11 +137,13 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {

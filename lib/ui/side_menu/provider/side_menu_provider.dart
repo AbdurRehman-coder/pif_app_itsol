@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -58,6 +59,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
     } else if (lstMenu[index].name == S.current.faq) {
     } else if (lstMenu[index].name == S.current.arabic) {
     } else if (lstMenu[index].name == S.current.logout) {
+      DixelsSDK.instance.logout();
       AppRouter.startNewRoute(Routes.logInScreen);
     }
   }

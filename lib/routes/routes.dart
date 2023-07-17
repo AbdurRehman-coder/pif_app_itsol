@@ -6,6 +6,7 @@ class Routes {
 
   static const String splashScreen = 'splash';
   static const String logInScreen = '/logInScreen';
+  static const String verifyOTPScreen = '/verifyOTP';
   static const String dashboardScreen = '/dashboard';
   static const String spaceBookingScreen = '/spaceBooking';
   static const String bookingScreen = '/booking';
@@ -19,4 +20,5 @@ class Routes {
   static const String myTicketsScreen = '/myTickets';
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
   static const String ticketDetailsScreen = '/ticketDetails';
+  static const String welcomeScreen = '/welcomeScreen';
 }

@@ -1,4 +1,5 @@
 import 'package:disposable_cached_images/disposable_cached_images.dart';
+import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,6 +21,7 @@ void main() async {
     return stack;
   };
   await DisposableImages.init();
+  await FaceCamera.initialize();
   runApp(const ProviderScope(child: MyApp()));
   configLoading();
 }

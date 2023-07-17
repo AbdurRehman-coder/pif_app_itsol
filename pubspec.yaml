@@ -80,6 +80,9 @@ dependencies:
   dropdown_button2: ^2.1.4
   disposable_cached_images: ^1.2.1
   scroll_to_index: ^3.0.1
+  dotted_border: ^2.0.0+3
+  pinput: ^2.2.31
+  face_camera: ^0.0.7
   awesome_calendar:
     path: awesome_calendar-main
 

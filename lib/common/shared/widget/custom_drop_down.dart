@@ -7,6 +7,7 @@ class CustomDropDownMenu<T> extends StatelessWidget {
     required this.hintText,
     required this.items,
     required this.dropDownMenuItemList,
+    this.withBottomText = false,
     this.onChanged,
     this.selectedValue,
     super.key,
@@ -17,6 +18,7 @@ class CustomDropDownMenu<T> extends StatelessWidget {
   final List<DropdownMenuItem<T>>? dropDownMenuItemList;
   final void Function(T?)? onChanged;
   final T? selectedValue;
+  final bool withBottomText;
 
   List<double> getCustomItemsHeights() {
     var itemsHeights = <double>[];
@@ -114,14 +116,16 @@ class CustomDropDownMenu<T> extends StatelessWidget {
             ],
           ),
         ),
-        Text(
-          S.current.selectItem,
-          style: Style.commonTextStyle(
-            color: expireStatusColor,
-            fontSize: 12.sp,
-            fontWeight: FontWeight.w400,
+        if(withBottomText)...[
+          Text(
+            S.current.selectItem,
+            style: Style.commonTextStyle(
+              color: expireStatusColor,
+              fontSize: 12.sp,
+              fontWeight: FontWeight.w400,
+            ),
           ),
-        ),
+        ],
       ],
     );
   }
