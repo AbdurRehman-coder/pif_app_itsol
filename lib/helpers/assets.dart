@@ -101,8 +101,7 @@ class Assets {
   static const String arOnYou = 'assets/svg/ar_on_you.svg';
   static const String backgroundSound = 'assets/background_sound.png';
   static const String orderStatusBackground = 'assets/order_status.png';
-  static const String supportStatusBackground =
-      'assets/support_status_background.png';
+  static const String supportStatusBackground = 'assets/support_status_background.png';
   static const String meetingBackground = 'assets/meeting_background.png';
   static const String afterNoonBackground = 'assets/after_noon_background.png';
   static const String morningBackground = 'assets/morning_background.png';
@@ -111,6 +110,7 @@ class Assets {
   static const String svgWhatsApp = 'assets/svg/ic_whatsapp.svg';
   static const String svgInstagram = 'assets/svg/ic_instagram.svg';
   static const String svgLinkedIn = 'assets/svg/ic_linkedin.svg';
+  static const String svgCall = 'assets/svg/ic_call.svg';
 
   // Amenities
   static const String gamePad = 'assets/svg/amenities/gamepad.svg';
@@ -141,5 +141,4 @@ class Assets {
   static const String drinkIcon = 'assets/svg/drink_icon.svg';
   static const String inProgressIcon = 'assets/svg/in_progress_icon.svg';
   static const String spaceIcon = 'assets/ic_space_logostic.png';
-
 }

@@ -53,6 +53,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
   //Menu Item Click
   void onItemTap({required int index}) {
     if (lstMenu[index].name == S.current.profileSetting) {
+      AppRouter.pushNamed(Routes.employeeDetailsScreen, args: true);
     } else if (lstMenu[index].name == S.current.handBook) {
     } else if (lstMenu[index].name == S.current.appTour) {
     } else if (lstMenu[index].name == S.current.termsOfService) {

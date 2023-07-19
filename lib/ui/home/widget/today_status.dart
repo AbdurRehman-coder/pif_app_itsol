@@ -29,7 +29,7 @@ class TodayStatus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => AppRouter.pushNamed(Routes.companyServiceScreen),
+      onTap: () => AppRouter.pushNamed(Routes.companyDetailsScreen),
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: EdgeInsets.symmetric(
