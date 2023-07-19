@@ -21,4 +21,5 @@ class Routes {
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
   static const String ticketDetailsScreen = '/ticketDetails';
   static const String welcomeScreen = '/welcomeScreen';
+  static const String companyServiceScreen = '/companyServiceScreen';
 }

@@ -45,8 +45,7 @@ class Assets {
   static const String warningIcon = 'assets/svg/warning_icon.svg';
   static const String dotImage = 'assets/svg/ic_dot.svg';
   static const String rightArrow = 'assets/svg/ic_right_arrow.svg';
-  static const String requestBookingConf =
-      'assets/svg/ic_request_booking_conf.svg';
+  static const String requestBookingConf = 'assets/svg/ic_request_booking_conf.svg';
   static const String addIcon = 'assets/svg/ic_add.svg';
   static const String deleteIcon = 'assets/svg/ic_delete.svg';
   static const String duplicateIcon = 'assets/svg/ic_duplicate.svg';
@@ -101,14 +100,16 @@ class Assets {
   static const String background = 'assets/background.png';
   static const String arOnYou = 'assets/svg/ar_on_you.svg';
   static const String backgroundSound = 'assets/background_sound.png';
+  static const String svgWhatsApp = 'assets/svg/ic_whatsapp.svg';
+  static const String svgInstagram = 'assets/svg/ic_instagram.svg';
+  static const String svgLinkedIn = 'assets/svg/ic_linkedin.svg';
 
   // Amenities
   static const String gamePad = 'assets/svg/amenities/gamepad.svg';
   static const String screencast = 'assets/svg/amenities/screencast.svg';
   static const String tv = 'assets/svg/amenities/tv.svg';
   static const String wiFi = 'assets/svg/amenities/wi_fi.svg';
-  static const String wirelessCharge =
-      'assets/svg/amenities/wireless_charge.svg';
+  static const String wirelessCharge = 'assets/svg/amenities/wireless_charge.svg';
 
   //SideMenu
   static const String profileIcon = 'assets/svg/ic_account.svg';
