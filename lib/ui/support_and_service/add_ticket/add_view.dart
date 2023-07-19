@@ -6,14 +6,18 @@ import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
 import 'package:pif_flutter/common/shared/widget/custom_drop_down.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/provider/add_ticket_provider.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/widget/image_selected.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/widget/teams_list.dart';
 
 class AddTicketView extends ConsumerStatefulWidget {
   const AddTicketView({
+    required this.addTicketModel,
     super.key,
   });
+
+  final AddTicketModel? addTicketModel;
 
   @override
   ConsumerState createState() => _AddOrEditTicketViewState();
@@ -24,7 +28,9 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(addOrEditTicketProvider.notifier).getCategoriesAsync();
+      ref.read(addOrEditTicketProvider.notifier).getCategoriesAsync(
+            addTicketModel: widget.addTicketModel,
+          );
     });
   }
 
@@ -45,7 +51,9 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                 item.name ?? '',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  color: provider.selectedSubCategory == item ? primaryColor : darkTextColor,
+                  color: provider.selectedSubCategory == item
+                      ? primaryColor
+                      : darkTextColor,
                 ),
               ),
             ),
@@ -74,7 +82,9 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
             onTap: () => alertPopup(
               context: context,
               deleteMessage: S.current.discardTheTicket,
-              onClickYes: () => AppRouter.popUntil(Routes.myTicketsScreen),
+              onClickYes: () => widget.addTicketModel != null
+                  ? AppRouter.popUntil(Routes.dashboardScreen)
+                  : AppRouter.popUntil(Routes.myTicketsScreen),
             ),
             child: Container(
               decoration: BoxDecoration(
@@ -124,7 +134,8 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                   children: [
                     CustomTextField(
                       keyboardType: TextInputType.multiline,
-                      textEditingController: notifier.issueDescriptionController,
+                      textEditingController:
+                          notifier.issueDescriptionController,
                       maxLines: 9,
                       hintText: S.current.issueDescription,
                       maxLength: 300,
@@ -191,7 +202,8 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                       item: data!,
                     ),
                     selectedValue: provider.selectedSubCategory,
-                    dropDownMenuItemList: addDividersAfterItems(provider.lstSubCategory),
+                    dropDownMenuItemList:
+                        addDividersAfterItems(provider.lstSubCategory),
                   ),
                 ],
               ],

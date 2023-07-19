@@ -9,16 +9,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
+import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/state/add_ticket_state.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/provider/my_tickets_provider.dart';
 
-final addOrEditTicketProvider =
-    StateNotifierProvider.autoDispose<AddOrEditTicketNotifier, AddOrEditTicketState>((ref) {
+final addOrEditTicketProvider = StateNotifierProvider.autoDispose<
+    AddOrEditTicketNotifier, AddOrEditTicketState>((ref) {
   return AddOrEditTicketNotifier(ref: ref);
 });
 
 class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
-  AddOrEditTicketNotifier({required this.ref}) : super(AddOrEditTicketState.initial());
+  AddOrEditTicketNotifier({required this.ref})
+      : super(AddOrEditTicketState.initial());
 
   final issueDescriptionController = TextEditingController();
   final Ref ref;
@@ -28,7 +30,10 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
     state = state.copyWith(image: null);
   }
 
-  void onSelectCategory({required TicketCategoryModel item}) {
+  void onSelectCategory({
+    required TicketCategoryModel item,
+    AddTicketModel? addTicketModel,
+  }) {
     final lstData = state.lstCategory.value!.toList();
     for (final element in lstData) {
       element.isSelected = false;
@@ -36,10 +41,14 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
 
     state = state.copyWith(selectedCategory: item);
     state = state.copyWith(selectedSubCategory: null);
-    final selectedItem = lstData.firstWhereOrNull((element) => element.id == item.id);
+    final selectedItem =
+        lstData.firstWhereOrNull((element) => element.id == item.id);
     selectedItem!.isSelected = true;
 
-    getSubCategoriesAsync(id: selectedItem.id!);
+    getSubCategoriesAsync(
+      id: selectedItem.id!,
+      addTicketModel: addTicketModel,
+    );
 
     state = state.copyWith(lstCategory: AsyncData(lstData));
   }
@@ -71,7 +80,10 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
     if (state.image != null) {
-      final response = await uploadAttachmentAsync(fileName: state.image!.name, filePath: state.image!.path);
+      final response = await uploadAttachmentAsync(
+        fileName: state.image!.name,
+        filePath: state.image!.path,
+      );
       if (response != null) {
         requestModel['attachment'] = response.id;
       }
@@ -111,17 +123,48 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
     );
   }
 
-  Future<void> getCategoriesAsync() async {
-    final result = await DixelsSDK.instance.supportService.getTicketCategories();
+  Future<void> getCategoriesAsync({
+    AddTicketModel? addTicketModel,
+  }) async {
+    final result =
+        await DixelsSDK.instance.supportService.getTicketCategories();
     if (result != null) {
       state = state.copyWith(lstCategory: AsyncData(result.items!));
+      if (addTicketModel?.idSelectedCategory != null) {
+        final category = result.items!
+            .where(
+              (element) => element.id == addTicketModel?.idSelectedCategory,
+            )
+            .firstOrNull;
+        if (category != null) {
+          onSelectCategory(
+            item: category,
+            addTicketModel: addTicketModel,
+          );
+        }
+      }
     }
   }
 
-  Future<void> getSubCategoriesAsync({required String id}) async {
-    final result = await DixelsSDK.instance.supportService.getTicketSubCategories(categoryId: id);
+  Future<void> getSubCategoriesAsync({
+    required String id,
+    AddTicketModel? addTicketModel,
+  }) async {
+    final result = await DixelsSDK.instance.supportService
+        .getTicketSubCategories(categoryId: id);
     if (result != null) {
       state = state.copyWith(lstSubCategory: result.items!);
+      if (addTicketModel?.isSelectedSubCategory != null &&
+          addTicketModel?.isSelectedSubCategory != '') {
+        final subCategory = result.items!
+            .where(
+              (element) => element.id == addTicketModel?.isSelectedSubCategory,
+            )
+            .firstOrNull;
+        if (subCategory != null) {
+          updateSubCategory(item: subCategory);
+        }
+      }
     }
   }
 }

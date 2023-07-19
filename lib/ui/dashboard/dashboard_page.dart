@@ -21,10 +21,13 @@ class DashboardPage extends ConsumerStatefulWidget {
 class _DashboardPageState extends ConsumerState<DashboardPage> {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  bool isMenuOpen = false;
 
   @override
   void initState() {
     super.initState();
+
     lstMenu.add(
       BottomMenuModel(
         icon: Assets.home,
@@ -53,6 +56,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         child: const SizedBox(),
       ),
     );
+    setState(() {});
   }
 
   @override
@@ -113,11 +117,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     return Stack(
       children: [
         Scaffold(
+          key: scaffoldKey,
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 0,
             backgroundColor:
-                _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
+            _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
             centerTitle: true,
             title: title,
             leading: Builder(
@@ -178,11 +183,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             ],
           ),
           drawer: const SideMenuPage(),
+          onDrawerChanged: (val) {
+            setState(() {
+              isMenuOpen = val;
+            });
+          },
           body: NotificationListener<ScrollNotification>(
             child: lstMenu.elementAt(_bottomNavIndex).child!,
           ),
           floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
             height: 50.h,
             width: 50.w,
@@ -216,7 +226,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             notchSmoothness: NotchSmoothness.defaultEdge,
             gapLocation: GapLocation.center,
             onTap: (index) => setState(
-              () {
+                  () {
                 _bottomNavIndex = index;
                 if (index == 3) {
                   AppRouter.pushNamed(Routes.visitListScreen);
@@ -225,59 +235,65 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             ),
           ),
         ),
-        Positioned.fill(
-          bottom: 60.h,
-          child: CircularMenu(
-            toggleButtonMargin: 0,
-            toggleButtonColor: primaryDark,
-            openToggleIcon: Container(
-              width: 40.w,
-              height: 40.h,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: primaryDark,
-              ),
-              child: SvgPicture.asset(
-                Assets.instant,
-                fit: BoxFit.cover,
-              ),
-            ),
-            closeToggleIcon: Container(
-              width: 40.w,
-              height: 40.h,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: primaryDark,
-              ),
-              child: const Icon(
-                Icons.close,
-                color: whiteColor,
-              ),
-            ),
-            items: [
-              CircularMenuItem(
-                icon: const Icon(Icons.home),
-                color: Colors.green,
-                onTap: () {},
-              ),
-              CircularMenuItem(
-                icon: const Icon(Icons.search),
-                color: Colors.blue,
-                onTap: () {},
-              ),
-              CircularMenuItem(
-                icon: const Icon(Icons.search),
-                color: Colors.blue,
-                onTap: () {},
-              ),
-              CircularMenuItem(
-                icon: const Icon(Icons.search),
-                color: Colors.blue,
-                onTap: () {},
-              ),
-            ],
+        if (!isMenuOpen) ...[
+          Builder(
+            builder: (context) {
+              return Positioned.fill(
+                bottom: 60.h,
+                child: CircularMenu(
+                  toggleButtonMargin: 0,
+                  toggleButtonColor: primaryDark,
+                  openToggleIcon: Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: primaryDark,
+                    ),
+                    child: SvgPicture.asset(
+                      Assets.instant,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  closeToggleIcon: Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: primaryDark,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      color: whiteColor,
+                    ),
+                  ),
+                  items: [
+                    CircularMenuItem(
+                      icon: const Icon(Icons.home),
+                      color: Colors.green,
+                      onTap: () {},
+                    ),
+                    CircularMenuItem(
+                      icon: const Icon(Icons.search),
+                      color: Colors.blue,
+                      onTap: () {},
+                    ),
+                    CircularMenuItem(
+                      icon: const Icon(Icons.search),
+                      color: Colors.blue,
+                      onTap: () {},
+                    ),
+                    CircularMenuItem(
+                      icon: const Icon(Icons.search),
+                      color: Colors.blue,
+                      onTap: () {},
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
-        ),
+        ]
       ],
     );
   }

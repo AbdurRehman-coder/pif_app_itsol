@@ -16,13 +16,13 @@ class CategoryListView extends ConsumerWidget {
           crossAxisCount: 4,
           crossAxisSpacing: 40.h,
           mainAxisSpacing: 10.w,
-          childAspectRatio: 0.7,
+          childAspectRatio: 0.6,
         ),
         itemCount: data.length,
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
         itemBuilder: (context, index) {
-          return SizedBox(
-            height: 78.h,
-            width: 60.w,
+          return InkWell(
+            onTap: data[index].onTap,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -48,12 +48,15 @@ class CategoryListView extends ConsumerWidget {
                 SizedBox(
                   height: 4.h,
                 ),
-                Text(
-                  data[index].text ?? '',
-                  style: Style.commonTextStyle(
-                    color: textColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                Expanded(
+                  child: Text(
+                    data[index].text ?? '',
+                    style: Style.commonTextStyle(
+                      color: textColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],

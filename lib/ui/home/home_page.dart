@@ -46,9 +46,12 @@ class _HomePageState extends ConsumerState<HomePage> {
             }).toList(),
           ),
           SizedBox(height: 16.h),
-          const BannerView(),
+            Padding(
+              padding:  EdgeInsets.symmetric(horizontal: 15.w),
+              child: const BannerView(),
+            ),
           SizedBox(height: 40.h),
-          const CategoryListView(),
+           const CategoryListView(),
         ],
       ),
     );
