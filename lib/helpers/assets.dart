@@ -100,6 +100,14 @@ class Assets {
   static const String background = 'assets/background.png';
   static const String arOnYou = 'assets/svg/ar_on_you.svg';
   static const String backgroundSound = 'assets/background_sound.png';
+  static const String orderStatusBackground = 'assets/order_status.png';
+  static const String supportStatusBackground =
+      'assets/support_status_background.png';
+  static const String meetingBackground = 'assets/meeting_background.png';
+  static const String afterNoonBackground = 'assets/after_noon_background.png';
+  static const String morningBackground = 'assets/morning_background.png';
+  static const String eveningBackground = 'assets/evening_background.png';
+  static const String comingVisitorBackground = 'assets/coming_visitor_background.png';
   static const String svgWhatsApp = 'assets/svg/ic_whatsapp.svg';
   static const String svgInstagram = 'assets/svg/ic_instagram.svg';
   static const String svgLinkedIn = 'assets/svg/ic_linkedin.svg';
@@ -127,5 +135,11 @@ class Assets {
   //Support
   static const String pauseIcon = 'assets/svg/ic_pause.svg';
   static const String playIcon = 'assets/svg/ic_play.svg';
+
+  //Order Status
+  static const String receivedIcon = 'assets/svg/received_icon.svg';
+  static const String drinkIcon = 'assets/svg/drink_icon.svg';
+  static const String inProgressIcon = 'assets/svg/in_progress_icon.svg';
   static const String spaceIcon = 'assets/ic_space_logostic.png';
+
 }

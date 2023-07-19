@@ -1,0 +1,22 @@
+<svg width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Ellipse 34" filter="url(#filter0_d_974_5784)">
+<circle cx="45" cy="37" r="28" fill="url(#paint0_radial_974_5784)" shape-rendering="crispEdges"/>
+<circle cx="45" cy="37" r="28.5" stroke="#74CE93" shape-rendering="crispEdges"/>
+</g>
+<defs>
+<filter id="filter0_d_974_5784" x="0" y="0" width="90" height="90" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="8"/>
+<feGaussianBlur stdDeviation="8"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.152941 0 0 0 0 0.14902 0 0 0 0 0.152941 0 0 0 0.1 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_974_5784"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_974_5784" result="shape"/>
+</filter>
+<radialGradient id="paint0_radial_974_5784" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(45 37) scale(97)">
+<stop offset="0.208214" stop-color="#3A5C50"/>
+<stop offset="1" stop-color="#00652E" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

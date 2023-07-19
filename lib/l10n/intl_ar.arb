@@ -186,5 +186,14 @@
   "scanLater":"Scan later",
   "getStarted":"Get Started",
   "scanAgain":"Scan Again",
-   "expiredIn":"Expiring in"
-    }
+   "expiredIn":"Expiring in",
+  "orderStatus":"Order Status",
+  "inProgress":"In Progress",
+  "supportStatus":"Support Status",
+  "lastActivity":"Last Activity",
+  "hrs":"hrs",
+   "comingVisitor":"Coming Visitor",
+  "goodMorning":"Good Morning",
+  "goodEvening":"Good Evening",
+  "goodAfternoon":"Good Afternoon"
+}

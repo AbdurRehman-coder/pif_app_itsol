@@ -9,6 +9,7 @@ import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
+import 'package:pif_flutter/widgets/circular_menu/circular_menu.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -109,118 +110,175 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     } else {
       title = null;
     }
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor:
-            _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
-        centerTitle: true,
-        title: title,
-        leading: Builder(
-          builder: (context) {
-            return Padding(
-              padding: EdgeInsets.only(left: 16.w),
-              child: InkWell(
-                onTap: () {
-                  Scaffold.of(context).openDrawer();
-                },
-                child: Image.asset(
-                  Assets.person,
-                  height: 40.h,
-                  width: 40.w,
-                  fit: BoxFit.scaleDown,
-                ),
-              ),
-            );
-          },
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: SvgPicture.asset(
-              Assets.message,
-              height: 24.h,
-              width: 24.w,
+    return Stack(
+      children: [
+        Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor:
+                _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
+            centerTitle: true,
+            title: title,
+            leading: Builder(
+              builder: (context) {
+                return Padding(
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: InkWell(
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    child: Image.asset(
+                      Assets.person,
+                      height: 40.h,
+                      width: 40.w,
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                );
+              },
             ),
-          ).visibility(visible: _bottomNavIndex != 0),
-          if (_bottomNavIndex == 0)
-            InkWell(
-              onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
-              child: Container(
-                height: 40.h,
-                width: 40.h,
-                margin: EdgeInsets.only(right: 16.w),
-                decoration: const BoxDecoration(
-                  color: activeBgColor,
-                  shape: BoxShape.circle,
-                ),
+            actions: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.w),
                 child: SvgPicture.asset(
-                  Assets.svgNotification,
+                  Assets.message,
                   height: 24.h,
                   width: 24.w,
-                  fit: BoxFit.scaleDown,
                 ),
+              ).visibility(visible: _bottomNavIndex != 0),
+              if (_bottomNavIndex == 0)
+                InkWell(
+                  onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
+                  child: Container(
+                    height: 40.h,
+                    width: 40.h,
+                    margin: EdgeInsets.only(right: 16.w),
+                    decoration: const BoxDecoration(
+                      color: activeBgColor,
+                      shape: BoxShape.circle,
+                    ),
+                    child: SvgPicture.asset(
+                      Assets.svgNotification,
+                      height: 24.h,
+                      width: 24.w,
+                      fit: BoxFit.scaleDown,
+                    ),
+                  ),
+                )
+              else
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: SvgPicture.asset(
+                    Assets.notification,
+                    height: 24.h,
+                    width: 24.w,
+                  ),
+                ),
+            ],
+          ),
+          drawer: const SideMenuPage(),
+          body: NotificationListener<ScrollNotification>(
+            child: lstMenu.elementAt(_bottomNavIndex).child!,
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: SizedBox(
+            height: 50.h,
+            width: 50.w,
+          ),
+          bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+            elevation: 0,
+            itemCount: lstMenu.length,
+            shadow: const Shadow(
+              blurRadius: 30,
+              color: borderColor,
+            ),
+            tabBuilder: (int index, bool isActive) {
+              final color = isActive ? primaryColor : Colors.black26;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    lstMenu[index].icon!,
+                    fit: BoxFit.cover,
+                    color: color,
+                  )
+                ],
+              );
+            },
+            backgroundColor: whiteColor,
+            activeIndex: _bottomNavIndex,
+            splashColor: primaryColor,
+            splashRadius: 0,
+            splashSpeedInMilliseconds: 200,
+            notchSmoothness: NotchSmoothness.defaultEdge,
+            gapLocation: GapLocation.center,
+            onTap: (index) => setState(
+              () {
+                _bottomNavIndex = index;
+                if (index == 3) {
+                  AppRouter.pushNamed(Routes.visitListScreen);
+                }
+              },
+            ),
+          ),
+        ),
+        Positioned.fill(
+          bottom: 60.h,
+          child: CircularMenu(
+            toggleButtonMargin: 0,
+            toggleButtonColor: primaryDark,
+            openToggleIcon: Container(
+              width: 40.w,
+              height: 40.h,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: primaryDark,
               ),
-            )
-          else
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
               child: SvgPicture.asset(
-                Assets.notification,
-                height: 24.h,
-                width: 24.w,
+                Assets.instant,
+                fit: BoxFit.cover,
               ),
             ),
-        ],
-      ),
-      drawer: const SideMenuPage(),
-      body: NotificationListener<ScrollNotification>(
-        child: lstMenu.elementAt(_bottomNavIndex).child!,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: SvgPicture.asset(
-          Assets.instant,
-          fit: BoxFit.cover,
-        ),
-      ),
-      bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-        elevation: 0,
-        itemCount: lstMenu.length,
-        shadow: const Shadow(
-          blurRadius: 30,
-          color: borderColor,
-        ),
-        tabBuilder: (int index, bool isActive) {
-          final color = isActive ? primaryColor : Colors.black26;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                lstMenu[index].icon!,
-                fit: BoxFit.cover,
-                color: color,
-              )
+            closeToggleIcon: Container(
+              width: 40.w,
+              height: 40.h,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: primaryDark,
+              ),
+              child: const Icon(
+                Icons.close,
+                color: whiteColor,
+              ),
+            ),
+            items: [
+              CircularMenuItem(
+                icon: const Icon(Icons.home),
+                color: Colors.green,
+                onTap: () {},
+              ),
+              CircularMenuItem(
+                icon: const Icon(Icons.search),
+                color: Colors.blue,
+                onTap: () {},
+              ),
+              CircularMenuItem(
+                icon: const Icon(Icons.search),
+                color: Colors.blue,
+                onTap: () {},
+              ),
+              CircularMenuItem(
+                icon: const Icon(Icons.search),
+                color: Colors.blue,
+                onTap: () {},
+              ),
             ],
-          );
-        },
-        backgroundColor: whiteColor,
-        activeIndex: _bottomNavIndex,
-        splashColor: primaryColor,
-        splashRadius: 0,
-        splashSpeedInMilliseconds: 200,
-        notchSmoothness: NotchSmoothness.defaultEdge,
-        gapLocation: GapLocation.center,
-        onTap: (index) => setState(() {
-          _bottomNavIndex = index;
-          if (index == 3) {
-            AppRouter.pushNamed(Routes.visitListScreen);
-          }
-        }),
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

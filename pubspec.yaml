@@ -83,6 +83,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   pinput: ^2.2.31
   face_camera: ^0.0.7
+  carousel_slider: ^4.2.1
   flutter_widget_from_html_core: ^0.10.3
   awesome_calendar:
     path: awesome_calendar-main
