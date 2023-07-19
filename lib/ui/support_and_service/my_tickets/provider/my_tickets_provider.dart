@@ -16,12 +16,32 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     _initData();
   }
 
-  late TextEditingController searchController;
   final Ref ref;
+  late TextEditingController searchController;
+  late ScrollController scrollController;
+  int? page = 1;
+  int? lastPage = 1;
 
   void _initData() {
     searchController = TextEditingController();
+    scrollController = ScrollController();
+    scrollController.addListener(loadMore);
     getStatusAsync();
+  }
+
+  void loadMore() {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+      state = state.copyWith(isLoading: true);
+      final param = ParametersModel();
+      if (state.selectedStatus!.key != 'all') {
+        param.filter = FilterUtils.filterBy(
+          key: 'ticketStatus',
+          value: "'${state.selectedStatus!.key}'",
+          operator: FilterOperator.equal.value,
+        );
+      }
+      getMyTickets(pram: param);
+    }
   }
 
   Future<void> getStatusAsync() async {
@@ -33,11 +53,46 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
       state = state.copyWith(lstStatus: lstData);
       state = state.copyWith(selectedStatus: state.lstStatus.first);
       updateStatusData(model: state.selectedStatus!);
-      await getMyTickets();
     }
   }
 
-  Future<void> getMyTickets() async {
+  Future<void> getMyTickets({ParametersModel? pram}) async {
+    if (searchController.text.isEmpty) {
+      if (lastPage! < page!) {
+        state = state.copyWith(isLoading: false);
+        return;
+      }
+    }
+
+    pram ??= ParametersModel();
+    pram.page = searchController.text.isNotEmpty ? 0.toString() : page.toString();
+    final result = await DixelsSDK.instance.supportService
+        .getPageData(fromJson: SupportTicketModel.fromJson, params: pram);
+    if (result != null) {
+      lastPage = result.lastPage;
+      page = page! + 1;
+
+      final listData = state.lstData.value != null ? state.lstData.value!.toList() : <SupportTicketModel>[];
+      listData.addAll(result.items!);
+      state = state.copyWith(lstData: AsyncData(listData));
+    }
+  }
+
+  void onSearchTicket(String searchText) {
+    if (searchText.isNotEmpty) {
+      state = state.copyWith(lstData: const AsyncLoading());
+      final data = "'$searchText'";
+      final param = ParametersModel();
+      param.filter = 'contains(description,$data)';
+      getMyTickets(pram: param);
+    } else {
+      onFilterData();
+    }
+  }
+
+  void onFilterData() {
+    page = 1;
+    state = state.copyWith(lstData: const AsyncLoading());
     final param = ParametersModel();
     if (state.selectedStatus!.key != 'all') {
       param.filter = FilterUtils.filterBy(
@@ -46,27 +101,7 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
         operator: FilterOperator.equal.value,
       );
     }
-    final result = await DixelsSDK.instance.supportService
-        .getPageData(fromJson: SupportTicketModel.fromJson, params: param);
-    if (result != null) {
-      state = state.copyWith(lstData: AsyncData(result.items!));
-    }
-  }
-
-  void onSearchTicket() {
-    // if (searchController.text.isNotEmpty) {
-    //   state = state.copyWith(
-    //     ticketListSelect: state.myTicketList.value!
-    //         .where(
-    //           (ticket) => ticket.ticketDescription.toLowerCase().contains(
-    //                 searchController.text.toLowerCase(),
-    //               ),
-    //         )
-    //         .toList(),
-    //   );
-    // } else {
-    //   state = state.copyWith(ticketListSelect: state.myTicketList.value!);
-    // }
+    getMyTickets(pram: param);
   }
 
   void updateStatusData({required StatusModel model}) {
@@ -78,12 +113,13 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
       element.isSelected = state.selectedStatus!.key == element.key;
     }
     state = state.copyWith(lstStatus: state.lstStatus);
-    getMyTickets();
+    onFilterData();
   }
 
   @override
   void dispose() {
     searchController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

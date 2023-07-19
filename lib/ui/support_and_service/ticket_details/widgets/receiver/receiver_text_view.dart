@@ -1,5 +1,6 @@
 import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/widgets/custom_image.dart';
@@ -40,10 +41,9 @@ class ReceiverTextView extends StatelessWidget {
                     border: Border.all(color: grayBorderColor),
                     borderRadius: BorderRadius.circular(16.r),
                   ),
-                  child: Text(
+                  child: HtmlWidget(
                     item.commentDescription ?? '',
-                    textAlign: TextAlign.start,
-                    style: Style.commonTextStyle(
+                    textStyle: Style.commonTextStyle(
                       color: textColor,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
@@ -56,7 +56,7 @@ class ReceiverTextView extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
                   child: Text(
-                    item.dateCreated!.toFormattedString('hh:mm a'),
+                    item.dateCreated!.toLocal().toFormattedString('hh:mm a'),
                     style: Style.commonTextStyle(
                       color: dayTextColor,
                       fontSize: 12.sp,

@@ -51,7 +51,7 @@ class ReceiverImageView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
               child: Text(
-                item.dateCreated!.toFormattedString('hh:mm a'),
+                item.dateCreated!.toLocal().toFormattedString('hh:mm a'),
                 style: Style.commonTextStyle(
                   color: dayTextColor,
                   fontSize: 12.sp,

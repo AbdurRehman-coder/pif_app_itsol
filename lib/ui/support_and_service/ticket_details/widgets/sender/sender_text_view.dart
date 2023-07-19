@@ -34,7 +34,7 @@ class SendTextView extends StatelessWidget {
             height: 6.h,
           ),
           Text(
-            item.dateCreated!.toFormattedString('hh:mm a'),
+            item.dateCreated!.toLocal().toFormattedString('hh:mm a'),
             style: Style.commonTextStyle(
               color: dayTextColor,
               fontSize: 12.sp,

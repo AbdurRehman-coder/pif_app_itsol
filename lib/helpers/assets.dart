@@ -126,4 +126,5 @@ class Assets {
   //Support
   static const String pauseIcon = 'assets/svg/ic_pause.svg';
   static const String playIcon = 'assets/svg/ic_play.svg';
+  static const String spaceIcon = 'assets/ic_space_logostic.png';
 }

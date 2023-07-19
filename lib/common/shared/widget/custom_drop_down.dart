@@ -21,8 +21,8 @@ class CustomDropDownMenu<T> extends StatelessWidget {
   final bool withBottomText;
 
   List<double> getCustomItemsHeights() {
-    var itemsHeights = <double>[];
-    for (int i = 0; i < (items.length * 2) - 1; i++) {
+    final itemsHeights = <double>[];
+    for (var i = 0; i < (items.length * 2) - 1; i++) {
       if (i.isEven) {
         itemsHeights.add(50.h);
       }
@@ -62,7 +62,7 @@ class CustomDropDownMenu<T> extends StatelessWidget {
                     width: 160.w,
                     padding: EdgeInsets.symmetric(horizontal: 10.w),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(
                         color: grayBorderColor,
                       ),
@@ -74,12 +74,11 @@ class CustomDropDownMenu<T> extends StatelessWidget {
                       Icons.keyboard_arrow_down_outlined,
                     ),
                     iconSize: 25,
-                    iconEnabledColor: selectedValue == null
-                        ? expireStatusColor
-                        : primaryColor,
+                    iconEnabledColor: selectedValue == null ? expireStatusColor : primaryColor,
                   ),
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 180.h,
+                    elevation: 1,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
                       color: whiteColor,

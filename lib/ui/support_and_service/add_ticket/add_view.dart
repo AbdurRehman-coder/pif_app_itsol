@@ -1,4 +1,4 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:dixels_sdk/features/commerce/support/model/ticket_category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -6,7 +6,6 @@ import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
 import 'package:pif_flutter/common/shared/widget/custom_drop_down.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/support_and_service/add_ticket/model/subcategory_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/provider/add_ticket_provider.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/widget/image_selected.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/widget/teams_list.dart';
@@ -22,25 +21,31 @@ class AddTicketView extends ConsumerStatefulWidget {
 
 class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      ref.read(addOrEditTicketProvider.notifier).getCategoriesAsync();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final notifier = ref.read(addOrEditTicketProvider.notifier);
     final provider = ref.watch(addOrEditTicketProvider);
-    List<DropdownMenuItem<SubCategoryModel>> addDividersAfterItems(
-      List<SubCategoryModel> items,
+    List<DropdownMenuItem<TicketCategoryModel>> addDividersAfterItems(
+      List<TicketCategoryModel> items,
     ) {
-      final menuItems = <DropdownMenuItem<SubCategoryModel>>[];
+      final menuItems = <DropdownMenuItem<TicketCategoryModel>>[];
       for (final item in items) {
         menuItems.addAll(
           [
-            DropdownMenuItem<SubCategoryModel>(
+            DropdownMenuItem<TicketCategoryModel>(
               value: item,
               child: Text(
-                item.subcategoryText,
+                item.name ?? '',
                 style: TextStyle(
                   fontSize: 16.sp,
-                  color: provider.subcategorySelected == item
-                      ? primaryColor
-                      : darkTextColor,
+                  color: provider.selectedSubCategory == item ? primaryColor : darkTextColor,
                 ),
               ),
             ),
@@ -63,7 +68,6 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
       appBar: AppBar(
         backgroundColor: expireBgColor,
         elevation: 0,
-        // <-- Use this
         leading: Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: InkWell(
@@ -100,31 +104,39 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
           await alertPopup(
             context: context,
             deleteMessage: S.current.discardTheTicket,
-            onClickYes: () => AppRouter.popUntil(Routes.myTicketsScreen),
+            onClickYes: () {
+              AppRouter.popUntil(Routes.myTicketsScreen);
+            },
           );
           return true;
         },
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: SingleChildScrollView(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 18.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 29.h),
+                SizedBox(
+                  height: 20.h,
+                ),
                 Stack(
+                  alignment: Alignment.bottomRight,
                   children: [
                     CustomTextField(
                       keyboardType: TextInputType.multiline,
-                      textEditingController:
-                          notifier.issueDescriptionController,
-                      maxLines: 10,
+                      textEditingController: notifier.issueDescriptionController,
+                      maxLines: 9,
                       hintText: S.current.issueDescription,
                       maxLength: 300,
+                      style: Style.commonTextStyle(
+                        color: dayTextColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                     if (provider.image == null) ...[
-                      Positioned(
-                        bottom: 20.h,
-                        right: 8.w,
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 30.h),
                         child: IconButton(
                           icon: const Icon(
                             Icons.image_outlined,
@@ -136,7 +148,7 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                     ],
                   ],
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 5.h),
                 if (provider.loadImage) ...[
                   Container(
                     height: 100.h,
@@ -153,27 +165,33 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                       color: gray85,
                     ),
                   ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
                 ],
                 if (provider.image != null) ...[
                   ImageSelected(
                     imageFile: provider.image!,
                     onDeleteFile: notifier.onDeleteFile,
                   ),
+                  SizedBox(
+                    height: 15.h,
+                  ),
                 ],
-                SizedBox(height: 10.h),
-                const TeamsList(),
+                TeamsList(
+                  notifier: notifier,
+                  provider: provider,
+                ),
                 SizedBox(height: 15.h),
-                if (provider.isTeamSelected) ...[
-                  CustomDropDownMenu<SubCategoryModel>(
+                if (provider.selectedCategory != null) ...[
+                  CustomDropDownMenu<TicketCategoryModel>(
                     hintText: S.current.subCategory,
-                    items: provider.subCategoryList.value ?? [],
-                    onChanged: (subCategory) => notifier.updateSubCategory(
-                      subcategorySelected: subCategory!,
+                    items: provider.lstSubCategory,
+                    onChanged: (data) => notifier.updateSubCategory(
+                      item: data!,
                     ),
-                    selectedValue: provider.subcategorySelected,
-                    dropDownMenuItemList:
-                        addDividersAfterItems(provider.subCategoryList.value!),
-                    withBottomText: true,
+                    selectedValue: provider.selectedSubCategory,
+                    dropDownMenuItemList: addDividersAfterItems(provider.lstSubCategory),
                   ),
                 ],
               ],
@@ -187,11 +205,11 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
         child: SizedBox(
           width: double.infinity,
           child: ElevatedButton(
-            onPressed: () => notifier.createTicket(context: context),
+            onPressed: () => notifier.createTicketAsync(
+              context: context,
+            ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: notifier.issueDescriptionController.text.isEmpty
-                  ? primaryDisabledColor
-                  : primaryColor,
+              backgroundColor: primaryColor,
               padding: EdgeInsets.symmetric(vertical: 10.h),
             ),
             child: Text(

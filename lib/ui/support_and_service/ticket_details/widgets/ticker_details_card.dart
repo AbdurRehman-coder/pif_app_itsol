@@ -53,9 +53,11 @@ class TicketDetailsCard extends StatelessWidget {
           //     height: 10.h,
           //   )
           // ],
-          TicketStatus(
-            ticketStatus: ticketData.ticketStatus!,
-          ),
+          if (ticketData.ticketStatus != null) ...[
+            TicketStatus(
+              ticketStatus: ticketData.ticketStatus!,
+            ),
+          ],
           SizedBox(
             height: 10.h,
           ),

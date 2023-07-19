@@ -20,6 +20,7 @@ mixin _$MyTicketsState {
   AsyncValue<List<SupportTicketModel>> get lstData =>
       throw _privateConstructorUsedError;
   List<StatusModel> get lstStatus => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MyTicketsStateCopyWith<MyTicketsState> get copyWith =>
@@ -35,7 +36,8 @@ abstract class $MyTicketsStateCopyWith<$Res> {
   $Res call(
       {StatusModel? selectedStatus,
       AsyncValue<List<SupportTicketModel>> lstData,
-      List<StatusModel> lstStatus});
+      List<StatusModel> lstStatus,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -54,6 +56,7 @@ class _$MyTicketsStateCopyWithImpl<$Res, $Val extends MyTicketsState>
     Object? selectedStatus = freezed,
     Object? lstData = null,
     Object? lstStatus = null,
+    Object? isLoading = null,
   }) {
     return _then(_value.copyWith(
       selectedStatus: freezed == selectedStatus
@@ -68,6 +71,10 @@ class _$MyTicketsStateCopyWithImpl<$Res, $Val extends MyTicketsState>
           ? _value.lstStatus
           : lstStatus // ignore: cast_nullable_to_non_nullable
               as List<StatusModel>,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -83,7 +90,8 @@ abstract class _$$_MyTicketsStateCopyWith<$Res>
   $Res call(
       {StatusModel? selectedStatus,
       AsyncValue<List<SupportTicketModel>> lstData,
-      List<StatusModel> lstStatus});
+      List<StatusModel> lstStatus,
+      bool isLoading});
 }
 
 /// @nodoc
@@ -100,6 +108,7 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
     Object? selectedStatus = freezed,
     Object? lstData = null,
     Object? lstStatus = null,
+    Object? isLoading = null,
   }) {
     return _then(_$_MyTicketsState(
       selectedStatus: freezed == selectedStatus
@@ -114,6 +123,10 @@ class __$$_MyTicketsStateCopyWithImpl<$Res>
           ? _value._lstStatus
           : lstStatus // ignore: cast_nullable_to_non_nullable
               as List<StatusModel>,
+      isLoading: null == isLoading
+          ? _value.isLoading
+          : isLoading // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -124,7 +137,8 @@ class _$_MyTicketsState implements _MyTicketsState {
   const _$_MyTicketsState(
       {required this.selectedStatus,
       required this.lstData,
-      required final List<StatusModel> lstStatus})
+      required final List<StatusModel> lstStatus,
+      required this.isLoading})
       : _lstStatus = lstStatus;
 
   @override
@@ -140,8 +154,11 @@ class _$_MyTicketsState implements _MyTicketsState {
   }
 
   @override
+  final bool isLoading;
+
+  @override
   String toString() {
-    return 'MyTicketsState(selectedStatus: $selectedStatus, lstData: $lstData, lstStatus: $lstStatus)';
+    return 'MyTicketsState(selectedStatus: $selectedStatus, lstData: $lstData, lstStatus: $lstStatus, isLoading: $isLoading)';
   }
 
   @override
@@ -153,12 +170,14 @@ class _$_MyTicketsState implements _MyTicketsState {
                 other.selectedStatus == selectedStatus) &&
             (identical(other.lstData, lstData) || other.lstData == lstData) &&
             const DeepCollectionEquality()
-                .equals(other._lstStatus, _lstStatus));
+                .equals(other._lstStatus, _lstStatus) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, selectedStatus, lstData,
-      const DeepCollectionEquality().hash(_lstStatus));
+      const DeepCollectionEquality().hash(_lstStatus), isLoading);
 
   @JsonKey(ignore: true)
   @override
@@ -171,7 +190,8 @@ abstract class _MyTicketsState implements MyTicketsState {
   const factory _MyTicketsState(
       {required final StatusModel? selectedStatus,
       required final AsyncValue<List<SupportTicketModel>> lstData,
-      required final List<StatusModel> lstStatus}) = _$_MyTicketsState;
+      required final List<StatusModel> lstStatus,
+      required final bool isLoading}) = _$_MyTicketsState;
 
   @override
   StatusModel? get selectedStatus;
@@ -179,6 +199,8 @@ abstract class _MyTicketsState implements MyTicketsState {
   AsyncValue<List<SupportTicketModel>> get lstData;
   @override
   List<StatusModel> get lstStatus;
+  @override
+  bool get isLoading;
   @override
   @JsonKey(ignore: true)
   _$$_MyTicketsStateCopyWith<_$_MyTicketsState> get copyWith =>

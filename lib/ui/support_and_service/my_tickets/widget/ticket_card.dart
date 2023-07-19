@@ -37,9 +37,11 @@ class TicketCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TicketStatus(
-                  ticketStatus: ticketModel!.ticketStatus!,
-                ),
+                if (ticketModel!.ticketStatus != null) ...[
+                  TicketStatus(
+                    ticketStatus: ticketModel!.ticketStatus!,
+                  ),
+                ],
                 if (index > 0) ...[
                   Badge(
                     label: Text(index.toString()),

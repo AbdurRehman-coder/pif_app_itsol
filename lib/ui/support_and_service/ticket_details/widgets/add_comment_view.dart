@@ -78,6 +78,10 @@ class AddCommentView extends StatelessWidget {
           ),
         )
       ],
-    ).visibility(visible: notifier.ticketData!.ticketStatus!.key != 'closed');
+    ).visibility(
+      visible: (notifier.ticketData!.ticketStatus != null
+          ? notifier.ticketData!.ticketStatus!.key != 'closed'
+          : true),
+    );
   }
 }

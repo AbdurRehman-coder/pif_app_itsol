@@ -83,6 +83,7 @@ dependencies:
   dotted_border: ^2.0.0+3
   pinput: ^2.2.31
   face_camera: ^0.0.7
+  flutter_widget_from_html_core: ^0.10.3
   awesome_calendar:
     path: awesome_calendar-main
 
@@ -92,7 +93,7 @@ dependencies:
   dixels_sdk:
     git:
       url: https://Obaida_Alqassem2:ATBBFanZ4FQ28aEWgP7k6yTr65pf6EBA959F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
-      ref: feature/PCBP2-903-link-the-apis-to-the-sdk
+      ref: main
 
 dev_dependencies:
   flutter_test:

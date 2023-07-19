@@ -1,79 +1,67 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/provider/add_ticket_provider.dart';
+import 'package:pif_flutter/ui/support_and_service/add_ticket/state/add_ticket_state.dart';
 
 class TeamsList extends ConsumerWidget {
-  const TeamsList({super.key});
+  const TeamsList({
+    required this.notifier,
+    required this.provider,
+    super.key,
+  });
+
+  final AddOrEditTicketNotifier notifier;
+  final AddOrEditTicketState provider;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.read(addOrEditTicketProvider.notifier);
-    final provider = ref.watch(addOrEditTicketProvider);
-    return provider.teamList.when(
+    return provider.lstCategory.when(
       data: (data) {
         return Wrap(
           spacing: 20.w,
           runSpacing: 10.h,
           children: data
               .map(
-                (team) => InkWell(
-                  onTap: () => notifier.onUpdateItem(teamsSelect: team),
-                  child: Stack(
-                    children: [
-                      Container(
-                        width: 100.w,
-                        height: 120.h,
-                        padding: EdgeInsets.symmetric(
-                          vertical: 8.h,
-                          horizontal: 16.w,
-                        ),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(6.r),
-                          ),
-                          border: team.isTeamSelected
-                              ? Border.all(color: primaryColor)
-                              : null,
-                        ),
-                        child: Column(
-                          children: [
-                            Expanded(
-                              child: CachedNetworkImage(
-                                imageUrl: team.teamImage,
-                                placeholder: (context, url) => const SizedBox(),
-                                errorWidget: (context, url, error) =>
-                                    const SizedBox(),
-                              ),
-                            ),
-                            SizedBox(height: 8.h),
-                            Expanded(
-                              child: Text(
-                                team.teamText,
-                                style: Style.commonTextStyle(
-                                  color: hintColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                        ),
+                (item) => InkWell(
+                  onTap: () {
+                    notifier.onSelectCategory(item: item);
+                  },
+                  child: Container(
+                    width: 100.w,
+                    height: 120.h,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 10.w,
+                    ),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6.r),
                       ),
-                      if (!team.isTeamSelected) ...[
-                        Positioned(
-                          child: Container(
-                            width: 100.w,
-                            height: 130.h,
-                            color: expireBgColor.withOpacity(0.6),
+                      border: item.isSelected ?? false ? Border.all(color: primaryColor) : null,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          Assets.spaceIcon,
+                          height: 50.h,
+                        ),
+                        SizedBox(height: 8.h),
+                        Text(
+                          item.name ?? '',
+                          textAlign: TextAlign.center,
+                          style: Style.commonTextStyle(
+                            color: textColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ],
-                    ],
+                    ),
                   ),
                 ),
               )
@@ -84,7 +72,7 @@ class TeamsList extends ConsumerWidget {
         return const SizedBox();
       },
       loading: () {
-        return const CircularProgressIndicator();
+        return const SizedBox();
       },
     );
   }

@@ -11,11 +11,13 @@ class MyTicketsState with _$MyTicketsState {
     required StatusModel? selectedStatus,
     required AsyncValue<List<SupportTicketModel>> lstData,
     required List<StatusModel> lstStatus,
+    required bool isLoading,
   }) = _MyTicketsState;
 
   factory MyTicketsState.initial() => const MyTicketsState(
         selectedStatus: null,
         lstData: AsyncLoading(),
         lstStatus: <StatusModel>[],
+        isLoading: false,
       );
 }

@@ -1,92 +1,91 @@
+import 'package:collection/collection.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/support/model/attachment_response_model.dart';
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
+import 'package:dixels_sdk/features/commerce/support/model/ticket_category_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
-import 'package:pif_flutter/ui/support_and_service/add_ticket/model/subcategory_model.dart';
-import 'package:pif_flutter/ui/support_and_service/add_ticket/model/teams_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/state/add_ticket_state.dart';
+import 'package:pif_flutter/ui/support_and_service/my_tickets/provider/my_tickets_provider.dart';
 
-final addOrEditTicketProvider = StateNotifierProvider.autoDispose<
-    AddOrEditTicketNotifier, AddOrEditTicketState>((ref) {
+final addOrEditTicketProvider =
+    StateNotifierProvider.autoDispose<AddOrEditTicketNotifier, AddOrEditTicketState>((ref) {
   return AddOrEditTicketNotifier(ref: ref);
 });
 
 class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
-  AddOrEditTicketNotifier({required this.ref})
-      : super(AddOrEditTicketState.initial()) {
-    _initData();
-  }
+  AddOrEditTicketNotifier({required this.ref}) : super(AddOrEditTicketState.initial());
 
   final issueDescriptionController = TextEditingController();
   final Ref ref;
   final picker = ImagePicker();
 
-  void _initData() {
-    getTeamList();
-  }
-
   void onDeleteFile() {
     state = state.copyWith(image: null);
   }
 
-  void onUpdateItem({required TeamsModel teamsSelect}) {
-    final teamList = state.teamList.value!;
-    teamList
-        .where((element) => element.isTeamSelected)
-        .any((element) => element.isTeamSelected = false);
-    final teamSelected = teamList
-        .where(
-          (team) => team == teamsSelect,
-        )
-        .firstOrNull;
-    if (teamSelected != null) {
-      teamSelected.isTeamSelected = !teamSelected.isTeamSelected;
-
-      ///Todo: Fill category id
-      getSubCategoryList(categoryId: 1);
-      state = state.copyWith(isTeamSelected: true);
+  void onSelectCategory({required TicketCategoryModel item}) {
+    final lstData = state.lstCategory.value!.toList();
+    for (final element in lstData) {
+      element.isSelected = false;
     }
 
-    state = state.copyWith(teamList: AsyncData(teamList));
+    state = state.copyWith(selectedCategory: item);
+    state = state.copyWith(selectedSubCategory: null);
+    final selectedItem = lstData.firstWhereOrNull((element) => element.id == item.id);
+    selectedItem!.isSelected = true;
+
+    getSubCategoriesAsync(id: selectedItem.id!);
+
+    state = state.copyWith(lstCategory: AsyncData(lstData));
   }
 
-  Future<void> createTicket({required BuildContext context}) async {
-    if (issueDescriptionController.text.isNotEmpty &&
-        state.isTeamSelected &&
-        state.subcategorySelected != null) {
-      /// Todo : Implment API to add ticket
-      print('All Selected');
-    } else if (issueDescriptionController.text.isNotEmpty) {
+  Future<void> createTicketAsync({required BuildContext context}) async {
+    final desc = issueDescriptionController.text.trim();
+
+    if (desc.isEmpty) {
       alertMessage(errorMessage: S.current.fillDescription, context: context);
-    } else if (!state.isTeamSelected) {
-      alertMessage(errorMessage: S.current.selectTeam, context: context);
-    } else {
-      alertMessage(errorMessage: S.current.selectSubCategory, context: context);
+      return;
     }
-  }
 
-  Future<void> getTeamList() async {
-    state = state.copyWith(
-      teamList: AsyncData(
-        List.generate(
-          4,
-          (index) => TeamsModel(
-            teamImage:
-                'https://upload.wikimedia.org/wikipedia/commons/c/c6/Sign-check-icon.png',
-            teamText: 'Space & Logistics',
-          ),
-        ).toList(),
-      ),
+    if (state.selectedCategory == null) {
+      alertMessage(errorMessage: S.current.selectTeam, context: context);
+      return;
+    }
+
+    if (state.selectedSubCategory == null) {
+      alertMessage(errorMessage: S.current.selectSubCategory, context: context);
+      return;
+    }
+
+    final requestModel = <String, dynamic>{
+      'categoryId': state.selectedCategory?.id,
+      'subCategoryId': state.selectedSubCategory?.id,
+      'description': desc,
+    };
+
+    final appProgress = AppProgressDialog(context: context);
+    await appProgress.start();
+    if (state.image != null) {
+      final response = await uploadAttachmentAsync(fileName: state.image!.name, filePath: state.image!.path);
+      if (response != null) {
+        requestModel['attachment'] = response.id;
+      }
+    }
+
+    final result = await DixelsSDK.instance.supportService.postPageData(
+      reqModel: requestModel,
+      fromJson: SupportTicketModel.fromJson,
     );
-  }
-
-  Future<void> getSubCategoryList({required int categoryId}) async {
-    final subCategoryData = List.generate(
-      5,
-      (index) => SubCategoryModel(subcategoryText: 'Space Access $index'),
-    ).toList();
-    state = state.copyWith(subCategoryList: AsyncData(subCategoryData));
+    await appProgress.stop();
+    if (result != null) {
+      await ref.read(myTicketsProvider.notifier).getMyTickets();
+      await AppRouter.pop();
+    }
   }
 
   Future<void> uploadImage() async {
@@ -98,7 +97,31 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
     }
   }
 
-  void updateSubCategory({required SubCategoryModel subcategorySelected}) {
-    state = state.copyWith(subcategorySelected: subcategorySelected);
+  void updateSubCategory({required TicketCategoryModel item}) {
+    state = state.copyWith(selectedSubCategory: item);
+  }
+
+  Future<AttachmentResponseModel?> uploadAttachmentAsync({
+    required String fileName,
+    required String filePath,
+  }) async {
+    return DixelsSDK.instance.supportService.uploadAttachmentAsync(
+      fileName: fileName,
+      filePath: filePath,
+    );
+  }
+
+  Future<void> getCategoriesAsync() async {
+    final result = await DixelsSDK.instance.supportService.getTicketCategories();
+    if (result != null) {
+      state = state.copyWith(lstCategory: AsyncData(result.items!));
+    }
+  }
+
+  Future<void> getSubCategoriesAsync({required String id}) async {
+    final result = await DixelsSDK.instance.supportService.getTicketSubCategories(categoryId: id);
+    if (result != null) {
+      state = state.copyWith(lstSubCategory: result.items!);
+    }
   }
 }

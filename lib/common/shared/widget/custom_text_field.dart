@@ -168,7 +168,7 @@ class CustomTextField extends StatelessWidget {
         ),
         if (maxLength != null) ...[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.h),
+            padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 6.h),
             child: Text(
               '${S.current.maxLengthOf} ${maxLength!} ${S.current.character}',
               style: Style.commonTextStyle(
