@@ -196,7 +196,6 @@
   "goodMorning":"Good Morning",
   "goodEvening":"Good Evening",
   "goodAfternoon":"Good Afternoon",
-   "home":"Home",
   "drinks":"Drinks",
   "hub":"Hub",
   "services":"Services",
@@ -204,6 +203,7 @@
   "visits":"Visits",
    "supportTickets":"Support Tickets",
    "searchHub":"Search Hub",
-  "readMore":"Read More"
-
+  "readMore":"Read More",
+  "searchNationality": "Search Nationality",
+  "idType" : "Id type"
 }

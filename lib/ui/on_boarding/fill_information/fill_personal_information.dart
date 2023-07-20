@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/personal_information.dart';
-import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class FillPersonalInformation extends StatefulWidget {
@@ -14,12 +13,10 @@ class FillPersonalInformation extends StatefulWidget {
   final String userName;
 
   @override
-  State<FillPersonalInformation> createState() =>
-      _FillPersonalInformationState();
+  State<FillPersonalInformation> createState() => _FillPersonalInformationState();
 }
 
-class _FillPersonalInformationState extends State<FillPersonalInformation>
-    with TickerProviderStateMixin {
+class _FillPersonalInformationState extends State<FillPersonalInformation> with TickerProviderStateMixin {
   late AnimationController animation;
   late AnimationController slideAnim;
   late AnimationController fadeAnim;
@@ -72,7 +69,7 @@ class _FillPersonalInformationState extends State<FillPersonalInformation>
       children: [
         SlideTransition(
           position: Tween(
-            begin: const Offset(0.0, 6),
+            begin: const Offset(0, 6),
             end: const Offset(-0.25, 0.3),
           ).animate(
             CurvedAnimation(parent: slideAnim, curve: Curves.easeInOut),
@@ -91,7 +88,7 @@ class _FillPersonalInformationState extends State<FillPersonalInformation>
         SlideTransition(
           position: Tween(
             begin: const Offset(-5, 0),
-            end: const Offset(0.0, 0.7),
+            end: const Offset(0, 0.7),
           ).animate(
             CurvedAnimation(
               parent: animation,

@@ -1,5 +1,9 @@
-class NationalityModel {
-  NationalityModel({required this.nationalityText});
+class LookUpModel {
+  LookUpModel({
+    required this.title,
+    required this.id,
+  });
 
-  final String nationalityText;
+  final String title;
+  final String id;
 }

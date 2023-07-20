@@ -10,15 +10,17 @@ part 'fill_information_state.freezed.dart';
 class FillInformationState with _$FillInformationState {
   const factory FillInformationState({
     required int selectedScreen,
-    required AsyncValue<List<NationalityModel>> nationalList,
+    required AsyncValue<List<LookUpModel>> nationalList,
     required File? scanFace,
-    required NationalityModel? nationalitySelect,
+    required LookUpModel? selectedNationality,
+    required LookUpModel? selectedType,
   }) = _FillInformationState;
 
   factory FillInformationState.initial() => const FillInformationState(
-        nationalitySelect: null,
+        selectedNationality: null,
         scanFace: null,
         selectedScreen: 0,
         nationalList: AsyncLoading(),
+        selectedType: null,
       );
 }
