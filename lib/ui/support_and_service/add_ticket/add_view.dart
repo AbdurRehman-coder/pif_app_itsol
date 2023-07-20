@@ -121,93 +121,96 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
           return true;
         },
         child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 18.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 20.h,
-                ),
-                Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    CustomTextField(
-                      keyboardType: TextInputType.multiline,
-                      textEditingController:
-                          notifier.issueDescriptionController,
-                      maxLines: 9,
-                      hintText: S.current.issueDescription,
-                      maxLength: 300,
-                      style: Style.commonTextStyle(
-                        color: dayTextColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.only(
+            left: 18.w,
+            right: 18.w,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 20.h,
+              ),
+              Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  CustomTextField(
+                    keyboardType: TextInputType.multiline,
+                    textEditingController: notifier.issueDescriptionController,
+                    maxLines: 9,
+                    hintText: S.current.issueDescription,
+                    maxLength: 300,
+                    style: Style.commonTextStyle(
+                      color: dayTextColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                     ),
-                    if (provider.image == null) ...[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30.h),
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.image_outlined,
-                            color: hintColor,
-                          ),
-                          onPressed: notifier.uploadImage,
+                  ),
+                  if (provider.image == null) ...[
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 30.h),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.image_outlined,
+                          color: hintColor,
                         ),
+                        onPressed: notifier.uploadImage,
                       ),
-                    ],
+                    ),
                   ],
+                ],
+              ),
+              SizedBox(height: 5.h),
+              if (provider.loadImage) ...[
+                Container(
+                  height: 100.h,
+                  width: 100.w,
+                  decoration: BoxDecoration(
+                    color: gray98.withOpacity(0.3),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(10.r),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.image,
+                    size: 40,
+                    color: gray85,
+                  ),
                 ),
-                SizedBox(height: 5.h),
-                if (provider.loadImage) ...[
-                  Container(
-                    height: 100.h,
-                    width: 100.w,
-                    decoration: BoxDecoration(
-                      color: gray98.withOpacity(0.3),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10.r),
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.image,
-                      size: 40,
-                      color: gray85,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                ],
-                if (provider.image != null) ...[
-                  ImageSelected(
-                    imageFile: provider.image!,
-                    onDeleteFile: notifier.onDeleteFile,
-                  ),
-                  SizedBox(
-                    height: 15.h,
-                  ),
-                ],
-                TeamsList(
-                  notifier: notifier,
-                  provider: provider,
+                SizedBox(
+                  height: 15.h,
                 ),
-                SizedBox(height: 15.h),
-                if (provider.selectedCategory != null) ...[
-                  CustomDropDownMenu<TicketCategoryModel>(
-                    hintText: S.current.subCategory,
-                    items: provider.lstSubCategory,
-                    onChanged: (data) => notifier.updateSubCategory(
-                      item: data!,
-                    ),
-                    selectedValue: provider.selectedSubCategory,
-                    dropDownMenuItemList:
-                        addDividersAfterItems(provider.lstSubCategory),
-                  ),
-                ],
               ],
-            ),
+              if (provider.image != null) ...[
+                ImageSelected(
+                  imageFile: provider.image!,
+                  onDeleteFile: notifier.onDeleteFile,
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+              ],
+              TeamsList(
+                notifier: notifier,
+                provider: provider,
+              ),
+              SizedBox(height: 15.h),
+              if (provider.selectedCategory != null) ...[
+                CustomDropDownMenu<TicketCategoryModel>(
+                  hintText: S.current.subCategory,
+                  items: provider.lstSubCategory,
+                  onChanged: (data) => notifier.updateSubCategory(
+                    item: data!,
+                  ),
+                  selectedValue: provider.selectedSubCategory,
+                  dropDownMenuItemList: addDividersAfterItems(provider.lstSubCategory),
+                ),
+                SizedBox(
+                  height: 220.h,
+                )
+              ],
+            ],
           ),
         ),
       ),
