@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -6,7 +7,8 @@ import 'package:pif_flutter/ui/side_menu/model/side_menu_model.dart';
 import 'package:pif_flutter/ui/side_menu/model/theme_model.dart';
 import 'package:pif_flutter/ui/side_menu/state/side_menu_state.dart';
 
-final sideMenuProvider = StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
+final sideMenuProvider =
+    StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
   return SideMenuNotifier(ref: ref);
 });
 
@@ -30,13 +32,36 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
 
   void _bindMenuItem() {
     lstMenu = <SideMenuModel>[];
-    lstMenu.add(SideMenuModel(name: S.current.profileSetting, icon: Assets.profileIcon));
-    lstMenu.add(SideMenuModel(name: S.current.handBook, icon: Assets.handBookIcon));
-    lstMenu.add(SideMenuModel(name: S.current.appTour, icon: Assets.appTourIcon));
-    lstMenu.add(SideMenuModel(name: S.current.termsOfService, icon: Assets.termsIcon));
-    lstMenu.add(SideMenuModel(name: S.current.faq, icon: Assets.faqIcon));
-    lstMenu.add(SideMenuModel(name: S.current.arabic, icon: Assets.languageIcon));
-    lstMenu.add(SideMenuModel(name: S.current.logout, icon: Assets.logoutIcon));
+    lstMenu.add(
+      SideMenuModel(name: S.current.profileSetting, icon: Assets.profileIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.handBook, icon: Assets.handBookIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.appTour, icon: Assets.appTourIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.termsOfService, icon: Assets.termsIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.faq, icon: Assets.faqIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.booking, icon: Assets.basicCalendar),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.visits, icon: Assets.personAdd),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.supportTickets, icon: Assets.forum),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.arabic, icon: Assets.languageIcon),
+    );
+    lstMenu.add(
+      SideMenuModel(name: S.current.logout, icon: Assets.logoutIcon),
+    );
   }
 
   //Update Theme
@@ -59,6 +84,12 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
     } else if (lstMenu[index].name == S.current.termsOfService) {
     } else if (lstMenu[index].name == S.current.faq) {
     } else if (lstMenu[index].name == S.current.arabic) {
+    } else if (lstMenu[index].name == S.current.booking) {
+      AppRouter.pushNamed(Routes.bookingListScreen);
+    } else if (lstMenu[index].name == S.current.visits) {
+      AppRouter.pushNamed(Routes.visitListScreen);
+    } else if (lstMenu[index].name == S.current.supportTickets) {
+      AppRouter.pushNamed(Routes.myTicketsScreen);
     } else if (lstMenu[index].name == S.current.logout) {
       DixelsSDK.instance.logout();
       AppRouter.startNewRoute(Routes.logInScreen);

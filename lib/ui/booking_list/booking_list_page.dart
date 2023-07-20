@@ -26,132 +26,153 @@ class _BookingListPageState extends ConsumerState<BookingListPage> {
   Widget build(BuildContext context) {
     final notifier = ref.read(bookingListProvider.notifier);
     final provider = ref.watch(bookingListProvider);
-    return Stack(
-      alignment: Alignment.bottomRight,
-      children: [
-        Column(
+    return Scaffold(
+      body: SafeArea(
+        bottom:  false,
+        child: Stack(
+          alignment: Alignment.bottomRight,
           children: [
-            SizedBox(
-              height: 5.h,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      height: 40.h,
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        borderRadius: BorderRadius.circular(6.r),
-                        border: Border.all(
-                          color: borderColor,
-                          width: 1.w,
+            Column(
+              children: [
+                SizedBox(
+                  height: 5.h,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: Row(
+                    children: [
+                      InkWell(
+                        onTap: AppRouter.pop,
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 7.w,vertical: 7.h),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: primaryColor.withOpacity(0.2),
+                          ),
+                          child: const Icon(
+                            Icons.arrow_back_ios_new,
+                            color: dayTextColor,
+                            size: 22,
+                          ),
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            Assets.search,
-                            height: 22.h,
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          Expanded(
-                            child: TextField(
-                              controller: notifier.searchController,
-                              onChanged: notifier.searchData,
-                              style: Style.commonTextStyle(
-                                color: textColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w500,
-                              ),
-                              decoration: Style.inputDecoration(
-                                text: S.of(context).searchByBookingTitle,
-                                hintColor: hintColor,
-                              ),
+                      SizedBox(width: 10.w),
+                      Expanded(
+                        child: Container(
+                          height: 40.h,
+                          padding: EdgeInsets.symmetric(horizontal: 10.w),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(6.r),
+                            border: Border.all(
+                              color: borderColor,
+                              width: 1.w,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            SizedBox(
-              height: 37.h,
-              child: ListView.separated(
-                itemCount: notifier.lstStatus.length,
-                scrollDirection: Axis.horizontal,
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      notifier.updateStatusList(index: index);
-                    },
-                    child: Container(
-                      height: 37.h,
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      decoration: BoxDecoration(
-                        color: notifier.lstStatus[index].bgColor,
-                        borderRadius: BorderRadius.circular(20.r),
-                      ),
-                      child: Text(
-                        notifier.lstStatus[index].name ?? '',
-                        style: Style.commonTextStyle(
-                          color: notifier.lstStatus[index].textColor,
-                          fontSize: 14.sp,
-                          height: 1.4,
-                          fontWeight: FontWeight.w400,
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                Assets.search,
+                                height: 22.h,
+                              ),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: notifier.searchController,
+                                  onChanged: notifier.searchData,
+                                  style: Style.commonTextStyle(
+                                    color: textColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  decoration: Style.inputDecoration(
+                                    text: S.of(context).searchByBookingTitle,
+                                    hintColor: hintColor,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  );
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                SizedBox(
+                  height: 37.h,
+                  child: ListView.separated(
+                    itemCount: notifier.lstStatus.length,
+                    scrollDirection: Axis.horizontal,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    itemBuilder: (context, index) {
+                      return InkWell(
+                        onTap: () {
+                          notifier.updateStatusList(index: index);
+                        },
+                        child: Container(
+                          height: 37.h,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 24.w),
+                          decoration: BoxDecoration(
+                            color: notifier.lstStatus[index].bgColor,
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Text(
+                            notifier.lstStatus[index].name ?? '',
+                            style: Style.commonTextStyle(
+                              color: notifier.lstStatus[index].textColor,
+                              fontSize: 14.sp,
+                              height: 1.4,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        width: 8.w,
+                      );
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 24.h,
+                ),
+                provider.lstData.when(
+                  data: setListView,
+                  error: (e, s) {
+                    return const SizedBox();
+                  },
+                  loading: () {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
+              child: FloatingActionButton(
+                heroTag: 'btn',
+                elevation: 1,
+                onPressed: () {
+                  AppRouter.pushNamed(Routes.spaceBookingScreen);
                 },
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    width: 8.w,
-                  );
-                },
+                child: SvgPicture.asset(
+                  Assets.addIcon,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            provider.lstData.when(
-              data: setListView,
-              error: (e, s) {
-                return const SizedBox();
-              },
-              loading: () {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
             )
           ],
         ),
-        Padding(
-          padding: EdgeInsets.only(right: 20.w, bottom: 10.h),
-          child: FloatingActionButton(
-            heroTag: 'btn',
-            elevation: 1,
-            onPressed: () {
-              AppRouter.pushNamed(Routes.spaceBookingScreen);
-            },
-            child: SvgPicture.asset(
-              Assets.addIcon,
-            ),
-          ),
-        )
-      ],
+      ),
     );
   }
 

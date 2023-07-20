@@ -45,7 +45,8 @@ class Assets {
   static const String warningIcon = 'assets/svg/warning_icon.svg';
   static const String dotImage = 'assets/svg/ic_dot.svg';
   static const String rightArrow = 'assets/svg/ic_right_arrow.svg';
-  static const String requestBookingConf = 'assets/svg/ic_request_booking_conf.svg';
+  static const String requestBookingConf =
+      'assets/svg/ic_request_booking_conf.svg';
   static const String addIcon = 'assets/svg/ic_add.svg';
   static const String deleteIcon = 'assets/svg/ic_delete.svg';
   static const String duplicateIcon = 'assets/svg/ic_duplicate.svg';
@@ -101,23 +102,30 @@ class Assets {
   static const String arOnYou = 'assets/svg/ar_on_you.svg';
   static const String backgroundSound = 'assets/background_sound.png';
   static const String orderStatusBackground = 'assets/order_status.png';
-  static const String supportStatusBackground = 'assets/support_status_background.png';
+  static const String supportStatusBackground =
+      'assets/support_status_background.png';
   static const String meetingBackground = 'assets/meeting_background.png';
   static const String afterNoonBackground = 'assets/after_noon_background.png';
   static const String morningBackground = 'assets/morning_background.png';
   static const String eveningBackground = 'assets/evening_background.png';
-  static const String comingVisitorBackground = 'assets/coming_visitor_background.png';
+  static const String comingVisitorBackground =
+      'assets/coming_visitor_background.png';
   static const String svgWhatsApp = 'assets/svg/ic_whatsapp.svg';
   static const String svgInstagram = 'assets/svg/ic_instagram.svg';
   static const String svgLinkedIn = 'assets/svg/ic_linkedin.svg';
   static const String svgCall = 'assets/svg/ic_call.svg';
+  static const String hubIcon = 'assets/svg/hub_icon.svg';
+  static const String servicesIcon = 'assets/svg/services_icon.svg';
+  static const String personAdd = 'assets/svg/person_add.svg';
+  static const String basicCalendar = 'assets/svg/calender.svg';
 
   // Amenities
   static const String gamePad = 'assets/svg/amenities/gamepad.svg';
   static const String screencast = 'assets/svg/amenities/screencast.svg';
   static const String tv = 'assets/svg/amenities/tv.svg';
   static const String wiFi = 'assets/svg/amenities/wi_fi.svg';
-  static const String wirelessCharge = 'assets/svg/amenities/wireless_charge.svg';
+  static const String wirelessCharge =
+      'assets/svg/amenities/wireless_charge.svg';
 
   //SideMenu
   static const String profileIcon = 'assets/svg/ic_account.svg';
@@ -135,10 +143,26 @@ class Assets {
   //Support
   static const String pauseIcon = 'assets/svg/ic_pause.svg';
   static const String playIcon = 'assets/svg/ic_play.svg';
+  static const String delivered = 'assets/delivered.png';
+  static const String drinks = 'assets/drink.png';
+  static const String recived = 'assets/recived.png';
 
   //Order Status
   static const String receivedIcon = 'assets/svg/received_icon.svg';
   static const String drinkIcon = 'assets/svg/drink_icon.svg';
   static const String inProgressIcon = 'assets/svg/in_progress_icon.svg';
   static const String spaceIcon = 'assets/ic_space_logostic.png';
+
+  // Category
+  static const String scanQrCode = 'assets/svg/scan_qr_code.svg';
+  static const String photography = 'assets/svg/photography.svg';
+  static const String newJoiner = 'assets/svg/new_joiner.svg';
+  static const String marketing = 'assets/svg/marketing.svg';
+  static const String logisitics = 'assets/svg/logisitics.svg';
+  static const String joiner = 'assets/svg/joiner.svg';
+  static const String itSupport = 'assets/svg/it_support.svg';
+  static const String bookings = 'assets/svg/booking.svg';
+
+
+
 }

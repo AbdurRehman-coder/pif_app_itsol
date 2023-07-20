@@ -470,6 +470,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
             alertMessage(
               errorMessage: S.current.inviteVisitorSuccess,
               context: context,
+              statusEnum: AlertStatusEnum.success,
             );
           } else {
             alertMessage(

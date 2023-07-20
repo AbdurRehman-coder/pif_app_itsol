@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pif_flutter/ui/company_details/index.dart';
+import 'package:pif_flutter/ui/company_managment/company_details/index.dart';
 
 part 'company_details_state.freezed.dart';
 

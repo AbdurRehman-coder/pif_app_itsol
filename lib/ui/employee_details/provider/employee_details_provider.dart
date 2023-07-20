@@ -1,5 +1,5 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/ui/company_details/model/company_details_model.dart';
+import 'package:pif_flutter/ui/company_managment/company_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 
 final employeeDetailsProvider = StateNotifierProvider.autoDispose<EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {

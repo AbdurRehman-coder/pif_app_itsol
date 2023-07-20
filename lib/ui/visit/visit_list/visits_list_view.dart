@@ -21,11 +21,21 @@ class VisitsListView extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: whiteColor,
-        leading: IconButton(
-          onPressed: AppRouter.pop,
-          icon: SvgPicture.asset(
-            Assets.back,
-            height: 14.h,
+        leading: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: InkWell(
+            onTap: AppRouter.pop,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: primaryColor.withOpacity(0.2),
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios_new,
+                color: dayTextColor,
+                size: 22,
+              ),
+            ),
           ),
         ),
         centerTitle: false,

@@ -44,19 +44,20 @@ class SingleVisitor extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(
-                    visitorsModel!.customFields![0].customValue!.data!
+                    visitorsModel!.customFields![0].name == 'isVerified'
                         ? Assets.check
                         : Assets.shield,
                   ),
                   SizedBox(width: 2.w),
                   Text(
-                    visitorsModel!.customFields![0].customValue!.data!
+                    visitorsModel!.customFields![0].name == 'isVerified'
                         ? S.of(context).verified
                         : S.of(context).unverified,
                     style: Style.commonTextStyle(
-                      color: visitorsModel!.customFields![0].customValue!.data!
-                          ? primaryColor
-                          : secondary,
+                      color:
+                          visitorsModel!.customFields![0].name == 'isVerified'
+                              ? primaryColor
+                              : secondary,
                       fontSize: 12.sp,
                       fontWeight: FontWeight.w400,
                     ),

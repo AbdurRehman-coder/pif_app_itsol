@@ -16,18 +16,19 @@ class MenuListView extends StatelessWidget {
         itemBuilder: (_, index) {
           final item = notifier.lstMenu[index];
           return InkWell(
-            onTap: () {
-              notifier.onItemTap(index: index);
-            },
+            onTap: () =>
+              notifier.onItemTap(index: index),
             child: Row(
               children: [
                 SvgPicture.asset(
                   item.icon!,
                   height: 24.h,
                   width: 24.w,
+                  colorFilter:
+                      const ColorFilter.mode(darkBorderColor, BlendMode.srcIn),
                 ),
                 SizedBox(
-                  width: 4.w,
+                  width: 8.w,
                 ),
                 Text(
                   item.name ?? '',
@@ -42,7 +43,7 @@ class MenuListView extends StatelessWidget {
           );
         },
         separatorBuilder: (_, index) {
-          return index == 1 || index == 5
+          return  index == notifier.lstMenu.length-2
               ? Divider(
                   height: 50.h,
                   thickness: 1.h,

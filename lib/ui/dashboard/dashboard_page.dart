@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
+import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news.dart';
 import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
+import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
-import 'package:pif_flutter/widgets/circular_menu/circular_menu.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
@@ -31,28 +32,28 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     lstMenu.add(
       BottomMenuModel(
         icon: Assets.home,
-        title: 'Home',
+        title: S.current.home,
         child: const HomePage(),
       ),
     );
     lstMenu.add(
       BottomMenuModel(
         icon: Assets.drink,
-        title: 'Drink',
+        title: S.current.drinks,
         child: const DrinkPage(),
       ),
     );
     lstMenu.add(
       BottomMenuModel(
-        icon: Assets.booking,
-        title: 'Booking',
-        child: const BookingListPage(),
+        icon: Assets.hubIcon,
+        title: S.current.hub,
+        child: const CompanyAndNews(),
       ),
     );
     lstMenu.add(
       BottomMenuModel(
-        icon: Assets.social,
-        title: 'Social',
+        icon: Assets.servicesIcon,
+        title: S.current.services,
         child: const SizedBox(),
       ),
     );
@@ -111,9 +112,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           ),
         ],
       );
+    } else if (_bottomNavIndex == 2) {
+      title = SearchTextField(
+        textEditingController: TextEditingController(),
+        hintText: S.current.searchHub,
+      );
     } else {
       title = null;
     }
+
     return Stack(
       children: [
         Scaffold(
@@ -122,7 +129,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           appBar: AppBar(
             elevation: 0,
             backgroundColor:
-            _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
+                _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
             centerTitle: true,
             title: title,
             leading: Builder(
@@ -144,15 +151,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               },
             ),
             actions: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.w),
-                child: SvgPicture.asset(
-                  Assets.message,
-                  height: 24.h,
-                  width: 24.w,
-                ),
-              ).visibility(visible: _bottomNavIndex != 0),
-              if (_bottomNavIndex == 0)
+              if (_bottomNavIndex == 0) ...[
                 InkWell(
                   onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
                   child: Container(
@@ -170,8 +169,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                       fit: BoxFit.scaleDown,
                     ),
                   ),
-                )
-              else
+                ),
+              ] else if (_bottomNavIndex == 1 || _bottomNavIndex == 3) ...[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  child: SvgPicture.asset(
+                    Assets.message,
+                    height: 24.h,
+                    width: 24.w,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: SvgPicture.asset(
@@ -180,6 +187,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     width: 24.w,
                   ),
                 ),
+              ],
             ],
           ),
           drawer: const SideMenuPage(),
@@ -192,7 +200,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             child: lstMenu.elementAt(_bottomNavIndex).child!,
           ),
           floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
             height: 50.h,
             width: 50.w,
@@ -205,7 +213,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
               color: borderColor,
             ),
             tabBuilder: (int index, bool isActive) {
-              final color = isActive ? primaryColor : Colors.black26;
+              final color = isActive ? primaryColor : textColor;
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -213,8 +221,22 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                   SvgPicture.asset(
                     lstMenu[index].icon!,
                     fit: BoxFit.cover,
-                    color: color,
-                  )
+                    colorFilter: ColorFilter.mode(
+                      color,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                  SizedBox(height: 4.h),
+                  if (!isActive) ...[
+                    Text(
+                      lstMenu[index].title ?? '',
+                      style: Style.commonTextStyle(
+                        color: textColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ],
               );
             },
@@ -226,73 +248,14 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
             notchSmoothness: NotchSmoothness.defaultEdge,
             gapLocation: GapLocation.center,
             onTap: (index) => setState(
-                  () {
+              () {
                 _bottomNavIndex = index;
-                if (index == 3) {
-                  AppRouter.pushNamed(Routes.visitListScreen);
-                }
               },
             ),
           ),
         ),
         if (!isMenuOpen) ...[
-          Builder(
-            builder: (context) {
-              return Positioned.fill(
-                bottom: 60.h,
-                child: CircularMenu(
-                  toggleButtonMargin: 0,
-                  toggleButtonColor: primaryDark,
-                  openToggleIcon: Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: primaryDark,
-                    ),
-                    child: SvgPicture.asset(
-                      Assets.instant,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  closeToggleIcon: Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: primaryDark,
-                    ),
-                    child: const Icon(
-                      Icons.close,
-                      color: whiteColor,
-                    ),
-                  ),
-                  items: [
-                    CircularMenuItem(
-                      icon: const Icon(Icons.home),
-                      color: Colors.green,
-                      onTap: () {},
-                    ),
-                    CircularMenuItem(
-                      icon: const Icon(Icons.search),
-                      color: Colors.blue,
-                      onTap: () {},
-                    ),
-                    CircularMenuItem(
-                      icon: const Icon(Icons.search),
-                      color: Colors.blue,
-                      onTap: () {},
-                    ),
-                    CircularMenuItem(
-                      icon: const Icon(Icons.search),
-                      color: Colors.blue,
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
+          const CircleMenu(),
         ]
       ],
     );

@@ -40,14 +40,9 @@ class _HomePageState extends ConsumerState<HomePage> {
             }).toList(),
           ),
           SizedBox(height: 16.h),
-          InkWell(
-            onTap: () {
-              AppRouter.pushNamed(Routes.employeeDetailsScreen, args: false);
-            },
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15.w),
-              child: const BannerView(),
-            ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: const BannerView(),
           ),
           SizedBox(height: 40.h),
           const CategoryListView(),

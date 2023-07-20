@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/dashboard/widget/half_circle.dart';
 
 import 'package:pif_flutter/widgets/circular_menu/circular_menu.dart';
 
@@ -30,6 +29,7 @@ class CircularMenu extends StatefulWidget {
 
   /// animation curve in rverse
   final Curve reverseCurve;
+  ValueChanged<bool>? onChanged;
 
   /// callback
   final VoidCallback? toggleButtonOnPressed;
@@ -67,6 +67,7 @@ class CircularMenu extends StatefulWidget {
     this.toggleButtonPadding = 10,
     this.toggleButtonSize = 40,
     this.toggleButtonIconColor,
+    this.onChanged,
     this.openToggleIcon = const Icon(Icons.menu),
     this.closeToggleIcon = const Icon(Icons.close),
     this.key,
@@ -116,6 +117,7 @@ class CircularMenuState extends State<CircularMenu>
         reverseCurve: widget.reverseCurve,
       ),
     );
+
     _itemsCount = widget.items.length;
     super.initState();
   }
@@ -257,21 +259,55 @@ class CircularMenuState extends State<CircularMenu>
     return Stack(
       children: <Widget>[
         widget.backgroundWidget ?? Container(),
-        // if (_animationController.status != AnimationStatus.dismissed) ...[
-        //   Positioned.fill(
-        //     child: Align(
-        //       alignment: widget.alignment,
-        //       child: ClipPath(
-        //         clipper: CustomClip(),
-        //         child: Container(
-        //           width: 300,
-        //           height: 200,
-        //           color: Colors.blue,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        // ],
+        if (_animationController.status != AnimationStatus.dismissed) ...[
+          Positioned.fill(
+            child: Align(
+              alignment: widget.alignment,
+              child: Transform.scale(
+                scale: _animation.value,
+                child: Container(
+                  height: 150.h,
+                  width: 300.w,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        whiteColor,
+                        expireBgColor.withOpacity(0.3),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(200.r),
+                      topRight: Radius.circular(200.r),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+        if (_animationController.status != AnimationStatus.dismissed) ...[
+          Positioned.fill(
+            bottom: 60.h,
+            child: Align(
+              alignment: widget.alignment,
+              child: Transform.scale(
+                scale: _animation.value,
+                child:  Material(
+                  child: Text(
+                    'Quick Actions',
+                    style: Style.commonTextStyle(
+                      color: expireStatusColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
         ..._buildMenuItems(),
         _buildMenuButton(context),
       ],

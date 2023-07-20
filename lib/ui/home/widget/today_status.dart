@@ -28,45 +28,42 @@ class TodayStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => AppRouter.pushNamed(Routes.companyDetailsScreen),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.symmetric(
-          vertical: 24.h,
-          horizontal: 23.w,
-        ),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              getImageByStats.statusBackgroundImage,
-            ),
-            fit: BoxFit.fill,
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: EdgeInsets.symmetric(
+        vertical: 24.h,
+        horizontal: 23.w,
+      ),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+            getImageByStats.statusBackgroundImage,
           ),
+          fit: BoxFit.fill,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                '${getImageByStats.statusText},\nMuath!',
-                style: Style.commonTextStyle(
-                  color: whiteColor,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            Text(
-              '27°',
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Text(
+              '${getImageByStats.statusText},\nMuath!',
               style: Style.commonTextStyle(
                 color: whiteColor,
-                fontSize: 24,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.w600,
               ),
-            )
-          ],
-        ),
+            ),
+          ),
+          Text(
+            '27°',
+            style: Style.commonTextStyle(
+              color: whiteColor,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+          )
+        ],
       ),
     );
   }

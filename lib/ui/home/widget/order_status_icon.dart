@@ -19,11 +19,11 @@ class OrderStatusIcon extends StatelessWidget {
     if (orderStatusSelected) {
       return Column(
         children: [
-          SvgPicture.asset(
+          Image.asset(
             orderStatusIcon,
-            width: 18.w,
-            height: 20.h,
-            colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
+            width: 40.w,
+            height: 40.h,
+            color: primaryColor,
           ),
           SizedBox(height: 5.h),
           Text(
@@ -37,7 +37,11 @@ class OrderStatusIcon extends StatelessWidget {
         ],
       );
     } else {
-      return SvgPicture.asset(orderStatusIcon);
+      return Image.asset(
+        orderStatusIcon,
+        width: 40.w,
+        height: 40.h,
+      );
     }
   }
 }

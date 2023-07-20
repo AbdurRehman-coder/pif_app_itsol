@@ -68,13 +68,13 @@ class CircularMenuItem extends StatelessWidget {
         child: Material(
           color: color ?? Theme.of(context).primaryColor,
           child: InkWell(
-            child: Padding(
-              padding: EdgeInsets.all(padding),
-              child: animatedIcon == null
-                  ? icon
-                  : animatedIcon,
-            ),
             onTap: onTap,
+            child: Padding(
+              padding: animatedIcon != null
+                  ? EdgeInsets.all(padding)
+                  : EdgeInsets.zero,
+              child: animatedIcon ?? icon,
+            ),
           ),
         ),
       ),
@@ -158,9 +158,10 @@ class _Badge extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: textStyle ??
                         TextStyle(
-                            fontSize: 10,
-                            color: textColor ??
-                                Theme.of(context).colorScheme.secondary,),
+                          fontSize: 10,
+                          color: textColor ??
+                              Theme.of(context).colorScheme.secondary,
+                        ),
                   ),
                 ),
               ),

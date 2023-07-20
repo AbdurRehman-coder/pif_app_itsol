@@ -94,6 +94,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       for (final element in result.items!) {
         if (element.categories != null && element.categories!.isNotEmpty) {
           final cateId = element.categories![0].id;
+          print('element.urlImageelement.urlImage ${element.id}');
           lstDrinks.add(
             DrinkModel(
               id: element.id,

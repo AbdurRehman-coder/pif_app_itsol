@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/company_details/provider/company_details_provider.dart';
+import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/company_managment/company_details/provider/company_details_provider.dart';
 
 class CompanyDetailsPage extends ConsumerWidget {
   const CompanyDetailsPage({super.key});
@@ -39,11 +40,13 @@ class CompanyDetailsPage extends ConsumerWidget {
                         width: 100.w,
                         imageUrl: 'https://picsum.photos/100/100',
                         placeholder: (context, url) => const SizedBox(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                     ),
                     Positioned(
-                      top: 175.h, // Adjust this value to position the image as per your requirement.
+                      top: 175.h,
+                      // Adjust this value to position the image as per your requirement.
                       left: 16.w,
                       child: Container(
                         height: 80.r,
@@ -150,7 +153,10 @@ class CompanyDetailsPage extends ConsumerWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 15.w,
+                                vertical: 10.h,
+                              ),
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20.r),
@@ -190,53 +196,61 @@ class CompanyDetailsPage extends ConsumerWidget {
                         padding: EdgeInsets.zero,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Container(
-                                height: 42.h,
-                                width: 42.w,
-                                decoration: ShapeDecoration(
-                                  shape: CircleBorder(
-                                    side: BorderSide(
-                                      width: 2.r,
-                                      color: goldenColor,
+                          return InkWell(
+                            onTap: () => AppRouter.pushNamed(
+                              Routes.employeeDetailsScreen,
+                              args: false,
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  height: 42.h,
+                                  width: 42.w,
+                                  decoration: ShapeDecoration(
+                                    shape: CircleBorder(
+                                      side: BorderSide(
+                                        width: 2.r,
+                                        color: goldenColor,
+                                      ),
+                                    ),
+                                  ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      height: 42.r,
+                                      width: 42.r,
+                                      imageUrl: 'https://picsum.photos/50/50',
+                                      placeholder: (context, url) =>
+                                          const SizedBox(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
                                   ),
                                 ),
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    height: 42.r,
-                                    width: 42.r,
-                                    imageUrl: 'https://picsum.photos/50/50',
-                                    placeholder: (context, url) => const SizedBox(),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                                  ),
+                                SizedBox(
+                                  width: 16.w,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    provider.lstUser[index].userName ?? '',
-                                    style: Style.commonTextStyle(
-                                      color: textColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w400,
+                                Column(
+                                  children: [
+                                    Text(
+                                      provider.lstUser[index].userName ?? '',
+                                      style: Style.commonTextStyle(
+                                        color: textColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    provider.lstUser[index].designation ?? '',
-                                    style: Style.commonTextStyle(
-                                      color: grayTextColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
+                                    Text(
+                                      provider.lstUser[index].designation ?? '',
+                                      style: Style.commonTextStyle(
+                                        color: grayTextColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
+                                  ],
+                                )
+                              ],
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) {

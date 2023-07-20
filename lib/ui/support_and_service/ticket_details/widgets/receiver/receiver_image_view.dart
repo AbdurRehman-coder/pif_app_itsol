@@ -12,15 +12,23 @@ class ReceiverImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(
+        'item.commentAttachment!.link!.href!.getImageUrl ${item.commentAttachment!.link!.href!.getImageUrl.replaceAll('download=true', 'download=false')}',);
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
+        // Image.network(
+        //   item.commentAttachment!.link!.href!.getImageUrl,
+        // ),
         Padding(
           padding: EdgeInsets.only(bottom: 10.h),
           child: CustomImage(
             height: 24.h,
             width: 24.w,
-            image: const NetworkImage('https://randomuser.me/api/portraits/men/41.jpg'),
+            image:  NetworkImage(
+              item.commentAttachment!.getImageUrl,
+            ),
             shape: BoxShape.circle,
           ),
         ),

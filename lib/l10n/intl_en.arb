@@ -196,5 +196,13 @@
    "goodMorning":"Good Morning",
    "goodEvening":"Good Evening",
    "goodAfternoon":"Good Afternoon",
-   "received":"Received"
+   "received":"Received",
+   "home":"Home",
+   "drinks":"Drinks",
+   "hub":"Hub",
+   "services":"Services",
+   "visits":"Visits",
+   "supportTickets":"Support Tickets",
+   "searchHub":"Search Hub",
+   "readMore":"Read More"
 }

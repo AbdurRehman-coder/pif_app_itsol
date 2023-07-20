@@ -77,18 +77,18 @@ class OrderStatusCard extends StatelessWidget {
                   children: [
                     const OrderStatusIcon(
                       orderStatusText: 'Received',
-                      orderStatusIcon: Assets.receivedIcon,
+                      orderStatusIcon: Assets.recived,
                       orderStatusSelected: true,
                     ),
                     SizedBox(width: 10.w),
                     const OrderStatusIcon(
-                      orderStatusText: 'Step',
-                      orderStatusIcon: Assets.inProgressIcon,
+                      orderStatusText: 'Preparing',
+                      orderStatusIcon: Assets.drinks,
                     ),
                     SizedBox(width: 10.w),
                     const OrderStatusIcon(
-                      orderStatusText: 'Step',
-                      orderStatusIcon: Assets.drinkIcon,
+                      orderStatusText: 'On Way',
+                      orderStatusIcon: Assets.delivered,
                     ),
                   ],
                 ),
