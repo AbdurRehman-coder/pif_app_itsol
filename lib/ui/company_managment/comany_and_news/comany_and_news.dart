@@ -58,7 +58,7 @@ class CompanyAndNews extends ConsumerWidget {
           ),
           SizedBox(height: 80.h),
           Text(
-            'Comming Soon ...',
+            'Coming Soon ...',
             style: Style.commonTextStyle(
               color: hintColor,
               fontSize: 25.sp,

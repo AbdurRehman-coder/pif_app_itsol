@@ -63,13 +63,4 @@ class LogInNotifier extends StateNotifier<LogInState> {
       AppRouter.pushNamed(Routes.verifyOTPScreen);
     }
   }
-
-  Future<void> updateImage() async {
-    final imageSelected = await picker.pickImage(
-      source: ImageSource.gallery,
-    );
-    if (imageSelected != null) {
-      state = state.copyWith(imageFile: imageSelected);
-    }
-  }
 }

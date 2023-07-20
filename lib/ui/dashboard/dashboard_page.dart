@@ -54,7 +54,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       BottomMenuModel(
         icon: Assets.servicesIcon,
         title: S.current.services,
-        child: const SizedBox(),
+        child: Center(
+          child: Text(
+            'Coming Soon ...',
+            style: Style.commonTextStyle(
+              color: hintColor,
+              fontSize: 25.sp,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
       ),
     );
     setState(() {});

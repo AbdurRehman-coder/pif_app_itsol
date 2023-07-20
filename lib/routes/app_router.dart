@@ -69,7 +69,13 @@ class AppRouter {
           settings: settings,
         );
       case Routes.inviteVisitorScreen:
-        return _setPage(page: const InviteVisitorPage(), settings: settings);
+        final fromHomepage = settings.arguments! as bool;
+        return _setPage(
+          page: InviteVisitorPage(
+            fromHomepage: fromHomepage,
+          ),
+          settings: settings,
+        );
       case Routes.visitListScreen:
         return _setPage(page: const VisitsListView(), settings: settings);
       case Routes.myTicketsScreen:

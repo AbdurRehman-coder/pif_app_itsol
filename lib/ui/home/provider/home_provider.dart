@@ -54,7 +54,10 @@ class HomeNotifier extends StateNotifier<HomeStates> {
       CategoryModel(
         image: Assets.visitor,
         text: 'New Visit',
-        onTap: () => AppRouter.pushNamed(Routes.inviteVisitorScreen),
+        onTap: () => AppRouter.pushNamed(
+          Routes.inviteVisitorScreen,
+          args: true,
+        ),
       ),
     );
     lstCategory.add(
@@ -88,7 +91,8 @@ class HomeNotifier extends StateNotifier<HomeStates> {
           ),
         ),
       ),
-    );    lstCategory.add(
+    );
+    lstCategory.add(
       CategoryModel(
         image: Assets.creative,
         text: 'Logistics',

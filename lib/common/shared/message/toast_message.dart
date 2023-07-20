@@ -14,8 +14,10 @@ void alertMessage({
   Curve curves = Curves.elasticOut,
   Curve reverseCurve = Curves.easeInSine,
 }) {
-  final bgColor = statusEnum == AlertStatusEnum.error ? pinkColor : lightPrimaryColor;
-  final textColor = statusEnum == AlertStatusEnum.error ? dangerousColor : primaryColor;
+  final bgColor =
+      statusEnum == AlertStatusEnum.error ? pinkColor : lightPrimaryColor;
+  final textColor =
+      statusEnum == AlertStatusEnum.error ? dangerousColor : primaryColor;
   showToastWidget(
     Container(
       padding: EdgeInsets.symmetric(
@@ -27,23 +29,30 @@ void alertMessage({
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0.r),
         ),
-        color: bgColor,
+        color: statusEnum==AlertStatusEnum.success ? activeBgColor : bgColor,
       ),
       child: Row(
         children: [
-          SvgPicture.asset(
-            Assets.warningIcon,
-            width: 18.w,
-            height: 20.h,
-            colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
-          ),
+          if (statusEnum==AlertStatusEnum.success) ...[
+            const Icon(
+              Icons.done,
+              color: primaryColor,
+            )
+          ] else ...[
+            SvgPicture.asset(
+              Assets.warningIcon,
+              width: 18.w,
+              height: 20.h,
+              colorFilter: ColorFilter.mode(textColor, BlendMode.srcIn),
+            ),
+          ],
           SizedBox(width: 12.w),
           Expanded(
             child: Text(
               errorMessage,
               style: errorMessageStyle ??
                   TextStyle(
-                    color: textColor,
+                    color: statusEnum==AlertStatusEnum.success ? primaryColor : textColor,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
                   ),

@@ -17,6 +17,7 @@ class LogInPage extends ConsumerWidget {
     final notifier = ref.read(logInProvider.notifier);
     final provider = ref.watch(logInProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: grayF5,
       body: BackgroundWidget(
         child: SafeArea(
@@ -49,19 +50,7 @@ class LogInPage extends ConsumerWidget {
                       description: S.current.weOfferPasswordExperience,
                     ),
                     SizedBox(height: 20.h),
-                    InkWell(
-                      onTap: notifier.updateImage,
-                      child: provider.imageFile == null
-                          ? const EmptyImage()
-                          : Image.file(
-                              File(
-                                provider.imageFile!.path,
-                              ),
-                              width: double.infinity,
-                              height: 200.h,
-                              fit: BoxFit.fill,
-                            ),
-                    ),
+                    const EmptyImage(),
                     SizedBox(height: 20.h),
                     CustomTextField(
                       textEditingController: notifier.emailController,

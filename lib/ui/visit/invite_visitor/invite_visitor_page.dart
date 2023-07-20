@@ -13,8 +13,11 @@ import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 class InviteVisitorPage extends ConsumerStatefulWidget {
   const InviteVisitorPage({
+    required this.fromHomepage,
     super.key,
   });
+
+  final bool fromHomepage;
 
   @override
   ConsumerState createState() => _InviteVisitorPageState();
@@ -50,10 +53,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
         ),
       ),
       body: GestureDetector(
-        onTap: () =>
-          notifier.checkIfAnyDateOrTimeIsOpen()
-              ? notifier.closeDateAndTime()
-              : null,
+        onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+            ? notifier.closeDateAndTime()
+            : null,
         child: SizedBox(
           height: context.screenHeight,
           child: SafeArea(
@@ -72,8 +74,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                           ),
                           InkWell(
                             splashColor: whiteColor,
-                            onTap: () =>
-                            notifier.checkIfAnyDateOrTimeIsOpen()
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
                                 ? notifier.closeDateAndTime()
                                 : null,
                             child: Row(
@@ -83,13 +84,12 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                   child: InkWell(
                                     onTap: () =>
                                         notifier.openStartDatePickerDialog(
-                                          context: context,
-                                        ),
+                                      context: context,
+                                    ),
                                     child: CustomTextField(
                                       textEditingController:
-                                      notifier.startDateController,
-                                      isFocus:
-                                      provider.isOpenStartDatePicker,
+                                          notifier.startDateController,
+                                      isFocus: provider.isOpenStartDatePicker,
                                       enabled: false,
                                       checkEmpty: true,
                                       style: Style.commonTextStyle(
@@ -111,8 +111,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                   width: 8.w,
                                 ),
                                 Padding(
-                                  padding:
-                                  EdgeInsets.symmetric(vertical: 15.h),
+                                  padding: EdgeInsets.symmetric(vertical: 15.h),
                                   child: SvgPicture.asset(
                                     Assets.arrowRightBack,
                                     height: 12.h,
@@ -123,15 +122,13 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                 ),
                                 Expanded(
                                   child: InkWell(
-                                    onTap:
-                                    notifier.openStartTimePickerDialog,
+                                    onTap: notifier.openStartTimePickerDialog,
                                     child: CustomTextField(
                                       textEditingController:
-                                      notifier.startTimeController,
+                                          notifier.startTimeController,
                                       enabled: false,
                                       checkEmpty: true,
-                                      isFocus:
-                                      provider.isOpenStartTimePicker,
+                                      isFocus: provider.isOpenStartTimePicker,
                                       labelText: S.current.time,
                                       style: Style.commonTextStyle(
                                         color: blackColor,
@@ -165,8 +162,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                           ),
                           InkWell(
                             splashColor: whiteColor,
-                            onTap: () =>
-                            notifier.checkIfAnyDateOrTimeIsOpen()
+                            onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
                                 ? notifier.closeDateAndTime()
                                 : null,
                             child: Row(
@@ -177,7 +173,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     onTap: notifier.openEndDatePickerDialog,
                                     child: CustomTextField(
                                       textEditingController:
-                                      notifier.endDateController,
+                                          notifier.endDateController,
                                       isFocus: provider.isOpenEndDatePicker,
                                       enabled: false,
                                       checkEmpty: true,
@@ -198,8 +194,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                 ),
                                 SizedBox(width: 8.w),
                                 Padding(
-                                  padding:
-                                  EdgeInsets.symmetric(vertical: 15.h),
+                                  padding: EdgeInsets.symmetric(vertical: 15.h),
                                   child: SvgPicture.asset(
                                     Assets.arrowRightBack,
                                     height: 12.h,
@@ -211,7 +206,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                     onTap: notifier.openEndTimePickerDialog,
                                     child: CustomTextField(
                                       textEditingController:
-                                      notifier.endTimeController,
+                                          notifier.endTimeController,
                                       isFocus: provider.isOpenEndTimePicker,
                                       enabled: false,
                                       checkEmpty: true,
@@ -258,10 +253,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                               ),
                               const Spacer(),
                               TextButton(
-                                onPressed: () =>
-                                    notifier.addPreviousVisitor(
-                                      context: context,
-                                    ),
+                                onPressed: () => notifier.addPreviousVisitor(
+                                  context: context,
+                                ),
                                 child: Text(
                                   S.of(context).addPreviousVisitor,
                                   style: Style.commonTextStyle(
@@ -287,8 +281,8 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                             onPressed: provider.isFieldDisable
                                 ? null
                                 : () => notifier.addMoreVisitor(
-                              context: context,
-                            ),
+                                      context: context,
+                                    ),
                             child: Text(
                               S.of(context).addMoreVisitors,
                               style: Style.commonTextStyle(
@@ -304,8 +298,10 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                             height: 30.h,
                           ),
                           ElevatedButton(
-                            onPressed: () =>
-                                notifier.sendInvitation(context),
+                            onPressed: () => notifier.sendInvitation(
+                              context: context,
+                              fromHomepage: widget.fromHomepage,
+                            ),
                             style: Style.primaryButtonStyle(
                               context: context,
                               primaryColor: provider.isFieldDisable

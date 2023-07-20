@@ -110,7 +110,10 @@ class VisitsListView extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         elevation: 1,
-        onPressed: () => AppRouter.pushNamed(Routes.inviteVisitorScreen),
+        onPressed: () => AppRouter.pushNamed(
+          Routes.inviteVisitorScreen,
+          args: false,
+        ),
         child: Container(
           width: 54.w,
           height: 54.h,

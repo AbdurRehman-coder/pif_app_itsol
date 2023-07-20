@@ -5,11 +5,7 @@ part 'login_state.freezed.dart';
 
 @freezed
 class LogInState with _$LogInState {
-  const factory LogInState({
-    required XFile? imageFile,
-  }) = _LogInState;
+  const factory LogInState() = _LogInState;
 
-  factory LogInState.initial() => const LogInState(
-        imageFile: null,
-      );
+  factory LogInState.initial() => const LogInState();
 }

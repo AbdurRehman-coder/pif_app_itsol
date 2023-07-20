@@ -135,7 +135,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }
 
   //Send Invitation
-  void sendInvitation(BuildContext context) {
+  void sendInvitation({
+    required BuildContext context,
+    required bool fromHomepage,
+  }) {
     if (formKeyForDate.currentState!.validate()) {
       if (state.isFieldDisable) {
         return;
@@ -162,6 +165,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
         context: context,
         startDate: startDate,
         endDate: endDate,
+        fromHomepage: fromHomepage,
       );
     }
   }
@@ -389,6 +393,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     required BuildContext context,
     required DateTime startDate,
     required DateTime endDate,
+    required bool fromHomepage,
   }) async {
     if (checkEntryData(context: context)) {
       final appProgressDialog = AppProgressDialog(context: context);
@@ -465,8 +470,13 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
           await appProgressDialog.stop();
           if (result.isRight()) {
             final notifier = ref.read(visitListProvider.notifier);
-            await notifier.getVisits();
-            AppRouter.popUntil(Routes.visitListScreen);
+
+            if (fromHomepage) {
+              AppRouter.popUntil(Routes.dashboardScreen);
+            } else {
+              await notifier.getVisits();
+              AppRouter.popUntil(Routes.visitListScreen);
+            }
             alertMessage(
               errorMessage: S.current.inviteVisitorSuccess,
               context: context,
