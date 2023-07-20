@@ -16,6 +16,8 @@ class PinPutWidget extends StatefulWidget {
 
 class _PinPutWidgetState extends State<PinPutWidget> {
   late Timer timer;
+  final pinController = TextEditingController();
+
   int startTimers = 60;
 
   void startTimerFun() {
@@ -39,31 +41,37 @@ class _PinPutWidgetState extends State<PinPutWidget> {
   @override
   void initState() {
     super.initState();
+
     startTimerFun();
   }
 
   @override
   void dispose() {
     timer.cancel();
+    pinController.dispose();
+
     super.dispose();
   }
 
+  final focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
-    final focusNode = FocusNode();
+    const fillColor = Color.fromRGBO(243, 246, 249, 0);
+    const borderColor = primaryColor;
+
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: TextStyle(
-        fontSize: 22.sp,
-        color: grayTextColor,
+      textStyle: const TextStyle(
+        fontSize: 22,
+        color: Color.fromRGBO(30, 60, 87, 1),
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(19),
         border: Border.all(color: borderColor),
       ),
     );
-    const fillColor = Color.fromRGBO(243, 246, 249, 0);
 
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -74,52 +82,49 @@ class _PinPutWidgetState extends State<PinPutWidget> {
             Directionality(
               textDirection: TextDirection.ltr,
               child: Pinput(
-                autofocus: true,
-                controller: notifier.pinController,
+                controller: pinController,
                 keyboardType: TextInputType.phone,
-                length: 5,
                 focusNode: focusNode,
                 androidSmsAutofillMethod:
                     AndroidSmsAutofillMethod.smsUserConsentApi,
+                listenForMultipleSmsOnAndroid: true,
                 defaultPinTheme: defaultPinTheme,
                 validator: (value) {
-                  return value == '22222' ? null : 'Pin is incorrect';
+                  return value == '2222' ? null : 'Pin is incorrect';
                 },
                 hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {
-                  FocusManager.instance.primaryFocus?.unfocus();
-                  setStateF;
                   AppRouter.pushNamed(Routes.welcomeScreen, args: 'Obaida');
                 },
-                // autofocus: true,
+                onChanged: (value) {
+                  debugPrint('onChanged: $value');
+                },
                 cursor: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 9.h),
-                      width: 22.w,
-                      height: 1.h,
+                      margin: const EdgeInsets.only(bottom: 9),
+                      width: 22,
+                      height: 1,
                       color: primaryColor,
                     ),
                   ],
                 ),
                 focusedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
-                    borderRadius: BorderRadius.circular(8.r),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(color: primaryColor),
                   ),
                 ),
                 submittedPinTheme: defaultPinTheme.copyWith(
                   decoration: defaultPinTheme.decoration!.copyWith(
                     color: fillColor,
-                    borderRadius: BorderRadius.circular(19.r),
+                    borderRadius: BorderRadius.circular(19),
                     border: Border.all(color: primaryColor),
                   ),
                 ),
                 errorPinTheme: defaultPinTheme.copyBorderWith(
-                  border: Border.all(
-                    color: redColor,
-                  ),
+                  border: Border.all(color: Colors.redAccent),
                 ),
               ),
             ),

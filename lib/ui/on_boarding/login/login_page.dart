@@ -19,10 +19,10 @@ class LogInPage extends ConsumerWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: grayF5,
-      body: BackgroundWidget(
-        child: SafeArea(
-          child: Form(
-            key: notifier.formKeyLogIn,
+      body: Form(
+        key: notifier.formKeyLogIn,
+        child: BackgroundWidget(
+          child: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w),

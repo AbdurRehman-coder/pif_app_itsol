@@ -15,17 +15,11 @@ final logInProvider =
 });
 
 class LogInNotifier extends StateNotifier<LogInState> {
-  LogInNotifier({required this.ref}) : super(LogInState.initial()) {
-    _initStat();
-  }
+  LogInNotifier({required this.ref}) : super(LogInState.initial());
 
   final Ref ref;
 
-  void _initStat() {
-    formKeyLogIn = GlobalKey<FormState>();
-  }
-
-  late GlobalKey<FormState> formKeyLogIn;
+  GlobalKey<FormState> formKeyLogIn = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
