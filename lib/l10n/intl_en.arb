@@ -205,5 +205,6 @@
    "searchHub":"Search Hub",
    "readMore":"Read More",
   "searchNationality": "Search Nationality",
-  "idType" : "Id type"
+  "idType" : "Id type",
+  "searchService": "Search Services"
 }

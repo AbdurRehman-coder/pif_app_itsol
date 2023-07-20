@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/home/provider/home_provider.dart';
+import 'package:pif_flutter/ui/services/index.dart';
 
-class CategoryListView extends ConsumerWidget {
-  const CategoryListView({super.key});
+class FoundationalServiceView extends ConsumerWidget {
+  const FoundationalServiceView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(homeProvider);
-    final data = provider.lstCategory;
+    final provider = ref.watch(serviceProvider);
+
+    final data = provider.lstService;
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
-        crossAxisSpacing: 40.h,
-        mainAxisSpacing: 10.w,
-        childAspectRatio: 0.6,
+        childAspectRatio: 0.8,
+        crossAxisSpacing: 10.w,
       ),
       itemCount: data.length,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
       itemBuilder: (context, index) {
         return InkWell(
           onTap: data[index].onTap,
@@ -28,37 +27,37 @@ class CategoryListView extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 60.w,
-                width: 60.w,
-                padding: EdgeInsets.all(5.r),
+                height: 68.w,
+                width: 68.w,
+                padding: EdgeInsets.all(12.r),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16.r),
                   color: whiteColor,
-                  border: Border.all(
-                    width: 1.5,
-                    color: grayD7,
-                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gray46.withOpacity(0.10),
+                      offset: const Offset(0, 2),
+                      blurRadius: 2.r,
+                    ),
+                  ],
                 ),
                 child: Image.asset(
                   data[index].image ?? '',
-                  fit: BoxFit.scaleDown,
-                  height: 50.h,
-                  width: 50.w,
                 ),
               ),
               SizedBox(
                 height: 4.h,
               ),
-              Expanded(
-                child: Text(
-                  data[index].text ?? '',
-                  style: Style.commonTextStyle(
-                    color: textColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  overflow: TextOverflow.ellipsis,
+              Text(
+                data[index].text ?? '',
+                maxLines: 2,
+                textAlign: TextAlign.center,
+                style: Style.commonTextStyle(
+                  color: textColor,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),

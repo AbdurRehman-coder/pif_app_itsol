@@ -10,6 +10,7 @@ import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
 import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
+import 'package:pif_flutter/ui/services/index.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
 
 class DashboardPage extends ConsumerStatefulWidget {
@@ -54,16 +55,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
       BottomMenuModel(
         icon: Assets.servicesIcon,
         title: S.current.services,
-        child: Center(
-          child: Text(
-            'Coming Soon ...',
-            style: Style.commonTextStyle(
-              color: hintColor,
-              fontSize: 25.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-        ),
+        child: const ServicePage(),
       ),
     );
     setState(() {});
@@ -127,7 +119,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         hintText: S.current.searchHub,
       );
     } else {
-      title = null;
+      title = SearchTextField(
+        textEditingController: TextEditingController(),
+        hintText: S.current.searchService,
+      );
     }
 
     return Stack(
@@ -137,8 +132,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor:
-                _bottomNavIndex == 0 ? lightGrayBgColor : Colors.transparent,
+            backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
             centerTitle: true,
             title: title,
             leading: Builder(
@@ -179,7 +173,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     ),
                   ),
                 ),
-              ] else if (_bottomNavIndex == 1 || _bottomNavIndex == 3) ...[
+              ] else if (_bottomNavIndex == 1) ...[
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5.w),
                   child: SvgPicture.asset(
@@ -208,8 +202,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           body: NotificationListener<ScrollNotification>(
             child: lstMenu.elementAt(_bottomNavIndex).child!,
           ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
             height: 50.h,
             width: 50.w,
