@@ -66,6 +66,8 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> with 
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         SlideTransition(
           position: Tween(
@@ -118,6 +120,7 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> with 
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(height: 40.h),

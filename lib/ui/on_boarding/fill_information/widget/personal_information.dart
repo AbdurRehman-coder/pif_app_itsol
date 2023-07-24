@@ -14,6 +14,7 @@ class PersonalInformation extends ConsumerWidget {
     final provider = ref.watch(fillInformationProvider);
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: 20.h),
         CommonDropDownSearchWidget(
@@ -39,7 +40,7 @@ class PersonalInformation extends ConsumerWidget {
           fillColor: whiteColor,
           // onChanged: (val)=>,
         ),
-        SizedBox(height: 300.h),
+        SizedBox(height: 30.h),
       ],
     );
   }

@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_personal_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/scan_face.dart';
-import 'package:pif_flutter/ui/on_boarding/fill_information/widget/personal_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/bottom_button.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
-import 'package:video_player/video_player.dart';
 
-class WelcomeScreen extends StatefulWidget {
+class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({
     required this.userName,
     super.key,
@@ -19,11 +16,10 @@ class WelcomeScreen extends StatefulWidget {
   final String userName;
 
   @override
-  State<WelcomeScreen> createState() => _WelcomeScreenState();
+  ConsumerState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen>
-    with TickerProviderStateMixin {
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen> with TickerProviderStateMixin {
   late AnimationController animateButton;
 
   @override
@@ -47,6 +43,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(fillInformationProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -71,27 +68,29 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           ),
         ),
       ),
-      body: Consumer(
-        builder: (BuildContext context, WidgetRef ref, Widget? child) {
-          final provider = ref.watch(fillInformationProvider);
-          return BackgroundWidget(
-            child: provider.selectedScreen == 0
-                ? FillPersonalInformation(
-                    userName: widget.userName,
-                  )
-                : const ScanFace(),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FadeTransition(
-        opacity: Tween(begin: 0.0, end: 0.8).animate(
-          CurvedAnimation(
-            parent: animateButton,
-            curve: Curves.easeInToLinear,
+      body: BackgroundWidget(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (provider.selectedScreen == 0)
+                FillPersonalInformation(
+                  userName: widget.userName,
+                )
+              else
+                const ScanFace(),
+              FadeTransition(
+                opacity: Tween(begin: 0.0, end: 0.8).animate(
+                  CurvedAnimation(
+                    parent: animateButton,
+                    curve: Curves.easeInToLinear,
+                  ),
+                ),
+                child: const BottomButton(),
+              ),
+            ],
           ),
         ),
-        child: const BottomButton(),
       ),
     );
   }

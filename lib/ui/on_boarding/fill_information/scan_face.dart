@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
 import 'package:video_player/video_player.dart';
@@ -36,6 +36,7 @@ class _ScanFaceState extends ConsumerState<ScanFace> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TileCard(
             title: S.current.faceID,
@@ -43,8 +44,8 @@ class _ScanFaceState extends ConsumerState<ScanFace> {
           ),
           SizedBox(height: 20.h),
           if (provider.scanFace == null) ...[
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: context.screenHeight / 2,
               child: SmartFaceCamera(
                 autoCapture: true,
                 defaultCameraLens: CameraLens.front,
@@ -52,21 +53,19 @@ class _ScanFaceState extends ConsumerState<ScanFace> {
                 showCameraLensControl: false,
                 showCaptureControl: false,
                 showFlashControl: false,
-                onCapture: (File? image) => image != null
-                    ? notifier.selectImageFace(imageSelected: image)
-                    : null,
+                onCapture: (File? image) =>
+                    image != null ? notifier.selectImageFace(imageSelected: image) : null,
               ),
             )
           ] else ...[
-            Expanded(
-              flex: 2,
+            SizedBox(
+              height: context.screenHeight / 2,
               child: Image.file(
                 provider.scanFace!,
                 fit: BoxFit.cover,
               ),
             ),
           ],
-          const Expanded(child: SizedBox()),
         ],
       ),
     );
