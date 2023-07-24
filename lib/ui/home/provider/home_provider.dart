@@ -5,6 +5,7 @@ import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/home/model/category_model.dart';
 import 'package:pif_flutter/ui/home/states/home_states.dart';
+import 'package:pif_flutter/ui/home/widget/comming_visitor_card.dart';
 import 'package:pif_flutter/ui/home/widget/meeting_card.dart';
 import 'package:pif_flutter/ui/home/widget/order_status_card.dart';
 import 'package:pif_flutter/ui/home/widget/support_status_card.dart';
@@ -26,6 +27,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     const TodayStatus(),
     const SupportStatusCard(),
     const MeetingCard(),
+    const ComingVisitorCard(),
     const OrderStatusCard(),
   ];
 

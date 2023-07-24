@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/home/widget/walking_widget.dart';
 
 class ComingVisitorCard extends StatelessWidget {
   const ComingVisitorCard({super.key});
@@ -31,19 +32,26 @@ class ComingVisitorCard extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 10.h),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Khaled Ahmed',
-              style: Style.commonTextStyle(
-                color: whiteColor,
-                fontSize: 10.sp,
-                fontWeight: FontWeight.w400,
+          SizedBox(height: 5.h),
+          SizedBox(
+            height: 24.h,
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+              ),
+              child: Text(
+                'Khaled Ahmed',
+                style: Style.commonTextStyle(
+                  color: whiteColor,
+                  fontSize: 10.sp,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 13.h),
+          const WalkingWidget(),
         ],
       ),
     );

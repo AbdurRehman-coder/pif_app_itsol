@@ -17,7 +17,6 @@ class OrderStatusCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        vertical: 16.h,
         horizontal: 16.w,
       ),
       decoration: const BoxDecoration(
@@ -31,6 +30,7 @@ class OrderStatusCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: 16.h),
           Text(
             S.current.orderStatus,
             style: Style.commonTextStyle(
@@ -39,7 +39,7 @@ class OrderStatusCard extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 10.h),
+          SizedBox(height: 3.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -63,32 +63,32 @@ class OrderStatusCard extends StatelessWidget {
                     ),
                   ),
                   avatars: [
-                    for (var i = 0; i < 2; i++)
+                    for (var i = 0; i < 2; i++) ...[
                       const NetworkImage(
                         'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
                       ),
+                    ]
                   ],
                 ),
               ),
               const Spacer(),
-              Expanded(
-                flex: 2,
+              const Expanded(
+                flex: 3,
                 child: Row(
                   children: [
-                    const OrderStatusIcon(
+                    OrderStatusIcon(
                       orderStatusText: 'Received',
                       orderStatusIcon: Assets.recived,
                       orderStatusSelected: true,
                     ),
-                    SizedBox(width: 10.w),
-                    const OrderStatusIcon(
+                    OrderStatusIcon(
                       orderStatusText: 'Preparing',
-                      orderStatusIcon: Assets.drinks,
-                    ),
-                    SizedBox(width: 10.w),
-                    const OrderStatusIcon(
-                      orderStatusText: 'On Way',
                       orderStatusIcon: Assets.delivered,
+                    ),
+                    OrderStatusIcon(
+                      orderStatusText: 'Step',
+                      orderStatusIcon: Assets.drinks,
+                      isLastItem: true,
                     ),
                   ],
                 ),

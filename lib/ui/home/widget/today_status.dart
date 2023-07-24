@@ -31,7 +31,7 @@ class TodayStatus extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        vertical: 24.h,
+        vertical: 16.h,
         horizontal: 23.w,
       ),
       decoration: BoxDecoration(

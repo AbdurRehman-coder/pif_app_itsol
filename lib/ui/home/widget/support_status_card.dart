@@ -7,11 +7,10 @@ class SupportStatusCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.h,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        vertical: 16.h,
         horizontal: 16.w,
+        vertical: 16.h,
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -35,17 +34,28 @@ class SupportStatusCard extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              Text(
-                S.current.inProgress,
-                style: Style.commonTextStyle(
-                  color: darkBlueColor,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w400,
+              Container(
+                height: 32.h,
+                width: 75.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(15.r),
+                  ),
+                  color: activeBgColor,
+                ),
+                child: Center(
+                  child: Text(
+                    S.current.inProgress,
+                    style: Style.commonTextStyle(
+                      color: primaryColor,
+                      fontSize: 10.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 5.h),
           Text(
             '${S.current.lastActivity}: 4 ${S.current.hrs}',
             style: Style.commonTextStyle(
@@ -54,14 +64,14 @@ class SupportStatusCard extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
           ),
-          SizedBox(height: 11.h),
+          SizedBox(height: 4.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Text(
-                  'I have issues with Network connection skns jhsjbs jbsj',
+                  'I have issues with Network connection',
                   style: Style.commonTextStyle(
                     color: blackColor,
                     fontSize: 12.sp,
@@ -73,11 +83,12 @@ class SupportStatusCard extends StatelessWidget {
               ),
               const Expanded(child: SizedBox()),
               Container(
-                height: 40.h,
-                width: 40.w,
-                decoration: const BoxDecoration(
+                height: 32.h,
+                width: 32.w,
+                decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  image: DecorationImage(
+                  border: Border.all(color: whiteColor),
+                  image: const DecorationImage(
                     image: NetworkImage(
                       'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
                     ),

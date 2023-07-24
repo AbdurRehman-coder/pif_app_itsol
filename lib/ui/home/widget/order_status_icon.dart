@@ -7,41 +7,46 @@ class OrderStatusIcon extends StatelessWidget {
     required this.orderStatusText,
     required this.orderStatusIcon,
     this.orderStatusSelected = false,
+    this.isLastItem = false,
     super.key,
   });
 
   final String orderStatusText;
   final String orderStatusIcon;
   final bool orderStatusSelected;
+  final bool isLastItem;
 
   @override
   Widget build(BuildContext context) {
-    if (orderStatusSelected) {
-      return Column(
-        children: [
-          Image.asset(
-            orderStatusIcon,
-            width: 40.w,
-            height: 40.h,
-            color: primaryColor,
-          ),
-          SizedBox(height: 5.h),
-          Text(
-            orderStatusText,
-            style: Style.commonTextStyle(
-              color: primaryColor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
+    return Row(
+      children: [
+        Column(
+          children: [
+            Image.asset(
+              orderStatusIcon,
+              width: 32.w,
+              height: 32.h,
+              color: orderStatusSelected ? primaryColor : secondary,
             ),
+            Text(
+              orderStatusText,
+              style: Style.commonTextStyle(
+                color: orderStatusSelected ? primaryColor : secondary,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        ),
+        if (!isLastItem) ...[
+          Container(
+            height: 1.h,
+             width: 24.w,
+            color: expireStatusColor,
           ),
+
         ],
-      );
-    } else {
-      return Image.asset(
-        orderStatusIcon,
-        width: 40.w,
-        height: 40.h,
-      );
-    }
+      ],
+    );
   }
 }

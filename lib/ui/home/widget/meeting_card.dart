@@ -16,7 +16,7 @@ class MeetingCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        vertical: 12.h,
+        vertical: 16.h,
         horizontal: 20.w,
       ),
       decoration: const BoxDecoration(
@@ -43,7 +43,7 @@ class MeetingCard extends StatelessWidget {
             children: [
               Icon(
                 Icons.timer_outlined,
-                size: 25.w,
+                size: 20.w,
                 color: expireStatusColor,
               ),
               SizedBox(width: 3.w),
@@ -67,13 +67,13 @@ class MeetingCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 15.h),
+          SizedBox(height: 3.h),
           Row(
             children: [
               const Expanded(child: SizedBox()),
               Expanded(
                 child: AvatarStack(
-                  height: 40.h,
+                  height: 32.h,
                   borderColor: loggedStatusColor,
                   borderWidth: 0.5,
                   settings: settings,
@@ -90,7 +90,7 @@ class MeetingCard extends StatelessWidget {
                     ),
                   ),
                   avatars: [
-                    for (var i = 0; i < 10; i++)
+                    for (var i = 0; i < 2; i++)
                       const NetworkImage(
                         'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
                       ),
