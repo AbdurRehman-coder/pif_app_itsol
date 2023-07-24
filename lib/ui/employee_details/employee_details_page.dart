@@ -18,329 +18,331 @@ class EmployeeDetailsPage extends ConsumerWidget {
     return Scaffold(
       body: Stack(
         children: [
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Container(
-                      height: 216.h,
-                      alignment: Alignment.center,
-                      decoration: const BoxDecoration(
-                        gradient: RadialGradient(
-                          center: Alignment(1, 0.5963),
-                          radius: 2.6856,
-                          colors: [grayGradientStart, grayGradientEnd],
-                        ),
-                      ),
-                      child: CachedNetworkImage(
-                        height: 100.h,
-                        width: 100.w,
-                        imageUrl: 'https://picsum.photos/100/100',
-                        placeholder: (context, url) => const SizedBox(),
-                        errorWidget: (context, url, error) => const Icon(Icons.error),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Container(
+                    height: 216.h,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      gradient: RadialGradient(
+                        center: Alignment(1, 0.5963),
+                        radius: 2.6856,
+                        colors: [grayGradientStart, grayGradientEnd],
                       ),
                     ),
-                    Positioned(
-                      top: 175.h, // Adjust this value to position the image as per your requirement.
-                      left: 16.w,
-                      child: Container(
-                        height: 80.r,
-                        width: 80.r,
-                        decoration: ShapeDecoration(
-                          shape: CircleBorder(
-                            side: BorderSide(
-                              width: 3.r,
-                              color: goldenColor,
-                            ),
-                          ),
-                        ),
-                        child: ClipOval(
-                          child: CachedNetworkImage(
-                            imageUrl: 'https://picsum.photos/50/50',
-                            fit: BoxFit.contain,
+                    child: CachedNetworkImage(
+                      height: 100.h,
+                      width: 100.w,
+                      imageUrl: 'https://picsum.photos/100/100',
+                      placeholder: (context, url) => const SizedBox(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                    ),
+                  ),
+                  Positioned(
+                    top: 175.h, // Adjust this value to position the image as per your requirement.
+                    left: 16.w,
+                    child: Container(
+                      height: 80.r,
+                      width: 80.r,
+                      decoration: ShapeDecoration(
+                        shape: CircleBorder(
+                          side: BorderSide(
+                            width: 3.r,
+                            color: goldenColor,
                           ),
                         ),
                       ),
+                      child: ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://picsum.photos/50/50',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 40.h,
-                ),
-                Padding(
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 40.h,
+              ),
+              Expanded(
+                child: Padding(
                   padding: EdgeInsets.only(
                     left: 16.w,
                     right: 16.w,
                     bottom: 30.h,
                     top: 10.h,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            'Red Sea Global',
-                            style: Style.commonTextStyle(
-                              color: textColor,
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w600,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              'Red Sea Global',
+                              style: Style.commonTextStyle(
+                                color: textColor,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          SvgPicture.asset(
-                            Assets.svgInstagram,
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          SvgPicture.asset(
-                            Assets.svgLinkedIn,
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          SvgPicture.asset(
-                            Assets.svgWhatsApp,
-                          ),
-                        ],
-                      ),
-                      Text(
-                        'CFO',
-                        style: Style.commonTextStyle(
-                          color: primaryColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w400,
+                            SizedBox(
+                              width: 8.w,
+                            ),
+                            SvgPicture.asset(
+                              Assets.svgInstagram,
+                            ),
+                            SizedBox(
+                              width: 12.w,
+                            ),
+                            SvgPicture.asset(
+                              Assets.svgLinkedIn,
+                            ),
+                            SizedBox(
+                              width: 12.w,
+                            ),
+                            SvgPicture.asset(
+                              Assets.svgWhatsApp,
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Text(
-                        "Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage. Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage.",
-                        style: Style.commonTextStyle(
-                          color: grayTextColor,
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Stack(
-                        alignment: Alignment.bottomCenter,
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: notifier.isGeneralVisible,
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 5.h),
-                                  child: Text(
-                                    'General',
-                                    style: Style.commonTextStyle(
-                                      color: provider.isGeneralVisible ? textColor : grayTextColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 30.h,
-                              ),
-                              InkWell(
-                                onTap: notifier.isPreferenceVisible,
-                                child: Padding(
-                                  padding: EdgeInsets.only(bottom: 5.h),
-                                  child: Text(
-                                    'Preferences',
-                                    style: Style.commonTextStyle(
-                                      color: provider.isPreferenceVisible ? textColor : grayTextColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                        Text(
+                          'CFO',
+                          style: Style.commonTextStyle(
+                            color: primaryColor,
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w400,
                           ),
-                          Divider(
-                            height: 1.h,
-                            color: textColor,
-                            thickness: 4,
-                            endIndent: MediaQuery.of(context).size.width * 0.75,
-                          ).visibility(visible: provider.isGeneralVisible),
-                          Divider(
-                            height: 1.h,
-                            color: textColor,
-                            thickness: 4,
-                            indent: MediaQuery.of(context).size.width * 0.24, // 30% of the screen width
-                            endIndent: MediaQuery.of(context).size.width * 0.44,
-                          ).visibility(visible: provider.isPreferenceVisible),
-                          Divider(
-                            height: 1.h,
-                            color: grayBorderColor,
-                            thickness: 1,
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      const GeneralView(),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Divider(
-                        height: 1.h,
-                        color: grayBorderColor,
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Text(
-                        'Find me at',
-                        style: Style.commonTextStyle(
-                          color: textColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w400,
                         ),
-                      ),
-                      SizedBox(
-                        height: 8.h,
-                      ),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Container(
-                                height: 56.h,
-                                width: 56.w,
-                                decoration: ShapeDecoration(
-                                  shape: CircleBorder(
-                                    side: BorderSide(
-                                      width: 1.r,
-                                      color: borderColor,
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          "Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage. Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage.",
+                          style: Style.commonTextStyle(
+                            color: grayTextColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: notifier.isGeneralVisible,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 5.h),
+                                    child: Text(
+                                      'General',
+                                      style: Style.commonTextStyle(
+                                        color: provider.isGeneralVisible ? textColor : grayTextColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
                                     ),
                                   ),
                                 ),
-                                child: ClipOval(
-                                  child: CachedNetworkImage(
-                                    height: 56.r,
-                                    width: 56.r,
-                                    imageUrl: 'https://picsum.photos/60/60',
-                                    placeholder: (context, url) => const SizedBox(),
-                                    errorWidget: (context, url, error) => const Icon(Icons.error),
+                                SizedBox(
+                                  width: 30.h,
+                                ),
+                                InkWell(
+                                  onTap: notifier.isPreferenceVisible,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 5.h),
+                                    child: Text(
+                                      'Preferences',
+                                      style: Style.commonTextStyle(
+                                        color: provider.isPreferenceVisible ? textColor : grayTextColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: 16.w,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    provider.lstEmployee[index].address ?? '',
-                                    style: Style.commonTextStyle(
-                                      color: textColor,
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    provider.lstEmployee[index].streetName ?? '',
-                                    style: Style.commonTextStyle(
-                                      color: grayTextColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          );
-                        },
-                        separatorBuilder: (context, index) {
-                          return SizedBox(
-                            height: 24.h,
-                          );
-                        },
-                        itemCount: provider.lstEmployee.length,
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Divider(
-                        height: 1.h,
-                        color: grayBorderColor,
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'Interests',
+                              ],
+                            ),
+                            Divider(
+                              height: 1.h,
+                              color: textColor,
+                              thickness: 4,
+                              endIndent: MediaQuery.of(context).size.width * 0.75,
+                            ).visibility(visible: provider.isGeneralVisible),
+                            Divider(
+                              height: 1.h,
+                              color: textColor,
+                              thickness: 4,
+                              indent: MediaQuery.of(context).size.width * 0.24, // 30% of the screen width
+                              endIndent: MediaQuery.of(context).size.width * 0.44,
+                            ).visibility(visible: provider.isPreferenceVisible),
+                            Divider(
+                              height: 1.h,
+                              color: grayBorderColor,
+                              thickness: 1,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        const GeneralView(),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Divider(
+                          height: 1.h,
+                          color: grayBorderColor,
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Text(
+                          'Find me at',
                           style: Style.commonTextStyle(
                             color: textColor,
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 12.h,
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                        child: ListView.separated(
-                          scrollDirection: Axis.horizontal,
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20.r),
-                                color: grayGradientStart,
-                              ),
-                              child: Text(
-                                provider.lstService[index].companyService ?? '',
-                                style: Style.commonTextStyle(
-                                  color: darkBorderColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
+                            return Row(
+                              children: [
+                                Container(
+                                  height: 56.h,
+                                  width: 56.w,
+                                  decoration: ShapeDecoration(
+                                    shape: CircleBorder(
+                                      side: BorderSide(
+                                        width: 1.r,
+                                        color: borderColor,
+                                      ),
+                                    ),
+                                  ),
+                                  child: ClipOval(
+                                    child: CachedNetworkImage(
+                                      height: 56.r,
+                                      width: 56.r,
+                                      imageUrl: 'https://picsum.photos/60/60',
+                                      placeholder: (context, url) => const SizedBox(),
+                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                SizedBox(
+                                  width: 16.w,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      provider.lstEmployee[index].address ?? '',
+                                      style: Style.commonTextStyle(
+                                        color: textColor,
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    Text(
+                                      provider.lstEmployee[index].streetName ?? '',
+                                      style: Style.commonTextStyle(
+                                        color: grayTextColor,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
                             );
                           },
                           separatorBuilder: (context, index) {
                             return SizedBox(
-                              width: 16.h,
+                              height: 24.h,
                             );
                           },
-                          itemCount: provider.lstService.length,
+                          itemCount: provider.lstEmployee.length,
                         ),
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                    ],
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Divider(
+                          height: 1.h,
+                          color: grayBorderColor,
+                          thickness: 1,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Interests',
+                            style: Style.commonTextStyle(
+                              color: textColor,
+                              fontSize: 18.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        SizedBox(
+                          height: 40.h,
+                          child: ListView.separated(
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20.r),
+                                  color: grayGradientStart,
+                                ),
+                                child: Text(
+                                  provider.lstService[index].companyService ?? '',
+                                  style: Style.commonTextStyle(
+                                    color: darkBorderColor,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return SizedBox(
+                                width: 16.h,
+                              );
+                            },
+                            itemCount: provider.lstService.length,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
