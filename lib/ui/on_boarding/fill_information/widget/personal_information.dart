@@ -21,6 +21,7 @@ class PersonalInformation extends ConsumerWidget {
           selectedValue: provider.selectedNationality,
           placeholder: S.current.nationality,
           data: provider.nationalList.value!,
+          withSearch: true,
           onItemSelected: notifier.updateNationality,
         ),
         SizedBox(height: 10.h),
@@ -38,9 +39,9 @@ class PersonalInformation extends ConsumerWidget {
           textEditingController: notifier.nationalController,
           hintText: S.current.idNumber,
           fillColor: whiteColor,
-          // onChanged: (val)=>,
+          onChanged: (val) => notifier.update(),
         ),
-        SizedBox(height: 30.h),
+        SizedBox(height: 320.h),
       ],
     );
   }

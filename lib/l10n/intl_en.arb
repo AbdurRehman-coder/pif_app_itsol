@@ -169,7 +169,7 @@
   "support": "Support",
   "addComment" : "Add a comment...",
   "commentAlert" : "Please enter comment",
-  "lang":"English",
+  "lang":"العربية",
   "weOfferPasswordExperience":"We offer password-less experience to authorized users",
    "verification":"Verification",
    "receiveAnEmail":"Didn’t receive an email? ",
@@ -206,5 +206,7 @@
    "readMore":"Read More",
   "searchNationality": "Search Nationality",
   "idType" : "Id type",
-  "searchService": "Search Services"
+  "searchService": "Search Services",
+  "capture":"Capture",
+  "takePhoto":"Take Photo"
 }

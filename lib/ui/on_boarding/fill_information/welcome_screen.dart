@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_personal_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/scan_face.dart';
@@ -19,7 +20,8 @@ class WelcomeScreen extends ConsumerStatefulWidget {
   ConsumerState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends ConsumerState<WelcomeScreen> with TickerProviderStateMixin {
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
+    with TickerProviderStateMixin {
   late AnimationController animateButton;
 
   @override
@@ -46,51 +48,46 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> with TickerProvid
     final provider = ref.watch(fillInformationProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: whiteColor,
-        automaticallyImplyLeading: false,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: InkWell(
-            onTap: AppRouter.pop,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: primaryColor.withOpacity(0.2),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios_new,
-                color: dayTextColor,
-                size: 22,
-              ),
-            ),
-          ),
-        ),
-      ),
-      body: BackgroundWidget(
-        child: SingleChildScrollView(
+      body: SafeArea(
+        child: BackgroundWidget(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (provider.selectedScreen == 0)
+              if (provider.selectedScreen == 0) ...[
                 FillPersonalInformation(
                   userName: widget.userName,
-                )
-              else
-                const ScanFace(),
-              FadeTransition(
-                opacity: Tween(begin: 0.0, end: 0.8).animate(
-                  CurvedAnimation(
-                    parent: animateButton,
-                    curve: Curves.easeInToLinear,
-                  ),
                 ),
-                child: const BottomButton(),
-              ),
+              ] else ...[
+                const ScanFaceCamera(),
+              ],
+              // const Spacer(),
+              // Column(
+              //   children: [
+              //     FadeTransition(
+              //       opacity: Tween(begin: 0.0, end: 0.8).animate(
+              //         CurvedAnimation(
+              //           parent: animateButton,
+              //           curve: Curves.easeInToLinear,
+              //         ),
+              //       ),
+              //       child: const BottomButton(),
+              //     ),
+              //     SizedBox(height:20.h),
+              //   ],
+              // ),
             ],
           ),
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FadeTransition(
+        opacity: Tween(begin: 0.0, end: 0.8).animate(
+          CurvedAnimation(
+            parent: animateButton,
+            curve: Curves.easeInToLinear,
+          ),
+        ),
+        child: const BottomButton(),
       ),
     );
   }

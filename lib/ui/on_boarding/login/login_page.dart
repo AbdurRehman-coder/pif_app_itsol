@@ -54,6 +54,7 @@ class LogInPage extends ConsumerWidget {
                     SizedBox(height: 20.h),
                     CustomTextField(
                       textEditingController: notifier.emailController,
+                      keyboardType: TextInputType.emailAddress,
                       labelText: S.of(context).email,
                       isEmailField: true,
                       checkEmpty: true,

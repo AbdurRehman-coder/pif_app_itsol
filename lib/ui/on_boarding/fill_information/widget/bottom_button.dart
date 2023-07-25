@@ -43,23 +43,42 @@ class BottomButton extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 20.h),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: primaryDisabledColor,
-                padding: EdgeInsets.symmetric(vertical: 10.h),
-              ),
-              onPressed: notifier.updateIndexSelect,
-              child: Text(
-                S.current.next,
-                style: Style.commonTextStyle(
-                  color: whiteColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
+          Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        notifier.nationalController.text.isNotEmpty &&
+                                provider.selectedNationality != null &&
+                                (provider.selectedNationality?.title !=
+                                        'Saudi Arabic'
+                                    ? provider.selectedType != null
+                                    : true)
+                            ? primaryColor
+                            : primaryDisabledColor,
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                  ),
+                  onPressed: notifier.nationalController.text.isNotEmpty &&
+                          provider.selectedNationality != null &&
+                          (provider.selectedNationality?.title != 'Saudi Arabic'
+                              ? provider.selectedType != null
+                              : true)
+                      ? notifier.updateIndexSelect
+                      : null,
+                  child: Text(
+                    S.current.next,
+                    style: Style.commonTextStyle(
+                      color: whiteColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
               ),
-            ),
+              SizedBox(height: 40.h),
+            ],
           ).visibility(visible: provider.selectedScreen == 0),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,14 +90,18 @@ class BottomButton extends ConsumerWidget {
                     backgroundColor: primaryColor,
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                   ),
-                  onPressed: notifier.removeSelectedImageFace,
+                  onPressed: provider.isVideoFinish
+                      ? notifier.selectImageFace
+                      : notifier.onVideoScanFaceFinish,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SvgPicture.asset(Assets.arOnYou),
                       SizedBox(width: 5.w),
                       Text(
-                        S.current.scan,
+                        provider.isVideoFinish
+                            ? S.current.capture
+                            : S.current.takePhoto,
                         style: Style.commonTextStyle(
                           color: whiteColor,
                           fontSize: 16.sp,

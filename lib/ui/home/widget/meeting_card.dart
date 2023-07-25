@@ -16,7 +16,7 @@ class MeetingCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        vertical: 16.h,
+        vertical: 14.h,
         horizontal: 20.w,
       ),
       decoration: const BoxDecoration(

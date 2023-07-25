@@ -16,7 +16,6 @@ class PinPutWidget extends StatefulWidget {
 
 class _PinPutWidgetState extends State<PinPutWidget> {
   late Timer timer;
-  final pinController = TextEditingController();
 
   int startTimers = 60;
 
@@ -48,7 +47,6 @@ class _PinPutWidgetState extends State<PinPutWidget> {
   @override
   void dispose() {
     timer.cancel();
-    pinController.dispose();
 
     super.dispose();
   }
@@ -82,7 +80,8 @@ class _PinPutWidgetState extends State<PinPutWidget> {
             Directionality(
               textDirection: TextDirection.ltr,
               child: Pinput(
-                controller: pinController,
+                autofocus: true,
+                controller: notifier.pinController,
                 keyboardType: TextInputType.phone,
                 focusNode: focusNode,
                 androidSmsAutofillMethod:
@@ -94,7 +93,7 @@ class _PinPutWidgetState extends State<PinPutWidget> {
                 },
                 hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {
-                  AppRouter.pushNamed(Routes.welcomeScreen, args: 'Obaida');
+                  notifier.goToWelcomeScreen();
                 },
                 onChanged: (value) {
                   debugPrint('onChanged: $value');

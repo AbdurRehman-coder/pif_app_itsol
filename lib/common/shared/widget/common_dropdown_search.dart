@@ -11,6 +11,7 @@ class CommonDropDownSearchWidget extends StatefulWidget {
     this.selectedValue,
     this.onItemSelected,
     this.isEnable = true,
+    this.withSearch = false,
     this.searchPlaceholder = 'Search',
   });
 
@@ -18,14 +19,17 @@ class CommonDropDownSearchWidget extends StatefulWidget {
   final String placeholder;
   final String searchPlaceholder;
   final bool isEnable;
+  final bool withSearch;
   final LookUpModel? selectedValue;
   final void Function(LookUpModel)? onItemSelected;
 
   @override
-  State<CommonDropDownSearchWidget> createState() => _CommonDropDownSearchWidgetState();
+  State<CommonDropDownSearchWidget> createState() =>
+      _CommonDropDownSearchWidgetState();
 }
 
-class _CommonDropDownSearchWidgetState extends State<CommonDropDownSearchWidget> {
+class _CommonDropDownSearchWidgetState
+    extends State<CommonDropDownSearchWidget> {
   bool isOpen = false;
   final searchController = TextEditingController();
   List<LookUpModel> filterData = <LookUpModel>[];
@@ -62,9 +66,12 @@ class _CommonDropDownSearchWidgetState extends State<CommonDropDownSearchWidget>
               children: [
                 Flexible(
                   child: Text(
-                    widget.selectedValue == null ? widget.placeholder : widget.selectedValue?.title ?? '',
+                    widget.selectedValue == null
+                        ? widget.placeholder
+                        : widget.selectedValue?.title ?? '',
                     style: Style.commonTextStyle(
-                      color: widget.selectedValue == null ? hintColor : textColor,
+                      color:
+                          widget.selectedValue == null ? hintColor : textColor,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                     ),
@@ -80,7 +87,9 @@ class _CommonDropDownSearchWidgetState extends State<CommonDropDownSearchWidget>
         ),
         Container(
           margin: EdgeInsets.only(top: 7.h),
-          height: widget.data.length > 5 ? 300.h : (widget.data.length * 50.h) + 80.h,
+          height: widget.data.length > 5
+              ? 300.h
+              : (widget.data.length * 15.h) + 80.h,
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
           decoration: BoxDecoration(
             color: whiteColor,
@@ -89,25 +98,31 @@ class _CommonDropDownSearchWidgetState extends State<CommonDropDownSearchWidget>
           ),
           child: Column(
             children: [
-              SearchTextField(
-                textEditingController: searchController,
-                hintText: widget.searchPlaceholder,
-                onChanged: (value) {
-                  setState(() {
-                    if (value.isNotEmpty) {
-                      final data = widget.data
-                          .where((element) => element.title.toLowerCase().contains(value.toLowerCase()))
-                          .toList();
-                      filterData = data;
-                    } else {
-                      filterData = widget.data;
-                    }
-                  });
-                },
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
+              if (widget.withSearch) ...[
+                SearchTextField(
+                  textEditingController: searchController,
+                  hintText: widget.searchPlaceholder,
+                  onChanged: (value) {
+                    setState(() {
+                      if (value.isNotEmpty) {
+                        final data = widget.data
+                            .where(
+                              (element) => element.title
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()),
+                            )
+                            .toList();
+                        filterData = data;
+                      } else {
+                        filterData = widget.data;
+                      }
+                    });
+                  },
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+              ],
               Expanded(
                 child: ListView.separated(
                   itemCount: filterData.length,
@@ -128,7 +143,10 @@ class _CommonDropDownSearchWidgetState extends State<CommonDropDownSearchWidget>
                       },
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 10.w,
+                          vertical: 4.h,
+                        ),
                         child: Row(
                           children: [
                             const Icon(Icons.flag),

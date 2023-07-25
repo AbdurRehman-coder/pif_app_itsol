@@ -1,17 +1,19 @@
-import 'dart:io';
-
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/main.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/model/nationality_model.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/state/fill_information_state.dart';
+import 'package:video_player/video_player.dart';
 
-final fillInformationProvider =
-    StateNotifierProvider.autoDispose<FillInformationNotifier, FillInformationState>((ref) {
+final fillInformationProvider = StateNotifierProvider.autoDispose<
+    FillInformationNotifier, FillInformationState>((ref) {
   return FillInformationNotifier(ref: ref);
 });
 
 class FillInformationNotifier extends StateNotifier<FillInformationState> {
-  FillInformationNotifier({required this.ref}) : super(FillInformationState.initial()) {
+  FillInformationNotifier({required this.ref})
+      : super(FillInformationState.initial()) {
     init();
   }
 
@@ -27,6 +29,13 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     lstData.add(LookUpModel(title: 'Iran', id: '4'));
     lstData.add(LookUpModel(title: 'Kuwait', id: '5'));
     lstData.add(LookUpModel(title: 'Oman', id: '6'));
+    state = state.copyWith(
+      cameraController: CameraController(
+        camerasList[1],
+        ResolutionPreset.medium,
+        enableAudio: false,
+      ),
+    );
 
     state = state.copyWith(nationalList: AsyncData(lstData));
     nationalController = TextEditingController();
@@ -40,10 +49,14 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     state = state.copyWith(selectedScreen: 1);
   }
 
-  void selectImageFace({
-    required File imageSelected,
-  }) {
-    state = state.copyWith(scanFace: imageSelected);
+  Future<void> initializeCamera() async {
+    await state.cameraController?.initialize();
+    state = state.copyWith(cameraController: state.cameraController);
+  }
+
+  Future<void> selectImageFace() async {
+    final file = await state.cameraController?.takePicture();
+    state = state.copyWith(scanFace: file);
   }
 
   void removeSelectedImageFace() {
@@ -56,5 +69,19 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
 
   void updateType(LookUpModel data) {
     state = state.copyWith(selectedType: data);
+  }
+
+  void update() {
+    state = state.copyWith();
+  }
+
+  void onVideoScanFaceFinish() {
+    state = state.copyWith(isVideoFinish: true);
+  }
+
+  @override
+  void dispose() {
+    state.cameraController?.dispose();
+    super.dispose();
   }
 }

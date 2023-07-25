@@ -151,7 +151,7 @@
   "appTour": "App Tour",
   "termsOfService": "Terms of Service",
   "faq": "FAQs",
-  "arabic": "العربية",
+  "arabic": "English",
   "english": "English",
   "logout": "Logout",
   "getSupport":"Get Support",
@@ -206,5 +206,7 @@
   "readMore":"Read More",
   "searchNationality": "Search Nationality",
   "idType" : "Id type",
-  "searchService": "Search Services"
+  "searchService": "Search Services",
+  "capture":"Capture",
+  "takePhoto":"Take Photo"
 }

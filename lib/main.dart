@@ -1,5 +1,5 @@
+import 'package:camera/camera.dart';
 import 'package:disposable_cached_images/disposable_cached_images.dart';
-import 'package:face_camera/face_camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -12,6 +12,8 @@ import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
+late List<CameraDescription> camerasList;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ScreenUtil.ensureScreenSize();
@@ -20,8 +22,9 @@ void main() async {
     if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
     return stack;
   };
-  await DisposableImages.init();
-  await FaceCamera.initialize();
+  camerasList = await availableCameras();
+  // await DisposableImages.init();
+
   runApp(const ProviderScope(child: MyApp()));
   configLoading();
 }

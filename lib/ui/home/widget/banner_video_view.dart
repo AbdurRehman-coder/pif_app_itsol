@@ -101,6 +101,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void dispose() {
     super.dispose();
+    print('4567654345678987654345678');
     videoController.dispose();
   }
 }

@@ -65,83 +65,86 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> with 
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      children: [
-        SlideTransition(
-          position: Tween(
-            begin: const Offset(0, 6),
-            end: const Offset(-0.25, 0.3),
-          ).animate(
-            CurvedAnimation(parent: slideAnim, curve: Curves.easeInOut),
-          ),
-          child: Center(
-            child: Text(
-              '${S.current.hi}${widget.userName}!',
-              style: Style.commonTextStyle(
-                color: dayTextColor,
-                fontSize: 32.sp,
-                fontWeight: FontWeight.w600,
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 55.h),
+
+            SlideTransition(
+              position: Tween(
+                begin: const Offset(0, 6),
+                end: const Offset(-0.25, 0.3),
+              ).animate(
+                CurvedAnimation(parent: slideAnim, curve: Curves.easeInOut),
               ),
-            ),
-          ),
-        ),
-        SlideTransition(
-          position: Tween(
-            begin: const Offset(-5, 0),
-            end: const Offset(0, 0.7),
-          ).animate(
-            CurvedAnimation(
-              parent: animation,
-              curve: Curves.easeInToLinear,
-            ),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Text(
-              S.current.thrilledToHaveYouOnboard,
-              style: Style.commonTextStyle(
-                color: hintColor,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-              ),
-              maxLines: 4,
-            ),
-          ),
-        ),
-        SlideTransition(
-          position: Tween(
-            begin: const Offset(-5, 0),
-            end: const Offset(0, 0.05),
-          ).animate(
-            CurvedAnimation(parent: fadeAnim, curve: Curves.easeInOut),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 40.h),
-                SizedBox(
-                  height: 200.h,
-                  width: double.infinity,
-                  child: BannerVideoView(
-                    videoUrl:
-                        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                    videoPlayerController: videoPlayerController,
+              child: Center(
+                child: Text(
+                  '${S.current.hi}${widget.userName}!',
+                  style: Style.commonTextStyle(
+                    color: dayTextColor,
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w600,
                   ),
-                ).visibility(
-                  visible: videoPlayerController != null,
                 ),
-                const PersonalInformation(),
-                SizedBox(height: 30.h),
-              ],
+              ),
             ),
-          ),
+            SlideTransition(
+              position: Tween(
+                begin: const Offset(-5, 0),
+                end: const Offset(0, 0.7),
+              ).animate(
+                CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeInToLinear,
+                ),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Text(
+                  S.current.thrilledToHaveYouOnboard,
+                  style: Style.commonTextStyle(
+                    color: hintColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  maxLines: 4,
+                ),
+              ),
+            ),
+            SlideTransition(
+              position: Tween(
+                begin: const Offset(-5, 0),
+                end: const Offset(0, 0.05),
+              ).animate(
+                CurvedAnimation(parent: fadeAnim, curve: Curves.easeInOut),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40.h),
+                    SizedBox(
+                      height: 200.h,
+                      width: double.infinity,
+                      child: BannerVideoView(
+                        videoUrl:
+                            'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+                        videoPlayerController: videoPlayerController,
+                      ),
+                    ).visibility(
+                      visible: videoPlayerController != null,
+                    ),
+                    const PersonalInformation(),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

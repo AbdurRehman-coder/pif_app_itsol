@@ -57,4 +57,14 @@ class LogInNotifier extends StateNotifier<LogInState> {
       AppRouter.pushNamed(Routes.verifyOTPScreen);
     }
   }
+
+  void goToWelcomeScreen() {
+    pinController.clear();
+    emailController.clear();
+    AppRouter.pushNamedAndRemoveUntil(
+      Routes.welcomeScreen,
+      Routes.welcomeScreen,
+      args: 'Obaida',
+    );
+  }
 }

@@ -31,25 +31,21 @@ class VerifyOTP extends StatelessWidget {
                   child: PinPutWidget(),
                 ),
                 SizedBox(height: 20.h),
-                InkWell(
-                  onTap: () =>
-                      AppRouter.pushNamed(Routes.welcomeScreen, args: 'Obaida'),
-                  child: RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: S.current.resendEmail,
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontSize: 14.sp,
-                          ),
-                        )
-                      ],
-                      text: S.current.receiveAnEmail,
-                      style: TextStyle(
-                        color: dayTextColor,
-                        fontSize: 14.sp,
-                      ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: S.current.resendEmail,
+                        style: TextStyle(
+                          color: primaryColor,
+                          fontSize: 14.sp,
+                        ),
+                      )
+                    ],
+                    text: S.current.receiveAnEmail,
+                    style: TextStyle(
+                      color: dayTextColor,
+                      fontSize: 14.sp,
                     ),
                   ),
                 ),
