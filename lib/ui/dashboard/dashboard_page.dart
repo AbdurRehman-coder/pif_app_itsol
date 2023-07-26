@@ -9,6 +9,7 @@ import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news
 import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
 import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
+import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
 import 'package:pif_flutter/ui/services/index.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
@@ -84,34 +85,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
         ],
       );
     } else if (_bottomNavIndex == 1) {
-      title = Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            S.of(context).deliveringTo,
-            style: Style.commonTextStyle(
-              color: grayTextColor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(width: 14.w),
-              Text(
-                'Al-Multaqa 301',
-                style: Style.commonTextStyle(
-                  color: primaryColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(width: 8.w),
-              SvgPicture.asset(Assets.smallArrowDown),
-            ],
-          ),
-        ],
+      final notifier = ref.read(drinksProvider.notifier);
+      title = SearchTextField(
+        textEditingController: notifier.searchController,
+        hintText: S.of(context).search,
+        onChanged: notifier.searchData,
+        focusNode: notifier.searchFocusNode,
       );
     } else if (_bottomNavIndex == 2) {
       title = SearchTextField(
@@ -132,7 +111,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
+            backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
+                ? lightGrayBgColor
+                : Colors.transparent,
             centerTitle: true,
             title: title,
             leading: Builder(
@@ -173,24 +154,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                     ),
                   ),
                 ),
-              ] else if (_bottomNavIndex == 1) ...[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: SvgPicture.asset(
-                    Assets.message,
-                    height: 24.h,
-                    width: 24.w,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  child: SvgPicture.asset(
-                    Assets.notification,
-                    height: 24.h,
-                    width: 24.w,
-                  ),
-                ),
-              ],
+              ] else if (_bottomNavIndex == 1)
+                ...[],
             ],
           ),
           drawer: const SideMenuPage(),
@@ -202,7 +167,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           body: NotificationListener<ScrollNotification>(
             child: lstMenu.elementAt(_bottomNavIndex).child!,
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
             height: 50.h,
             width: 50.w,

@@ -56,6 +56,7 @@ class MyApp extends ConsumerWidget {
       splitScreenMode: true,
       minTextAdapt: true,
       designSize: const Size(390, 844),
+      // designSize: ScreenUtil.defaultSize,
       builder: (context, child) => MaterialApp(
         title: 'PIF',
         theme: Style.defaultTheme,

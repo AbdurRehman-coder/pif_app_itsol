@@ -57,6 +57,7 @@ class Assets {
   static const String repeatIcon = 'assets/svg/ic_repeat.svg';
   static const String trashBit = 'assets/svg/ic_trash_bin.svg';
   static const String fire = 'assets/svg/ic_fire.svg';
+  static const String flatIconFire = 'assets/flaticon_fire.png';
   static const String alert = 'assets/svg/ic_alert.svg';
   static const String mainBg = 'assets/svg/ic_main_bg.svg';
   static const String noSugar = 'assets/no_sugar.png';
@@ -173,4 +174,7 @@ class Assets {
   static const String joiner = 'assets/svg/joiner.svg';
   static const String itSupport = 'assets/svg/it_support.svg';
   static const String bookings = 'assets/svg/booking.svg';
+
+  // Drink
+  static const String locationPin = 'assets/svg/location_pin.svg';
 }

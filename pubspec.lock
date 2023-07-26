@@ -153,7 +153,7 @@ packages:
     source: hosted
     version: "1.0.2"
   camera:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: camera
       sha256: ebebead3d5ec3d148249331d751d462d7e8c98102b8830a9b45ec96a2bd4333f
@@ -345,14 +345,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.6"
-  face_camera:
-    dependency: "direct main"
-    description:
-      name: face_camera
-      sha256: "1178db87994d7ec68d7f844b3f76b1889d7d8714e86e20d75c083570af3d3f25"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.7"
   fake_async:
     dependency: transitive
     description:
@@ -693,22 +685,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.5"
-  google_mlkit_commons:
-    dependency: transitive
-    description:
-      name: google_mlkit_commons
-      sha256: "68429fa2e17686819dbaf2344790e3daa59924ef8625dd24f97f9deaaed42767"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
-  google_mlkit_face_detection:
-    dependency: transitive
-    description:
-      name: google_mlkit_face_detection
-      sha256: e3b42f93fb5918a7de4795befd715caeb9f770a0a257bb4a9b00a87246197d19
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.0"
   graphs:
     dependency: transitive
     description:

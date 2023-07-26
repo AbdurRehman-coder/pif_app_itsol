@@ -91,6 +91,7 @@ class SupportStatusCard extends StatelessWidget {
                   image: const DecorationImage(
                     image: NetworkImage(
                       'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
+                      // 'https://cdn.pixabay.com/photo/2016/12/19/08/39/mobile-phone-1917737_1280.jpg',
                     ),
                     fit: BoxFit.cover,
                   ),

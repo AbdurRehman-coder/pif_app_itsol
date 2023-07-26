@@ -17,10 +17,14 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$FillInformationState {
   int get selectedScreen => throw _privateConstructorUsedError;
-  AsyncValue<List<NationalityModel>> get nationalList =>
+  bool get isVideoFinish => throw _privateConstructorUsedError;
+  CameraController? get cameraController =>
+      throw _privateConstructorUsedError; // required VideoPlayerController? faceVideoController,
+  AsyncValue<List<LookUpModel>> get nationalList =>
       throw _privateConstructorUsedError;
-  File? get scanFace => throw _privateConstructorUsedError;
-  NationalityModel? get nationalitySelect => throw _privateConstructorUsedError;
+  XFile? get scanFace => throw _privateConstructorUsedError;
+  LookUpModel? get selectedNationality => throw _privateConstructorUsedError;
+  LookUpModel? get selectedType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FillInformationStateCopyWith<FillInformationState> get copyWith =>
@@ -35,9 +39,12 @@ abstract class $FillInformationStateCopyWith<$Res> {
   @useResult
   $Res call(
       {int selectedScreen,
-      AsyncValue<List<NationalityModel>> nationalList,
-      File? scanFace,
-      NationalityModel? nationalitySelect});
+      bool isVideoFinish,
+      CameraController? cameraController,
+      AsyncValue<List<LookUpModel>> nationalList,
+      XFile? scanFace,
+      LookUpModel? selectedNationality,
+      LookUpModel? selectedType});
 }
 
 /// @nodoc
@@ -55,27 +62,42 @@ class _$FillInformationStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? selectedScreen = null,
+    Object? isVideoFinish = null,
+    Object? cameraController = freezed,
     Object? nationalList = null,
     Object? scanFace = freezed,
-    Object? nationalitySelect = freezed,
+    Object? selectedNationality = freezed,
+    Object? selectedType = freezed,
   }) {
     return _then(_value.copyWith(
       selectedScreen: null == selectedScreen
           ? _value.selectedScreen
           : selectedScreen // ignore: cast_nullable_to_non_nullable
               as int,
+      isVideoFinish: null == isVideoFinish
+          ? _value.isVideoFinish
+          : isVideoFinish // ignore: cast_nullable_to_non_nullable
+              as bool,
+      cameraController: freezed == cameraController
+          ? _value.cameraController
+          : cameraController // ignore: cast_nullable_to_non_nullable
+              as CameraController?,
       nationalList: null == nationalList
           ? _value.nationalList
           : nationalList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<NationalityModel>>,
+              as AsyncValue<List<LookUpModel>>,
       scanFace: freezed == scanFace
           ? _value.scanFace
           : scanFace // ignore: cast_nullable_to_non_nullable
-              as File?,
-      nationalitySelect: freezed == nationalitySelect
-          ? _value.nationalitySelect
-          : nationalitySelect // ignore: cast_nullable_to_non_nullable
-              as NationalityModel?,
+              as XFile?,
+      selectedNationality: freezed == selectedNationality
+          ? _value.selectedNationality
+          : selectedNationality // ignore: cast_nullable_to_non_nullable
+              as LookUpModel?,
+      selectedType: freezed == selectedType
+          ? _value.selectedType
+          : selectedType // ignore: cast_nullable_to_non_nullable
+              as LookUpModel?,
     ) as $Val);
   }
 }
@@ -90,9 +112,12 @@ abstract class _$$_FillInformationStateCopyWith<$Res>
   @useResult
   $Res call(
       {int selectedScreen,
-      AsyncValue<List<NationalityModel>> nationalList,
-      File? scanFace,
-      NationalityModel? nationalitySelect});
+      bool isVideoFinish,
+      CameraController? cameraController,
+      AsyncValue<List<LookUpModel>> nationalList,
+      XFile? scanFace,
+      LookUpModel? selectedNationality,
+      LookUpModel? selectedType});
 }
 
 /// @nodoc
@@ -107,27 +132,42 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? selectedScreen = null,
+    Object? isVideoFinish = null,
+    Object? cameraController = freezed,
     Object? nationalList = null,
     Object? scanFace = freezed,
-    Object? nationalitySelect = freezed,
+    Object? selectedNationality = freezed,
+    Object? selectedType = freezed,
   }) {
     return _then(_$_FillInformationState(
       selectedScreen: null == selectedScreen
           ? _value.selectedScreen
           : selectedScreen // ignore: cast_nullable_to_non_nullable
               as int,
+      isVideoFinish: null == isVideoFinish
+          ? _value.isVideoFinish
+          : isVideoFinish // ignore: cast_nullable_to_non_nullable
+              as bool,
+      cameraController: freezed == cameraController
+          ? _value.cameraController
+          : cameraController // ignore: cast_nullable_to_non_nullable
+              as CameraController?,
       nationalList: null == nationalList
           ? _value.nationalList
           : nationalList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<NationalityModel>>,
+              as AsyncValue<List<LookUpModel>>,
       scanFace: freezed == scanFace
           ? _value.scanFace
           : scanFace // ignore: cast_nullable_to_non_nullable
-              as File?,
-      nationalitySelect: freezed == nationalitySelect
-          ? _value.nationalitySelect
-          : nationalitySelect // ignore: cast_nullable_to_non_nullable
-              as NationalityModel?,
+              as XFile?,
+      selectedNationality: freezed == selectedNationality
+          ? _value.selectedNationality
+          : selectedNationality // ignore: cast_nullable_to_non_nullable
+              as LookUpModel?,
+      selectedType: freezed == selectedType
+          ? _value.selectedType
+          : selectedType // ignore: cast_nullable_to_non_nullable
+              as LookUpModel?,
     ));
   }
 }
@@ -137,22 +177,32 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
 class _$_FillInformationState implements _FillInformationState {
   const _$_FillInformationState(
       {required this.selectedScreen,
+      required this.isVideoFinish,
+      required this.cameraController,
       required this.nationalList,
       required this.scanFace,
-      required this.nationalitySelect});
+      required this.selectedNationality,
+      required this.selectedType});
 
   @override
   final int selectedScreen;
   @override
-  final AsyncValue<List<NationalityModel>> nationalList;
+  final bool isVideoFinish;
   @override
-  final File? scanFace;
+  final CameraController? cameraController;
+// required VideoPlayerController? faceVideoController,
   @override
-  final NationalityModel? nationalitySelect;
+  final AsyncValue<List<LookUpModel>> nationalList;
+  @override
+  final XFile? scanFace;
+  @override
+  final LookUpModel? selectedNationality;
+  @override
+  final LookUpModel? selectedType;
 
   @override
   String toString() {
-    return 'FillInformationState(selectedScreen: $selectedScreen, nationalList: $nationalList, scanFace: $scanFace, nationalitySelect: $nationalitySelect)';
+    return 'FillInformationState(selectedScreen: $selectedScreen, isVideoFinish: $isVideoFinish, cameraController: $cameraController, nationalList: $nationalList, scanFace: $scanFace, selectedNationality: $selectedNationality, selectedType: $selectedType)';
   }
 
   @override
@@ -162,17 +212,30 @@ class _$_FillInformationState implements _FillInformationState {
             other is _$_FillInformationState &&
             (identical(other.selectedScreen, selectedScreen) ||
                 other.selectedScreen == selectedScreen) &&
+            (identical(other.isVideoFinish, isVideoFinish) ||
+                other.isVideoFinish == isVideoFinish) &&
+            (identical(other.cameraController, cameraController) ||
+                other.cameraController == cameraController) &&
             (identical(other.nationalList, nationalList) ||
                 other.nationalList == nationalList) &&
             (identical(other.scanFace, scanFace) ||
                 other.scanFace == scanFace) &&
-            (identical(other.nationalitySelect, nationalitySelect) ||
-                other.nationalitySelect == nationalitySelect));
+            (identical(other.selectedNationality, selectedNationality) ||
+                other.selectedNationality == selectedNationality) &&
+            (identical(other.selectedType, selectedType) ||
+                other.selectedType == selectedType));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, selectedScreen, nationalList, scanFace, nationalitySelect);
+      runtimeType,
+      selectedScreen,
+      isVideoFinish,
+      cameraController,
+      nationalList,
+      scanFace,
+      selectedNationality,
+      selectedType);
 
   @JsonKey(ignore: true)
   @override
@@ -184,20 +247,28 @@ class _$_FillInformationState implements _FillInformationState {
 
 abstract class _FillInformationState implements FillInformationState {
   const factory _FillInformationState(
-          {required final int selectedScreen,
-          required final AsyncValue<List<NationalityModel>> nationalList,
-          required final File? scanFace,
-          required final NationalityModel? nationalitySelect}) =
-      _$_FillInformationState;
+      {required final int selectedScreen,
+      required final bool isVideoFinish,
+      required final CameraController? cameraController,
+      required final AsyncValue<List<LookUpModel>> nationalList,
+      required final XFile? scanFace,
+      required final LookUpModel? selectedNationality,
+      required final LookUpModel? selectedType}) = _$_FillInformationState;
 
   @override
   int get selectedScreen;
   @override
-  AsyncValue<List<NationalityModel>> get nationalList;
+  bool get isVideoFinish;
   @override
-  File? get scanFace;
+  CameraController? get cameraController;
+  @override // required VideoPlayerController? faceVideoController,
+  AsyncValue<List<LookUpModel>> get nationalList;
   @override
-  NationalityModel? get nationalitySelect;
+  XFile? get scanFace;
+  @override
+  LookUpModel? get selectedNationality;
+  @override
+  LookUpModel? get selectedType;
   @override
   @JsonKey(ignore: true)
   _$$_FillInformationStateCopyWith<_$_FillInformationState> get copyWith =>

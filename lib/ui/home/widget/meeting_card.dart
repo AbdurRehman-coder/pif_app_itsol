@@ -93,7 +93,18 @@ class MeetingCard extends StatelessWidget {
                     for (var i = 0; i < 2; i++)
                       const NetworkImage(
                         'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
+                        // 'https://cdn.pixabay.com/photo/2016/12/19/08/39/mobile-phone-1917737_1280.jpg',
                       ),
+                    // Image.network(
+                    //   'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
+                    //   errorBuilder: (context, error, stackTrace) {
+                    //     // This function will be called when the image fails to load
+                    //     // You can provide a fallback widget or show an error message here
+                    //     return Center(
+                    //       child: Text('Failed to load image'),
+                    //     );
+                    //   },
+                    // ),
                   ],
                 ),
               ),

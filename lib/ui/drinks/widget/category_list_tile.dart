@@ -18,7 +18,7 @@ class CategoryListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = withOutSearch
         ? item.isSelected ?? false
-            ? primaryDarkColor
+            ? const Color(0xFFC29B5B)
             : expireBgColor
         : expireBgColor;
     final textColor = withOutSearch
@@ -26,7 +26,8 @@ class CategoryListTile extends StatelessWidget {
             ? whiteColor
             : darkBorderColor
         : darkBorderColor;
-    final iconUrl = (item.taxonomyCategoryProperties != null && item.taxonomyCategoryProperties!.isNotEmpty)
+    final iconUrl = (item.taxonomyCategoryProperties != null &&
+            item.taxonomyCategoryProperties!.isNotEmpty)
         ? Constants.baseUrl + item.taxonomyCategoryProperties![0].value!
         : '';
 

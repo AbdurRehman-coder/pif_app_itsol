@@ -15,21 +15,13 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$LogInState {
-  XFile? get imageFile => throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $LogInStateCopyWith<LogInState> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+mixin _$LogInState {}
 
 /// @nodoc
 abstract class $LogInStateCopyWith<$Res> {
   factory $LogInStateCopyWith(
           LogInState value, $Res Function(LogInState) then) =
       _$LogInStateCopyWithImpl<$Res, LogInState>;
-  @useResult
-  $Res call({XFile? imageFile});
 }
 
 /// @nodoc
@@ -41,30 +33,13 @@ class _$LogInStateCopyWithImpl<$Res, $Val extends LogInState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? imageFile = freezed,
-  }) {
-    return _then(_value.copyWith(
-      imageFile: freezed == imageFile
-          ? _value.imageFile
-          : imageFile // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$_LogInStateCopyWith<$Res>
-    implements $LogInStateCopyWith<$Res> {
+abstract class _$$_LogInStateCopyWith<$Res> {
   factory _$$_LogInStateCopyWith(
           _$_LogInState value, $Res Function(_$_LogInState) then) =
       __$$_LogInStateCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({XFile? imageFile});
 }
 
 /// @nodoc
@@ -74,60 +49,28 @@ class __$$_LogInStateCopyWithImpl<$Res>
   __$$_LogInStateCopyWithImpl(
       _$_LogInState _value, $Res Function(_$_LogInState) _then)
       : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? imageFile = freezed,
-  }) {
-    return _then(_$_LogInState(
-      imageFile: freezed == imageFile
-          ? _value.imageFile
-          : imageFile // ignore: cast_nullable_to_non_nullable
-              as XFile?,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$_LogInState implements _LogInState {
-  const _$_LogInState({required this.imageFile});
-
-  @override
-  final XFile? imageFile;
+  const _$_LogInState();
 
   @override
   String toString() {
-    return 'LogInState(imageFile: $imageFile)';
+    return 'LogInState()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_LogInState &&
-            (identical(other.imageFile, imageFile) ||
-                other.imageFile == imageFile));
+        (other.runtimeType == runtimeType && other is _$_LogInState);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, imageFile);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_LogInStateCopyWith<_$_LogInState> get copyWith =>
-      __$$_LogInStateCopyWithImpl<_$_LogInState>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 }
 
 abstract class _LogInState implements LogInState {
-  const factory _LogInState({required final XFile? imageFile}) = _$_LogInState;
-
-  @override
-  XFile? get imageFile;
-  @override
-  @JsonKey(ignore: true)
-  _$$_LogInStateCopyWith<_$_LogInState> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _LogInState() = _$_LogInState;
 }

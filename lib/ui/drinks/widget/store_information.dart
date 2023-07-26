@@ -4,6 +4,7 @@ import 'package:pif_flutter/common/extensions/color_extensions.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/shimmer_wrapper.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 
 class StoreInformation extends StatelessWidget {
@@ -42,79 +43,71 @@ class StoreInformation extends StatelessWidget {
             final endColor =
                 '#${storeInformation.contentFields![5].contentFieldValue!.data!}'
                     .hexToColor;
-            return SizedBox(
-              height: 150.h,
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(18.5.r),
+                ),
+                border: Border.all(color: grayGradientStart),
+              ),
+              width: double.infinity,
               child: Stack(
                 children: [
-                  Positioned(
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
-                    top: 8.h,
-                    child: Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                      height: 140.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.5.r),
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          storeTitle,
+                          style: Style.commonTextStyle(
+                            color: blackColor,
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          maxLines: 1,
                         ),
-                        gradient: LinearGradient(
-                          begin: Alignment.topRight,
-                          end: Alignment.bottomLeft,
-                          colors: [
-                            startColor,
-                            endColor,
-                          ],
+                        SizedBox(height: 4.h),
+                        Text(
+                          storeDescription,
+                          style: Style.commonTextStyle(
+                            color: grayTextColor,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            storeTitle,
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            maxLines: 1,
+                        SizedBox(height: 5.h),
+                        Text(
+                          storeStartDay != storeEndDay
+                              ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
+                              : '$storeStartTime - $storeEndTime ${S.of(context).today}',
+                          style: Style.commonTextStyle(
+                            color: grayTextColor,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
-                          SizedBox(height: 8.h),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Text(
-                              storeDescription,
-                              style: Style.commonTextStyle(
-                                color: whiteColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 3,
-                            ),
-                          ),
-                          SizedBox(height: 5.h),
-                          Text(
-                            storeStartDay != storeEndDay
-                                ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
-                                : '$storeStartTime - $storeEndTime ${S.of(context).today}',
-                            style: Style.commonTextStyle(
-                              color: whiteColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                   Positioned(
                     right: 0.w,
-                    child: Image.network(
-                      storeImage.getImageUrl,
-                      height: 140.h,
+                    bottom: 0,
+                    top: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 16.0,
+                        right: 16,
+                        bottom: 16,
+                      ),
+                      child: Image.network(
+                        storeImage.getImageUrl,
+                        fit: BoxFit.contain,
+                        // height: 100.h,
+                      ),
                     ),
                   ),
                 ],
@@ -122,7 +115,11 @@ class StoreInformation extends StatelessWidget {
             );
           },
           loading: () {
-            return const SizedBox();
+            return ShimmerEffect(
+              width: double.infinity.w,
+              height: 120.h,
+              borderRadius: BorderRadius.circular(18.r),
+            );
           },
         );
       },

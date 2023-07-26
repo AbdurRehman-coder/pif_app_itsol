@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/main.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/model/nationality_model.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/state/fill_information_state.dart';
-import 'package:video_player/video_player.dart';
 
 final fillInformationProvider = StateNotifierProvider.autoDispose<
     FillInformationNotifier, FillInformationState>((ref) {

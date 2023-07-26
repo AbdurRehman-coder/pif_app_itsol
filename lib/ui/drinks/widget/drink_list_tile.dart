@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
-import 'package:pif_flutter/ui/drinks/widget/increase_decreas_widget.dart';
 
 class DrinkListTile extends StatelessWidget {
   const DrinkListTile({
@@ -18,108 +16,114 @@ class DrinkListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 3.w),
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: whiteColor,
-        borderRadius: BorderRadius.circular(15.r),
-        boxShadow: const [
-          BoxShadow(
-            color: grayF0,
-            blurRadius: 1,
-            offset: Offset(3, 4), // changes position of shadow
+    final size = MediaQuery.of(context).size;
+    return Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18.r),
+            boxShadow: const [
+              BoxShadow(
+                color: grayF0,
+                blurRadius: 1,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Row(
-        children: [
-          ProductImage(
-            url: item.imageUrl,
-            withFree: true,
-          ),
-          SizedBox(width: 10.w),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  item.drinkTitle ?? '',
-                  style: Style.commonTextStyle(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                    color: blackColor,
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(28.r),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(
+                    item.imageUrl,
+                    fit: BoxFit.fitHeight,
+                    width: 171.w,
+                    height: 147.h,
                   ),
                 ),
-                SizedBox(height: 3.h),
-                Row(
-                  children: [
-                    SvgPicture.asset(Assets.fire),
-                    SizedBox(width: 7.w),
-                    Text(
-                      item.calories ?? '',
-                      style: Style.commonTextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: grayTextColor,
+              ),
+              if (true)
+                Positioned(
+                  // top: 8.w,
+                  right: 0.w,
+                  child: Container(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                    decoration: BoxDecoration(
+                      color: whiteColor,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(28.r),
+                        topRight: Radius.circular(18.r),
                       ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 5.h),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: SizedBox(
-                    height: 35.h,
-                    child: item.count! >= 1
-                        ? IncreaseDecreaseWidget(
-                            item: item,
-                            notifier: notifier,
-                          )
-                        : ElevatedButton(
-                            onPressed: () {
-                              if (!provider.storeClosed) {
-                                if (provider.lstCarts.isNotEmpty) {
-                                  notifier.addItemToCart(
-                                    item: item,
-                                    context: context,
-                                  );
-                                } else {
-                                  item.count = 1;
-                                  showOrderCartAndDetails(
-                                    context: context,
-                                    drinkModel: item,
-                                  );
-                                }
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: provider.storeClosed
-                                  ? primaryDisabledColor
-                                  : primaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              padding: EdgeInsets.symmetric(horizontal: 20.w),
-                            ),
-                            child: Text(
-                              provider.lstCarts.isNotEmpty
-                                  ? S.current.addToCart
-                                  : S.current.order,
-                              style: Style.commonTextStyle(
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                                color: whiteColor,
-                              ),
-                            ),
-                          ),
+                    child: Text(
+                      'Free',
+                      style: TextStyle(
+                        color: primaryDarkColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                   ),
-                )
+                ),
+              Positioned(
+                // top: 8.w,
+                right: 8.w,
+                bottom: 8,
+                child: Container(
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: primaryDarkColor,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: greenBorderColor,
+                      width: 1,
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    color: whiteColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: size.height * 0.01),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              item.drinkTitle ?? '',
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w500,
+                color: blackColor,
+              ),
+            ),
+            SizedBox(height: size.height * 0.005),
+            Row(
+              children: [
+                Image.asset(
+                  Assets.flatIconFire,
+                  scale: 35,
+                ),
+                SizedBox(width: 3.w),
+                Text(
+                  item.calories ?? '',
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: grayTextColor,
+                  ),
+                ),
               ],
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
