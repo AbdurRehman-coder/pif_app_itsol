@@ -32,6 +32,7 @@ class SearchTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isFocus = false,
     this.autoFocus = false,
+    this.hintTextStyle,
     super.key,
   });
 
@@ -60,6 +61,7 @@ class SearchTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool isFocus;
   final bool autoFocus;
+  final TextStyle? hintTextStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -96,69 +98,71 @@ class SearchTextField extends StatelessWidget {
         maxLines: maxLines,
         onEditingComplete: onEditingComplete,
         autofocus: autoFocus,
-        decoration: InputDecoration(
-          fillColor: fillColor ?? lightGrayBgColor,
-          contentPadding: contentPadding,
-          disabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(
-              color: isEnableFiled! ? primaryColor : whiteColor,
-              width: 1.w,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: borderColorByDefault, width: 1.w),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: isEnableFiled ? primaryColor : borderColorByDefault,
-              width: 1.w,
-            ),
-            borderRadius: borderRadius,
-          ),
-          errorStyle: TextStyle(
-            color: Theme.of(context).colorScheme.error,
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: redColor, width: 1.w),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: borderRadius,
-            borderSide: BorderSide(color: redColor, width: 1.w),
-          ),
-          suffixIcon: suffixIcon,
-          prefixIcon: const Icon(
-            Icons.search,
-            color: darkBorderColor,
-            size: 25,
-          ),
-          counterText: '',
-          floatingLabelStyle: Style.commonTextStyle(
-            color: isEnableFiled ? primaryColor : grayTextColor,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w400,
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: borderColorByDefault, width: 1.w),
-            borderRadius: borderRadius,
-          ),
-          filled: filled,
-          hintText: hintText,
-          hintStyle: Style.commonTextStyle(
-            color: hintColor,
-            fontSize: 16.sp,
-            fontWeight: FontWeight.w400,
-          ),
-          labelStyle: labelStyle ??
-              Style.commonTextStyle(
-                color: grayTextColor,
+        decoration: decoration ??
+            InputDecoration(
+              fillColor: fillColor ?? lightGrayBgColor,
+              contentPadding: contentPadding,
+              disabledBorder: OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(
+                  color: isEnableFiled! ? primaryColor : whiteColor,
+                  width: 1.w,
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(color: borderColorByDefault, width: 1.w),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: isEnableFiled ? primaryColor : borderColorByDefault,
+                  width: 1.w,
+                ),
+                borderRadius: borderRadius,
+              ),
+              errorStyle: TextStyle(
+                color: Theme.of(context).colorScheme.error,
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(color: redColor, width: 1.w),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: borderRadius,
+                borderSide: BorderSide(color: redColor, width: 1.w),
+              ),
+              suffixIcon: suffixIcon,
+              prefixIcon: const Icon(
+                Icons.search,
+                color: darkBorderColor,
+                size: 25,
+              ),
+              counterText: '',
+              floatingLabelStyle: Style.commonTextStyle(
+                color: isEnableFiled ? primaryColor : grayTextColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),
-          labelText: labelText,
-        ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide(color: borderColorByDefault, width: 1.w),
+                borderRadius: borderRadius,
+              ),
+              filled: filled,
+              hintText: hintText,
+              hintStyle: hintTextStyle ??
+                  Style.commonTextStyle(
+                    color: hintColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+              labelStyle: labelStyle ??
+                  Style.commonTextStyle(
+                    color: grayTextColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+              labelText: labelText,
+            ),
       ),
     );
   }
