@@ -208,5 +208,6 @@
   "idType" : "Id type",
   "searchService": "Search Services",
   "capture":"Capture",
-  "takePhoto":"Take Photo"
+  "takePhoto":"Take Photo",
+  "deleteVisitMessage":"Are you sure you want to delete the visit?"
 }

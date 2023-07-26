@@ -61,8 +61,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
   void goToWelcomeScreen() {
     pinController.clear();
     emailController.clear();
-    AppRouter.pushNamedAndRemoveUntil(
-      Routes.welcomeScreen,
+    AppRouter.startNewRoute(
       Routes.welcomeScreen,
       args: 'Obaida',
     );

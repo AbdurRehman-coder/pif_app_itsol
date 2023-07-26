@@ -23,7 +23,7 @@ void main() async {
     return stack;
   };
   camerasList = await availableCameras();
-  // await DisposableImages.init();
+  await DisposableImages.init();
 
   runApp(const ProviderScope(child: MyApp()));
   configLoading();

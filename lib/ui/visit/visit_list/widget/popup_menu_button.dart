@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
   const CustomPopupMenuButton({super.key});
@@ -54,7 +55,16 @@ class CustomPopupMenuButton extends StatelessWidget {
         ),
         PopupMenuItem(
           value: 3,
-          onTap: () {},
+          onTap: () => Future.delayed(
+            const Duration(milliseconds: 200),
+            () {
+              alertPopup(
+                context: context,
+                deleteMessage: S.current.deleteVisitMessage,
+                onClickYes: () {},
+              );
+            },
+          ),
           child: Row(
             children: [
               SvgPicture.asset(

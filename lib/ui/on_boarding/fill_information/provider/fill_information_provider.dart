@@ -29,13 +29,15 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     lstData.add(LookUpModel(title: 'Iran', id: '4'));
     lstData.add(LookUpModel(title: 'Kuwait', id: '5'));
     lstData.add(LookUpModel(title: 'Oman', id: '6'));
-    state = state.copyWith(
-      cameraController: CameraController(
-        camerasList[1],
-        ResolutionPreset.medium,
-        enableAudio: false,
-      ),
-    );
+    if (camerasList.isNotEmpty) {
+      state = state.copyWith(
+        cameraController: CameraController(
+          camerasList[1],
+          ResolutionPreset.medium,
+          enableAudio: false,
+        ),
+      );
+    }
 
     state = state.copyWith(nationalList: AsyncData(lstData));
     nationalController = TextEditingController();
