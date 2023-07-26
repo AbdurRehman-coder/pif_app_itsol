@@ -48,35 +48,18 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
     final provider = ref.watch(fillInformationProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: BackgroundWidget(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (provider.selectedScreen == 0) ...[
-                FillPersonalInformation(
-                  userName: widget.userName,
-                ),
-              ] else ...[
-                const ScanFaceCamera(),
-              ],
-              // const Spacer(),
-              // Column(
-              //   children: [
-              //     FadeTransition(
-              //       opacity: Tween(begin: 0.0, end: 0.8).animate(
-              //         CurvedAnimation(
-              //           parent: animateButton,
-              //           curve: Curves.easeInToLinear,
-              //         ),
-              //       ),
-              //       child: const BottomButton(),
-              //     ),
-              //     SizedBox(height:20.h),
-              //   ],
-              // ),
+      body: BackgroundWidget(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (provider.selectedScreen == 0) ...[
+              FillPersonalInformation(
+                userName: widget.userName,
+              ),
+            ] else ...[
+              const ScanFaceCamera(),
             ],
-          ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -88,7 +71,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen>
           ),
         ),
         child: const BottomButton(),
-      ),
+      ).visibility(visible:!provider.isDropDownOpen),
     );
   }
 }

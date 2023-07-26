@@ -18,8 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FillInformationState {
   int get selectedScreen => throw _privateConstructorUsedError;
   bool get isVideoFinish => throw _privateConstructorUsedError;
-  CameraController? get cameraController =>
-      throw _privateConstructorUsedError; // required VideoPlayerController? faceVideoController,
+  bool get isDropDownOpen => throw _privateConstructorUsedError;
+  ScrollController get scrollControllerFillInformation =>
+      throw _privateConstructorUsedError;
+  CameraController? get cameraController => throw _privateConstructorUsedError;
   AsyncValue<List<LookUpModel>> get nationalList =>
       throw _privateConstructorUsedError;
   XFile? get scanFace => throw _privateConstructorUsedError;
@@ -40,6 +42,8 @@ abstract class $FillInformationStateCopyWith<$Res> {
   $Res call(
       {int selectedScreen,
       bool isVideoFinish,
+      bool isDropDownOpen,
+      ScrollController scrollControllerFillInformation,
       CameraController? cameraController,
       AsyncValue<List<LookUpModel>> nationalList,
       XFile? scanFace,
@@ -63,6 +67,8 @@ class _$FillInformationStateCopyWithImpl<$Res,
   $Res call({
     Object? selectedScreen = null,
     Object? isVideoFinish = null,
+    Object? isDropDownOpen = null,
+    Object? scrollControllerFillInformation = null,
     Object? cameraController = freezed,
     Object? nationalList = null,
     Object? scanFace = freezed,
@@ -78,6 +84,14 @@ class _$FillInformationStateCopyWithImpl<$Res,
           ? _value.isVideoFinish
           : isVideoFinish // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDropDownOpen: null == isDropDownOpen
+          ? _value.isDropDownOpen
+          : isDropDownOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      scrollControllerFillInformation: null == scrollControllerFillInformation
+          ? _value.scrollControllerFillInformation
+          : scrollControllerFillInformation // ignore: cast_nullable_to_non_nullable
+              as ScrollController,
       cameraController: freezed == cameraController
           ? _value.cameraController
           : cameraController // ignore: cast_nullable_to_non_nullable
@@ -113,6 +127,8 @@ abstract class _$$_FillInformationStateCopyWith<$Res>
   $Res call(
       {int selectedScreen,
       bool isVideoFinish,
+      bool isDropDownOpen,
+      ScrollController scrollControllerFillInformation,
       CameraController? cameraController,
       AsyncValue<List<LookUpModel>> nationalList,
       XFile? scanFace,
@@ -133,6 +149,8 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
   $Res call({
     Object? selectedScreen = null,
     Object? isVideoFinish = null,
+    Object? isDropDownOpen = null,
+    Object? scrollControllerFillInformation = null,
     Object? cameraController = freezed,
     Object? nationalList = null,
     Object? scanFace = freezed,
@@ -148,6 +166,14 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
           ? _value.isVideoFinish
           : isVideoFinish // ignore: cast_nullable_to_non_nullable
               as bool,
+      isDropDownOpen: null == isDropDownOpen
+          ? _value.isDropDownOpen
+          : isDropDownOpen // ignore: cast_nullable_to_non_nullable
+              as bool,
+      scrollControllerFillInformation: null == scrollControllerFillInformation
+          ? _value.scrollControllerFillInformation
+          : scrollControllerFillInformation // ignore: cast_nullable_to_non_nullable
+              as ScrollController,
       cameraController: freezed == cameraController
           ? _value.cameraController
           : cameraController // ignore: cast_nullable_to_non_nullable
@@ -178,6 +204,8 @@ class _$_FillInformationState implements _FillInformationState {
   const _$_FillInformationState(
       {required this.selectedScreen,
       required this.isVideoFinish,
+      required this.isDropDownOpen,
+      required this.scrollControllerFillInformation,
       required this.cameraController,
       required this.nationalList,
       required this.scanFace,
@@ -189,8 +217,11 @@ class _$_FillInformationState implements _FillInformationState {
   @override
   final bool isVideoFinish;
   @override
+  final bool isDropDownOpen;
+  @override
+  final ScrollController scrollControllerFillInformation;
+  @override
   final CameraController? cameraController;
-// required VideoPlayerController? faceVideoController,
   @override
   final AsyncValue<List<LookUpModel>> nationalList;
   @override
@@ -202,7 +233,7 @@ class _$_FillInformationState implements _FillInformationState {
 
   @override
   String toString() {
-    return 'FillInformationState(selectedScreen: $selectedScreen, isVideoFinish: $isVideoFinish, cameraController: $cameraController, nationalList: $nationalList, scanFace: $scanFace, selectedNationality: $selectedNationality, selectedType: $selectedType)';
+    return 'FillInformationState(selectedScreen: $selectedScreen, isVideoFinish: $isVideoFinish, isDropDownOpen: $isDropDownOpen, scrollControllerFillInformation: $scrollControllerFillInformation, cameraController: $cameraController, nationalList: $nationalList, scanFace: $scanFace, selectedNationality: $selectedNationality, selectedType: $selectedType)';
   }
 
   @override
@@ -214,6 +245,12 @@ class _$_FillInformationState implements _FillInformationState {
                 other.selectedScreen == selectedScreen) &&
             (identical(other.isVideoFinish, isVideoFinish) ||
                 other.isVideoFinish == isVideoFinish) &&
+            (identical(other.isDropDownOpen, isDropDownOpen) ||
+                other.isDropDownOpen == isDropDownOpen) &&
+            (identical(other.scrollControllerFillInformation,
+                    scrollControllerFillInformation) ||
+                other.scrollControllerFillInformation ==
+                    scrollControllerFillInformation) &&
             (identical(other.cameraController, cameraController) ||
                 other.cameraController == cameraController) &&
             (identical(other.nationalList, nationalList) ||
@@ -231,6 +268,8 @@ class _$_FillInformationState implements _FillInformationState {
       runtimeType,
       selectedScreen,
       isVideoFinish,
+      isDropDownOpen,
+      scrollControllerFillInformation,
       cameraController,
       nationalList,
       scanFace,
@@ -249,6 +288,8 @@ abstract class _FillInformationState implements FillInformationState {
   const factory _FillInformationState(
       {required final int selectedScreen,
       required final bool isVideoFinish,
+      required final bool isDropDownOpen,
+      required final ScrollController scrollControllerFillInformation,
       required final CameraController? cameraController,
       required final AsyncValue<List<LookUpModel>> nationalList,
       required final XFile? scanFace,
@@ -260,8 +301,12 @@ abstract class _FillInformationState implements FillInformationState {
   @override
   bool get isVideoFinish;
   @override
+  bool get isDropDownOpen;
+  @override
+  ScrollController get scrollControllerFillInformation;
+  @override
   CameraController? get cameraController;
-  @override // required VideoPlayerController? faceVideoController,
+  @override
   AsyncValue<List<LookUpModel>> get nationalList;
   @override
   XFile? get scanFace;

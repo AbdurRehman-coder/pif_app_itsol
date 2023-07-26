@@ -67,10 +67,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     Widget? title;
     if (_bottomNavIndex == 0) {
       title = Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            width: 50.h,
-          ),
           Image.asset(
             Assets.logo,
             height: 39.h,

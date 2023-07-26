@@ -14,6 +14,7 @@ class VerifyOTP extends StatelessWidget {
     const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
 
     return Scaffold(
+      resizeToAvoidBottomInset:  false,
       backgroundColor: grayF5,
       body: BackgroundWidget(
         child: SafeArea(

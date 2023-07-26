@@ -89,9 +89,9 @@ class BottomButton extends ConsumerWidget {
                     backgroundColor: primaryColor,
                     padding: EdgeInsets.symmetric(vertical: 10.h),
                   ),
-                  onPressed: provider.isVideoFinish
+                  onPressed: () => provider.isVideoFinish
                       ? notifier.selectImageFace
-                      : notifier.onVideoScanFaceFinish,
+                      : notifier.onVideoScanFaceFinish(isVideoFinish: true),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

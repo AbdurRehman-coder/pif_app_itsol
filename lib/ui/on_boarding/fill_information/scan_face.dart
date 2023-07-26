@@ -1,13 +1,11 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
-import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/main.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
@@ -60,7 +58,7 @@ class _ScanFaceCameraState extends State<ScanFaceCamera> {
                       videoUrl:
                           'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
                       videoPlayerController: videoPlayerController,
-                      onVideoFinish: notifier.onVideoScanFaceFinish,
+                      onVideoFinish: (isVideoFinis)=>notifier.onVideoScanFaceFinish(isVideoFinish: isVideoFinis),
                     ),
                   ),
                 ],
@@ -79,7 +77,7 @@ class _ScanFaceCameraState extends State<ScanFaceCamera> {
                               borderRadius: BorderRadius.circular(20),
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               child: AspectRatio(
-                                aspectRatio: 1 / 2,
+                                aspectRatio: 1.2 / 3,
                                 child: CameraPreview(
                                   provider.cameraController!,
                                 ),
@@ -97,12 +95,18 @@ class _ScanFaceCameraState extends State<ScanFaceCamera> {
                     SizedBox(
                       height: context.screenHeight / 2,
                       width: double.infinity,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
-                        child: Image.file(
-                          File(provider.scanFace!.path),
-                          fit: BoxFit.cover,
+                      child: Transform(
+                        alignment: Alignment.center,
+                        transform: Matrix4.rotationY(math.pi),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: AspectRatio(
+                            aspectRatio: 1.2 / 3,
+                            child: Image.file(
+                              File(provider.scanFace!.path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),

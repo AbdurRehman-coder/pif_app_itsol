@@ -9,6 +9,7 @@ import 'package:pif_flutter/utils/styles.dart';
 class SecondCustomTextField extends StatefulWidget {
   const SecondCustomTextField({
     required this.textEditingController,
+    this.onTap,
     this.labelText,
     this.hintText,
     this.labelStyle,
@@ -60,6 +61,7 @@ class SecondCustomTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final bool isFocus;
+  final void Function()? onTap;
   final bool autoFocus;
 
   @override
@@ -77,6 +79,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              onTap: widget.onTap,
               style: widget.style,
               obscureText: widget.obscureText,
               onChanged: (val) {
@@ -128,7 +131,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: isEnableFiled ? grayTextColor : grayBorderColor,
+                        color: isEnableFiled ? primaryColor : grayBorderColor,
                         width: 1.w,
                       ),
                       borderRadius: BorderRadius.all(
@@ -154,7 +157,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     prefixIcon: widget.prefixIcon,
                     counterText: '',
                     floatingLabelStyle: Style.commonTextStyle(
-                      color: isEnableFiled ? grayTextColor : grayTextColor,
+                      color: grayTextColor,
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                     ),

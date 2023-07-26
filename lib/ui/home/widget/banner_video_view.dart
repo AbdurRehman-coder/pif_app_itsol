@@ -13,7 +13,7 @@ class BannerVideoView extends StatefulWidget {
 
   final String videoUrl;
   final VideoPlayerController? videoPlayerController;
-  final void Function()? onVideoFinish;
+  final void Function(bool)? onVideoFinish;
 
   @override
   State<BannerVideoView> createState() => _BannerVideoViewState();
@@ -33,18 +33,19 @@ class _BannerVideoViewState extends State<BannerVideoView> {
           ),
         );
     videoController.initialize().then((value) {
-      videoController.addListener(
-        () {
-          if (!videoController.value.isPlaying) {
-            widget.onVideoFinish?.call();
-          }
-        },
-      );
       setState(() {
         videoController.play();
         videoController.setVolume(0.0);
         videoMute = true;
       });
+    });
+    videoController.addListener(() {
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          widget.onVideoFinish?.call(!videoController.value.isPlaying);
+        },
+      );
     });
   }
 
@@ -101,7 +102,8 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void dispose() {
     super.dispose();
-    print('4567654345678987654345678');
+    print('4567654345678987654345678${!videoController.value.isPlaying}');
+
     videoController.dispose();
   }
 }

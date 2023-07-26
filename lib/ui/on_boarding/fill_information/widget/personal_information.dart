@@ -14,7 +14,6 @@ class PersonalInformation extends ConsumerWidget {
     final provider = ref.watch(fillInformationProvider);
 
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: 20.h),
         CommonDropDownSearchWidget(
@@ -23,6 +22,8 @@ class PersonalInformation extends ConsumerWidget {
           data: provider.nationalList.value!,
           withSearch: true,
           onItemSelected: notifier.updateNationality,
+          onClickOnDropDown: (isDropDownOpen) =>
+              notifier.onClickOnDropDown(isDropDownOpens: isDropDownOpen),
         ),
         SizedBox(height: 10.h),
         if (provider.selectedNationality != null &&
@@ -32,16 +33,24 @@ class PersonalInformation extends ConsumerWidget {
             placeholder: S.current.idType,
             data: notifier.lstTypes,
             onItemSelected: notifier.updateType,
+            onClickOnDropDown: (isDropDownOpen) =>
+                notifier.onClickOnDropDown(isDropDownOpens: isDropDownOpen),
           ),
           SizedBox(height: 10.h),
         ],
         SecondCustomTextField(
+          onTap: notifier.scrollToIndex,
+          focusNode: notifier.idNumberFocusNode,
           textEditingController: notifier.nationalController,
           hintText: S.current.idNumber,
           fillColor: whiteColor,
           onChanged: (val) => notifier.update(),
         ),
-        SizedBox(height: 320.h),
+        if (notifier.idNumberFocusNode.hasFocus) ...[
+          SizedBox(height: 430.h),
+        ] else ...[
+          SizedBox(height: 150.h),
+        ],
       ],
     );
   }

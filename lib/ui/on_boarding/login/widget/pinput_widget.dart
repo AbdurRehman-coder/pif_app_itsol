@@ -89,7 +89,7 @@ class _PinPutWidgetState extends State<PinPutWidget> {
                 listenForMultipleSmsOnAndroid: true,
                 defaultPinTheme: defaultPinTheme,
                 validator: (value) {
-                  return value == '2222' ? null : 'Pin is incorrect';
+                  return value == '2222' ? null : S.current.otpIsNotCorrect;
                 },
                 hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {

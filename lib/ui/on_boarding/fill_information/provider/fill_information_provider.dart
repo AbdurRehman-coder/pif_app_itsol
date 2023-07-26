@@ -18,7 +18,9 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
 
   final Ref ref;
   late TextEditingController nationalController;
+  final double _height = 150;
   var lstTypes = <LookUpModel>[];
+  final idNumberFocusNode = FocusNode();
 
   void init() {
     final lstData = <LookUpModel>[];
@@ -76,8 +78,23 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     state = state.copyWith();
   }
 
-  void onVideoScanFaceFinish() {
-    state = state.copyWith(isVideoFinish: true);
+  void onVideoScanFaceFinish({required bool isVideoFinish}) {
+    state = state.copyWith(isVideoFinish: isVideoFinish);
+  }
+
+  void onClickOnDropDown({required bool isDropDownOpens}) {
+    state = state.copyWith(isDropDownOpen: isDropDownOpens);
+  }
+
+  Future<void> scrollToIndex() async {
+
+    await state.scrollControllerFillInformation.animateTo(
+      100,
+      duration: const Duration(seconds: 1),
+      curve: Curves.easeIn,
+    );
+
+    state = state.copyWith();
   }
 
   @override

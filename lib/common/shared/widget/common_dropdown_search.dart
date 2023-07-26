@@ -10,6 +10,7 @@ class CommonDropDownSearchWidget extends StatefulWidget {
     this.placeholder = '',
     this.selectedValue,
     this.onItemSelected,
+    this.onClickOnDropDown,
     this.isEnable = true,
     this.withSearch = false,
     this.searchPlaceholder = 'Search',
@@ -22,6 +23,7 @@ class CommonDropDownSearchWidget extends StatefulWidget {
   final bool withSearch;
   final LookUpModel? selectedValue;
   final void Function(LookUpModel)? onItemSelected;
+  final void Function(bool)? onClickOnDropDown;
 
   @override
   State<CommonDropDownSearchWidget> createState() =>
@@ -52,6 +54,7 @@ class _CommonDropDownSearchWidgetState
                 FocusManager.instance.primaryFocus?.unfocus();
                 isOpen = !isOpen;
               });
+              widget.onClickOnDropDown?.call(isOpen);
             }
           },
           child: Container(
@@ -90,7 +93,7 @@ class _CommonDropDownSearchWidgetState
           height: widget.data.length > 5
               ? 300.h
               : (widget.data.length * 15.h) + 80.h,
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 3.h),
           decoration: BoxDecoration(
             color: whiteColor,
             border: Border.all(color: grayBorderColor),
@@ -125,6 +128,7 @@ class _CommonDropDownSearchWidgetState
               ],
               Expanded(
                 child: ListView.separated(
+                  padding: EdgeInsets.symmetric(vertical: 4.h),
                   itemCount: filterData.length,
                   physics: filterData.length > 5 // maintain code format
                       ? const AlwaysScrollableScrollPhysics()
@@ -136,6 +140,7 @@ class _CommonDropDownSearchWidgetState
                         setState(() {
                           isOpen = false;
                         });
+                        widget.onClickOnDropDown?.call(isOpen);
                         final item = filterData[index];
                         widget.onItemSelected?.call(item);
                         searchController.text = '';
