@@ -210,7 +210,7 @@
   "capture":"Capture",
   "otpIsNotCorrect":"OTP is not correct",
   "takePhoto":"Take Photo",
-  "otpIsNotCorrect":"OTP is not correct",
   "deleteVisitMessage":"Are you sure you want to delete the visit?",
-  "searchLocation": "Search locations"
+  "searchLocation": "Search locations",
+  "noQuickDrinkAvailableMsg": "no data available for order quick drinks"
 }

@@ -1,11 +1,15 @@
 import 'package:camera/camera.dart';
 import 'package:disposable_cached_images/disposable_cached_images.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
+import 'package:pif_flutter/database/hive_adapters.dart';
+import 'package:pif_flutter/database/hive_storage.dart';
+import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/utils/colors.dart';
@@ -13,6 +17,7 @@ import 'package:pif_flutter/utils/styles.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 late List<CameraDescription> camerasList;
+final hiveStorageProvider = Provider.autoDispose<HiveStorage>((ref) => throw Error());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +27,22 @@ void main() async {
     if (stack is stack_trace.Chain) return stack.toTrace().vmTrace;
     return stack;
   };
+  final hiveStorage = await HiveStorage.getInstance(
+    boxName: 'pifBox',
+    registerAdapters: registerHiveAdapters,
+  );
+
   camerasList = await availableCameras();
   await DisposableImages.init();
 
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(
+    ProviderScope(
+      overrides: [
+        hiveStorageProvider.overrideWithValue(hiveStorage),
+      ],
+      child: const MyApp(),
+    ),
+  );
   configLoading();
 }
 
@@ -45,12 +62,17 @@ void configLoading() {
     ..dismissOnTap = false;
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _MyAppState();
+}
+
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    Settings.init(context);
     return ScreenUtilInit(
       useInheritedMediaQuery: true,
       splitScreenMode: true,
@@ -77,6 +99,19 @@ class MyApp extends ConsumerWidget {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    disposeHive();
+    super.dispose();
+  }
+
+  Future<void> disposeHive() async {
+    if (!kDebugMode) {
+      final hiveStorage = await HiveStorage.getInstance(boxName: 'pifBox');
+      await hiveStorage.close();
+    }
   }
 }
 

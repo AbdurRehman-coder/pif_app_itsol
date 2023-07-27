@@ -275,6 +275,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         printedNote: notesController.text,
         orderItems: itemCart,
       );
+      Settings.orderRequestModel = orderParam;
       await appProgressDialog.stop();
       showSuccessMessage(
         context: context,

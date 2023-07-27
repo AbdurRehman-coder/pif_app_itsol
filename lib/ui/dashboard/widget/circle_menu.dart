@@ -10,7 +10,8 @@ class CircleMenu extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.read(dashboardProvider);
+    final provider = ref.watch(dashboardProvider);
+    final notifier = ref.read(dashboardProvider.notifier);
     return Positioned.fill(
       bottom: 60.h,
       child: CircularMenu(
@@ -47,7 +48,7 @@ class CircleMenu extends ConsumerWidget {
             icon: Container(
               height: 50.h,
               width: 50.w,
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: whiteColor,
                 image: DecorationImage(
@@ -58,7 +59,11 @@ class CircleMenu extends ConsumerWidget {
               ),
             ),
             color: whiteColor,
-            onTap: () {},
+            onTap: () {
+              if (index == 0) {
+                notifier.orderNow(context: context);
+              }
+            },
           ),
         ).toList(),
       ),

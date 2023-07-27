@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 extension ContextExt on BuildContext {
   double get screenHeight => MediaQuery.of(this).size.height;
@@ -18,4 +19,8 @@ extension ContextExt on BuildContext {
   double get topHeaderHeight => Platform.isIOS ? 230 + dynamicIslandSpacing : 190;
 
   double get containerTopMargin => Platform.isIOS ? 210 - (isDynamicIsland ? 0 : 10) : 165;
+
+  T readProvider<T>(ProviderBase<T> provider) {
+    return ProviderScope.containerOf(this, listen: false).read(provider);
+  }
 }
