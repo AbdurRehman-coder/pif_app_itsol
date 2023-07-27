@@ -82,6 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteMessageBooking": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to Delete booking?"),
+        "deleteVisitMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete the visit?"),
         "deliveringTo": MessageLookupByLibrary.simpleMessage("Delivering to"),
         "discardTheTicket": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to Discard the ticket?"),

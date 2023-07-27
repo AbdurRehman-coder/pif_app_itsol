@@ -168,8 +168,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
-            height: 50.h,
-            width: 50.w,
+            height: 40.h,
+            width: 60.w,
           ),
           bottomNavigationBar: AnimatedBottomNavigationBar.builder(
             elevation: 0,
@@ -203,6 +203,12 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
                       ),
                     ),
                   ],
+                  if (isActive) ...[
+                    const CircleAvatar(
+                      radius: 2,
+                      backgroundColor: primaryDarkColor,
+                    ),
+                  ]
                 ],
               );
             },

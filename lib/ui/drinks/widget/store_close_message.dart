@@ -20,20 +20,22 @@ class StoreCloseMessage extends StatelessWidget {
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,
-                  vertical: 13.h,
+                  horizontal: 14.w,
+                  vertical: 12.h,
                 ),
                 decoration: BoxDecoration(
-                  color: pendingStatusColor.withOpacity(0.15),
+                  color: primaryDisabledColor.withOpacity(0.3),
                   borderRadius: BorderRadius.all(
-                    Radius.circular(14.r),
+                    Radius.circular(16.r),
                   ),
+                  border: Border.all(color: pendingStatusColor, width: 0.5),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(
                       Assets.info,
+                      color: primaryDarkColor,
                     ),
                     SizedBox(width: 11.w),
                     Expanded(

@@ -18,8 +18,8 @@ class CategoryListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = withOutSearch
         ? item.isSelected ?? false
-            ? const Color(0xFFC29B5B)
-            : expireBgColor
+            ? secondary
+            : whiteColor
         : expireBgColor;
     final textColor = withOutSearch
         ? item.isSelected ?? false
@@ -31,42 +31,51 @@ class CategoryListTile extends StatelessWidget {
         ? Constants.baseUrl + item.taxonomyCategoryProperties![0].value!
         : '';
 
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(25.r),
-        color: bgColor,
-      ),
-      padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 10.w),
-      child: Row(
-        children: [
-          Container(
-            width: 24.w,
-            height: 24.h,
-            padding: EdgeInsets.all(3.r),
-            decoration: const BoxDecoration(
-              color: whiteColor,
-              shape: BoxShape.circle,
-            ),
-            child: iconUrl.isEmpty
-                ? Image.asset(
-                    Assets.hotDrink,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: iconUrl,
-                    placeholder: (context, url) => const SizedBox(),
-                    errorWidget: (context, url, error) => const SizedBox(),
-                  ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: 5.h),
+      child: Material(
+        elevation: 1,
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.r),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(25.r),
+            color: bgColor,
           ),
-          SizedBox(width: 8.w),
-          Text(
-            item.name ?? '',
-            style: Style.commonTextStyle(
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-              color: textColor,
-            ),
+          padding: EdgeInsets.symmetric(vertical: 9.5.h, horizontal: 10.w),
+          child: Row(
+            children: [
+              Container(
+                width: 24.w,
+                height: 24.h,
+                padding: EdgeInsets.all(3.r),
+                decoration: const BoxDecoration(
+                  color: whiteColor,
+                  shape: BoxShape.circle,
+                ),
+                child: iconUrl.isEmpty
+                    ? Image.asset(
+                        Assets.hotDrink,
+                      )
+                    : CachedNetworkImage(
+                        imageUrl: iconUrl,
+                        placeholder: (context, url) => const SizedBox(),
+                        errorWidget: (context, url, error) => const SizedBox(),
+                      ),
+              ),
+              SizedBox(width: 8.w),
+              Text(
+                item.name ?? '',
+                style: Style.commonTextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                  color: textColor,
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

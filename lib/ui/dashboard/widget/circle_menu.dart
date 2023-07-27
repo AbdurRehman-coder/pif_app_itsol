@@ -13,7 +13,7 @@ class CircleMenu extends ConsumerWidget {
     final provider = ref.watch(dashboardProvider);
     final notifier = ref.read(dashboardProvider.notifier);
     return Positioned.fill(
-      bottom: 60.h,
+      bottom: 45.h,
       child: CircularMenu(
         toggleButtonMargin: 0,
         onChanged: (value) {},

@@ -28,8 +28,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addComment": MessageLookupByLibrary.simpleMessage("Add a comment..."),
         "addGuest": MessageLookupByLibrary.simpleMessage("Add guests"),
-        "addMoreItems":
-            MessageLookupByLibrary.simpleMessage("or Add more items"),
+        "addMoreItems": MessageLookupByLibrary.simpleMessage("Add more items"),
         "addMoreVisitors":
             MessageLookupByLibrary.simpleMessage("Add More Visitors"),
         "addPreviousVisitor":
@@ -82,6 +81,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteMessageBooking": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to Delete booking?"),
+        "deleteVisitMessage": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete the visit?"),
         "deliveringTo": MessageLookupByLibrary.simpleMessage("Delivering to"),
         "discardTheTicket": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to Discard the ticket?"),
@@ -193,6 +194,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Pending approval"),
         "pendingVerification":
             MessageLookupByLibrary.simpleMessage("Pending verification"),
+        "pinOrderQuickActions":
+            MessageLookupByLibrary.simpleMessage("Pin Order To Quick Actions"),
         "pleaseMakeSureYouAreScanningAValidRoomQRCode":
             MessageLookupByLibrary.simpleMessage(
                 "Please make sure you are scanning a valid room QR code"),

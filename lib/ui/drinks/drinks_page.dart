@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drink_page_shimmer.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
 import 'package:pif_flutter/ui/drinks/widget/store_close_message.dart';
+import 'package:pif_flutter/ui/drinks/widget/user_location_widget.dart';
 
 class DrinkPage extends ConsumerStatefulWidget {
   const DrinkPage({
@@ -36,49 +36,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Column(
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12.w,
-                            vertical: 5.h,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.transparent,
-                            borderRadius:
-                                BorderRadius.circular(18.r), // 8 border radius
-                            border: Border.all(
-                              color: grayBorderColor,
-                              width: 1.0, // Border width
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    S.of(context).deliveringTo,
-                                    style: Style.commonTextStyle(
-                                      color: grayTextColor,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                  Text(
-                                    'Al-Multaqa 301',
-                                    style: Style.commonTextStyle(
-                                      color: blackColor,
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SvgPicture.asset(Assets.locationPin),
-                            ],
-                          ),
-                        ),
+                        const UserLocationWidget(),
                         SizedBox(
                           height: 12.h,
                         ),
@@ -91,17 +49,18 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
               ];
             },
             body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+              ),
               child: Column(
                 children: [
-                  SizedBox(height: 12.h),
+                  SizedBox(height: 16.h),
                   Flexible(
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 45.h,
+                          height: 50.h,
                           child: ListView.separated(
-                            // padding: EdgeInsets.symmetric(horizontal: 10.w),
                             itemCount: provider.lstCategory.length,
                             scrollDirection: Axis.horizontal,
                             separatorBuilder: (context, index) {
@@ -122,7 +81,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                             },
                           ),
                         ),
-                        SizedBox(height: 20.h),
+                        SizedBox(height: 3.h),
                         (notifier.searchController.text.isNotEmpty
                                 ? provider.allDrinks
                                 : provider.lstDrinks)
@@ -137,6 +96,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     bottom: provider.lstCarts.isNotEmpty
                                         ? 60.h
                                         : 10.h,
+                                    top: 10.h,
                                   ),
                                   child: GridView.builder(
                                     physics:

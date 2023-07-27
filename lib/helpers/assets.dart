@@ -174,4 +174,5 @@ class Assets {
 
   // Drink
   static const String locationPin = 'assets/svg/location_pin.svg';
+  static const String homeIndicator = 'assets/3x/home_indicator.png';
 }

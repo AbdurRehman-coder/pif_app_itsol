@@ -15,25 +15,25 @@ class IncreaseDecreaseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
           onTap: () {
-            notifier.removeDrinks(item: item);
+            notifier.removeDrinks(item: item, isFromCartDetail: true);
           },
           child: Container(
             width: 33.w,
             height: 33.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: whiteColor,
+              color: primaryDarkColor,
               border: Border.all(
-                color: borderColor,
+                color: primaryColor,
               ),
             ),
             child: Icon(
               Icons.remove,
-              color: borderColor,
+              color: whiteColor,
               size: 20.spMin,
             ),
           ),
@@ -44,7 +44,7 @@ class IncreaseDecreaseWidget extends StatelessWidget {
           height: 32.h,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: grayF5,
+            color: whiteColor,
             borderRadius: BorderRadius.all(
               Radius.circular(8.r),
             ),
@@ -68,14 +68,14 @@ class IncreaseDecreaseWidget extends StatelessWidget {
             height: 33.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: whiteColor,
+              color: primaryDarkColor,
               border: Border.all(
                 color: primaryColor,
               ),
             ),
             child: Icon(
               Icons.add,
-              color: primaryColor,
+              color: whiteColor,
               size: 20.spMin,
             ),
           ),

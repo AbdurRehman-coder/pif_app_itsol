@@ -990,10 +990,10 @@ class S {
     );
   }
 
-  /// `or Add more items`
+  /// `Add more items`
   String get addMoreItems {
     return Intl.message(
-      'or Add more items',
+      'Add more items',
       name: 'addMoreItems',
       desc: '',
       args: [],
@@ -2145,6 +2145,26 @@ class S {
     return Intl.message(
       'Take Photo',
       name: 'takePhoto',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete the visit?`
+  String get deleteVisitMessage {
+    return Intl.message(
+      'Are you sure you want to delete the visit?',
+      name: 'deleteVisitMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pin Order To Quick Actions`
+  String get pinOrderQuickActions {
+    return Intl.message(
+      'Pin Order To Quick Actions',
+      name: 'pinOrderQuickActions',
       desc: '',
       args: [],
     );

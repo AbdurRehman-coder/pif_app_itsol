@@ -32,6 +32,9 @@ class _ProductSubOptionState extends State<ProductSubOption> {
             padding: EdgeInsets.symmetric(horizontal: 5.w),
             child: InkWell(
               onTap: () {
+                print(
+                  'drink sub option value:: ${drinkSubOption.valueOptionKey}',
+                );
                 widget.drinksNotifier.updateValueOption(
                   options: widget.drinkOption,
                   valueOptions: drinkSubOption,
@@ -44,19 +47,18 @@ class _ProductSubOptionState extends State<ProductSubOption> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Image.asset(
-                    Assets.noSugar,
-                    height: 48.h,
-                    width: 48.w,
-                  ),
-                  Text(
-                    drinkSubOption.valueOptionKey ?? '',
-                    style: Style.commonTextStyle(
-                      color: primaryColor,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w500,
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 7.h, horizontal: 3.h),
+                    child: Text(
+                      drinkSubOption.valueOptionKey ?? '',
+                      style: Style.commonTextStyle(
+                        color: grayTextColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
                   ),
                 ],
               ),

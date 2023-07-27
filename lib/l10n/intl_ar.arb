@@ -212,5 +212,6 @@
   "takePhoto":"Take Photo",
   "deleteVisitMessage":"Are you sure you want to delete the visit?",
   "searchLocation": "Search locations",
-  "noQuickDrinkAvailableMsg": "no data available for order quick drinks"
+  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
+  "pinOrderQuickActions" : "Pin Order To Quick Actions"
 }

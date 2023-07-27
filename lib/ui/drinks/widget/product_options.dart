@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,7 +22,7 @@ class _ProductOptionsState extends State<ProductOptions> {
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final notifier = ref.read(drinksProvider.notifier);
         return SizedBox(
-          height: 29.h,
+          height: 35.h,
           child: ListView.separated(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
@@ -29,6 +30,12 @@ class _ProductOptionsState extends State<ProductOptions> {
               final drinkOption = widget.drinkOptions[index];
               if (drinkOption
                   .productOptionsModel.productOptionValues!.isNotEmpty) {
+                final selectedValueOption =
+                    drinkOption.valueOptionModel.firstWhereOrNull(
+                  (valueOptionModel) => valueOptionModel.valueOptionSelected,
+                );
+                final valueOptionKey =
+                    selectedValueOption?.valueOptionKey ?? '';
                 return CustomPopupMenu(
                   controller: drinkOption.customPopupMenuController,
                   enablePassEvent: false,
@@ -36,7 +43,7 @@ class _ProductOptionsState extends State<ProductOptions> {
                   menuBuilder: () => Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 15.w,
-                      vertical: 4.h,
+                      vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
                       color: whiteColor,
@@ -51,11 +58,14 @@ class _ProductOptionsState extends State<ProductOptions> {
                         Radius.circular(25.r),
                       ),
                     ),
+
+                    /// Drink add to cart sub options
                     child: ProductSubOption(
                       reBuild: () {
                         setState(() {});
                       },
-                      drinkOption: widget.drinkOptions[index], drinksNotifier: notifier,
+                      drinkOption: widget.drinkOptions[index],
+                      drinksNotifier: notifier,
                     ),
                   ),
                   barrierColor: Colors.transparent,
@@ -70,18 +80,18 @@ class _ProductOptionsState extends State<ProductOptions> {
                       decoration: BoxDecoration(
                         color:
                             drinkOption.customPopupMenuController.menuIsShowing
-                                ? dayTextColor
+                                ? secondary
                                 : drinkOption.isOptionSelect
-                                    ? primaryColor
-                                    : grayF5,
+                                    ? secondary
+                                    : grayBgColor,
                         borderRadius: BorderRadius.all(
                           Radius.circular(20.r),
                         ),
                       ),
                       padding:
-                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 4.h),
+                          EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
                       child: Text(
-                        drinkOption.productOptionsModel.name ?? '',
+                        '$valueOptionKey ${drinkOption.productOptionsModel.name ?? ''}',
                         style: Style.commonTextStyle(
                           color: drinkOption
                                   .customPopupMenuController.menuIsShowing

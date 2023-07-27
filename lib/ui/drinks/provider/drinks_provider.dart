@@ -167,7 +167,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     updateDrinkList(item: item);
   }
 
-  void removeDrinks({required DrinkModel item}) {
+  void removeDrinks({required DrinkModel item, bool isFromCartDetail = false}) {
     if (state.lstCarts.isEmpty) {
       final navigation = NavigationHistoryObserver().history.last;
       if (navigation.settings.name == Routes.drinkDetailsScreen &&
@@ -175,12 +175,11 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         return;
       }
     }
-
     item.count = item.count! - 1;
 
     if (item.count == 0) {
       final lstCart = state.lstCarts.toList();
-      if (lstCart.length == 1) {
+      if (lstCart.length == 1 && isFromCartDetail == true) {
         AppRouter.pop();
       }
       lstCart.remove(item);
@@ -223,7 +222,13 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
 
     final lstCart = state.lstCarts.toList();
-    lstCart.add(item);
+
+    /// if item is not already contain in the list
+    if (!lstCart.contains(item)) {
+      lstCart.add(item);
+    } else {
+      item.count = item.count! + 1;
+    }
 
     state = state.copyWith(lstCarts: lstCart);
     if (withOrder) {

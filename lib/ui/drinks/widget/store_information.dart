@@ -43,74 +43,79 @@ class StoreInformation extends StatelessWidget {
             final endColor =
                 '#${storeInformation.contentFields![5].contentFieldValue!.data!}'
                     .hexToColor;
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18.5.r),
-                ),
-                border: Border.all(color: grayGradientStart),
+            return Material(
+              elevation: 2,
+              borderRadius: BorderRadius.all(
+                Radius.circular(18.5.r),
               ),
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          storeTitle,
-                          style: Style.commonTextStyle(
-                            color: blackColor,
-                            fontSize: 22.sp,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          maxLines: 1,
-                        ),
-                        SizedBox(height: 4.h),
-                        Text(
-                          storeDescription,
-                          style: Style.commonTextStyle(
-                            color: grayTextColor,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 3,
-                        ),
-                        SizedBox(height: 5.h),
-                        Text(
-                          storeStartDay != storeEndDay
-                              ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
-                              : '$storeStartTime - $storeEndTime ${S.of(context).today}',
-                          style: Style.commonTextStyle(
-                            color: grayTextColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    ),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(18.5.r),
                   ),
-                  Positioned(
-                    right: 0.w,
-                    bottom: 0,
-                    top: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                        top: 16.0,
-                        right: 16,
-                        bottom: 16,
-                      ),
-                      child: Image.network(
-                        storeImage.getImageUrl,
-                        fit: BoxFit.contain,
-                        // height: 100.h,
+                  color: whiteColor,
+                ),
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            storeTitle,
+                            style: Style.commonTextStyle(
+                              color: dayTextColor,
+                              fontSize: 22.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                          ),
+                          SizedBox(height: 4.h),
+                          Text(
+                            storeDescription,
+                            style: Style.commonTextStyle(
+                              color: grayTextColor,
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 3,
+                          ),
+                          SizedBox(height: 5.h),
+                          Text(
+                            storeStartDay != storeEndDay
+                                ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
+                                : '$storeStartTime - $storeEndTime ${S.of(context).today}',
+                            style: Style.commonTextStyle(
+                              color: grayTextColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                ],
+                    Positioned(
+                      right: 0.w,
+                      bottom: 0,
+                      top: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          top: 16.0,
+                          right: 16,
+                          bottom: 16,
+                        ),
+                        child: Image.network(
+                          storeImage.getImageUrl,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
