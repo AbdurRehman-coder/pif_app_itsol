@@ -5,8 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/space_booking/extension/amenities_extension.dart';
+import 'package:pif_flutter/common/shared/widget/shimmer_wrapper.dart';
 
 class SpaceBookingListTile extends StatelessWidget {
   const SpaceBookingListTile({required this.item, super.key});
@@ -15,156 +14,112 @@ class SpaceBookingListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: CachedNetworkImage(
-            imageUrl: item.imagePrimary!.getImageUrl,
-            fit: BoxFit.cover,
-            height: 250.h,
-            width: context.screenWidth,
-            placeholder: (context, url) => Image.asset(
-              Assets.placeHolder,
-              fit: BoxFit.fill,
-              height: 250.h,
-            ),
-            errorWidget: (context, url, error) => Image.asset(
-              Assets.spaceBg2,
-              fit: BoxFit.fill,
-              height: 250.h,
-            ),
-          ),
-        ),
-        SvgPicture.asset(
-          Assets.overlayLayer,
-          height: 250.h,
-          fit: BoxFit.fill,
-        ),
-        Container(
-          height: 250.h,
-          padding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 16.h,
-          ),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                item.rRoomCFloor?.name ?? '',
-                style: Style.commonTextStyle(
-                  color: whiteColor,
-                  fontSize: 10.sp,
-                  fontWeight: FontWeight.w400,
+        Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(16.r),
+              child: CachedNetworkImage(
+                imageUrl: item.imagePrimary!.getImageUrl,
+                fit: BoxFit.cover,
+                height: 168.h,
+                width: context.screenWidth,
+                placeholder: (context, url) => ShimmerEffect(
+                  height: 168.h,
+                  width: context.screenWidth,
+                  borderRadius: BorderRadius.circular(40.r),
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  Assets.spaceBg2,
+                  fit: BoxFit.fill,
+                  height: 250.h,
                 ),
               ),
-              SizedBox(
-                height: 24.h,
-              ),
-              Text(
-                item.name ?? '',
-                style: Style.commonTextStyle(
-                  color: whiteColor,
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w600,
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 5.h,
                 ),
-              ),
-              SizedBox(
-                height: 5.h,
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    Assets.chair,
-                    height: 16.h,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Text(
-                    '${item.capacity} seats ${item.roomType?.name}',
-                    style: Style.commonTextStyle(
-                      color: whiteColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 28.h,
-              ),
-              if (item.amenities != null) ...[
-                SizedBox(
-                  height: 40.h,
-                  child: ListView.separated(
-                    itemCount: item.amenities!.length,
-                    scrollDirection: Axis.horizontal,
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        width: 10.w,
-                      );
-                    },
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            item.amenities![index].key!.getAmenities,
-                            height: 16.h,
-                            colorFilter: const ColorFilter.mode(
-                              whiteColor,
-                              BlendMode.srcIn,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
-                          if (index != item.amenities!.length - 1) ...[
-                            Container(
-                              height: 9.h,
-                              width: 1.w,
-                              color: grayBorderColor,
-                            ),
-                          ],
-                        ],
-                      );
-                    },
-                  ),
-                )
-              ],
-              SizedBox(
-                height: 5.h,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  AppRouter.pushNamed(
-                    Routes.bookingScreen,
-                    args: [item, false],
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(context.screenWidth.w, 35.h),
-                  backgroundColor: primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.r), // <-- Radius
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(17.r),
+                    topRight: Radius.circular(16.r),
                   ),
                 ),
                 child: Text(
-                  item.needApproval! ? S.current.requestToBook : S.current.book,
+                  '${item.capacity} seats',
+                  style: TextStyle(
+                    color: primaryDarkColor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 10.w,
+              bottom: 10.h,
+              child: Container(
+                height: 36.h,
+                width: 99.w,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(
+                    color: greenBorderColor,
+                  ),
+                ),
+                child: Text(
+                  S.of(context).bookNow,
                   style: Style.commonTextStyle(
                     color: whiteColor,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-              )
-            ],
+              ),
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        Text(
+          item.name ?? '',
+          style: Style.commonTextStyle(
+            color: textColor,
+            fontSize: 16.sp,
+            fontWeight: FontWeight.w400,
           ),
         ),
+        Row(
+          children: [
+            SvgPicture.asset(
+              Assets.locationPin,
+              height: 14.h,
+              width: 14.w,
+            ),
+            SizedBox(
+              width: 4.w,
+            ),
+            Text(
+              item.rRoomCFloor?.name ?? '',
+              textAlign: TextAlign.start,
+              style: Style.commonTextStyle(
+                color: textColor,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+          ],
+        )
       ],
     );
   }

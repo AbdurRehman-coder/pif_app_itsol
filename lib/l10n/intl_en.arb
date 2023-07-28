@@ -212,8 +212,9 @@
   "deleteVisitMessage":"Are you sure you want to delete the visit?",
   "pinOrderQuickActions" : "Pin Order To Quick Actions",
   "otpIsNotCorrect":"OTP is not correct",
-  "deleteVisitMessage":"Are you sure you want to delete the visit?",
   "searchLocation": "Search locations",
   "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
-  "successfullySentRequest": "Successfully sent request"
+  "successfullySentRequest": "Successfully sent request",
+  "availableRoom": "Available Rooms",
+  "searchSpaces": "Search Spaces"
 }

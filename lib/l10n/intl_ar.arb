@@ -214,5 +214,7 @@
   "searchLocation": "Search locations",
   "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
   "successfullySentRequest": "Successfully sent request",
-  "pinOrderQuickActions" : "Pin Order To Quick Actions"
+  "pinOrderQuickActions" : "Pin Order To Quick Actions",
+  "availableRoom": "Available Rooms",
+  "searchSpaces": "Search Spaces"
 }

@@ -11,3 +11,4 @@ export 'state/room_booking_filter_state.dart';
 export 'state/space_booking_state.dart';
 export 'widget/space_booking_empty_view.dart';
 export 'widget/space_booking_list_tile.dart';
+export 'widget/space_booking_shimmer_widget.dart';
