@@ -1,5 +1,6 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/orders/model/orders_model.dart';
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
@@ -121,6 +122,56 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       alertMessage(
         errorMessage: S.current.storeNotAvailable,
         context: context,
+      );
+    }
+  }
+
+  Future<void> digitalVipSupportAsync({required BuildContext context}) async {
+    final data = await DixelsSDK.instance.userDetails;
+
+    final requestModel = {
+      'categoryId': '180101',
+      'subCategoryId': '200984',
+      'description': '[${data!.name}] is around [nearest location] and requesting immediate support',
+    };
+    final appProgress = AppProgressDialog(context: context);
+    await appProgress.start();
+
+    final result = await DixelsSDK.instance.supportService.postPageData(
+      reqModel: requestModel,
+      fromJson: SupportTicketModel.fromJson,
+    );
+    await appProgress.stop();
+    if (result != null) {
+      alertMessage(
+        errorMessage: S.current.successfullySentRequest,
+        context: context,
+        statusEnum: AlertStatusEnum.success,
+      );
+    }
+  }
+
+  Future<void> operationalSupportAsync({required BuildContext context}) async {
+    final data = await DixelsSDK.instance.userDetails;
+
+    final requestModel = {
+      'categoryId': '180104',
+      'subCategoryId': '200995',
+      'description': '[${data!.name}] is around [nearest location] and requesting immediate support',
+    };
+    final appProgress = AppProgressDialog(context: context);
+    await appProgress.start();
+
+    final result = await DixelsSDK.instance.supportService.postPageData(
+      reqModel: requestModel,
+      fromJson: SupportTicketModel.fromJson,
+    );
+    await appProgress.stop();
+    if (result != null) {
+      alertMessage(
+        errorMessage: S.current.successfullySentRequest,
+        context: context,
+        statusEnum: AlertStatusEnum.success,
       );
     }
   }

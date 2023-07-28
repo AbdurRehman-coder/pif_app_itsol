@@ -63,6 +63,12 @@ class CircleMenu extends ConsumerWidget {
               if (index == 0) {
                 notifier.orderNow(context: context);
               }
+              if (index == 2) {
+                notifier.digitalVipSupportAsync(context: context);
+              }
+              if (index == 3) {
+                notifier.operationalSupportAsync(context: context);
+              }
             },
           ),
         ).toList(),
