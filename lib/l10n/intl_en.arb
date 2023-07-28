@@ -215,6 +215,7 @@
   "searchLocation": "Search locations",
   "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
   "successfullySentRequest": "Successfully sent request",
+  "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
   "searchSpaces": "Search Spaces"
 }
