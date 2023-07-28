@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drink_page_shimmer.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
@@ -28,15 +29,19 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
         children: [
           NestedScrollView(
             physics: const NeverScrollableScrollPhysics(),
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
+            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Column(
                       children: [
-                        const UserLocationWidget(),
+                        InkWell(
+                          onTap: () {
+                            AppRouter.pushNamed(Routes.searchLocationScreen);
+                          },
+                          child: const UserLocationWidget(),
+                        ),
                         SizedBox(
                           height: 12.h,
                         ),
@@ -70,22 +75,17 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                             },
                             itemBuilder: (context, index) {
                               return InkWell(
-                                onTap: () =>
-                                    notifier.updateCategory(index: index),
+                                onTap: () => notifier.updateCategory(index: index),
                                 child: CategoryListTile(
                                   item: provider.lstCategory[index],
-                                  withOutSearch:
-                                      notifier.searchController.text.isEmpty,
+                                  withOutSearch: notifier.searchController.text.isEmpty,
                                 ),
                               );
                             },
                           ),
                         ),
                         SizedBox(height: 3.h),
-                        (notifier.searchController.text.isNotEmpty
-                                ? provider.allDrinks
-                                : provider.lstDrinks)
-                            .when(
+                        (notifier.searchController.text.isNotEmpty ? provider.allDrinks : provider.lstDrinks).when(
                           data: (data) {
                             if (data.isEmpty) {
                               return const DrinkEmptyView();
@@ -93,16 +93,12 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                               return Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: provider.lstCarts.isNotEmpty
-                                        ? 60.h
-                                        : 10.h,
+                                    bottom: provider.lstCarts.isNotEmpty ? 60.h : 10.h,
                                     top: 10.h,
                                   ),
                                   child: GridView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 10.w,
                                       mainAxisSpacing: 16.h,
