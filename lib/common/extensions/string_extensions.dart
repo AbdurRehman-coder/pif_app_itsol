@@ -9,4 +9,21 @@ extension StringExt on String {
     final regExp = RegExp(p);
     return regExp.hasMatch(this);
   }
+
+  String capitalizeTheFirstLetter() {
+    if (this == null || this.isEmpty) {
+      return '';
+    }
+
+    final List<String> words = this.toLowerCase().split('-');
+    final capitalizedWords = words.map((word) {
+      if (word.isNotEmpty) {
+        return word[0].toUpperCase() + word.substring(1);
+      } else {
+        return '';
+      }
+    }).toList();
+
+    return capitalizedWords.join(' ');
+  }
 }

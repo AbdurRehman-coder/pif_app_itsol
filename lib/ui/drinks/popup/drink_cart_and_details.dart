@@ -198,7 +198,7 @@ class FloatActionWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.r),
                     side: const BorderSide(
                       color: primaryColor,
-                    ), // Add a border with the same color as the background
+                    ),
                   ),
                 ),
                 onPressed: () {

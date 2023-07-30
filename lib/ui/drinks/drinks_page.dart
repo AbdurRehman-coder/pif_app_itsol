@@ -24,77 +24,87 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
     final notifier = ref.read(drinksProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          NestedScrollView(
-            physics: const NeverScrollableScrollPhysics(),
-            headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            AppRouter.pushNamed(Routes.searchLocationScreen);
-                          },
-                          child: const UserLocationWidget(),
-                        ),
-                        SizedBox(
-                          height: 12.h,
-                        ),
-                        const StoreInformation(),
-                        const StoreCloseMessage(),
-                      ],
-                    ),
-                  ),
-                ),
-              ];
-            },
-            body: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 12.w,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 16.h),
-                  Flexible(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                          child: ListView.separated(
-                            itemCount: provider.lstCategory.length,
-                            scrollDirection: Axis.horizontal,
-                            separatorBuilder: (context, index) {
-                              return SizedBox(
-                                width: 12.w,
-                              );
-                            },
-                            itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () => notifier.updateCategory(index: index),
-                                child: CategoryListTile(
-                                  item: provider.lstCategory[index],
-                                  withOutSearch: notifier.searchController.text.isEmpty,
+      body: (notifier.searchController.text.isNotEmpty
+              ? provider.allDrinks
+              : provider.lstDrinks)
+          .when(
+        data: (data) {
+          if (data.isEmpty && notifier.searchController.text.isNotEmpty) {
+            return const DrinkEmptyView();
+          } else {
+            return Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                NestedScrollView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Column(
+                            children: [
+                              if (notifier.searchController.text.isNotEmpty &&
+                                  data.isNotEmpty)
+                                const SizedBox()
+                              else
+                                Column(
+                                  children: [
+                                    const UserLocationWidget(),
+                                    SizedBox(
+                                      height: 12.h,
+                                    ),
+                                    const StoreInformation(),
+                                    const StoreCloseMessage(),
+                                  ],
                                 ),
-                              );
-                            },
+                            ],
                           ),
                         ),
-                        SizedBox(height: 3.h),
-                        (notifier.searchController.text.isNotEmpty ? provider.allDrinks : provider.lstDrinks).when(
-                          data: (data) {
-                            if (data.isEmpty) {
-                              return const DrinkEmptyView();
-                            } else {
-                              return Expanded(
+                      ),
+                    ];
+                  },
+                  body: Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                    ),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 16.h),
+                        Flexible(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 50.h,
+                                child: ListView.separated(
+                                  itemCount: provider.lstCategory.length,
+                                  scrollDirection: Axis.horizontal,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(
+                                      width: 12.w,
+                                    );
+                                  },
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () =>
+                                          notifier.updateCategory(index: index),
+                                      child: CategoryListTile(
+                                        item: provider.lstCategory[index],
+                                        withOutSearch: notifier
+                                            .searchController.text.isEmpty,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: provider.lstCarts.isNotEmpty ? 60.h : 10.h,
-                                    top: 10.h,
+                                    bottom: provider.lstCarts.isNotEmpty
+                                        ? 60.h
+                                        : 10.h,
+                                    top: 14.h,
                                   ),
                                   child: GridView.builder(
                                     physics: const NeverScrollableScrollPhysics(),
@@ -114,26 +124,24 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     },
                                   ),
                                 ),
-                              );
-                            }
-                          },
-                          error: (e, s) {
-                            return const SizedBox();
-                          },
-                          loading: () {
-                            return const Expanded(
-                              child: DrinkPageShimmerWidget(),
-                            );
-                          },
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ],
+                ),
+              ],
+            );
+          }
+        },
+        error: (e, s) {
+          return Container();
+        },
+        loading: () {
+          return const DrinkPageShimmerWidget();
+        },
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.h),

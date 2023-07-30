@@ -7,39 +7,49 @@ class DrinkEmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 20.w),
-      child: Column(
-        children: [
-          SvgPicture.asset(
-            Assets.drinkEmpty,
+    return Stack(
+      children: [
+        Image.asset(
+          Assets.emptySearchBgImage,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 10.h, left: 20.w, right: 20.w),
+          child: Column(
+            children: [
+              SvgPicture.asset(
+                Assets.drinkEmpty,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                S.of(context).noDrinkToShow,
+                textAlign: TextAlign.center,
+                style: Style.commonTextStyle(
+                  color: primaryColor,
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              SizedBox(
+                height: 3.h,
+              ),
+              Text(
+                S.of(context).cantFindMatchingResult,
+                textAlign: TextAlign.center,
+                style: Style.commonTextStyle(
+                  color: textColor,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Text(
-            S.of(context).noDrinkToShow,
-            textAlign: TextAlign.center,
-            style: Style.commonTextStyle(
-              color: primaryColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          SizedBox(
-            height: 3.h,
-          ),
-          Text(
-            S.of(context).cantFindMatchingResult,
-            textAlign: TextAlign.center,
-            style: Style.commonTextStyle(
-              color: textColor,
-              fontSize: 24.sp,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

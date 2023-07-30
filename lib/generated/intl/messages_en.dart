@@ -135,8 +135,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "host": MessageLookupByLibrary.simpleMessage("Host"),
         "hrs": MessageLookupByLibrary.simpleMessage("hrs"),
         "hub": MessageLookupByLibrary.simpleMessage("Hub"),
-        "idNumber": MessageLookupByLibrary.simpleMessage("Id Number"),
-        "idType": MessageLookupByLibrary.simpleMessage("Id type"),
+        "idNumber": MessageLookupByLibrary.simpleMessage("ID Number"),
+        "idType": MessageLookupByLibrary.simpleMessage("ID Type"),
         "ideaGenerationWithClient":
             MessageLookupByLibrary.simpleMessage("Idea Generation with Client"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
@@ -163,7 +163,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter lastname"),
         "logged": MessageLookupByLibrary.simpleMessage("Logged"),
         "loggedStatus": MessageLookupByLibrary.simpleMessage("Logged"),
-        "login": MessageLookupByLibrary.simpleMessage("LogIn"),
+        "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "maxLengthOf": MessageLookupByLibrary.simpleMessage("Max length of"),
         "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
@@ -174,6 +174,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("NO Drinks TO SHOW"),
         "noMatchingResultFound": MessageLookupByLibrary.simpleMessage(
             "Oops! no matching results found"),
+        "noQuickDrinkAvailableMsg": MessageLookupByLibrary.simpleMessage(
+            "no data available for order quick drinks"),
         "noRoomToShow":
             MessageLookupByLibrary.simpleMessage("NO ROOMS TO SHOW"),
         "noVisitors":
@@ -187,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "You Ordered this by mistake?"),
         "orderNow": MessageLookupByLibrary.simpleMessage("Order now"),
         "orderStatus": MessageLookupByLibrary.simpleMessage("Order Status"),
+        "otpIsNotCorrect":
+            MessageLookupByLibrary.simpleMessage("OTP is not correct"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "pastBookingAlert":
             MessageLookupByLibrary.simpleMessage("Please select future time"),
@@ -238,6 +242,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "searchFromVisitorHistory": MessageLookupByLibrary.simpleMessage(
             "Search from your visitors history"),
         "searchHub": MessageLookupByLibrary.simpleMessage("Search Hub"),
+        "searchLocation":
+            MessageLookupByLibrary.simpleMessage("Search locations"),
         "searchNationality":
             MessageLookupByLibrary.simpleMessage("Search Nationality"),
         "searchService":

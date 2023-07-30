@@ -212,14 +212,14 @@
   "takePhoto":"Take Photo",
   "deleteVisitMessage":"Are you sure you want to delete the visit?",
   "searchLocation": "Search locations",
+  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
+  "pinOrderQuickActions" : "Pin Order To Quick Actions",
   "IAgreeToThe":"I Agree To The ",
   "TermsAndConditions":"Terms & Conditions",
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
-  "imageError":"Checking Photo Compliance Error"
-  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
+  "imageError":"Checking Photo Compliance Error",
   "successfullySentRequest": "Successfully sent request",
-  "pinOrderQuickActions" : "Pin Order To Quick Actions",
   "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
   "searchSpaces": "Search Spaces"

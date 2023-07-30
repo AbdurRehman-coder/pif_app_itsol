@@ -4,7 +4,6 @@ import 'package:pif_flutter/common/extensions/color_extensions.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/shimmer_wrapper.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 
 class StoreInformation extends StatelessWidget {
@@ -120,11 +119,7 @@ class StoreInformation extends StatelessWidget {
             );
           },
           loading: () {
-            return ShimmerEffect(
-              width: double.infinity.w,
-              height: 120.h,
-              borderRadius: BorderRadius.circular(18.r),
-            );
+            return const SizedBox();
           },
         );
       },

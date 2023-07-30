@@ -1440,10 +1440,10 @@ class S {
     );
   }
 
-  /// `LogIn`
+  /// `Login`
   String get login {
     return Intl.message(
-      'LogIn',
+      'Login',
       name: 'login',
       desc: '',
       args: [],
@@ -1840,10 +1840,10 @@ class S {
     );
   }
 
-  /// `Id Number`
+  /// `ID Number`
   String get idNumber {
     return Intl.message(
-      'Id Number',
+      'ID Number',
       name: 'idNumber',
       desc: '',
       args: [],
@@ -2110,10 +2110,10 @@ class S {
     );
   }
 
-  /// `Id type`
+  /// `ID Type`
   String get idType {
     return Intl.message(
-      'Id type',
+      'ID Type',
       name: 'idType',
       desc: '',
       args: [],
@@ -2165,6 +2165,36 @@ class S {
     return Intl.message(
       'Pin Order To Quick Actions',
       name: 'pinOrderQuickActions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `OTP is not correct`
+  String get otpIsNotCorrect {
+    return Intl.message(
+      'OTP is not correct',
+      name: 'otpIsNotCorrect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search locations`
+  String get searchLocation {
+    return Intl.message(
+      'Search locations',
+      name: 'searchLocation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `no data available for order quick drinks`
+  String get noQuickDrinkAvailableMsg {
+    return Intl.message(
+      'no data available for order quick drinks',
+      name: 'noQuickDrinkAvailableMsg',
       desc: '',
       args: [],
     );

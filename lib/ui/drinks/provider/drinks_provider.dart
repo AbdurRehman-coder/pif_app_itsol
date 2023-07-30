@@ -129,8 +129,6 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   }
 
   void updateCategory({required int index}) {
-    searchController.clear();
-    searchFocusNode.unfocus();
     final lstData = state.lstCategory;
     for (final element in lstData) {
       element.isSelected = false;
@@ -214,6 +212,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
 
     final lstCart = state.lstCarts.toList();
 
+    /// add to cart only if it is not already contain in the cartList
     /// if item is not already contain in the list
     if (!lstCart.contains(item)) {
       lstCart.add(item);
@@ -264,7 +263,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         printedNote: notesController.text,
         orderItems: itemCart,
       );
-      Settings.orderRequestModel = orderParam;
+
+      ///TODO: To be uncommented, currently it is giving an issue
+      // Settings.orderRequestModel = orderParam;
       await appProgressDialog.stop();
       showSuccessMessage(
         context: context,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/model/drink_model.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
@@ -51,7 +52,7 @@ class _ProductSubOptionState extends State<ProductSubOption> {
                     padding:
                         EdgeInsets.symmetric(vertical: 7.h, horizontal: 3.h),
                     child: Text(
-                      drinkSubOption.valueOptionKey ?? '',
+                      drinkSubOption.valueOptionKey.capitalizeTheFirstLetter(),
                       style: Style.commonTextStyle(
                         color: grayTextColor,
                         fontSize: 12.sp,

@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:custom_pop_up_menu/custom_pop_up_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/product_sup_option.dart';
@@ -90,8 +91,11 @@ class _ProductOptionsState extends State<ProductOptions> {
                       ),
                       padding:
                           EdgeInsets.symmetric(horizontal: 12.w, vertical: 7.h),
+
+                      /// Show the option first letter capitalize,
+                      /// using the String extension capitalizeTheFirstLetter
                       child: Text(
-                        '$valueOptionKey ${drinkOption.productOptionsModel.name ?? ''}',
+                        '${valueOptionKey.capitalizeTheFirstLetter()} ${drinkOption.productOptionsModel.name ?? ''}',
                         style: Style.commonTextStyle(
                           color: drinkOption
                                   .customPopupMenuController.menuIsShowing
