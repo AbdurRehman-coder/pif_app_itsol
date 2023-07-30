@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
@@ -19,16 +20,9 @@ class ScanFaceCamera extends StatefulWidget {
 }
 
 class _ScanFaceCameraState extends State<ScanFaceCamera> {
-  VideoPlayerController? videoPlayerController;
-
   @override
   void initState() {
     super.initState();
-    videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      ),
-    );
   }
 
   @override
@@ -54,11 +48,25 @@ class _ScanFaceCameraState extends State<ScanFaceCamera> {
                   SizedBox(
                     height: 200.h,
                     width: double.infinity,
-                    child: BannerVideoView(
-                      videoUrl:
-                          'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                      videoPlayerController: videoPlayerController,
-                      onVideoFinish: (isVideoFinis)=>notifier.onVideoScanFaceFinish(isVideoFinish: isVideoFinis),
+                    child: Builder(
+                      builder: (context) {
+                        final videoUrl = ServiceConstant.baseUrl +
+                            (provider.contentModel?.value?.contentFields!
+                                .where(
+                                  (element) => element.name == 'faceIDVideo',
+                                )
+                                .firstOrNull
+                                ?.contentFieldValue
+                                ?.document!
+                                .contentUrl!)!;
+                        return BannerVideoView(
+                          videoUrl: videoUrl,
+                          onVideoFinish: (isVideoFinis) =>
+                              notifier.onVideoScanFaceFinish(
+                            isVideoFinish: isVideoFinis,
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],

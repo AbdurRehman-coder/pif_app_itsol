@@ -29,7 +29,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
     videoController = widget.videoPlayerController ??
         VideoPlayerController.networkUrl(
           Uri.parse(
-            'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+            widget.videoUrl,
           ),
         );
     videoController.initialize().then((value) {
@@ -102,8 +102,6 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void dispose() {
     super.dispose();
-    print('4567654345678987654345678${!videoController.value.isPlaying}');
-
     videoController.dispose();
   }
 }

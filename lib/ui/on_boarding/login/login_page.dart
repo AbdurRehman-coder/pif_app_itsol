@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/login/provider/login_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/empty_image.dart';
@@ -50,13 +52,32 @@ class LogInPage extends ConsumerWidget {
                       description: S.current.weOfferPasswordExperience,
                     ),
                     SizedBox(height: 20.h),
-                    const EmptyImage(),
+                    SizedBox(
+                      height: 200.h,
+                      width: double.infinity,
+                      child: Builder(
+                        builder: (context) {
+                          return BannerVideoView(
+                            videoUrl:
+                                '${ServiceConstant.baseUrl}/documents/20120/147621/Mobile%20Prelogin%20Intro%20Video.mp4/?videoPreview=1&type=mp4',
+                          );
+                        },
+                      ),
+                    ),
                     SizedBox(height: 20.h),
                     CustomTextField(
                       textEditingController: notifier.emailController,
                       keyboardType: TextInputType.emailAddress,
                       labelText: S.of(context).email,
                       isEmailField: true,
+                      checkEmpty: true,
+                    ),
+                    SizedBox(height: 20.h),
+                    CustomTextField(
+                      textEditingController: notifier.passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      labelText: S.of(context).password,
+                      obscureText: true,
                       checkEmpty: true,
                     ),
                     SizedBox(height: 60.h),
@@ -66,7 +87,7 @@ class LogInPage extends ConsumerWidget {
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.symmetric(vertical: 10.h),
                         ),
-                        onPressed: notifier.goToOTP,
+                        onPressed: () => notifier.createLogIn(context: context),
                         child: Text(
                           S.current.login,
                           style: Style.commonTextStyle(
@@ -76,7 +97,7 @@ class LogInPage extends ConsumerWidget {
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -1,8 +1,10 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/widget/check_privacy.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/personal_information.dart';
 import 'package:video_player/video_player.dart';
 
@@ -19,51 +21,16 @@ class FillPersonalInformation extends StatefulWidget {
       _FillPersonalInformationState();
 }
 
-class _FillPersonalInformationState extends State<FillPersonalInformation>
-    with TickerProviderStateMixin {
-  late AnimationController animation;
-  late AnimationController slideAnim;
-  late AnimationController fadeAnim;
-  VideoPlayerController? videoPlayerController;
-
+class _FillPersonalInformationState extends State<FillPersonalInformation> {
   bool showBottomButton = false;
 
   @override
   void initState() {
-    videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse(
-        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-      ),
-    );
-    slideAnim = AnimationController(
-      duration: const Duration(milliseconds: 900),
-      vsync: this,
-    );
-    animation = AnimationController(
-      duration: const Duration(milliseconds: 1000),
-      vsync: this,
-    );
-    fadeAnim = AnimationController(
-      duration: const Duration(milliseconds: 2000),
-      vsync: this,
-    );
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      slideAnim.forward();
-    });
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      animation.forward();
-    });
-    Future.delayed(const Duration(milliseconds: 2500), () {
-      fadeAnim.forward();
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    animation.dispose();
-    slideAnim.dispose();
-    fadeAnim.dispose();
     super.dispose();
   }
 
@@ -72,81 +39,69 @@ class _FillPersonalInformationState extends State<FillPersonalInformation>
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         final provider = ref.watch(fillInformationProvider);
+        final notifier = ref.read(fillInformationProvider.notifier);
         return Expanded(
           child: SingleChildScrollView(
             controller: provider.scrollControllerFillInformation,
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 55.h),
-                SlideTransition(
-                  position: Tween(
-                    begin: const Offset(0, 6),
-                    end: const Offset(-0.25, 0.3),
-                  ).animate(
-                    CurvedAnimation(parent: slideAnim, curve: Curves.easeInOut),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '${S.current.hi}${widget.userName}!',
-                      style: Style.commonTextStyle(
-                        color: dayTextColor,
-                        fontSize: 32.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                Text(
+                  '${S.current.hi}${widget.userName}!',
+                  style: Style.commonTextStyle(
+                    color: dayTextColor,
+                    fontSize: 32.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                SlideTransition(
-                  position: Tween(
-                    begin: const Offset(-5, 0),
-                    end: const Offset(0, 0.7),
-                  ).animate(
-                    CurvedAnimation(
-                      parent: animation,
-                      curve: Curves.easeInToLinear,
-                    ),
+                Text(
+                  provider.contentModel?.value?.contentFields?.where((element) => element.name == 'onboardingText').firstOrNull?.contentFieldValue?.data ?? '',
+                  style: Style.commonTextStyle(
+                    color: hintColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Text(
-                      S.current.thrilledToHaveYouOnboard,
-                      style: Style.commonTextStyle(
-                        color: hintColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      maxLines: 4,
-                    ),
-                  ),
+                  maxLines: 4,
                 ),
-                SlideTransition(
-                  position: Tween(
-                    begin: const Offset(-5, 0),
-                    end: const Offset(0, 0.05),
-                  ).animate(
-                    CurvedAnimation(parent: fadeAnim, curve: Curves.easeInOut),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(height: 40.h),
-                        SizedBox(
-                          height: 200.h,
-                          width: double.infinity,
-                          child: BannerVideoView(
-                            videoUrl:
-                                'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
-                            videoPlayerController: videoPlayerController,
-                          ),
-                        ).visibility(
-                          visible: videoPlayerController != null,
-                        ),
-                        const PersonalInformation(),
-                      ],
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(height: 40.h),
+                    SizedBox(
+                      height: 200.h,
+                      width: double.infinity,
+                      child: Builder(
+                        builder: (context) {
+                          final videoUrl = ServiceConstant.baseUrl +
+                              (provider.contentModel?.value?.contentFields!
+                                      .where(
+                                        (element) =>
+                                            element.name == 'onBoardingVideo',
+                                      )
+                                      .firstOrNull
+                                      ?.contentFieldValue
+                                      ?.document!
+                                      .contentUrl ??
+                                  '');
+                          return BannerVideoView(
+                            videoUrl: videoUrl,
+                          );
+                        },
+                      ),
+                    ).shimmerLoadingSecond(
+                      loading: provider.contentModel!.isLoading,
                     ),
-                  ),
+                    const PersonalInformation(),
+                    SizedBox(height: 10.h),
+                    const CheckPrivacy(),
+                    if (notifier.idNumberFocusNode.hasFocus) ...[
+                      SizedBox(height: 430.h),
+                    ] else ...[
+                      SizedBox(height: 150.h),
+                    ],
+                  ],
                 ),
               ],
             ),

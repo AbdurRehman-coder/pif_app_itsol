@@ -93,7 +93,7 @@ class _PinPutWidgetState extends State<PinPutWidget> {
                 },
                 hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {
-                  notifier.goToWelcomeScreen();
+                  notifier.goToHiScreen();
                 },
                 onChanged: (value) {
                   debugPrint('onChanged: $value');

@@ -47,6 +47,7 @@ const blackGradiant = Color(0xFFC4C4C400);
 const blackIcon = Color(0xFF1C1B1F);
 const primaryDark = Color(0xFF3A5C50);
 const grayGradientStart = Color(0x1A272627);
+const black700 = Color(0xFF444344);
 const grayGradientEnd = Color(0x00c29b5b);
 const dividerColor = Color(0xff444444);
 

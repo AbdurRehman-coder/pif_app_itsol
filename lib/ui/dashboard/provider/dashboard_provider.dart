@@ -47,7 +47,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService.getStoreInformation(
+    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );

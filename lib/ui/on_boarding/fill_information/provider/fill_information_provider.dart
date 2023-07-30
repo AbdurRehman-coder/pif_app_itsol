@@ -1,7 +1,20 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
+import 'package:dixels_sdk/common/models/parameters_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/users/add_image/model/add_image_request.dart';
+import 'package:dixels_sdk/features/users/country/model/country_model.dart';
+import 'package:dixels_sdk/features/users/verify_users/model/verify_user_request_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/file_extensions.dart';
+import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
+import 'package:pif_flutter/common/shared/message/toast_message.dart';
+import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/main.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/model/nationality_model.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/state/fill_information_state.dart';
 
@@ -17,19 +30,18 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
   }
 
   final Ref ref;
-  late TextEditingController nationalController;
-  final double _height = 150;
-  var lstTypes = <LookUpModel>[];
+  late TextEditingController iDController;
+  var lstTypes = <TypeModel>[];
   final idNumberFocusNode = FocusNode();
+  final lstData = <TypeModel>[];
 
   void init() {
-    final lstData = <LookUpModel>[];
-    lstData.add(LookUpModel(title: 'India', id: '1'));
-    lstData.add(LookUpModel(title: 'Jordan', id: '2'));
-    lstData.add(LookUpModel(title: 'Saudi Arabic', id: '3'));
-    lstData.add(LookUpModel(title: 'Iran', id: '4'));
-    lstData.add(LookUpModel(title: 'Kuwait', id: '5'));
-    lstData.add(LookUpModel(title: 'Oman', id: '6'));
+    lstTypes = <TypeModel>[];
+    iDController = TextEditingController();
+    lstTypes.add(TypeModel(title: 'Passport', id: '1'));
+    lstTypes.add(TypeModel(title: 'Iqama', id: '2'));
+    state = state.copyWith(typeList: AsyncData(lstTypes));
+    getCountries();
     if (camerasList.isNotEmpty) {
       state = state.copyWith(
         cameraController: CameraController(
@@ -39,13 +51,6 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
         ),
       );
     }
-
-    state = state.copyWith(nationalList: AsyncData(lstData));
-    nationalController = TextEditingController();
-
-    lstTypes = <LookUpModel>[];
-    lstTypes.add(LookUpModel(title: 'Passport', id: '1'));
-    lstTypes.add(LookUpModel(title: 'Iqama', id: '2'));
   }
 
   void updateIndexSelect() {
@@ -57,20 +62,18 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     state = state.copyWith(cameraController: state.cameraController);
   }
 
-  Future<void> selectImageFace() async {
-    final file = await state.cameraController?.takePicture();
-    state = state.copyWith(scanFace: file);
-  }
-
   void removeSelectedImageFace() {
     state = state.copyWith(scanFace: null);
   }
 
-  void updateNationality(LookUpModel data) {
+  void updateCountry(CountryModel data) {
     state = state.copyWith(selectedNationality: data);
+    if (data.a2 == 'SA') {
+      state = state.copyWith(selectedType: null);
+    }
   }
 
-  void updateType(LookUpModel data) {
+  void updateType(TypeModel data) {
     state = state.copyWith(selectedType: data);
   }
 
@@ -82,12 +85,44 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     state = state.copyWith(isVideoFinish: isVideoFinish);
   }
 
-  void onClickOnDropDown({required bool isDropDownOpens}) {
-    state = state.copyWith(isDropDownOpen: isDropDownOpens);
+  //Update Terms And Condition Value
+  void updateTermsAndCondition({required bool termsAndCondition}) {
+    state = state.copyWith(acceptTermsAndCondition: termsAndCondition);
+  }
+
+  //Update IDType
+  void updateIDType({required TypeModel typeSelected}) {
+    state = state.copyWith(selectedType: typeSelected);
+  }
+
+  //Update Terms And Condition Value
+  void updateNDA({required bool nda}) {
+    state = state.copyWith(acceptNDA: nda);
+  }
+
+  Future<void> getCountries() async {
+    final result = await DixelsSDK.instance.countryService.getCountries();
+    if (result.isRight()) {
+      state = state.copyWith(
+        countryList: AsyncData(
+          result.getRight()?.items ?? [],
+        ),
+      );
+      await getInformation();
+    } else {
+      print('result.getLeft().message ${result.getLeft().message}');
+    }
+  }
+
+  Future<void> getInformation() async {
+    final information = await DixelsSDK.instance.structureContentService
+        .getStructureContentByKey(webContentId: '199522', siteId: '20120');
+    if (information != null) {
+      state = state.copyWith(contentModel: AsyncData(information));
+    }
   }
 
   Future<void> scrollToIndex() async {
-
     await state.scrollControllerFillInformation.animateTo(
       100,
       duration: const Duration(seconds: 1),
@@ -95,6 +130,71 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     );
 
     state = state.copyWith();
+  }
+
+  Future<void> checkImage({required BuildContext context}) async {
+    final fileSelected = await state.cameraController?.takePicture();
+    if (fileSelected != null) {
+      final appProgress = AppProgressDialog(context: context);
+      await appProgress.start();
+
+      final imageFile = File(fileSelected.path);
+
+      final checkImage = await DixelsSDK.instance.addImageService.addImage(
+        addImageRequest: AddImageRequest(
+          base64Image: imageFile.convertFileToBase64,
+        ),
+      );
+      await appProgress.stop();
+      if (checkImage.isRight()) {
+        final minQuality = double.parse(
+          state.contentModel?.value?.contentFields
+                  ?.where(
+                    (
+                      content,
+                    ) =>
+                        content.name == 'sensetimeImageScoreThreshold',
+                  )
+                  .firstOrNull
+                  ?.contentFieldValue
+                  ?.data ??
+              '',
+        );
+        if (checkImage.getRight()!.quality >= minQuality) {
+          state = state.copyWith(scanFace: fileSelected);
+        } else {
+          alertMessage(
+            errorMessage: S.current.imageError,
+            context: context,
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> verifyUser({required BuildContext context}) async {
+    final appProgress = AppProgressDialog(context: context);
+    await appProgress.start();
+    final isSaudi = state.selectedNationality?.a2 == 'SA';
+    final isPassport = state.selectedType?.id == '1';
+    final isIqama = state.selectedType?.id == '2';
+    final verifyUser = await DixelsSDK.instance.verifyUserService.verifyUser(
+      verifyUserRequestModel: VerifyUserRequestModel(
+        nationality: state.selectedNationality?.title_i18n?.en_US ?? '',
+        nationalId: isSaudi ? iDController.text : '',
+        passportId: isPassport ? iDController.text : '',
+        residentId: isIqama ? iDController.text : '',
+      ),
+    );
+    await appProgress.stop();
+    if (verifyUser.isRight()) {
+      await AppRouter.startNewRoute(Routes.dashboardScreen);
+    } else {
+      alertMessage(
+        errorMessage: verifyUser.getLeft().message,
+        context: context,
+      );
+    }
   }
 
   @override

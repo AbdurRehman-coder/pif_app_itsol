@@ -14,7 +14,10 @@ class SplashPage extends HookWidget {
   @override
   Widget build(BuildContext context) {
     useEffect(() {
-      Timer(const Duration(seconds: 5), _navigateUser);
+      Timer(
+        const Duration(seconds: 5),
+        _navigateUser,
+      );
       return null;
     });
     return Scaffold(
@@ -36,7 +39,23 @@ class SplashPage extends HookWidget {
   Future<void> _navigateUser() async {
     final data = await DixelsSDK.instance.userDetails;
     if (data != null) {
-      await AppRouter.pushReplacement(Routes.dashboardScreen);
+      if (data.customFields
+              ?.where((element) => element.name == 'isVerified')
+              .firstOrNull
+              ?.customValue
+              .data
+              .toString()
+              .toLowerCase() ==
+          'true') {
+        await AppRouter.startNewRoute(
+          Routes.dashboardScreen,
+        );
+      } else {
+        await AppRouter.pushReplacement(
+          Routes.hiScreen,
+          args: data.givenName,
+        );
+      }
     } else {
       await AppRouter.pushReplacement(Routes.logInScreen);
     }

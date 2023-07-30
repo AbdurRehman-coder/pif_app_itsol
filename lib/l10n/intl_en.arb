@@ -210,6 +210,12 @@
   "capture":"Capture",
   "takePhoto":"Take Photo",
   "deleteVisitMessage":"Are you sure you want to delete the visit?",
+  "searchLocation": "Search locations",
+  "IAgreeToThe":"I Agree To The ",
+  "TermsAndConditions":"Terms & Conditions",
+  "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
+  "NDA":"NDA",
+  "imageError":"Checking Photo Compliance Error"
   "pinOrderQuickActions" : "Pin Order To Quick Actions",
   "otpIsNotCorrect":"OTP is not correct",
   "searchLocation": "Search locations",

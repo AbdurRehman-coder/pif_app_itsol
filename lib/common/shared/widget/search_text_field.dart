@@ -115,7 +115,7 @@ class SearchTextField extends StatelessWidget {
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: isEnableFiled ? primaryColor : borderColorByDefault,
+                  color: borderColorByDefault,
                   width: 1.w,
                 ),
                 borderRadius: borderRadius,

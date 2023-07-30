@@ -1,5 +1,5 @@
-class LookUpModel {
-  LookUpModel({
+class TypeModel {
+  TypeModel({
     required this.title,
     required this.id,
   });

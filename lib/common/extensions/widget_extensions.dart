@@ -42,4 +42,16 @@ extension WidgetExt on Widget {
       child: this,
     );
   }
+
+  Widget shimmerLoadingSecond({bool loading = true}) {
+    if (!loading) {
+      return this;
+    }
+
+    return Shimmer.fromColors(
+      baseColor: primaryColor.withOpacity(0.5),
+      highlightColor: Colors.grey[100]!,
+      child: this,
+    );
+  }
 }

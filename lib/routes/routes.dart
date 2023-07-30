@@ -21,10 +21,12 @@ class Routes {
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
   static const String ticketDetailsScreen = '/ticketDetails';
   static const String welcomeScreen = '/welcomeScreen';
+  static const String hiScreen = '/hiScreen';
   static const String companyServiceScreen = '/companyServiceScreen';
   static const String companyAndNewsScreen = '/companyAndNewsScreen';
   static const String companyDetailsScreen = '/companyDetailsScreen';
   static const String employeeDetailsScreen = '/employeeDetailsScreen';
   static const String bookingListScreen = '/bookingListScreen';
   static const String searchLocationScreen = '/searchLocationScreen';
+  static const String privacyScreen = '/privacyScreen';
 }

@@ -9,12 +9,12 @@ extension ImageExt on ImagePrimary {
         url = link!.href!.substring(0, endIndex) + link!.label!;
       }
     }
-    return 'http://20.74.136.229$url';
+    return '${ServiceConstant.baseUrl}$url';
   }
 }
 
 extension ImageExtSecond on String {
   String get getImageUrl {
-    return 'http://20.74.136.229$this';
+    return '${ServiceConstant.baseUrl}$this';
   }
 }

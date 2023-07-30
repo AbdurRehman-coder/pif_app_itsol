@@ -28,42 +28,52 @@ class LogInNotifier extends StateNotifier<LogInState> {
   final ImagePicker picker = ImagePicker();
 
   Future<void> createLogIn({required BuildContext context}) async {
-    final appProgressDialog = AppProgressDialog(context: context);
-    await appProgressDialog.start();
-    final result = await DixelsSDK.instance.initialize(
-      baseUrl: Constants.baseUrl,
-      auth: OAuth2PasswordGrant(
-        username: 'mwafeeq@appswave.io',
-        // username: emailController.text,
-        password: 'Mwni127199411',
-        // password: passwordController.text,
-        clientId: Constants.clientId,
-        clientSecret: Constants.clientSecret,
-      ),
-    );
-    await appProgressDialog.stop();
-    if (result) {
-      await AppRouter.pushReplacement(Routes.dashboardScreen);
-    } else {
-      alertMessage(
-        errorMessage: 'User not found',
-        context: context,
-      );
-    }
-  }
-
-  void goToOTP() {
     if (formKeyLogIn.currentState!.validate()) {
-      AppRouter.pushNamed(Routes.verifyOTPScreen);
+      final appProgressDialog = AppProgressDialog(context: context);
+      await appProgressDialog.start();
+      final result = await DixelsSDK.instance.initialize(
+        baseUrl: Constants.baseUrl,
+        auth: OAuth2PasswordGrant(
+          username: 'mwafeeq@appswave.io',
+          // username: emailController.text,
+          password: 'Mwni127199411',
+          // password: passwordController.text,
+          clientId: Constants.clientId,
+          clientSecret: Constants.clientSecret,
+        ),
+      );
+      await appProgressDialog.stop();
+      if (result) {
+        await AppRouter.pushNamed(Routes.verifyOTPScreen);
+      } else {
+        alertMessage(
+          errorMessage: 'User not found',
+          context: context,
+        );
+      }
     }
   }
 
-  void goToWelcomeScreen() {
+  Future<void> goToHiScreen() async {
     pinController.clear();
     emailController.clear();
-    AppRouter.startNewRoute(
-      Routes.welcomeScreen,
-      args: 'Obaida',
-    );
+    final data = await DixelsSDK.instance.userDetails;
+    if (data?.customFields
+        ?.where((element) => element.name == 'isVerified')
+        .firstOrNull
+        ?.customValue
+        .data
+        .toString()
+        .toLowerCase() ==
+        'true') {
+      await AppRouter.startNewRoute(
+        Routes.dashboardScreen,
+      );
+    } else {
+      await AppRouter.pushReplacement(
+        Routes.hiScreen,
+        args: data?.givenName,
+      );
+    }
   }
 }

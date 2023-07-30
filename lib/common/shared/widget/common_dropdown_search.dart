@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/users/country/model/country_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
@@ -16,13 +17,13 @@ class CommonDropDownSearchWidget extends StatefulWidget {
     this.searchPlaceholder = 'Search',
   });
 
-  final List<LookUpModel> data;
+  final List<CountryModel> data;
   final String placeholder;
   final String searchPlaceholder;
   final bool isEnable;
   final bool withSearch;
-  final LookUpModel? selectedValue;
-  final void Function(LookUpModel)? onItemSelected;
+  final CountryModel? selectedValue;
+  final void Function(CountryModel)? onItemSelected;
   final void Function(bool)? onClickOnDropDown;
 
   @override
@@ -34,7 +35,7 @@ class _CommonDropDownSearchWidgetState
     extends State<CommonDropDownSearchWidget> {
   bool isOpen = false;
   final searchController = TextEditingController();
-  List<LookUpModel> filterData = <LookUpModel>[];
+  List<CountryModel> filterData = <CountryModel>[];
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _CommonDropDownSearchWidgetState
                   child: Text(
                     widget.selectedValue == null
                         ? widget.placeholder
-                        : widget.selectedValue?.title ?? '',
+                        : widget.selectedValue?.title_i18n?.en_US ?? '',
                     style: Style.commonTextStyle(
                       color:
                           widget.selectedValue == null ? hintColor : textColor,
@@ -110,7 +111,7 @@ class _CommonDropDownSearchWidgetState
                       if (value.isNotEmpty) {
                         final data = widget.data
                             .where(
-                              (element) => element.title
+                              (element) => element.title_i18n!.en_US!
                                   .toLowerCase()
                                   .contains(value.toLowerCase()),
                             )
@@ -152,21 +153,24 @@ class _CommonDropDownSearchWidgetState
                           horizontal: 10.w,
                           vertical: 4.h,
                         ),
-                        child: Row(
-                          children: [
-                            const Icon(Icons.flag),
-                            SizedBox(
-                              width: 8.w,
+                        child: Expanded(
+                          child: Text(
+                            '${filterData[index]
+                                    .a2!
+                                    .toUpperCase()
+                                    .replaceAllMapped(
+                                      RegExp(r'[A-Z]'),
+                                      (match) => String.fromCharCode(
+                                        (match.group(0)?.codeUnitAt(0))! +
+                                            127397,
+                                      ),
+                                    )} ${filterData[index].title_i18n?.en_US ?? ''}',
+                            style: Style.commonTextStyle(
+                              color: textColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
                             ),
-                            Text(
-                              filterData[index].title,
-                              style: Style.commonTextStyle(
-                                color: textColor,
-                                fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     );

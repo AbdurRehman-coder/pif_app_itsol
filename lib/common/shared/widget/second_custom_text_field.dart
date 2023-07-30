@@ -82,6 +82,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
               onTap: widget.onTap,
               style: widget.style,
               obscureText: widget.obscureText,
+
               onChanged: (val) {
                 setState(() {});
                 widget.onChanged?.call(val);
@@ -201,7 +202,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
         ),
         if (widget.textEditingController.text.isNotEmpty) ...[
           Positioned(
-            top: 2.h,
+            top: 5.h,
             left: 10.w,
             child: Text(
               widget.hintText ?? '',

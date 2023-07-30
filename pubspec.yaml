@@ -80,11 +80,12 @@ dependencies:
   dropdown_button2: ^2.1.4
   disposable_cached_images: ^1.2.1
   scroll_to_index: ^3.0.1
-  dotted_border: ^2.0.0+3
   pinput: ^2.2.31
   camera: ^0.10.5+2
   carousel_slider: ^4.2.1
   flutter_widget_from_html_core: ^0.10.3
+  page_animation_transition: ^1.0.0
+  dropdown_search: ^5.0.6
   permission_handler: ^10.4.3
   location: ^5.0.0
   bluetooth_enable_fork: ^0.1.5

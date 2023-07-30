@@ -13,6 +13,8 @@ import 'package:pif_flutter/ui/company_managment/company_details/company_details
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/employee_details/employee_details_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/hi_sceen.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/privacy_screen.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_screen.dart';
 import 'package:pif_flutter/ui/on_boarding/login/login_page.dart';
 import 'package:pif_flutter/ui/on_boarding/login/verify_otp.dart';
@@ -30,7 +32,8 @@ import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -83,7 +86,9 @@ class AppRouter {
       case Routes.companyAndNewsScreen:
         return _setPage(page: const CompanyAndNews(), settings: settings);
       case Routes.addOrEditTicketScreen:
-        final addTicketModel = settings.arguments != null ? settings.arguments! as AddTicketModel : null;
+        final addTicketModel = settings.arguments != null
+            ? settings.arguments! as AddTicketModel
+            : null;
         return _setPage(
           page: AddTicketView(
             addTicketModel: addTicketModel,
@@ -94,6 +99,14 @@ class AppRouter {
         final userName = settings.arguments! as String;
         return _setPage(
           page: WelcomeScreen(
+            userName: userName,
+          ),
+          settings: settings,
+        );
+      case Routes.hiScreen:
+        final userName = settings.arguments! as String;
+        return _setPage(
+          page: HiScreen(
             userName: userName,
           ),
           settings: settings,
@@ -110,6 +123,12 @@ class AppRouter {
         );
       case Routes.homeScreen:
         return _setPage(page: const HomePage(), settings: settings);
+      case Routes.privacyScreen:
+        final fromNda = settings.arguments! as bool;
+        return _setPage(
+          page: PrivacyScreen(fromNda: fromNda),
+          settings: settings,
+        );
       case Routes.ticketDetailsScreen:
         final data = settings.arguments! as SupportTicketModel;
         return _setPage(
@@ -171,11 +190,18 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
+  }
+
+  static Future<dynamic> popAndPushNamedWithTransition(String routeName, {dynamic args}) {
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {
