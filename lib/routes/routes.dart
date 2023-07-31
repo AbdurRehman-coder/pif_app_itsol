@@ -20,8 +20,8 @@ class Routes {
   static const String myTicketsScreen = '/myTickets';
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
   static const String ticketDetailsScreen = '/ticketDetails';
+  static const String fillAllInformationScreen = '/fillAllInformationScreen';
   static const String welcomeScreen = '/welcomeScreen';
-  static const String hiScreen = '/hiScreen';
   static const String companyServiceScreen = '/companyServiceScreen';
   static const String companyAndNewsScreen = '/companyAndNewsScreen';
   static const String companyDetailsScreen = '/companyDetailsScreen';

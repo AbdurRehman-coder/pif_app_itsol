@@ -151,9 +151,7 @@ class BottomButton extends ConsumerWidget {
                       backgroundColor: primaryColor,
                       padding: EdgeInsets.symmetric(vertical: 10.h),
                     ),
-                    // onPressed: () =>
-                    //     AppRouter.startNewRoute(Routes.dashboardScreen),
-                    onPressed: () => notifier.checkImage(context: context),
+                    onPressed: () => notifier.verifyUser(context: context),
                     child: Text(
                       S.current.getStarted,
                       style: Style.commonTextStyle(

@@ -18,14 +18,14 @@ class LogInNotifier extends StateNotifier<LogInState> {
   LogInNotifier({required this.ref}) : super(LogInState.initial());
 
   final Ref ref;
-
   GlobalKey<FormState> formKeyLogIn = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final passwordFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
 
   final pinController = TextEditingController();
-  final ImagePicker picker = ImagePicker();
 
   Future<void> createLogIn({required BuildContext context}) async {
     if (formKeyLogIn.currentState!.validate()) {
@@ -54,26 +54,29 @@ class LogInNotifier extends StateNotifier<LogInState> {
     }
   }
 
-  Future<void> goToHiScreen() async {
+  Future<void> goToWelcomeScreen() async {
     pinController.clear();
     emailController.clear();
     final data = await DixelsSDK.instance.userDetails;
     if (data?.customFields
-        ?.where((element) => element.name == 'isVerified')
-        .firstOrNull
-        ?.customValue
-        .data
-        .toString()
-        .toLowerCase() ==
+            ?.where((element) => element.name == 'isVerified')
+            .firstOrNull
+            ?.customValue
+            .data
+            .toString()
+            .toLowerCase() ==
         'true') {
       await AppRouter.startNewRoute(
         Routes.dashboardScreen,
       );
     } else {
       await AppRouter.pushReplacement(
-        Routes.hiScreen,
+        Routes.welcomeScreen,
         args: data?.givenName,
       );
     }
+  }
+
+  void update() {
   }
 }

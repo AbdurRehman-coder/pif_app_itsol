@@ -218,6 +218,8 @@
   "TermsAndConditions":"Terms & Conditions",
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
+  "imageError":"Please use a clear image of your face",
+  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
   "imageError":"Checking Photo Compliance Error",
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",

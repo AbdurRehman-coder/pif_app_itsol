@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 
 extension ImageExt on ImagePrimary {
   String get getImageUrl {
@@ -9,12 +10,12 @@ extension ImageExt on ImagePrimary {
         url = link!.href!.substring(0, endIndex) + link!.label!;
       }
     }
-    return '${ServiceConstant.baseUrl}$url';
+    return '${Constants.baseUrl}$url';
   }
 }
 
 extension ImageExtSecond on String {
   String get getImageUrl {
-    return '${ServiceConstant.baseUrl}$this';
+    return '${Constants.baseUrl}$this';
   }
 }

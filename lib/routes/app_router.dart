@@ -13,9 +13,9 @@ import 'package:pif_flutter/ui/company_managment/company_details/company_details
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/employee_details/employee_details_page.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
-import 'package:pif_flutter/ui/on_boarding/fill_information/hi_sceen.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_sceen.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/privacy_screen.dart';
-import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_screen.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
 import 'package:pif_flutter/ui/on_boarding/login/login_page.dart';
 import 'package:pif_flutter/ui/on_boarding/login/verify_otp.dart';
 import 'package:pif_flutter/ui/search_location/index.dart';
@@ -95,18 +95,18 @@ class AppRouter {
           ),
           settings: settings,
         );
-      case Routes.welcomeScreen:
+      case Routes.fillAllInformationScreen:
         final userName = settings.arguments! as String;
         return _setPage(
-          page: WelcomeScreen(
+          page: FillAllInformationScreen(
             userName: userName,
           ),
           settings: settings,
         );
-      case Routes.hiScreen:
+      case Routes.welcomeScreen:
         final userName = settings.arguments! as String;
         return _setPage(
-          page: HiScreen(
+          page: WelcomeScreen(
             userName: userName,
           ),
           settings: settings,

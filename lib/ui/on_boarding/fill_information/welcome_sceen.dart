@@ -10,10 +10,10 @@ import 'package:page_animation_transition/animations/scale_animation_transition.
 import 'package:page_animation_transition/page_animation_transition.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
-import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_screen.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
 
-class HiScreen extends ConsumerStatefulWidget {
-  const HiScreen({
+class WelcomeScreen extends ConsumerStatefulWidget {
+  const WelcomeScreen({
     required this.userName,
     super.key,
   });
@@ -21,10 +21,10 @@ class HiScreen extends ConsumerStatefulWidget {
   final String userName;
 
   @override
-  ConsumerState createState() => _HiScreenState();
+  ConsumerState createState() => _WelcomeScreenState();
 }
 
-class _HiScreenState extends ConsumerState<HiScreen> {
+class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   @override
   Widget build(BuildContext context) {
     ref.watch(fillInformationProvider);
@@ -45,7 +45,7 @@ class _HiScreenState extends ConsumerState<HiScreen> {
   Future<void> _navigateUser({required BuildContext context}) async {
     await Navigator.of(context).push(
       PageAnimationTransition(
-        page: WelcomeScreen(
+        page: FillAllInformationScreen(
           userName: widget.userName,
         ),
         pageAnimationType: RightToLeftFadedTransition(),

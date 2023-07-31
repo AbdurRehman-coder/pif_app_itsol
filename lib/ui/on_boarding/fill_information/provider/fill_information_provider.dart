@@ -68,6 +68,7 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
 
   void updateCountry(CountryModel data) {
     state = state.copyWith(selectedNationality: data);
+    iDController.clear();
     if (data.a2 == 'SA') {
       state = state.copyWith(selectedType: null);
     }
@@ -92,6 +93,7 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
 
   //Update IDType
   void updateIDType({required TypeModel typeSelected}) {
+    iDController.clear();
     state = state.copyWith(selectedType: typeSelected);
   }
 
@@ -125,11 +127,10 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
   Future<void> scrollToIndex() async {
     await state.scrollControllerFillInformation.animateTo(
       100,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
       curve: Curves.easeIn,
     );
-
-    state = state.copyWith();
+    update();
   }
 
   Future<void> checkImage({required BuildContext context}) async {

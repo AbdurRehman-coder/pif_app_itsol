@@ -52,7 +52,7 @@ class SplashPage extends HookWidget {
         );
       } else {
         await AppRouter.pushReplacement(
-          Routes.hiScreen,
+          Routes.welcomeScreen,
           args: data.givenName,
         );
       }
