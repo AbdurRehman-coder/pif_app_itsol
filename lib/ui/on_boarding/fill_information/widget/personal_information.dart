@@ -57,6 +57,10 @@ class PersonalInformation extends ConsumerWidget {
           focusNode: notifier.idNumberFocusNode,
           textEditingController: notifier.iDController,
           hintText: S.current.idNumber,
+          maxLength: provider.selectedNationality?.a2 == 'SA' ||
+                  provider.selectedType?.id == '2'
+              ? 10
+              : null,
           fillColor: whiteColor,
           onChanged: (val) => notifier.update(),
         ),

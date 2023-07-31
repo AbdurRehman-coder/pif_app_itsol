@@ -8,6 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/database/hive_adapters.dart';
 import 'package:pif_flutter/database/hive_storage.dart';
 import 'package:pif_flutter/database/settings.dart';
@@ -19,7 +20,8 @@ import 'package:pif_flutter/utils/styles.dart';
 import 'package:stack_trace/stack_trace.dart' as stack_trace;
 
 late List<CameraDescription> camerasList;
-final hiveStorageProvider = Provider.autoDispose<HiveStorage>((ref) => throw Error());
+final hiveStorageProvider =
+    Provider.autoDispose<HiveStorage>((ref) => throw Error());
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +43,8 @@ void main() async {
   final data = Preferences.instance.getBool(PreferencesEnum.isFirstTimeInstall);
   if (data == false || data == null) {
     DixelsSDK.instance.logout();
-    await Preferences.instance.setBool(PreferencesEnum.isFirstTimeInstall, true);
+    await Preferences.instance
+        .setBool(PreferencesEnum.isFirstTimeInstall, true);
   }
 
   runApp(
@@ -86,7 +89,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       useInheritedMediaQuery: true,
       splitScreenMode: true,
       minTextAdapt: true,
-      designSize: const Size(390, 844),
+      designSize: Size(context.screenWidth, context.screenHeight),
       // designSize: ScreenUtil.defaultSize,
       builder: (context, child) => MaterialApp(
         title: 'PIF',

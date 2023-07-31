@@ -2,6 +2,7 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/check_privacy.dart';
@@ -57,7 +58,12 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> {
                   ),
                 ),
                 Text(
-                  provider.contentModel?.value?.contentFields?.where((element) => element.name == 'onboardingText').firstOrNull?.contentFieldValue?.data ?? '',
+                  provider.contentModel?.value?.contentFields
+                          ?.where((element) => element.name == 'onboardingText')
+                          .firstOrNull
+                          ?.contentFieldValue
+                          ?.data ??
+                      '',
                   style: Style.commonTextStyle(
                     color: hintColor,
                     fontSize: 16.sp,
@@ -74,7 +80,7 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> {
                       width: double.infinity,
                       child: Builder(
                         builder: (context) {
-                          final videoUrl = ServiceConstant.baseUrl +
+                          final videoUrl = Constants.baseUrl +
                               (provider.contentModel?.value?.contentFields!
                                       .where(
                                         (element) =>
