@@ -168,7 +168,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: SizedBox(
-            height: 40.h,
+            height:40.h,
             width: 60.w,
           ),
           bottomNavigationBar: AnimatedBottomNavigationBar.builder(

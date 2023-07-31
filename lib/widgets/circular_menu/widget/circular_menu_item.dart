@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/index.dart';
 
 class CircularMenuItem extends StatelessWidget {
   /// if icon and animatedIcon are passed, icon will be ignored
@@ -63,6 +64,8 @@ class CircularMenuItem extends StatelessWidget {
               ),
             ],
         shape: BoxShape.circle,
+        border: Border.all(color: primaryColor,width: 2)
+
       ),
       child: ClipOval(
         child: Material(

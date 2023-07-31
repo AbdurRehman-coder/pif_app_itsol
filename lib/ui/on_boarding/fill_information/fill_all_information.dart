@@ -7,8 +7,8 @@ import 'package:pif_flutter/ui/on_boarding/fill_information/scan_face.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/bottom_button.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
 
-class WelcomeScreen extends ConsumerStatefulWidget {
-  const WelcomeScreen({
+class FillAllInformationScreen extends ConsumerStatefulWidget {
+  const FillAllInformationScreen({
     required this.userName,
     super.key,
   });
@@ -16,10 +16,10 @@ class WelcomeScreen extends ConsumerStatefulWidget {
   final String userName;
 
   @override
-  ConsumerState createState() => _WelcomeScreenState();
+  ConsumerState createState() => _FillAllInformationScreenState();
 }
 
-class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
+class _FillAllInformationScreenState extends ConsumerState<FillAllInformationScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(fillInformationProvider);

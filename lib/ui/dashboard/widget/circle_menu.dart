@@ -28,6 +28,8 @@ class CircleMenu extends ConsumerWidget {
           child: SvgPicture.asset(
             Assets.instant,
             fit: BoxFit.cover,
+            width: 16.w,
+            height: 20.h,
           ),
         ),
         closeToggleIcon: Container(
