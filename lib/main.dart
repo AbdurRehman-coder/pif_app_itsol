@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:disposable_cached_images/disposable_cached_images.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,6 +12,7 @@ import 'package:pif_flutter/database/hive_adapters.dart';
 import 'package:pif_flutter/database/hive_storage.dart';
 import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/helpers/preferences.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -34,6 +36,13 @@ void main() async {
 
   camerasList = await availableCameras();
   await DisposableImages.init();
+
+  await Preferences.init();
+  final data = Preferences.instance.getBool(PreferencesEnum.isFirstTimeInstall);
+  if (data == false || data == null) {
+    DixelsSDK.instance.logout();
+    await Preferences.instance.setBool(PreferencesEnum.isFirstTimeInstall, true);
+  }
 
   runApp(
     ProviderScope(

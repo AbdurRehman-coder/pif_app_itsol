@@ -95,12 +95,13 @@ dependencies:
   flutter_secure_storage: ^8.0.0
   hive_generator: ^2.0.0
   path_provider: ^2.0.14
+  shared_preferences: ^2.2.0
   awesome_calendar:
     path: awesome_calendar-main
 
 #  dixels_sdk:
 #    path: pif-flutter-mobile-sdk
-
+#
   dixels_sdk:
     git:
       url: https://Obaida_Alqassem2:ATBBFanZ4FQ28aEWgP7k6yTr65pf6EBA959F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git

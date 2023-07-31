@@ -46,8 +46,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   FocusNode searchFocusNode = FocusNode();
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation =
-        await DixelsSDK.instance.structureContentService.getStructureContentByKey(
+    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );
@@ -264,8 +263,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         orderItems: itemCart,
       );
 
-      ///TODO: To be uncommented, currently it is giving an issue
-      // Settings.orderRequestModel = orderParam;
+      if (state.isSelectedPinOrder == true) {
+        Settings.orderRequestModel = orderParam;
+      }
       await appProgressDialog.stop();
       showSuccessMessage(
         context: context,
@@ -324,6 +324,10 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
 
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
     notesController.clear();
+  }
+
+  void updatePinOrderQuickActions({required bool value}) {
+    state = state.copyWith(isSelectedPinOrder: value);
   }
 
   void updateValueOption({

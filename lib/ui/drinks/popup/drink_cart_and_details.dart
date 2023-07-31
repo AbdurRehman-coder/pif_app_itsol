@@ -11,7 +11,6 @@ void showOrderCartAndDetails({
   required BuildContext context,
   DrinkModel? drinkModel,
 }) {
-  bool pinOrderToQuickActions = false;
   showModalBottomSheet<void>(
     context: context,
     backgroundColor: grayF9,
@@ -66,8 +65,7 @@ void showOrderCartAndDetails({
                                   if (provider.lstCarts.isNotEmpty) ...[
                                     ListView.separated(
                                       shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
+                                      physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (_, index) {
                                         return SizedBox(height: 20.h);
                                       },
@@ -87,16 +85,15 @@ void showOrderCartAndDetails({
                                   ],
                                   SizedBox(height: 20.h),
                                   CustomTextField(
-                                    textEditingController:
-                                        notifier.notesController,
+                                    textEditingController: notifier.notesController,
                                     maxLines: 3,
                                     hintText: S.current.notes,
                                   ),
                                   CustomCheckBoxWithText(
-                                    isChecked: pinOrderToQuickActions,
+                                    isChecked: provider.isSelectedPinOrder,
                                     text: S.of(context).pinOrderQuickActions,
                                     onChanged: (value) {
-                                      // pinOrderToQuickActions = value;
+                                      notifier.updatePinOrderQuickActions(value: value!);
                                     },
                                   ),
                                   SizedBox(
