@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,9 +20,7 @@ class HiveStorage {
   }) async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    _secureStorage = const FlutterSecureStorage(
-      aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    );
+    _secureStorage = SecurePreferences.instance;
 
     final encryptionCipher = await _encryptionKey;
     final dir = await getApplicationSupportDirectory();
