@@ -40,14 +40,15 @@ void showOrderCartAndDetails({
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 10.h,
+                          height: 16.h,
                         ),
                         Center(
                           child: InkWell(
                             onTap: AppRouter.pop,
                             child: Image.asset(
                               Assets.homeIndicator,
-                              height: 13.h,
+                              height: 5.h,
+                              width: 60.w,
                             ),
                           ),
                         ),

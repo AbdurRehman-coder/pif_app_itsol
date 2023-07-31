@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drink_page_shimmer.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
@@ -42,7 +41,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                     return <Widget>[
                       SliverToBoxAdapter(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Column(
                             children: [
                               if (notifier.searchController.text.isNotEmpty &&
@@ -67,7 +66,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                   },
                   body: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
+                      horizontal: 16.w,
                     ),
                     child: Column(
                       children: [
@@ -107,10 +106,12 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     top: 14.h,
                                   ),
                                   child: GridView.builder(
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
-                                      crossAxisSpacing: 10.w,
+                                      crossAxisSpacing: 18.w,
                                       mainAxisSpacing: 16.h,
                                       childAspectRatio: 0.8,
                                     ),
@@ -124,7 +125,13 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     },
                                   ),
                                 ),
-                              )
+                              ),
+                              if (provider.lstCarts.isNotEmpty)
+                                SizedBox(
+                                  height: 60.h,
+                                )
+                              else
+                                const SizedBox(),
                             ],
                           ),
                         ),

@@ -55,57 +55,58 @@ class StoreInformation extends StatelessWidget {
                   color: whiteColor,
                 ),
                 width: double.infinity,
-                child: Stack(
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            storeTitle,
-                            style: Style.commonTextStyle(
-                              color: dayTextColor,
-                              fontSize: 22.sp,
-                              fontWeight: FontWeight.w500,
+                    Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              storeTitle,
+                              style: Style.commonTextStyle(
+                                color: dayTextColor,
+                                fontSize: 22.sp,
+                                fontWeight: FontWeight.w500,
+                              ),
+                              maxLines: 1,
                             ),
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 4.h),
-                          Text(
-                            storeDescription,
-                            style: Style.commonTextStyle(
-                              color: grayTextColor,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
+                            SizedBox(height: 4.h),
+                            Text(
+                              storeDescription,
+                              style: Style.commonTextStyle(
+                                color: grayTextColor,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 3,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 3,
-                          ),
-                          SizedBox(height: 5.h),
-                          Text(
-                            storeStartDay != storeEndDay
-                                ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
-                                : '$storeStartTime - $storeEndTime ${S.of(context).today}',
-                            style: Style.commonTextStyle(
-                              color: grayTextColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
+                            SizedBox(height: 5.h),
+                            Text(
+                              storeStartDay != storeEndDay
+                                  ? '$storeStartTime - $storeEndTime $storeStartDay - $storeEndDay'
+                                  : '$storeStartTime - $storeEndTime ${S.of(context).today}',
+                              style: Style.commonTextStyle(
+                                color: grayTextColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
-                    Positioned(
-                      right: 0.w,
-                      bottom: 0,
-                      top: 0,
+                    Expanded(
+                      flex: 3,
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 16.0,
-                          right: 16,
-                          bottom: 16,
+                        padding: EdgeInsets.only(
+                          top: 16.h,
+                          right: 16.w,
+                          bottom: 16.h,
                         ),
                         child: Image.network(
                           storeImage.getImageUrl,
