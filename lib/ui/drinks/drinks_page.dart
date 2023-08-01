@@ -112,8 +112,8 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 18.w,
-                                      mainAxisSpacing: 16.h,
-                                      childAspectRatio: 0.8,
+                                      mainAxisSpacing: 10.h,
+                                      childAspectRatio: 0.7,
                                     ),
                                     itemCount: data.length,
                                     itemBuilder: (context, index) {

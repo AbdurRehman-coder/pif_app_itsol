@@ -1,5 +1,6 @@
 import 'package:dixels_sdk/features/commerce/visit/models/visitor_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
 
@@ -32,13 +33,13 @@ class VisitorList extends StatelessWidget {
                     ),
                     SizedBox(height: 5.h),
                     Text(
-                      '${user?.givenName ?? ''} ${(user?.familyName ?? '')[0]}',
+                      '${user?.givenName!.capitalizeTheFirstLetter() ?? ''} ${(user?.familyName!.capitalizeTheFirstLetter() ?? '')[0]}',
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                       style: Style.commonTextStyle(
                         color: gradientStart,
                         fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],

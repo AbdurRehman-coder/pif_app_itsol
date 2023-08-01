@@ -8,6 +8,7 @@ import 'package:pif_flutter/utils/styles.dart';
 class SearchTextField extends StatelessWidget {
   const SearchTextField({
     required this.textEditingController,
+    this.showBorders = true,
     this.labelText,
     this.hintText,
     this.labelStyle,
@@ -37,6 +38,7 @@ class SearchTextField extends StatelessWidget {
   });
 
   final TextEditingController textEditingController;
+  final bool showBorders;
   final String? labelText;
   final String? hintText;
   final bool filled;
@@ -106,17 +108,20 @@ class SearchTextField extends StatelessWidget {
                 borderRadius: borderRadius,
                 borderSide: BorderSide(
                   color: isEnableFiled! ? primaryColor : whiteColor,
-                  width: 1.w,
+                  width: showBorders ? 1.w : 0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: borderRadius,
-                borderSide: BorderSide(color: borderColorByDefault, width: 1.w),
+                borderSide: BorderSide(
+                  color: borderColorByDefault,
+                  width: showBorders ? 1.w : 0,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   color: borderColorByDefault,
-                  width: 1.w,
+                  width: showBorders ? 1.w : 0,
                 ),
                 borderRadius: borderRadius,
               ),
@@ -135,11 +140,11 @@ class SearchTextField extends StatelessWidget {
               prefixIcon: const Icon(
                 Icons.search,
                 color: darkBorderColor,
-                size: 25,
+                size: 20,
               ),
               counterText: '',
               floatingLabelStyle: Style.commonTextStyle(
-                color: isEnableFiled ? primaryColor : grayTextColor,
+                color: isEnableFiled! ? primaryColor : grayTextColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),

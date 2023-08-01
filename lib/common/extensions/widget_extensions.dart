@@ -37,7 +37,7 @@ extension WidgetExt on Widget {
     }
 
     return Shimmer.fromColors(
-      baseColor: primaryColor,
+      baseColor: grayD7,
       highlightColor: Colors.grey[100]!,
       child: this,
     );

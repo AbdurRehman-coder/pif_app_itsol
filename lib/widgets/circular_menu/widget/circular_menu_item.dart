@@ -64,10 +64,7 @@ class CircularMenuItem extends StatelessWidget {
               ),
             ],
         shape: BoxShape.circle,
-        border: Border.all(
-          color: primaryColor,
-          width: 2,
-        ),
+        border: Border.all(color: primaryColor, width: 2),
       ),
       child: ClipOval(
         child: Material(

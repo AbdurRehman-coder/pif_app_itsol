@@ -4,11 +4,13 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
-  const CustomPopupMenuButton({super.key});
+  const CustomPopupMenuButton({super.key, this.isFromDetails = false});
+  final bool? isFromDetails;
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
+      padding: EdgeInsets.only(top: 5.h),
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 1,
@@ -85,8 +87,26 @@ class CustomPopupMenuButton extends StatelessWidget {
           ),
         ),
       ],
-      icon: SvgPicture.asset(
-        Assets.optionMenuIcon,
+      icon: Align(
+        alignment: Alignment.topRight,
+        child: isFromDetails!
+            ? Container(
+                height: 34.h,
+                width: 34.w,
+                padding: EdgeInsets.zero,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: activeBgColor,
+                ),
+                child: Image.asset(
+                  Assets.vEditButton,
+                  scale: 3,
+                ),
+              )
+            : Image.asset(
+                Assets.vEditButton,
+                scale: 3,
+              ),
       ),
       color: whiteColor,
       elevation: 2,
