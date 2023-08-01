@@ -224,5 +224,13 @@
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
-  "searchSpaces": "Search Spaces"
+  "searchSpaces": "Search Spaces",
+  "visitInformation":"Visit Information",
+  "addPrevious":"ADD Previous",
+  "moreVisitors":"More Visitors",
+  "dateAndTime":"Date and time",
+  "start":"Start",
+  "end":"End"
+
+
 }

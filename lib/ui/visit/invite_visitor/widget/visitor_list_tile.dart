@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
 
@@ -17,53 +18,65 @@ class VisitorListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        ImageProfileVisitor(
-          lastName: item.firstName ?? '',
-          firstName: item.lastName ?? '',
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: grey400),
+        borderRadius: BorderRadius.all(
+          Radius.circular(6.r),
         ),
-        SizedBox(
-          width: 16.w,
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                item.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Style.commonTextStyle(
-                  color: textColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-              SizedBox(
-                height: 2.h,
-              ),
-              Text(
-                item.email ?? '',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: Style.commonTextStyle(
-                  color: textColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
+      ),
+      child: Row(
+        children: [
+          ImageProfileVisitor(
+            lastName: item.lastName ?? '',
+            firstName: item.firstName ?? '',
           ),
-        ),
-        IconButton(
-          onPressed: () => notifier.removeVisitor(item),
-          icon: SvgPicture.asset(
-            Assets.close,
-            height: 24.h,
+          SizedBox(
+            width: 16.w,
           ),
-        ),
-      ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Style.commonTextStyle(
+                    color: blackColorWith900,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Text(
+                  item.email ?? '',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Style.commonTextStyle(
+                    color: textColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () => notifier.removeVisitor(item),
+            icon: SvgPicture.asset(
+              Assets.close,
+              width: 20.w,
+              height: 20.h,
+              fit: BoxFit.fill,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

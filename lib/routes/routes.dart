@@ -16,7 +16,6 @@ class Routes {
   static const String inviteVisitorScreen = '/inviteVisitor';
   static const String visitListScreen = '/visitList';
   static const String invitationDetailsScreen = '/invitationDetails';
-  static const String homeScreen = '/home';
   static const String myTicketsScreen = '/myTickets';
   static const String addOrEditTicketScreen = '/addOrEditTicketScreen';
   static const String ticketDetailsScreen = '/ticketDetails';

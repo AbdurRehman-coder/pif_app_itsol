@@ -6,7 +6,7 @@ import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/login/provider/login_provider.dart';
-import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
+import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget_with_logo.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
 
 class LogInPage extends ConsumerStatefulWidget {
@@ -26,7 +26,7 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
       backgroundColor: grayF5,
       body: Form(
         key: notifier.formKeyLogIn,
-        child: BackgroundWidget(
+        child: BackgroundWidgetWithLogo(
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 16.w),

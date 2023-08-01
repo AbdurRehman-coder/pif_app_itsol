@@ -54,7 +54,7 @@ class AddGuestView extends StatelessWidget {
                           notifier.removeGuest(provider.lstGuests[index]);
                         },
                         child: SvgPicture.asset(
-                          Assets.close,
+                          Assets.icClose,
                           height: 15.h,
                         ),
                       )

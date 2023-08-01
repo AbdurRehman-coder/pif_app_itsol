@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/invite_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/state/invite_visitor_state.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/widget/visitor_list_tile.dart';
@@ -17,39 +17,45 @@ class InviteVisitorFormListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cellHeight = provider.lstData.length * 70.h;
+    final cellHeight = provider.lstData.length * 80.h;
     return Column(
       children: [
         Column(
           children: [
-            CustomTextField(
-              textEditingController: notifier.firstNameController,
-              focusNode: notifier.firstNameFocus,
-              labelText: S.current.firstName,
-              checkEmpty: true,
-              onChanged: notifier.onChangeText,
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            CustomTextField(
-              textEditingController: notifier.lastNameController,
-              focusNode: notifier.lastNameFocus,
-              labelText: S.current.lastName,
-              onChanged: notifier.onChangeText,
-              checkEmpty: true,
-            ),
-            SizedBox(
-              height: 24.h,
-            ),
-            CustomTextField(
+            SecondCustomTextField(
               textEditingController: notifier.emailController,
               focusNode: notifier.emailFocus,
-              labelText: S.current.email,
+              hintText: S.current.email,
               isEmailField: true,
               checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.onChangeText,
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: SecondCustomTextField(
+                    textEditingController: notifier.firstNameController,
+                    focusNode: notifier.firstNameFocus,
+                    hintText: S.current.firstName,
+                    checkEmpty: true,
+                    onChanged: notifier.onChangeText,
+                  ),
+                ),
+                SizedBox(width: 10.w),
+                Expanded(
+                  child: SecondCustomTextField(
+                    textEditingController: notifier.lastNameController,
+                    focusNode: notifier.lastNameFocus,
+                    hintText: S.current.lastName,
+                    onChanged: notifier.onChangeText,
+                    checkEmpty: true,
+                  ),
+                ),
+              ],
             ),
           ],
         ).visibility(visible: provider.lstData.isEmpty),
@@ -64,11 +70,7 @@ class InviteVisitorFormListView extends StatelessWidget {
               );
             },
             separatorBuilder: (_, index) {
-              return Divider(
-                height: 24.h,
-                thickness: 1.h,
-                color: lineColor,
-              );
+              return SizedBox(height: 12.h);
             },
             itemCount: provider.lstData.length,
           ),

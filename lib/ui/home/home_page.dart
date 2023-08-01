@@ -7,7 +7,9 @@ import 'package:pif_flutter/ui/home/widget/banner_view.dart';
 import 'package:pif_flutter/ui/home/widget/category_list_view.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  const HomePage({required this.animationController, super.key});
+
+  final AnimationController animationController;
 
   @override
   ConsumerState createState() => _HomePageState();
@@ -45,7 +47,9 @@ class _HomePageState extends ConsumerState<HomePage> {
               child: const BannerView(),
             ),
             SizedBox(height: 40.h),
-            const CategoryListView(),
+            CategoryListView(
+              animationController: widget.animationController,
+            ),
           ],
         ),
       ),

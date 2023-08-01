@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
+import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget_with_logo.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/pinput_widget.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
 import 'package:pinput/pinput.dart';
@@ -16,7 +16,7 @@ class VerifyOTP extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset:  false,
       backgroundColor: grayF5,
-      body: BackgroundWidget(
+      body: BackgroundWidgetWithLogo(
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),

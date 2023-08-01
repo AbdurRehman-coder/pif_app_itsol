@@ -121,8 +121,6 @@ class AppRouter {
           ),
           settings: settings,
         );
-      case Routes.homeScreen:
-        return _setPage(page: const HomePage(), settings: settings);
       case Routes.privacyScreen:
         final fromNda = settings.arguments! as bool;
         return _setPage(

@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 
 class CategoryListView extends ConsumerWidget {
-  const CategoryListView({super.key});
+  const CategoryListView({
+    required this.animationController,
+    super.key,
+  });
+
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(homeProvider);
+    final notifierDashboard = ref.read(dashboardProvider.notifier);
     final data = provider.lstCategory;
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -23,7 +30,12 @@ class CategoryListView extends ConsumerWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       itemBuilder: (context, index) {
         return InkWell(
-          onTap: data[index].onTap,
+          onTap: () {
+            notifierDashboard.closeFloatMenu(
+              animationController: animationController,
+            );
+            data[index].onTap!();
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

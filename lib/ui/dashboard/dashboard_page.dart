@@ -7,6 +7,7 @@ import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news.dart';
 import 'package:pif_flutter/ui/dashboard/model/bottom_menu_model.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
@@ -21,21 +22,29 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends ConsumerState<DashboardPage> {
+class _DashboardPageState extends ConsumerState<DashboardPage>
+    with SingleTickerProviderStateMixin {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool isMenuOpen = false;
 
+  AnimationController? animationController;
+
   @override
   void initState() {
     super.initState();
-
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
     lstMenu.add(
       BottomMenuModel(
         icon: Assets.home,
         title: S.current.home,
-        child: const HomePage(),
+        child: HomePage(
+          animationController: animationController!,
+        ),
       ),
     );
     lstMenu.add(
@@ -64,6 +73,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final notifier = ref.read(dashboardProvider.notifier);
     Widget? title;
     if (_bottomNavIndex == 0) {
       title = Row(
@@ -104,130 +114,145 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
 
     return Stack(
       children: [
-        Scaffold(
-          key: scaffoldKey,
-          resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            elevation: 0,
-            backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
-                ? lightGrayBgColor
-                : Colors.transparent,
-            centerTitle: true,
-            title: title,
-            leading: Builder(
-              builder: (context) {
-                return Padding(
-                  padding: EdgeInsets.only(left: 16.w),
-                  child: InkWell(
-                    onTap: () {
-                      Scaffold.of(context).openDrawer();
-                    },
-                    child: Image.asset(
-                      Assets.person,
-                      height: 40.h,
-                      width: 40.w,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
-                );
-              },
-            ),
-            actions: [
-              if (_bottomNavIndex == 0) ...[
-                InkWell(
-                  onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
-                  child: Container(
-                    height: 40.h,
-                    width: 40.h,
-                    margin: EdgeInsets.only(right: 16.w),
-                    decoration: const BoxDecoration(
-                      color: activeBgColor,
-                      shape: BoxShape.circle,
-                    ),
-                    child: SvgPicture.asset(
-                      Assets.svgNotification,
-                      height: 24.h,
-                      width: 24.w,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
-                ),
-              ] else if (_bottomNavIndex == 1)
-                ...[],
-            ],
+        GestureDetector(
+          onTap: () => notifier.closeFloatMenu(
+            animationController: animationController!,
           ),
-          drawer: const SideMenuPage(),
-          onDrawerChanged: (val) {
-            setState(() {
-              isMenuOpen = val;
-            });
-          },
-          body: NotificationListener<ScrollNotification>(
-            child: lstMenu.elementAt(_bottomNavIndex).child!,
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: SizedBox(
-            height:40.h,
-            width: 60.w,
-          ),
-          bottomNavigationBar: AnimatedBottomNavigationBar.builder(
-            elevation: 0,
-            itemCount: lstMenu.length,
-            shadow: const Shadow(
-              blurRadius: 30,
-              color: borderColor,
-            ),
-            tabBuilder: (int index, bool isActive) {
-              final color = isActive ? primaryColor : textColor;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    lstMenu[index].icon!,
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(
-                      color,
-                      BlendMode.srcIn,
-                    ),
-                  ),
-                  SizedBox(height: 4.h),
-                  if (!isActive) ...[
-                    Text(
-                      lstMenu[index].title ?? '',
-                      style: Style.commonTextStyle(
-                        color: textColor,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w400,
+          child: Scaffold(
+            key: scaffoldKey,
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
+                  ? lightGrayBgColor
+                  : Colors.transparent,
+              centerTitle: true,
+              title: title,
+              leading: Builder(
+                builder: (context) {
+                  return Padding(
+                    padding: EdgeInsets.only(left: 16.w),
+                    child: InkWell(
+                      onTap: () {
+                        notifier.closeFloatMenu(
+                          animationController: animationController!,
+                        );
+                        Scaffold.of(context).openDrawer();
+                      },
+                      child: Image.asset(
+                        Assets.person,
+                        height: 40.h,
+                        width: 40.w,
+                        fit: BoxFit.scaleDown,
                       ),
                     ),
-                  ],
-                  if (isActive) ...[
-                    const CircleAvatar(
-                      radius: 2,
-                      backgroundColor: primaryDarkColor,
+                  );
+                },
+              ),
+              actions: [
+                if (_bottomNavIndex == 0) ...[
+                  InkWell(
+                    onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
+                    child: Container(
+                      height: 40.h,
+                      width: 40.h,
+                      margin: EdgeInsets.only(right: 16.w),
+                      decoration: const BoxDecoration(
+                        color: activeBgColor,
+                        shape: BoxShape.circle,
+                      ),
+                      child: SvgPicture.asset(
+                        Assets.svgNotification,
+                        height: 24.h,
+                        width: 24.w,
+                        fit: BoxFit.scaleDown,
+                      ),
                     ),
-                  ]
-                ],
-              );
+                  ),
+                ] else if (_bottomNavIndex == 1)
+                  ...[],
+              ],
+            ),
+            drawer: const SideMenuPage(),
+            onDrawerChanged: (val) {
+              setState(() {
+                isMenuOpen = val;
+              });
             },
-            backgroundColor: whiteColor,
-            activeIndex: _bottomNavIndex,
-            splashColor: primaryColor,
-            splashRadius: 0,
-            splashSpeedInMilliseconds: 200,
-            notchSmoothness: NotchSmoothness.defaultEdge,
-            gapLocation: GapLocation.center,
-            onTap: (index) => setState(
-              () {
-                _bottomNavIndex = index;
+            body: NotificationListener<ScrollNotification>(
+              child: lstMenu.elementAt(_bottomNavIndex).child!,
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: SizedBox(
+              height: 40.h,
+              width: 60.w,
+            ),
+            bottomNavigationBar: AnimatedBottomNavigationBar.builder(
+              elevation: 0,
+              itemCount: lstMenu.length,
+              shadow: const Shadow(
+                blurRadius: 30,
+                color: borderColor,
+              ),
+              tabBuilder: (int index, bool isActive) {
+                final color = isActive ? primaryColor : textColor;
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      lstMenu[index].icon!,
+                      fit: BoxFit.cover,
+                      colorFilter: ColorFilter.mode(
+                        color,
+                        BlendMode.srcIn,
+                      ),
+                    ),
+                    SizedBox(height: 4.h),
+                    if (!isActive) ...[
+                      Text(
+                        lstMenu[index].title ?? '',
+                        style: Style.commonTextStyle(
+                          color: textColor,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ],
+                    if (isActive) ...[
+                      const CircleAvatar(
+                        radius: 2,
+                        backgroundColor: primaryDarkColor,
+                      ),
+                    ]
+                  ],
+                );
               },
+              backgroundColor: whiteColor,
+              activeIndex: _bottomNavIndex,
+              splashColor: primaryColor,
+              splashRadius: 0,
+              splashSpeedInMilliseconds: 200,
+              notchSmoothness: NotchSmoothness.defaultEdge,
+              gapLocation: GapLocation.center,
+              onTap: (index) => setState(
+                () {
+                  notifier.closeFloatMenu(
+                    animationController: animationController!,
+                  );
+                  _bottomNavIndex = index;
+                },
+              ),
             ),
           ),
         ),
         if (!isMenuOpen) ...[
-          const CircleMenu(),
+          if (animationController != null) ...[
+            CircleMenu(
+              animationController: animationController!,
+            ),
+          ],
         ]
       ],
     );

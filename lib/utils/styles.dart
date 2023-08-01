@@ -87,11 +87,13 @@ class Style {
   static ButtonStyle primaryButtonStyle({
     required BuildContext context,
     Color primaryColor = primaryColor,
+    EdgeInsetsGeometry? padding,
     double? width,
   }) {
     final btnWidth = width ?? context.screenWidth.w;
     return ElevatedButton.styleFrom(
       elevation: 0,
+      padding: padding,
       fixedSize: Size(btnWidth, 42.h),
       foregroundColor: whiteColor,
       disabledBackgroundColor: primaryDisabledColor,
@@ -99,6 +101,55 @@ class Style {
       backgroundColor: primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6.r),
+      ),
+      textStyle: Style.commonTextStyle(
+        color: whiteColor,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  static ButtonStyle primaryButtonStyleSecond({
+    required BuildContext context,
+    Color primaryColor = primaryColor,
+    EdgeInsetsGeometry? padding,
+    double? width,
+  }) {
+    final btnWidth = width ?? context.screenWidth.w;
+    return ElevatedButton.styleFrom(
+      elevation: 0,
+      padding: padding,
+      fixedSize: Size(btnWidth, 48.h),
+      foregroundColor: whiteColor,
+      disabledBackgroundColor: primaryDisabledColor,
+      disabledForegroundColor: whiteColor,
+      backgroundColor: primaryColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      textStyle: Style.commonTextStyle(
+        color: whiteColor,
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+
+  static ButtonStyle secondaryButtonStyle({
+    required BuildContext context,
+    Color primaryColor = primaryColor,
+    EdgeInsetsGeometry? padding,
+    double? width,
+  }) {
+    final btnWidth = width ?? context.screenWidth.w;
+    return ElevatedButton.styleFrom(
+      elevation: 0,
+      fixedSize: Size(btnWidth, 52.h),
+      backgroundColor: whiteColor,
+      side: BorderSide(color: primaryColor),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.r), // <-- Radius
       ),
       textStyle: Style.commonTextStyle(
         color: whiteColor,

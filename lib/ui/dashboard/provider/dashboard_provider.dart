@@ -9,12 +9,14 @@ import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/database/settings.dart';
-import 'package:pif_flutter/ui/dashboard/model/actions_model.dart' as action_model;
+import 'package:pif_flutter/ui/dashboard/model/actions_model.dart'
+    as action_model;
 import 'package:pif_flutter/ui/dashboard/state/dashboard_state.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 
-final dashboardProvider = StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
+final dashboardProvider =
+    StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
   return DashboardNotifier(ref: ref);
 });
 
@@ -30,6 +32,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYDx30d_lWfWk8kJDjv34aVDEO3bwxb-q0fe5hav4&s',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYDx30d_lWfWk8kJDjv34aVDEO3bwxb-q0fe5hav4&s',
   ];
+  AnimationController? animateController;
 
   void _initData() {
     final actions = List.generate(
@@ -46,15 +49,24 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     );
   }
 
+  void closeFloatMenu({required AnimationController animationController}) {
+    if (animationController.status != AnimationStatus.dismissed) {
+      animationController.reverse();
+    }
+  }
+
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
+    final storeInformation = await DixelsSDK.instance.structureContentService
+        .getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );
 
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime =
+        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime =
+        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -96,7 +108,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
-            final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
+            final result =
+                await DixelsSDK.instance.ordersService.postPageDataWithEither(
               reqModel: orderParam.toJson(),
               fromJson: OrdersModel.fromJson,
             );
@@ -132,7 +145,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     final requestModel = {
       'categoryId': '180101',
       'subCategoryId': '200984',
-      'description': '[${data!.name}] is around [nearest location] and requesting immediate support',
+      'description':
+          '[${data!.name}] is around [nearest location] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
@@ -157,7 +171,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     final requestModel = {
       'categoryId': '180104',
       'subCategoryId': '200995',
-      'description': '[${data!.name}] is around [nearest location] and requesting immediate support',
+      'description':
+          '[${data!.name}] is around [nearest location] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();

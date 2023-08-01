@@ -5,7 +5,7 @@ import 'package:pif_flutter/ui/on_boarding/fill_information/fill_personal_inform
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/scan_face.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/bottom_button.dart';
-import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget.dart';
+import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget_with_logo.dart';
 
 class FillAllInformationScreen extends ConsumerStatefulWidget {
   const FillAllInformationScreen({
@@ -25,7 +25,7 @@ class _FillAllInformationScreenState extends ConsumerState<FillAllInformationScr
     final provider = ref.watch(fillInformationProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: BackgroundWidget(
+      body: BackgroundWidgetWithLogo(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

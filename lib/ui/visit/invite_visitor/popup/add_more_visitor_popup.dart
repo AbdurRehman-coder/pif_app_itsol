@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/add_more_visitor_provider.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
@@ -26,7 +27,7 @@ void addMoreVisitorPopup({
           return Container(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
-              vertical: 25.h,
+              vertical: 14.h,
             ),
             child: Padding(
               padding: MediaQuery.of(context).viewInsets,
@@ -36,31 +37,29 @@ void addMoreVisitorPopup({
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            S.of(context).addMoreVisitors,
-                            style: Style.commonTextStyle(
-                              color: textColor,
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
+                      Center(
+                        child: SizedBox(
+                          width: 100.w,
+                          child: const Divider(
+                            thickness: 4,
+                            color: dividerColor,
                           ),
-                          const Spacer(),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: AppRouter.pop,
-                            icon: SvgPicture.asset(
-                              Assets.cancelBtn,
-                            ),
-                          )
-                        ],
+                        ),
+                      ),
+                      SizedBox(height: 24.h),
+                      Text(
+                        S.of(context).addMoreVisitors,
+                        style: Style.commonTextStyle(
+                          color: textColor,
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       Text(
                         S.of(context).visitorOutsideCoBuilder,
                         style: Style.commonTextStyle(
-                          color: silverTextColor,
-                          fontSize: 18.sp,
+                          color: grayTextColor,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w400,
                         ),
                       ),
@@ -77,31 +76,35 @@ void addMoreVisitorPopup({
                       SizedBox(
                         height: 12.h,
                       ),
-                      CustomTextField(
-                        textEditingController: notifier.firstNameController,
-                        autoFocus: true,
-                        checkEmpty: true,
-                        labelText: S.current.firstName,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: SecondCustomTextField(
+                              textEditingController:
+                                  notifier.firstNameController,
+                              autoFocus: true,
+                              checkEmpty: true,
+                              hintText: S.current.firstName,
+                            ),
+                          ),
+                          SizedBox(width: 10.w),
+                          Expanded(
+                            child: SecondCustomTextField(
+                              textEditingController:
+                                  notifier.lastNameController,
+                              checkEmpty: true,
+                              hintText: S.current.lastName,
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(
                         height: 20.h,
                       ),
-                      CustomTextField(
-                        textEditingController: notifier.lastNameController,
-                        checkEmpty: true,
-                        labelText: S.current.lastName,
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      CustomTextField(
+                      SecondCustomTextField(
                         textEditingController: notifier.emailController,
                         checkEmpty: true,
-                        labelText: S.current.visitorEmail,
-                        prefixIcon: SvgPicture.asset(
-                          Assets.email,
-                          fit: BoxFit.scaleDown,
-                        ),
+                        hintText: S.current.email,
                         isEmailField: true,
                         keyboardType: TextInputType.emailAddress,
                       ),

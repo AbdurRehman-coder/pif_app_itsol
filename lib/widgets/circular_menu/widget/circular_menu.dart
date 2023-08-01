@@ -41,6 +41,7 @@ class CircularMenu extends StatefulWidget {
   final Color? toggleButtonIconColor;
   final Widget openToggleIcon;
   final Widget closeToggleIcon;
+  AnimationController animationController;
 
   /// staring angle in clockwise radian
   final double? startingAngleInRadian;
@@ -53,6 +54,7 @@ class CircularMenu extends StatefulWidget {
   /// equal or greater than zero.
   /// [items] must not be null and it must contains two elements at least.
   CircularMenu({
+    required this.animationController,
     required this.items,
     this.alignment = Alignment.bottomCenter,
     this.radius = 100,
@@ -83,7 +85,6 @@ class CircularMenu extends StatefulWidget {
 
 class CircularMenuState extends State<CircularMenu>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
   double? _completeAngle;
   late double _initialAngle;
   double? _endAngle;
@@ -93,26 +94,24 @@ class CircularMenuState extends State<CircularMenu>
 
   /// forward animation
   void forwardAnimation() {
-    _animationController.forward();
+    widget.animationController.forward();
   }
 
   /// reverse animation
   void reverseAnimation() {
-    _animationController.reverse();
+    widget.animationController.reverse();
   }
 
   @override
   void initState() {
     _configure();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: widget.animationDuration,
-    )..addListener(() {
+    widget.animationController
+      ..addListener(() {
         setState(() {});
       });
     _animation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
-        parent: _animationController,
+        parent: widget.animationController,
         curve: widget.curve,
         reverseCurve: widget.reverseCurve,
       ),
@@ -238,17 +237,18 @@ class CircularMenuState extends State<CircularMenu>
           padding: (-_animation.value * widget.toggleButtonPadding * 0.5) +
               widget.toggleButtonPadding,
           onTap: () {
-            _animationController.status == AnimationStatus.dismissed
-                ? _animationController.forward()
-                : _animationController.reverse();
+            widget.animationController.status == AnimationStatus.dismissed
+                ? widget.animationController.forward()
+                : widget.animationController.reverse();
             if (widget.toggleButtonOnPressed != null) {
               widget.toggleButtonOnPressed!();
             }
           },
           boxShadow: widget.toggleButtonBoxShadow,
-          animatedIcon: _animationController.status == AnimationStatus.dismissed
-              ? widget.openToggleIcon
-              : widget.closeToggleIcon,
+          animatedIcon:
+              widget.animationController.status == AnimationStatus.dismissed
+                  ? widget.openToggleIcon
+                  : widget.closeToggleIcon,
         ),
       ),
     );
@@ -259,7 +259,7 @@ class CircularMenuState extends State<CircularMenu>
     return Stack(
       children: <Widget>[
         widget.backgroundWidget ?? Container(),
-        if (_animationController.status != AnimationStatus.dismissed) ...[
+        if (widget.animationController.status != AnimationStatus.dismissed) ...[
           Positioned.fill(
             child: Align(
               alignment: widget.alignment,
@@ -287,14 +287,15 @@ class CircularMenuState extends State<CircularMenu>
             ),
           ),
         ],
-        if (_animationController.status != AnimationStatus.dismissed) ...[
+        if (widget.animationController.status != AnimationStatus.dismissed) ...[
           Positioned.fill(
             bottom: 60.h,
             child: Align(
               alignment: widget.alignment,
               child: Transform.scale(
                 scale: _animation.value,
-                child:  Material(
+                child: Material(
+                  color: Colors.transparent,
                   child: Text(
                     'Quick Actions',
                     style: Style.commonTextStyle(
@@ -316,7 +317,7 @@ class CircularMenuState extends State<CircularMenu>
 
   @override
   void dispose() {
-    _animationController.dispose();
+    widget.animationController.dispose();
     super.dispose();
   }
 }

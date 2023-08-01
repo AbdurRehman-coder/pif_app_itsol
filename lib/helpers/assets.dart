@@ -32,7 +32,7 @@ class Assets {
   static const String noBooking = 'assets/svg/ic_noBooking.svg';
   static const String arrowDown = 'assets/svg/ic_arrow_down.svg';
   static const String bookConfirmation = 'assets/svg/ic_book_confirmation.svg';
-  static const String close = 'assets/svg/ic_close.svg';
+  static const String icClose = 'assets/svg/ic_close.svg';
   static const String email = 'assets/svg/ic_email.svg';
   static const String screenCast = 'assets/svg/ic_screencast.svg';
   static const String user = 'assets/svg/ic_user.svg';
@@ -122,6 +122,9 @@ class Assets {
   static const String walkingTo = 'assets/svg/walking_to.svg';
   static const String walkingFrom = 'assets/svg/walking_from.svg';
   static const String searchLocation = 'assets/ic_search_location.png';
+  static const String backgroundImage = 'assets/background_image.png';
+  static const String close = 'assets/svg/close.svg';
+  static const String backgorundSecond = 'assets/background_image_second.png';
 
   // Gif
   static const String addVisitorGif = 'assets/gif/ic_add_visitors.gif';

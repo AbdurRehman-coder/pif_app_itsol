@@ -42,22 +42,14 @@ class PreviousVisitorListTile extends StatelessWidget {
               SizedBox(
                 height: 2.h,
               ),
-              Row(
-                children: [
-                  SvgPicture.asset(Assets.verifyStatus),
-                  SizedBox(
-                    width: 6.w,
-                  ),
-                  Text(
-                    item.isVisitorVerified ? 'Verified' : 'Not Verified',
-                    style: Style.commonTextStyle(
-                      color: primaryColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ],
-              ),
+              Text(
+                item.email ?? '',
+                style: Style.commonTextStyle(
+                  color: blackColorWith900,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
             ],
           ),
         ),

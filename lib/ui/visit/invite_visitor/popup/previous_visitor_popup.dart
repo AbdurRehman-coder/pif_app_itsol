@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/widget/previous_visitor_list_tile.dart';
@@ -33,48 +34,33 @@ Future<List<InviteVisitorModel>> previousVisitorPopup({
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
-              vertical: 25.h,
+              vertical: 14.h,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      S.of(context).previousVisitors,
-                      style: Style.commonTextStyle(
-                        color: blackColor,
-                        fontSize: 24.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
+                Center(
+                  child: SizedBox(
+                    width: 100.w,
+                    child: const Divider(
+                      thickness: 4,
+                      color: dividerColor,
                     ),
-                    const Spacer(),
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: AppRouter.pop,
-                      icon: SvgPicture.asset(
-                        Assets.cancelBtn,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                MarginWidget(
-                  horizontal: -16,
-                  child: Divider(
-                    height: 1.h,
-                    color: lineColor,
                   ),
                 ),
-                SizedBox(
-                  height: 12.h,
+                SizedBox(height: 24.h),
+                Text(
+                  S.of(context).previousVisitors,
+                  style: Style.commonTextStyle(
+                    color: blackColor,
+                    fontSize: 22.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 Text(
                   S.of(context).searchFromVisitorHistory,
                   style: Style.commonTextStyle(
-                    color: textColor,
+                    color: grayTextColor,
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w400,
                   ),
@@ -82,15 +68,15 @@ Future<List<InviteVisitorModel>> previousVisitorPopup({
                 SizedBox(
                   height: 12.h,
                 ),
-                CustomTextField(
+                SearchTextField(
                   textEditingController: notifier.searchController,
-                  labelText: S.current.searchVisitor,
+                  hintText: S.current.searchByVisitorName,
                   focusNode: notifier.searchFocusNode,
                   onChanged: notifier.searchData,
                   suffixIcon: IconButton(
                     onPressed: notifier.clearSearch,
                     icon: SvgPicture.asset(
-                      Assets.close,
+                      Assets.icClose,
                       height: 24.h,
                       colorFilter:
                           const ColorFilter.mode(blackColor, BlendMode.srcIn),
@@ -123,5 +109,7 @@ Future<List<InviteVisitorModel>> previousVisitorPopup({
       );
     },
   );
-  return previousVisitorSelected.where((element) => element.isSelected).toList();
+  return previousVisitorSelected
+      .where((element) => element.isSelected)
+      .toList();
 }

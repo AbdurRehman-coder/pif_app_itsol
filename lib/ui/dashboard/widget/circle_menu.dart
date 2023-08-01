@@ -1,19 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/widgets/circular_menu/circular_menu.dart';
 
 class CircleMenu extends ConsumerWidget {
-  const CircleMenu({super.key});
+  const CircleMenu({
+    required this.animationController,
+    super.key,
+  });
+
+  final AnimationController animationController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(dashboardProvider);
     final notifier = ref.read(dashboardProvider.notifier);
+
     return Positioned.fill(
-      bottom: 45.h,
+      bottom: Platform.isIOS ? 60.h : 30.h,
       child: CircularMenu(
         toggleButtonMargin: 0,
         onChanged: (value) {},
@@ -74,6 +84,7 @@ class CircleMenu extends ConsumerWidget {
             },
           ),
         ).toList(),
+        animationController: animationController,
       ),
     );
   }

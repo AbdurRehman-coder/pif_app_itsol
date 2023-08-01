@@ -100,7 +100,7 @@ class SearchTextField extends StatelessWidget {
         autofocus: autoFocus,
         decoration: decoration ??
             InputDecoration(
-              fillColor: fillColor ?? lightGrayBgColor,
+              fillColor: fillColor ?? whiteColor,
               contentPadding: contentPadding,
               disabledBorder: OutlineInputBorder(
                 borderRadius: borderRadius,

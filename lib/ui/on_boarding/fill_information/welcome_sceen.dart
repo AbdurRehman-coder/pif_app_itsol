@@ -43,13 +43,14 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   }
 
   Future<void> _navigateUser({required BuildContext context}) async {
-    await Navigator.of(context).push(
+    await Navigator.of(context).pushAndRemoveUntil(
       PageAnimationTransition(
         page: FillAllInformationScreen(
           userName: widget.userName,
         ),
         pageAnimationType: RightToLeftFadedTransition(),
       ),
+      (Route<dynamic> route) => false,
     );
   }
 

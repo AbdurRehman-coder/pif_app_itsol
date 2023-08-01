@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 
-class BackgroundWidget extends StatelessWidget {
-  const BackgroundWidget({required this.child, super.key});
+class BackgroundWidgetWithLogo extends StatelessWidget {
+  const BackgroundWidgetWithLogo({required this.child, super.key});
 
   final Widget child;
 

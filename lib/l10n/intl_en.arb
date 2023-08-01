@@ -43,7 +43,7 @@
   "visitorOutsideCoBuilder": "Visitor outside Co-builder",
   "firstName": "First name",
   "lastName": "Last name",
-  "visitorEmail": "Visitor Email",
+      "visitorEmail": "Visitor Email",
   "invite": "Invite",
   "bookingRoom": "Booking room",
   "bookedByMistake": "You booked this by mistake?",
@@ -226,5 +226,11 @@
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
-  "searchSpaces": "Search Spaces"
+  "searchSpaces": "Search Spaces",
+  "visitInformation":"Visit Information",
+  "addPrevious":"ADD Previous",
+  "moreVisitors":"More Visitors",
+  "dateAndTime":"Date and time",
+  "start":"Start",
+  "end":"End"
 }

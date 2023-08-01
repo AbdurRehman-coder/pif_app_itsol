@@ -25,6 +25,7 @@ mixin _$DrinksState {
   AsyncValue<StructureContentModel> get structureContent =>
       throw _privateConstructorUsedError;
   bool get storeClosed => throw _privateConstructorUsedError;
+  bool get isSelectedPinOrder => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $DrinksStateCopyWith<DrinksState> get copyWith =>
@@ -43,7 +44,8 @@ abstract class $DrinksStateCopyWith<$Res> {
       AsyncValue<List<DrinkModel>> allDrinks,
       List<DrinkModel> lstCarts,
       AsyncValue<StructureContentModel> structureContent,
-      bool storeClosed});
+      bool storeClosed,
+      bool isSelectedPinOrder});
 }
 
 /// @nodoc
@@ -65,6 +67,7 @@ class _$DrinksStateCopyWithImpl<$Res, $Val extends DrinksState>
     Object? lstCarts = null,
     Object? structureContent = null,
     Object? storeClosed = null,
+    Object? isSelectedPinOrder = null,
   }) {
     return _then(_value.copyWith(
       lstCategory: null == lstCategory
@@ -91,6 +94,10 @@ class _$DrinksStateCopyWithImpl<$Res, $Val extends DrinksState>
           ? _value.storeClosed
           : storeClosed // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSelectedPinOrder: null == isSelectedPinOrder
+          ? _value.isSelectedPinOrder
+          : isSelectedPinOrder // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -109,7 +116,8 @@ abstract class _$$_DrinksStateCopyWith<$Res>
       AsyncValue<List<DrinkModel>> allDrinks,
       List<DrinkModel> lstCarts,
       AsyncValue<StructureContentModel> structureContent,
-      bool storeClosed});
+      bool storeClosed,
+      bool isSelectedPinOrder});
 }
 
 /// @nodoc
@@ -129,6 +137,7 @@ class __$$_DrinksStateCopyWithImpl<$Res>
     Object? lstCarts = null,
     Object? structureContent = null,
     Object? storeClosed = null,
+    Object? isSelectedPinOrder = null,
   }) {
     return _then(_$_DrinksState(
       lstCategory: null == lstCategory
@@ -155,6 +164,10 @@ class __$$_DrinksStateCopyWithImpl<$Res>
           ? _value.storeClosed
           : storeClosed // ignore: cast_nullable_to_non_nullable
               as bool,
+      isSelectedPinOrder: null == isSelectedPinOrder
+          ? _value.isSelectedPinOrder
+          : isSelectedPinOrder // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -168,7 +181,8 @@ class _$_DrinksState implements _DrinksState {
       required this.allDrinks,
       required final List<DrinkModel> lstCarts,
       required this.structureContent,
-      required this.storeClosed})
+      required this.storeClosed,
+      required this.isSelectedPinOrder})
       : _lstCategory = lstCategory,
         _lstCarts = lstCarts;
 
@@ -196,10 +210,12 @@ class _$_DrinksState implements _DrinksState {
   final AsyncValue<StructureContentModel> structureContent;
   @override
   final bool storeClosed;
+  @override
+  final bool isSelectedPinOrder;
 
   @override
   String toString() {
-    return 'DrinksState(lstCategory: $lstCategory, lstDrinks: $lstDrinks, allDrinks: $allDrinks, lstCarts: $lstCarts, structureContent: $structureContent, storeClosed: $storeClosed)';
+    return 'DrinksState(lstCategory: $lstCategory, lstDrinks: $lstDrinks, allDrinks: $allDrinks, lstCarts: $lstCarts, structureContent: $structureContent, storeClosed: $storeClosed, isSelectedPinOrder: $isSelectedPinOrder)';
   }
 
   @override
@@ -217,7 +233,9 @@ class _$_DrinksState implements _DrinksState {
             (identical(other.structureContent, structureContent) ||
                 other.structureContent == structureContent) &&
             (identical(other.storeClosed, storeClosed) ||
-                other.storeClosed == storeClosed));
+                other.storeClosed == storeClosed) &&
+            (identical(other.isSelectedPinOrder, isSelectedPinOrder) ||
+                other.isSelectedPinOrder == isSelectedPinOrder));
   }
 
   @override
@@ -228,7 +246,8 @@ class _$_DrinksState implements _DrinksState {
       allDrinks,
       const DeepCollectionEquality().hash(_lstCarts),
       structureContent,
-      storeClosed);
+      storeClosed,
+      isSelectedPinOrder);
 
   @JsonKey(ignore: true)
   @override
@@ -244,7 +263,8 @@ abstract class _DrinksState implements DrinksState {
       required final AsyncValue<List<DrinkModel>> allDrinks,
       required final List<DrinkModel> lstCarts,
       required final AsyncValue<StructureContentModel> structureContent,
-      required final bool storeClosed}) = _$_DrinksState;
+      required final bool storeClosed,
+      required final bool isSelectedPinOrder}) = _$_DrinksState;
 
   @override
   List<CategoryModel> get lstCategory;
@@ -258,6 +278,8 @@ abstract class _DrinksState implements DrinksState {
   AsyncValue<StructureContentModel> get structureContent;
   @override
   bool get storeClosed;
+  @override
+  bool get isSelectedPinOrder;
   @override
   @JsonKey(ignore: true)
   _$$_DrinksStateCopyWith<_$_DrinksState> get copyWith =>
