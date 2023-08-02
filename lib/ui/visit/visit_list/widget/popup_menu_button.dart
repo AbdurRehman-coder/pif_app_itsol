@@ -98,14 +98,14 @@ class CustomPopupMenuButton extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: activeBgColor,
                 ),
-                child: Image.asset(
-                  Assets.vEditButton,
-                  scale: 3,
+                child: const Icon(
+                  Icons.more_vert_outlined,
+                  color: grayTextColor,
                 ),
               )
-            : Image.asset(
-                Assets.vEditButton,
-                scale: 3,
+            : const Icon(
+                Icons.more_vert_outlined,
+                color: grayTextColor,
               ),
       ),
       color: whiteColor,

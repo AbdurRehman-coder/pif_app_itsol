@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/booking/provider/add_visitor_provider.dart';
-import 'package:pif_flutter/widgets/margin_widget.dart';
 
 void addVisitorBottomSheet({
   required BuildContext context,
@@ -31,7 +29,7 @@ void addVisitorBottomSheet({
             padding: EdgeInsets.only(
               left: 16.w,
               right: 16.w,
-              top: 24.h,
+              top: 16.h,
               bottom: 40.h,
             ),
             child: Padding(
@@ -42,88 +40,85 @@ void addVisitorBottomSheet({
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            S.of(context).inviteVisitor,
-                            style: Style.commonTextStyle(
-                              color: textColor,
-                              fontSize: 24.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: AppRouter.pop,
-                            icon: SvgPicture.asset(
-                              Assets.cancelBtn,
-                            ),
-                          )
-                        ],
+                      Container(
+                        height: 5.h,
+                        width: 67.w,
+                        decoration: BoxDecoration(
+                          color: dividerColor,
+                          borderRadius: BorderRadius.circular(6.h),
+                        ),
+                      ).toCenter(),
+                      SizedBox(
+                        height: 24.h,
                       ),
                       Text(
-                        S.of(context).visitorOutsideCoBuilder,
+                        S.of(context).addNewGuest,
                         style: Style.commonTextStyle(
-                          color: silverTextColor,
-                          fontSize: 18.sp,
-                          fontWeight: FontWeight.w400,
+                          color: textColor,
+                          fontSize: 22.sp,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      SizedBox(
-                        height: 16.h,
-                      ),
-                      MarginWidget(
-                        horizontal: -16,
-                        child: Container(
-                          height: 1.h,
-                          color: lineColor,
+                      Text(
+                        S.of(context).guestOutSideCoBuilder,
+                        style: Style.commonTextStyle(
+                          color: grayTextColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       SizedBox(
                         height: 24.h,
                       ),
+                      SecondCustomTextField(
+                        textEditingController: notifier.visitorEmailController,
+                        focusNode: notifier.emailFocus,
+                        borderRadius: 6.r,
+                        autoFocus: true,
+                        fillColor: whiteColor,
+                        checkEmpty: true,
+                        isEmailField: true,
+                        isFocus: provider.isFocusEmail,
+                        hintText: S.current.str_email,
+                        keyboardType: TextInputType.emailAddress,
+                        contentPadding: EdgeInsets.only(bottom: 12.h, left: 12.w, right: 12.w),
+                      ),
+                      SizedBox(
+                        height: 12.h,
+                      ),
                       Row(
                         children: [
                           Expanded(
-                            child: CustomTextField(
+                            child: SecondCustomTextField(
                               textEditingController: notifier.visitorFirstNameController,
                               focusNode: notifier.firstNameFocus,
                               checkEmpty: true,
-                              autoFocus: true,
+                              borderRadius: 6.r,
+                              fillColor: whiteColor,
                               isFocus: provider.isFocusFirstName,
-                              labelText: S.current.firstName,
+                              hintText: S.current.firstName,
+                              contentPadding: EdgeInsets.only(bottom: 12.h, left: 12.w, right: 12.w),
                             ),
                           ),
                           SizedBox(
                             width: 16.w,
                           ),
                           Expanded(
-                            child: CustomTextField(
+                            child: SecondCustomTextField(
                               textEditingController: notifier.visitorLastNameController,
                               focusNode: notifier.lastNameFocus,
                               checkEmpty: true,
+                              borderRadius: 6.r,
+                              fillColor: whiteColor,
                               isFocus: provider.isFocusLastName,
-                              labelText: S.current.lastName,
+                              hintText: S.current.lastName,
+                              textFieldBorderColor: textFieldBorderColor,
+                              contentPadding: EdgeInsets.only(bottom: 12.h, left: 12.w, right: 12.w),
+                              hintFontSize: 14.sp,
+                              hintTextColor: blackColorWith900.withOpacity(0.45),
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 24.h,
-                      ),
-                      CustomTextField(
-                        textEditingController: notifier.visitorEmailController,
-                        focusNode: notifier.emailFocus,
-                        checkEmpty: true,
-                        isEmailField: true,
-                        isFocus: provider.isFocusEmail,
-                        labelText: S.current.visitorEmail,
-                        prefixIcon: SvgPicture.asset(
-                          Assets.email,
-                          fit: BoxFit.scaleDown,
-                        ),
-                        keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(
                         height: 40.h,

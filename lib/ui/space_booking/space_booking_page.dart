@@ -221,7 +221,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         await notifier.getSpaceAsync();
       },
       child: ListView.separated(
-        // padding: EdgeInsets.only(left: 16.w, right: 16.w, top: 24.h, bottom: 100.h),
+        padding: EdgeInsets.only(bottom: 20.h),
         itemBuilder: (context, index) {
           return SpaceBookingListTile(
             item: data[index],

@@ -37,6 +37,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late GlobalKey<FormState> formKey;
   final controller = ScrollController();
   late TextEditingController dateController;
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
 
@@ -52,7 +54,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
   void _initData() {
     titleController = TextEditingController();
     dateController = TextEditingController();
+    startDateController = TextEditingController();
     startTimeController = TextEditingController();
+    endDateController = TextEditingController();
     endTimeController = TextEditingController();
     addGuestController = TextEditingController();
 
@@ -64,14 +68,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     state = state.copyWith(lstDays: CommonUtils.getNextThirtyDays());
     getGuestData();
-    final currentDateTime = DateTime.now();
-    final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
-    if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
-      updateDateString(currentDate);
-      confirmDateLst.addAll(selectedDateLst);
-      state = state.copyWith(selectedDates: confirmDateLst);
-      formatSelectedDateToString();
-    }
 
     //Bind Filter Data
     final data = ref.read(spaceBookingProvider);
@@ -82,7 +78,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
       selectedDateLst.addAll(data.filterData!.selectedDates);
       confirmDateLst.addAll(data.filterData!.selectedDates);
-      formatSelectedDateToString();
     }
   }
 
@@ -93,7 +88,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final currentDateTime = DateTime.now();
     final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
     state = state.copyWith(selectedDates: [currentDate]);
-    formatSelectedDateToString();
     _setNearestTimeSlot();
   }
 
@@ -103,6 +97,25 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (result != null && result.items!.isNotEmpty) {
       filterAuoCompleteGuestData = result.items!;
     }
+  }
+
+  //Update Start Date
+  void updateStartDate(DateTime date) {
+    state = state.copyWith(startDate: date);
+    startDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    state = state.copyWith(endDate: date);
+    endDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    closeStartDatePickerDialog();
+  }
+
+  //Update End Date
+  void updateEndDate(DateTime date) {
+    state = state.copyWith(endDate: date);
+    endDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    closeEndDatePicker();
   }
 
   //Update Start Time
@@ -120,6 +133,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
+    updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
     startTimeController.text = startTimeString;
   }
 
@@ -149,8 +163,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     endTimeController.text = endTimeString;
   }
 
-  //Open DatePicker Dialog
-  void openDatePickerDialog() {
+  //Open Start DatePicker Dialog
+  void openStartDatePickerDialog() {
     if (titleFocus.hasFocus) {
       titleFocus.unfocus();
     }
@@ -163,15 +177,45 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (state.isOpenEndTimePicker) {
       closeEndTimePickerDialog();
     }
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
+    }
 
     Future.delayed(Duration.zero, () {
-      state = state.copyWith(isOpenDatePicker: true);
+      state = state.copyWith(isOpenStartDatePicker: true);
     });
   }
 
-  //Close DatePicker Dialog
-  void closeDatePickerDialog() {
-    state = state.copyWith(isOpenDatePicker: false);
+  //Close end  DatePicker Dialog
+  void closeStartDatePickerDialog() {
+    state = state.copyWith(isOpenStartDatePicker: false);
+  }
+
+  // open end DatePicker
+  void openEndDatePickerDialog() {
+    if (titleFocus.hasFocus) {
+      titleFocus.unfocus();
+    }
+    if (addGuestFocus.hasFocus) {
+      addGuestFocus.unfocus();
+    }
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePickerDialog();
+    }
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
+    }
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenEndDatePicker: true);
+    });
+  }
+
+  void closeEndDatePicker() {
+    state = state.copyWith(isOpenEndDatePicker: false);
   }
 
   //Open StartTime Picker Dialog
@@ -182,11 +226,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (addGuestFocus.hasFocus) {
       addGuestFocus.unfocus();
     }
-    if (state.isOpenDatePicker) {
-      closeDatePickerDialog();
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePickerDialog();
     }
     if (state.isOpenEndTimePicker) {
       closeEndTimePickerDialog();
+    }
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
     }
 
     Future.delayed(Duration.zero, () {
@@ -207,11 +254,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (addGuestFocus.hasFocus) {
       addGuestFocus.unfocus();
     }
-    if (state.isOpenDatePicker) {
-      closeDatePickerDialog();
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePickerDialog();
     }
     if (state.isOpenStartTimePicker) {
       closeStartTimePickerDialog();
+    }
+
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
     }
 
     Future.delayed(Duration.zero, () {
@@ -222,54 +273,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Close StartTime Picker Dialog
   void closeEndTimePickerDialog() {
     state = state.copyWith(isOpenEndTimePicker: false);
-  }
-
-  //Update Selected Date Data
-  void updateDateString(DateTime date) {
-    if (selectedDateLst.contains(date)) {
-      selectedDateLst.remove(date);
-    } else {
-      if (selectedDateLst.length < 10) {
-        selectedDateLst.add(date);
-      }
-    }
-  }
-
-  void confirm() {
-    confirmDateLst.clear();
-    confirmDateLst.addAll(selectedDateLst);
-    state = state.copyWith(selectedDates: confirmDateLst);
-    formatSelectedDateToString();
-  }
-
-  void cancel() {
-    state = state.copyWith(selectedDates: confirmDateLst);
-    selectedDateLst.clear();
-    selectedDateLst.addAll(confirmDateLst);
-  }
-
-  //Format Selected Date String
-  void formatSelectedDateToString() {
-    final dateList = state.selectedDates.toList();
-    final dateFormat = DateFormat('d');
-    if (dateList.isEmpty) {
-      state = state.copyWith(selectedDateString: '');
-      dateController.text = state.selectedDateString;
-      return;
-    }
-    final groupedDates = groupBy<DateTime, String>(
-      dateList,
-      (date) => DateFormat('MMM yyyy').format(date),
-    );
-
-    var lastDateString = '';
-    groupedDates.forEach((key, value) {
-      final dateStrings = value.map(dateFormat.format).join(', ');
-      lastDateString = '$lastDateString $dateStrings $key';
-    });
-    state = state.copyWith(selectedDateString: lastDateString);
-
-    dateController.text = lastDateString;
   }
 
   //Calendar Days Cell Selection and Update List Data
@@ -302,7 +305,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required int roomId,
   }) async {
     if (formKey.currentState!.validate()) {
-      final lstDates = state.selectedDates;
+      // final lstDates = state.selectedDates;
       final startTimeInMinutes = state.startTime!.toTotalMinutes();
       final endTimeInMinutes = state.endTime!.toTotalMinutes();
 
@@ -314,22 +317,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
         return;
       }
 
-      final currentDateData = lstDates.firstWhereOrNull((element) => element.isSameDate(DateTime.now()));
-      if (currentDateData != null) {
-        if (state.startTime!.isBefore(DateTime.now())) {
-          alertMessage(
-            errorMessage: S.current.pastBookingAlert,
-            context: context,
-          );
-          return;
-        }
+      if (state.startDate.isSameDate(DateTime.now()) && state.startTime!.isBefore(DateTime.now())) {
+        alertMessage(
+          errorMessage: S.current.pastBookingAlert,
+          context: context,
+        );
+        return;
       }
 
-      final data = isSlotAvailable();
-      final lstSlotData = data.entries.where((element) => element.value == false).toList();
-      final bookingDateAlertMsg =
-          data.entries.where((element) => element.value == false).map((e) => e.key.day).toList().join(',');
-      if (lstSlotData.isEmpty) {
+      if (!isSlotAvailable()) {
         await createBooking(
           roomId: roomId,
           startTimeInMinutes: startTimeInMinutes,
@@ -339,126 +335,49 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
       } else {
         alertMessage(
-          errorMessage: '${S.current.bookingAlert} On Date $bookingDateAlertMsg',
+          errorMessage:
+              '${S.current.bookingAlert} On Date ${state.startDate.toFormattedString('dd MMM yyyy')}',
           context: context,
         );
       }
-
-      // await checkBookingFound(
-      //   roomId: roomId,
-      //   startTimeInMinutes: startTimeInMinutes,
-      //   endTimeInMinutes: endTimeInMinutes,
-      //   isBookEnabled: isBookEnabled,
-      //   context: context,
-      // );
     }
   }
 
-  Map<DateTime, bool> isSlotAvailable() {
-    final result = <DateTime, bool>{};
-    final lstDates = state.selectedDates;
-    for (final item in lstDates) {
-      final data = allBookingTasks.where((element) => element.dateTime.isSameDate(item)).toList();
-      var isAvailable = true;
-      if (data.isNotEmpty) {
-        for (final item in data) {
-          final startTime = item.dateTime;
-          final endTime = item.dateTime.add(Duration(minutes: item.minutesDuration));
+  bool isSlotAvailable() {
+    final data = allBookingTasks.where((element) => element.dateTime.isSameDate(state.startDate)).toList();
+    var isAvailable = false;
+    if (data.isNotEmpty) {
+      for (final item in data) {
+        final startTime = item.dateTime;
+        final endTime = item.dateTime.add(Duration(minutes: item.minutesDuration));
 
-          final stateStartTime = DateTime(
-            startTime.year,
-            startTime.month,
-            startTime.day,
-            state.startTime!.hour,
-            state.startTime!.minute,
-          );
+        final stateStartTime = DateTime(
+          startTime.year,
+          startTime.month,
+          startTime.day,
+          state.startTime!.hour,
+          state.startTime!.minute,
+        );
 
-          final stateEndTime = DateTime(
-            startTime.year,
-            startTime.month,
-            startTime.day,
-            state.endTime!.hour,
-            state.endTime!.minute,
-          );
-          if ((startTime.isBefore(stateEndTime) && endTime.isAfter(stateStartTime)) ||
-              (startTime.isAtSameMomentAs(stateStartTime)) ||
-              (endTime.isAtSameMomentAs(stateEndTime))) {
-            isAvailable = false; // Overlapping slot found, set availability to false
-            break; // Exit the loop since availability is already determined
-          }
+        final stateEndTime = DateTime(
+          startTime.year,
+          startTime.month,
+          startTime.day,
+          state.endTime!.hour,
+          state.endTime!.minute,
+        );
+        if ((startTime.isBefore(stateEndTime) && endTime.isAfter(stateStartTime)) ||
+            (startTime.isAtSameMomentAs(stateStartTime)) ||
+            (endTime.isAtSameMomentAs(stateEndTime))) {
+          isAvailable = true; // Overlapping slot found, set availability to false
+          break; // Exit the loop since availability is already determined
         }
-        // Store the availability for the current date
       }
-      result[item] = isAvailable;
+      // Store the availability for the current date
     }
-    return result;
+    return isAvailable;
   }
 
-  //Check if we hae a booking in the same time
-  // Future<void> checkBookingFound({
-  //   required int roomId,
-  //   required int startTimeInMinutes,
-  //   required int endTimeInMinutes,
-  //   required bool isBookEnabled,
-  //   required BuildContext context,
-  // }) async {
-  //   final appProgress = AppProgressDialog(context: context);
-  //   await appProgress.start();
-  //   final lstDates = state.selectedDates;
-  //   final dayListString = lstDates
-  //       .map(
-  //         (e) => " and contains(bookedDates,'${e.toFormattedString('yyyy-MM-dd')}')",
-  //       )
-  //       .toList()
-  //       .join('');
-  //   final param = ParametersModel();
-  //
-  //   final filterParam = '${FilterUtils.filterBy(
-  //     key: 'r_bookings_c_roomId',
-  //     value: "'$roomId'",
-  //     operator: FilterOperator.equal.value,
-  //   )} and ((${FilterUtils.filterBy(
-  //     key: 'endTime',
-  //     value: '$startTimeInMinutes',
-  //     operator: FilterOperator.lessThan.value,
-  //   )}) or (${FilterUtils.filterBy(
-  //     key: 'startTime',
-  //     value: '$endTimeInMinutes',
-  //     operator: FilterOperator.greaterThan.value,
-  //   )}))$dayListString';
-  //
-  //   param.filter = filterParam;
-  //   final result = await DixelsSDK.instance.bookingService.getPageDataWithEither(
-  //     fromJson: BookingModel.fromJson,
-  //     params: param,
-  //   );
-  //   if (result.isRight()) {
-  //     if (result.getRight()!.items!.isEmpty) {
-  //       await createBooking(
-  //         roomId: roomId,
-  //         startTimeInMinutes: startTimeInMinutes,
-  //         endTimeInMinutes: endTimeInMinutes,
-  //         isBookEnabled: isBookEnabled,
-  //         context: context,
-  //         appProgress: appProgress,
-  //       );
-  //     } else {
-  //       await appProgress.stop();
-  //       alertMessage(
-  //         errorMessage: S.current.bookingAlert,
-  //         context: context,
-  //       );
-  //     }
-  //   } else {
-  //     await appProgress.stop();
-  //     alertMessage(
-  //       errorMessage: result.getLeft().message,
-  //       context: context,
-  //     );
-  //   }
-  // }
-
-  //Create booking
   Future<void> createBooking({
     required int roomId,
     required int startTimeInMinutes,
@@ -468,11 +387,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }) async {
     final appProgress = AppProgressDialog(context: context);
 
-    final lstDates = state.selectedDates;
-    final dayListString = lstDates.map((e) => '\"${e.toFormattedString('yyyy-MM-dd')}\"').toList().join(',');
+    final dayString = '\"${state.startDate.toFormattedString('yyyy-MM-dd')}\"';
     final requestModel = BookingRequestModel(
       subject: titleController.text,
-      bookedDates: '[$dayListString]',
+      bookedDates: '[$dayString]',
       startTime: startTimeInMinutes,
       endTime: endTimeInMinutes,
       r_bookings_c_roomId: roomId,
@@ -526,26 +444,35 @@ class BookingNotifier extends StateNotifier<BookingState> {
     );
   }
 
+  void updateSelectedGuest({required UserModel model}) {
+    final data = state.lstAutoCompleteGuests.toList();
+    final item = data.firstWhereOrNull((element) => element.id == model.id);
+    if (item != null) {
+      item.isSelected = !item.isSelected!;
+    }
+
+    state = state.copyWith(lstAutoCompleteGuests: data);
+  }
+
   //Add Guest
-  void addGuest(UserModel item, BuildContext context) {
+  void addGuest() {
     addGuestController.text = '';
     state = state.copyWith(isVisibleAddGuestList: false);
-    final data = state.lstGuests.toList();
+    final data = state.lstAutoCompleteGuests.toList();
 
-    final isDataAvailable = data.firstWhereOrNull((element) => element.emailAddress == item.emailAddress);
-    if (isDataAvailable != null) {
-      alertMessage(errorMessage: S.current.alreadyAdded, context: context);
-      return;
-    }
-    data.add(item);
-    state = state.copyWith(lstGuests: data);
+    final isDataAvailable = data.where((element) => element.isSelected == true).toList();
+
+    state = state.copyWith(lstGuests: isDataAvailable);
   }
 
   // Remove Invite Guest Data
   void removeGuest(UserModel item) {
+    final lst = state.lstAutoCompleteGuests.toList();
     final data = state.lstGuests.toList();
+    item.isSelected = !item.isSelected!;
     data.remove(item);
-    state = state.copyWith(lstGuests: data);
+
+    state = state.copyWith(lstGuests: data, lstAutoCompleteGuests: lst);
   }
 
   //Filter Task Data
@@ -573,7 +500,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
                 DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
-                color: primaryColor,
+                color: gradientEnd,
                 leftSpace: 40,
                 isBlocked: userDetails?.id != mainElement.creator?.id,
                 dateTime: bookingDateTime,
@@ -598,18 +525,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   void _onTitleFocus() {
-    closeDatePickerDialog();
+    closeStartDatePickerDialog();
+    closeEndDatePicker();
     closeStartTimePickerDialog();
     closeEndTimePickerDialog();
   }
-
-// // Clear Data
-//   void _clearData() {
-//     visitorFirstNameController.text = '';
-//     visitorLastNameController.text = '';
-//     visitorEmailController.text = '';
-//     state = state.copyWith(errorMessage: '');
-//   }
 
   //Get Nearest Time Slot
   void _setNearestTimeSlot() {

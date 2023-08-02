@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
@@ -20,7 +19,7 @@ class StartDateAndTime extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          S.current.start,
+          S.current.str_start,
           style: Style.commonTextStyle(
             color: blackColorWith900,
             fontSize: 14.sp,

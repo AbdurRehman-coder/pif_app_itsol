@@ -64,7 +64,7 @@ class CommonUtils {
     );
     for (var i = 1; i < 30; i++) {
       final dayDate = today.add(Duration(days: i));
-      final dayName = formatter.format(dayDate).substring(0, 1);
+      final dayName = formatter.format(dayDate).substring(0, 2);
       daysList.add(
         DayHeaderModel(
           dayDate: dayDate.day.toString(),

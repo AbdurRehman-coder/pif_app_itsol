@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/shimmer_wrapper.dart';
+import 'package:pif_flutter/ui/space_booking/popup/room_details_popup.dart';
 
 class SpaceBookingListTile extends StatelessWidget {
   const SpaceBookingListTile({required this.item, super.key});
@@ -65,23 +66,28 @@ class SpaceBookingListTile extends StatelessWidget {
             Positioned(
               right: 10.w,
               bottom: 10.h,
-              child: Container(
-                height: 36.h,
-                width: 99.w,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: primaryColor,
-                  borderRadius: BorderRadius.circular(6.r),
-                  border: Border.all(
-                    color: greenBorderColor,
+              child: InkWell(
+                onTap: () {
+                  roomDetailsPopUp(context: context, spaceData: item);
+                },
+                child: Container(
+                  height: 36.h,
+                  width: 99.w,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: primaryColor,
+                    borderRadius: BorderRadius.circular(6.r),
+                    border: Border.all(
+                      color: greenBorderColor,
+                    ),
                   ),
-                ),
-                child: Text(
-                  S.of(context).bookNow,
-                  style: Style.commonTextStyle(
-                    color: whiteColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                  child: Text(
+                    S.of(context).bookNow,
+                    style: Style.commonTextStyle(
+                      color: whiteColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ),

@@ -16,7 +16,7 @@ class DayHeaderModel {
   bool? isToday;
   DateTime? dateTime;
 
-  double get textFontSize => isToday ?? false ? 8 : 12;
+  double get textFontSize => isToday ?? false ? 10 : 12;
 
-  Color get bgColor => isSelected ?? false ? dateBgColor : Colors.transparent;
+  Color get bgColor => isSelected ?? false ? gradientEnd : Colors.transparent;
 }

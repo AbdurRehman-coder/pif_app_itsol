@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/utilities/constant.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/space_booking/extension/amenities_extension.dart';
 import 'package:pif_flutter/widgets/dotindicator.dart';
 
@@ -62,257 +63,265 @@ void roomDetailsPopUp({
 
       final controller = PageController();
       final data = getSpaceImages();
-      return SizedBox(
-        height: MediaQuery.of(context).size.height - 300,
-        child: Padding(
-          padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                height: 5.h,
-                width: 67.w,
-                decoration: BoxDecoration(
-                  color: dividerColor,
-                  borderRadius: BorderRadius.circular(2.h),
-                ),
-              ).toCenter(),
-              SizedBox(
-                height: 24.h,
+      return Padding(
+        padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 16.h, bottom: 40.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 5.h,
+              width: 67.w,
+              decoration: BoxDecoration(
+                color: dividerColor,
+                borderRadius: BorderRadius.circular(2.h),
               ),
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  SizedBox(
-                    height: 200.h,
-                    child: PageView.builder(
-                      controller: controller,
-                      itemCount: data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return ClipRRect(
-                          borderRadius: BorderRadius.circular(16.r),
-                          child: CachedNetworkImage(
-                            imageUrl: data[index],
-                            fit: BoxFit.cover,
+            ).toCenter(),
+            SizedBox(
+              height: 24.h,
+            ),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                SizedBox(
+                  height: 200.h,
+                  child: PageView.builder(
+                    controller: controller,
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(16.r),
+                        child: CachedNetworkImage(
+                          imageUrl: data[index],
+                          fit: BoxFit.cover,
+                          height: 200.h,
+                          width: context.screenWidth,
+                          placeholder: (context, url) => Image.asset(
+                            Assets.placeHolder,
+                            fit: BoxFit.fill,
                             height: 200.h,
-                            width: context.screenWidth,
-                            placeholder: (context, url) => Image.asset(
-                              Assets.placeHolder,
-                              fit: BoxFit.fill,
-                              height: 200.h,
-                            ),
-                            errorWidget: (context, url, error) => Image.asset(
-                              Assets.spaceBg2,
-                              fit: BoxFit.fill,
-                              height: 200.h,
-                            ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                  if (data.length > 1) ...[
-                    Container(
-                      height: 20.h,
-                      width: 60.w,
-                      margin: EdgeInsets.only(bottom: 10.h),
-                      child: SizedBox(
-                        height: 20.h,
-                        child: DotsIndicator(
-                          selectedColor: primaryColor,
-                          kDotSize: 6.r,
-                          unselectedColor: grayBorderColor,
-                          controller: controller,
-                          itemCount: data.length,
-                          onPageSelected: (int page) {
-                            controller.animateToPage(
-                              page,
-                              duration: const Duration(milliseconds: 300),
-                              curve: Curves.easeIn,
-                            );
-                          },
+                          errorWidget: (context, url, error) => Image.asset(
+                            Assets.spaceBg2,
+                            fit: BoxFit.fill,
+                            height: 200.h,
+                          ),
                         ),
+                      );
+                    },
+                  ),
+                ),
+                if (data.length > 1) ...[
+                  Container(
+                    height: 20.h,
+                    width: 60.w,
+                    margin: EdgeInsets.only(bottom: 10.h),
+                    child: SizedBox(
+                      height: 20.h,
+                      child: DotsIndicator(
+                        selectedColor: primaryColor,
+                        kDotSize: 6.r,
+                        unselectedColor: grayBorderColor,
+                        controller: controller,
+                        itemCount: data.length,
+                        onPageSelected: (int page) {
+                          controller.animateToPage(
+                            page,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
+                        },
                       ),
                     ),
-                  ]
-                ],
-              ),
-              SizedBox(
-                height: 8.h,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
+                  ),
+                ]
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
                     spaceData.name ?? '',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Style.commonTextStyle(
                       color: textColor,
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(
-                    height: 16.h,
-                    child: ListView.separated(
-                      itemCount: spaceData.amenities!.length,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, index) {
-                        return SizedBox(
-                          width: 10.w,
-                        );
-                      },
-                      itemBuilder: (context, index) {
-                        return SvgPicture.asset(
-                          spaceData.amenities![index].key!.getAmenities,
-                          height: 16.h,
-                          width: 16.w,
-                          colorFilter: const ColorFilter.mode(
-                            darkBorderColor,
-                            BlendMode.srcIn,
+                ),
+                SizedBox(
+                  height: 16.h,
+                  child: ListView.separated(
+                    itemCount: spaceData.amenities!.length,
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(
+                        width: 10.w,
+                      );
+                    },
+                    itemBuilder: (context, index) {
+                      return SvgPicture.asset(
+                        spaceData.amenities![index].key!.getAmenities,
+                        height: 16.h,
+                        width: 16.w,
+                        colorFilter: const ColorFilter.mode(
+                          darkBorderColor,
+                          BlendMode.srcIn,
+                        ),
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 8.h,
+            ),
+            Text(
+              spaceData.description ?? '',
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+              style: Style.commonTextStyle(
+                color: grayTextColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            SizedBox(
+              height: 48.h,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          spaceData.rRoomCFloor!.name ?? '',
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
-                        );
-                      },
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Text(
+                          'Location',
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900.withOpacity(0.45),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
                     ),
-                  )
+                  ),
+                  Container(
+                    height: 40.h,
+                    width: 1,
+                    color: hintColor,
+                  ),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Text(
+                          spaceData.capacity.toString(),
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Text(
+                          'Seats',
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900.withOpacity(0.45),
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 8.h,
-              ),
-              Text(
-                'Lorem Ipsum is simply dummy text of the printing and typesetting industry. ',
-                style: Style.commonTextStyle(
-                  color: grayTextColor,
-                  fontSize: 14.sp,
+            ),
+            SizedBox(
+              height: 24.h,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                AppRouter.pushNamed(Routes.bookingScreen, args: [spaceData, false]);
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(context.screenWidth, 48.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                textStyle: Style.commonTextStyle(
+                  color: whiteColor,
+                  fontSize: 16.sp,
                   fontWeight: FontWeight.w400,
                 ),
               ),
-              SizedBox(
-                height: 16.h,
+              child: Text(
+                S.of(context).bookNow,
               ),
-              SizedBox(
-                height: 48.h,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            spaceData.rRoomCFloor!.name ?? '',
-                            style: Style.commonTextStyle(
-                              color: blackColorWith900,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            'Location',
-                            style: Style.commonTextStyle(
-                              color: blackColorWith900.withOpacity(0.45),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 40.h,
-                      width: 1,
-                      color: hintColor,
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            spaceData.capacity.toString(),
-                            style: Style.commonTextStyle(
-                              color: blackColorWith900,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          Text(
-                            'Seats',
-                            style: Style.commonTextStyle(
-                              color: blackColorWith900.withOpacity(0.45),
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+            ),
+            SizedBox(
+              height: 16.h,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                AppRouter.pushNamed(Routes.bookingCalenderScreen, args: [spaceData, true]);
+              },
+              style: ElevatedButton.styleFrom(
+                fixedSize: Size(context.screenWidth, 48.h),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.r),
+                  side: BorderSide(color: primaryColor, width: 1.w),
                 ),
+                backgroundColor: whiteColor,
               ),
-              SizedBox(
-                height: 24.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(context.screenWidth, 48.h),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.r),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    Assets.calendar,
+                    colorFilter: const ColorFilter.mode(
+                      primaryColor,
+                      BlendMode.srcIn,
+                    ),
                   ),
-                  textStyle: Style.commonTextStyle(
-                    color: whiteColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
+                  SizedBox(
+                    width: 8.w,
                   ),
-                ),
-                child: Text(
-                  S.of(context).bookNow,
-                ),
-              ),
-              SizedBox(
-                height: 16.h,
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size(context.screenWidth, 48.h),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6.r),
-                    side: BorderSide(color: primaryColor, width: 1.w),
+                  Text(
+                    S.of(context).viewCalender,
+                    style: Style.commonTextStyle(
+                      color: primaryColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
-                  backgroundColor: whiteColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SvgPicture.asset(
-                      Assets.calendar,
-                      colorFilter: const ColorFilter.mode(
-                        primaryColor,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                    SizedBox(
-                      width: 8.w,
-                    ),
-                    Text(
-                      S.of(context).viewCalender,
-                      style: Style.commonTextStyle(
-                        color: primaryColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
     },

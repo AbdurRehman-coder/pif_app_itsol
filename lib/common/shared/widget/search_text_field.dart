@@ -34,6 +34,8 @@ class SearchTextField extends StatelessWidget {
     this.isFocus = false,
     this.autoFocus = false,
     this.hintTextStyle,
+    this.textFieldBorderRadius,
+    this.height,
     super.key,
   });
 
@@ -64,16 +66,18 @@ class SearchTextField extends StatelessWidget {
   final bool isFocus;
   final bool autoFocus;
   final TextStyle? hintTextStyle;
+  final double? textFieldBorderRadius;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
     final borderColorByDefault = borderColor.withOpacity(0.5);
     final borderRadius = BorderRadius.all(
-      Radius.circular(30.r),
+      Radius.circular(textFieldBorderRadius ?? 30.r),
     );
     final isEnableFiled = focusNode == null ? isFocus : focusNode?.hasFocus;
     return SizedBox(
-      height: 40.h,
+      height: height ?? 40.h,
       child: TextFormField(
         style: style,
         obscureText: obscureText,

@@ -25,10 +25,15 @@ class SecondCustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.style,
     this.fillColor,
+    this.contentPadding = const EdgeInsets.only(left: 12, right: 12, bottom: 15),
     this.isEmailField = false,
     this.keyboardType = TextInputType.text,
     this.isFocus = false,
     this.autoFocus = false,
+    this.textFieldBorderColor = grayBorderColor,
+    this.borderRadius = 6,
+    this.hintFontSize = 14,
+    this.hintTextColor = hintColor,
     super.key,
   });
 
@@ -55,8 +60,13 @@ class SecondCustomTextField extends StatefulWidget {
   final bool obscureText;
   final TextInputType keyboardType;
   final bool isFocus;
+  final Color textFieldBorderColor;
   final void Function()? onTap;
   final bool autoFocus;
+  final double borderRadius;
+  final double hintFontSize;
+  final Color hintTextColor;
+  final EdgeInsets? contentPadding;
 
   @override
   State<SecondCustomTextField> createState() => _SecondCustomTextFieldState();
@@ -65,8 +75,7 @@ class SecondCustomTextField extends StatefulWidget {
 class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
   @override
   Widget build(BuildContext context) {
-    final isEnableFiled =
-        widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
+    final isEnableFiled = widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
     return Stack(
       children: [
         Column(
@@ -90,8 +99,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
               validator: (val) {
                 if (widget.checkEmpty) {
                   if (val!.isEmpty) {
-                    return widget.validateEmptyString ??
-                        S.of(context).thisFieldIsRequired;
+                    return widget.validateEmptyString ?? S.of(context).thisFieldIsRequired;
                   }
                   if (widget.isEmailField && !val.isValidEmail()) {
                     return S.of(context).enterValidEmail;
@@ -104,9 +112,8 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
               },
               maxLength: widget.maxLength,
               enabled: widget.enabled,
-              textAlignVertical: widget.textEditingController.text.isNotEmpty
-                  ? TextAlignVertical.bottom
-                  : null,
+              textAlignVertical:
+                  widget.textEditingController.text.isNotEmpty ? TextAlignVertical.bottom : null,
               focusNode: widget.focusNode,
               maxLines: widget.maxLines,
               onEditingComplete: widget.onEditingComplete,
@@ -114,38 +121,35 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
               decoration: widget.decoration ??
                   InputDecoration(
                     fillColor: widget.fillColor ?? whiteColor,
-                    contentPadding: EdgeInsets.only(
-                      left: 12.w,
-                      right: 12.w,
-                      top: 2.h,
-                      bottom:
-                          widget.prefixIcon != null || widget.suffixIcon != null
-                              ? 5.h
-                              : 12.h,
-                    ),
+                    contentPadding: widget.contentPadding ??
+                        EdgeInsets.only(
+                          left: 12.w,
+                          right: 12.w,
+                          top: 2.h,
+                          bottom: widget.prefixIcon != null || widget.suffixIcon != null ? 5.h : 12.h,
+                        ),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                        Radius.circular(widget.borderRadius),
                       ),
                       borderSide: BorderSide(
-                        color: isEnableFiled! ? grayTextColor : grayBorderColor,
+                        color: isEnableFiled! ? grayTextColor : widget.textFieldBorderColor,
                         width: 1.w,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                        Radius.circular(widget.borderRadius),
                       ),
-                      borderSide:
-                          BorderSide(color: grayBorderColor, width: 1.w),
+                      borderSide: BorderSide(color: grayBorderColor, width: 1.w),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: isEnableFiled ? primaryColor : grayBorderColor,
+                        color: isEnableFiled ? primaryColor : widget.textFieldBorderColor,
                         width: 1.w,
                       ),
                       borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                        Radius.circular(widget.borderRadius),
                       ),
                     ),
                     errorStyle: TextStyle(
@@ -153,13 +157,13 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     ),
                     errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                        Radius.circular(widget.borderRadius),
                       ),
                       borderSide: BorderSide(color: redColor, width: 1.w),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
+                        Radius.circular(widget.borderRadius),
                       ),
                       borderSide: BorderSide(color: redColor, width: 1.w),
                     ),
@@ -172,8 +176,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                       fontWeight: FontWeight.w400,
                     ),
                     border: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: grayBorderColor, width: 1.w),
+                      borderSide: BorderSide(color: widget.textFieldBorderColor, width: 1.w),
                       borderRadius: BorderRadius.all(
                         Radius.circular(6.r),
                       ),
@@ -181,8 +184,8 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     filled: widget.filled,
                     hintText: widget.hintText,
                     hintStyle: Style.commonTextStyle(
-                      color: hintColor,
-                      fontSize: 14.sp,
+                      color: widget.hintTextColor,
+                      fontSize: widget.hintFontSize,
                       fontWeight: FontWeight.w400,
                     ),
                     labelStyle: widget.labelStyle ??
@@ -216,8 +219,8 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
             child: Text(
               widget.hintText ?? '',
               style: Style.commonTextStyle(
-                fontSize: 12.sp,
-                color: hintColor,
+                color: widget.hintTextColor,
+                fontSize: widget.hintFontSize - 2,
                 fontWeight: FontWeight.w400,
               ),
               overflow: TextOverflow.ellipsis,

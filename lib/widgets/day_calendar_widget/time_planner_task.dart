@@ -52,9 +52,9 @@ class TimePlannerTask extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: ((TimePlannerConfig.cellHeight! * (dateTime.hour - TimePlannerConfig.startHour)) +
-              ((dateTime.minute * TimePlannerConfig.cellHeight!) / 60))
-          .toDouble(),
+      top:
+          ((TimePlannerConfig.cellHeight! * (dateTime.hour - TimePlannerConfig.startHour)) + ((dateTime.minute * TimePlannerConfig.cellHeight!) / 60))
+              .toDouble(),
       left: leftSpace,
       child: SizedBox(
         width: widthTask,
@@ -74,7 +74,7 @@ class TimePlannerTask extends StatelessWidget {
                     width: MediaQuery.of(context).size.width - 120,
                     padding: EdgeInsets.symmetric(horizontal: 17.w),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      borderRadius: BorderRadius.circular(8.r),
                       color: color ?? Theme.of(context).primaryColor,
                     ),
                     child: Align(

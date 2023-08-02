@@ -72,9 +72,7 @@ class CircularMenuItem extends StatelessWidget {
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: animatedIcon != null
-                  ? EdgeInsets.all(padding)
-                  : EdgeInsets.zero,
+              padding: animatedIcon != null ? EdgeInsets.all(padding) : EdgeInsets.zero,
               child: animatedIcon ?? icon,
             ),
           ),
@@ -101,9 +99,7 @@ class CircularMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return enableBadge
-        ? _buildCircularMenuItemWithBadge(context)
-        : _buildCircularMenuItem(context);
+    return enableBadge ? _buildCircularMenuItemWithBadge(context) : _buildCircularMenuItem(context);
   }
 }
 
@@ -161,8 +157,7 @@ class _Badge extends StatelessWidget {
                     style: textStyle ??
                         TextStyle(
                           fontSize: 10,
-                          color: textColor ??
-                              Theme.of(context).colorScheme.secondary,
+                          color: textColor ?? Theme.of(context).colorScheme.secondary,
                         ),
                   ),
                 ),

@@ -28,4 +28,5 @@ class Routes {
   static const String bookingListScreen = '/bookingListScreen';
   static const String searchLocationScreen = '/searchLocationScreen';
   static const String privacyScreen = '/privacyScreen';
+  static const String bookingCalenderScreen = '/bookingCalenderScreen';
 }

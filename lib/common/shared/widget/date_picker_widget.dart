@@ -36,7 +36,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return Container(
       margin: EdgeInsets.only(left: 2.w, right: 2.w, top: 50.h),
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      height: 475.h,
+      height: 465.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         color: Colors.white,
@@ -50,7 +50,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       child: Column(
         children: [
           SizedBox(
-            height: 405,
+            height: 395,
             child: TableCalendar<void>(
               firstDay: DateTime.now(),
               lastDay: DateTime(DateTime.now().year + 2, DateTime.now().month, DateTime.now().day),

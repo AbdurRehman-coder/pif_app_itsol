@@ -219,18 +219,21 @@
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
   "imageError":"Please use a clear image of your face",
-  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
   "imageError":"Checking Photo Compliance Error",
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
   "searchSpaces": "Search Spaces",
+  "dateAndTime": "Date and Time",
+  "str_start": "Start",
+  "str_end": "End",
+  "searchGuest": "Search Guests",
+  "str_email": "Email",
+  "addSelected": "Add Selected",
+  "addNewGuest": "Add New Guest",
+  "guestOutSideCoBuilder": "Guests outside Co-builder",
   "visitInformation":"Visit Information",
   "addPrevious":"ADD Previous",
   "moreVisitors":"More Visitors",
-  "dateAndTime":"Date and time",
-  "start":"Start",
-  "end":"End"
-
-
+  "searchVisitInvitation" : "Search Visit Invitation"
 }

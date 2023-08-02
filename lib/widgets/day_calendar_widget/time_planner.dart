@@ -237,6 +237,7 @@ class _TimePlannerState extends State<TimePlanner> {
                               ),
                               const Divider(
                                 height: 1,
+                                color: Colors.transparent,
                               ),
                             ],
                           )
