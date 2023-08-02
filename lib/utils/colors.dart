@@ -57,6 +57,7 @@ const black700 = Color(0xFF444344);
 const grayGradientEnd = Color(0x00c29b5b);
 const dividerColor = Color(0xff444444);
 const textFieldBorderColor = Color(0xffececec);
+const filterTextColor = Color(0xff020001);
 
 // GRAY
 const gray29 = Color(0xFF292929);

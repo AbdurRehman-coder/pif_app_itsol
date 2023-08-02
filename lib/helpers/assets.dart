@@ -26,9 +26,7 @@ class Assets {
   static const String spaceBg3 = 'assets/ic_space_bg3.png';
   static const String duration = 'assets/svg/ic_duration.svg';
   static const String floor = 'assets/svg/ic_floor.svg';
-  static const String capacity = 'assets/svg/ic_capacity.svg';
-  static const String plus = 'assets/svg/ic_plus.svg';
-  static const String minus = 'assets/svg/ic_minus.svg';
+
   static const String noBooking = 'assets/svg/ic_noBooking.svg';
   static const String arrowDown = 'assets/svg/ic_arrow_down.svg';
   static const String bookConfirmation = 'assets/svg/ic_book_confirmation.svg';

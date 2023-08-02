@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 
 void scanHelpBottomSheet({required BuildContext context}) {
@@ -17,8 +18,17 @@ void scanHelpBottomSheet({required BuildContext context}) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Container(
+            height: 5.h,
+            width: 67.w,
+            margin: EdgeInsets.only(top: 16.h),
+            decoration: BoxDecoration(
+              color: dividerColor,
+              borderRadius: BorderRadius.circular(6.h),
+            ),
+          ).toCenter(),
           SizedBox(
-            height: 35.h,
+            height: 24.h,
           ),
           SvgPicture.asset(
             Assets.qrcode,
@@ -55,23 +65,31 @@ void scanHelpBottomSheet({required BuildContext context}) {
           SizedBox(
             height: 30.h,
           ),
-          ElevatedButton(
-            onPressed: AppRouter.pop,
-            style: Style.primaryButtonStyle(
-              context: context,
-              width: 172.w,
-            ),
-            child: Text(
-              S.of(context).gotIt,
-              style: Style.commonTextStyle(
-                color: whiteColor,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
+          Padding(
+            padding: EdgeInsets.only(right: 16.w, left: 16.w),
+            child: Container(
+              height: 48.h,
+              width: context.screenWidth,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(6.r),
+                border: Border.all(
+                  color: greenBorderColor,
+                ),
+              ),
+              child: Text(
+                S.of(context).gotIt,
+                style: Style.commonTextStyle(
+                  color: whiteColor,
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w400,
+                ),
               ),
             ),
           ),
           SizedBox(
-            height: 30.h,
+            height: 50.h,
           ),
         ],
       );

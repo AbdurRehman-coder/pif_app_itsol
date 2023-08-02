@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pif_flutter/ui/book_scanner/widget/qrcod_border.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class QRScannerOverlay extends StatelessWidget {
@@ -10,24 +10,24 @@ class QRScannerOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final scanArea = 320.0.w;
+    final scanArea = context.screenWidth - 80;
     return Stack(
       children: [
         ColorFiltered(
           colorFilter: ColorFilter.mode(
-            overlayColour,
+            gradientEnd.withOpacity(0.3),
             BlendMode.srcOut,
           ), // This one will create the magic
           child: Stack(
             children: [
               Container(
-                decoration: const BoxDecoration(
-                  color: borderColor,
+                decoration: BoxDecoration(
+                  color: gradientEnd.withOpacity(0.5),
                   backgroundBlendMode: BlendMode.dstOut,
                 ), // This one will handle background + difference out
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 35.h),
+                padding: EdgeInsets.only(top: 80.h, left: 40.w, right: 40.w),
                 child: Align(
                   alignment: Alignment.topCenter,
                   child: Container(
@@ -35,25 +35,12 @@ class QRScannerOverlay extends StatelessWidget {
                     width: scanArea,
                     decoration: BoxDecoration(
                       color: redColor,
-                      borderRadius: BorderRadius.circular(70.r),
+                      borderRadius: BorderRadius.circular(53.r),
                     ),
                   ),
                 ),
               ),
             ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: 30.h),
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: CustomPaint(
-              foregroundPainter: ScanQRCodeBorder(),
-              child: SizedBox(
-                width: scanArea + 10,
-                height: scanArea + 10,
-              ),
-            ),
           ),
         ),
       ],

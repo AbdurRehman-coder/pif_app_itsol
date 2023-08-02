@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
@@ -15,13 +14,6 @@ class CapacityView extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(
         children: [
-          SvgPicture.asset(
-            Assets.capacity,
-            height: 22,
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
           Text(
             S.of(context).capacity,
             style: Style.commonTextStyle(
@@ -33,28 +25,62 @@ class CapacityView extends StatelessWidget {
           const Spacer(),
           InkWell(
             onTap: notifier.removeCapacity,
-            child: SvgPicture.asset(
-              Assets.minus,
-              height: 33.h,
+            child: Container(
+              height: 36.h,
+              width: 36.w,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.remove_rounded,
+                size: 16.sp,
+                color: whiteColor,
+              ),
             ),
           ),
+          SizedBox(
+            width: 21.w,
+          ),
           Container(
-            width: 55.w,
+            width: 37.w,
+            height: 34.h,
             alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(
+                color: expireBgColor,
+                width: 1.w,
+              ),
+            ),
             child: Text(
-              provider.capacity.toString(),
+              provider.capacity == 0 ? '-' : provider.capacity.toString(),
               style: Style.commonTextStyle(
-                color: hintColor,
-                fontSize: 24.sp,
+                color: textColor,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w400,
               ),
             ),
           ),
+          SizedBox(
+            width: 21.w,
+          ),
           InkWell(
             onTap: notifier.addCapacity,
-            child: SvgPicture.asset(
-              Assets.plus,
-              height: 33.h,
+            child: Container(
+              height: 36.h,
+              width: 36.w,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: primaryColor,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add,
+                size: 16.sp,
+                color: whiteColor,
+              ),
             ),
           ),
         ],

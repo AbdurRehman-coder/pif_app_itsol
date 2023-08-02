@@ -1,4 +1,3 @@
-import 'package:awesome_calendar/awesome_calendar.dart';
 import 'package:dixels_sdk/features/commerce/rooms/models/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,7 +19,13 @@ class SpaceBookingPage extends ConsumerStatefulWidget {
 class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
   @override
   void initState() {
-    ref.read(spaceBookingProvider.notifier).getSpaceAsync();
+    Future.delayed(
+      Duration.zero,
+      () async {
+        await ref.read(spaceBookingProvider.notifier).getSpaceAsync();
+        await showFilterPopup(context: context);
+      },
+    );
 
     super.initState();
   }
@@ -234,31 +239,6 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         },
         itemCount: data.length,
       ),
-    );
-  }
-}
-
-class CustomDayTileBuilder extends DayTileBuilder {
-  CustomDayTileBuilder();
-
-  @override
-  Widget build(
-    BuildContext context,
-    DateTime date,
-    void Function(DateTime datetime)? onTap,
-  ) {
-    return Consumer(
-      builder: (context, ref, child) {
-        final provider = ref.watch(filterByProvider);
-        return DefaultDayTile(
-          date: date,
-          onTap: onTap,
-          selectedDayColor: primaryColor,
-          currentDayBorderColor: primaryColor,
-          selectedDateCount: provider.selectedDateList.length,
-          selectedDateList: provider.selectedDateList,
-        );
-      },
     );
   }
 }

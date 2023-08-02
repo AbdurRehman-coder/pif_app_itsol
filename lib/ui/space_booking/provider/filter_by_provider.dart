@@ -1,11 +1,9 @@
-import 'package:collection/collection.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
-import 'package:pif_flutter/generated/l10n.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
 final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
@@ -20,6 +18,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   final Ref ref;
 
+  late TextEditingController startDateController;
+  late TextEditingController endDateController;
   late TextEditingController startTimeController;
   late TextEditingController endTimeController;
 
@@ -27,6 +27,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
   List<DateTime> confirmDateLst = <DateTime>[];
 
   Future<void> _initData() async {
+    startDateController = TextEditingController();
+    endDateController = TextEditingController();
     startTimeController = TextEditingController();
     endTimeController = TextEditingController();
     await _getFloors();
@@ -36,14 +38,17 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
       confirmDateLst.addAll(selectedDateLst);
       state = state.copyWith(selectedDateList: confirmDateLst);
-      formatSelectedDateToString();
     }
 
     final data = ref.read(spaceBookingProvider);
     if (data.filterData != null) {
-      state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
-      state = state.copyWith(selectedDateList: data.filterData!.selectedDates);
       state = state.copyWith(capacity: int.parse(data.filterData!.capacity));
+
+      state = state.copyWith(startDate: data.filterData!.startDate);
+      startDateController.text = DateFormat('dd MMM yyyy').format(data.filterData!.startDate);
+
+      state = state.copyWith(endDate: data.filterData!.endDate);
+      endDateController.text = DateFormat('dd MMM yyyy').format(data.filterData!.endDate);
 
       if (data.filterData!.startTime != null) {
         final startTimeString = DateFormat('hh:mm a').format(data.filterData!.startTime!);
@@ -64,7 +69,6 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
       }
 
       state = state.copyWith(lstFloors: lstFloors);
-      formatSelectedDateToString();
     }
   }
 
@@ -101,54 +105,11 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(capacity: capacityCount);
   }
 
-  //Insert or Remove Date into List
-  void updateDateString(DateTime date) {
-    if (selectedDateLst.contains(date)) {
-      selectedDateLst.remove(date);
-    } else {
-      if (selectedDateLst.length < 10) {
-        selectedDateLst.add(date);
-      }
+  //Open start DatePicker Dialog
+  void openStartDatePicker() {
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
     }
-  }
-
-  void confirm() {
-    confirmDateLst.clear();
-    confirmDateLst.addAll(selectedDateLst);
-    state = state.copyWith(selectedDateList: confirmDateLst);
-    formatSelectedDateToString();
-  }
-
-  void cancel() {
-    state = state.copyWith(selectedDateList: confirmDateLst);
-    selectedDateLst.clear();
-    selectedDateLst.addAll(confirmDateLst);
-  }
-
-  //Format Selected Date String
-  void formatSelectedDateToString() {
-    final dateList = state.selectedDateList.toList();
-    final dateFormat = DateFormat('d');
-    if (dateList.isEmpty) {
-      state = state.copyWith(selectedDateString: '');
-      return;
-    }
-
-    final groupedDates = groupBy<DateTime, String>(
-      dateList,
-      (date) => date.toFormattedString('MMM'),
-    );
-
-    var lastDateString = '';
-    groupedDates.forEach((key, value) {
-      final dateStrings = value.map(dateFormat.format).join(', ');
-      lastDateString = '$lastDateString $dateStrings $key';
-    });
-    state = state.copyWith(selectedDateString: lastDateString);
-  }
-
-  //Open DatePicker Dialog
-  void openDialog() {
     if (state.isOpenStartTimePicker) {
       closeStartTimePickerDialog();
     }
@@ -157,24 +118,49 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     }
 
     Future.delayed(Duration.zero, () {
-      state = state.copyWith(isOpenPopup: true);
+      state = state.copyWith(isOpenStartDatePicker: true);
     });
   }
 
-  //Close DatePicker Dialog
-  void closeDialog() {
-    state = state.copyWith(isOpenPopup: false);
+  //Close start DatePicker Dialog
+  void closeStartDatePicker() {
+    state = state.copyWith(isOpenStartDatePicker: false);
   }
 
-  //Open StartTime Picker Dialog
-  void openStartTimePickerDialog() {
+  //Open end DatePicker Dialog
+  void openEndDatePicker() {
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePicker();
+    }
+    if (state.isOpenStartTimePicker) {
+      closeStartTimePickerDialog();
+    }
     if (state.isOpenEndTimePicker) {
       closeEndTimePickerDialog();
     }
 
-    if (state.isOpenPopup) {
-      closeDialog();
+    Future.delayed(Duration.zero, () {
+      state = state.copyWith(isOpenEndDatePicker: true);
+    });
+  }
+
+  //Close DatePicker Dialog
+  void closeEndDatePicker() {
+    state = state.copyWith(isOpenEndDatePicker: false);
+  }
+
+  //Open StartTime Picker Dialog
+  void openStartTimePickerDialog() {
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePicker();
     }
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
+    }
+    if (state.isOpenEndTimePicker) {
+      closeEndTimePickerDialog();
+    }
+
     state = state.copyWith(isOpenStartTimePicker: true);
   }
 
@@ -185,12 +171,16 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Open EndTime Picker Dialog
   void openEndTimePickerDialog() {
+    if (state.isOpenStartDatePicker) {
+      closeStartDatePicker();
+    }
+    if (state.isOpenEndDatePicker) {
+      closeEndDatePicker();
+    }
     if (state.isOpenStartTimePicker) {
       closeStartTimePickerDialog();
     }
-    if (state.isOpenPopup) {
-      closeDialog();
-    }
+
     state = state.copyWith(isOpenEndTimePicker: true);
   }
 
@@ -199,39 +189,50 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(isOpenEndTimePicker: false);
   }
 
+  //Update Start Date
+  void updateStartDate(DateTime date) {
+    state = state.copyWith(startDate: date);
+    startDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    state = state.copyWith(endDate: date);
+    endDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    closeStartDatePicker();
+  }
+
+  //Update End Date
+  void updateEndDate(DateTime date) {
+    state = state.copyWith(endDate: date);
+    endDateController.text = DateFormat('dd MMM yyyy').format(date);
+
+    closeEndDatePicker();
+  }
+
   //Reset Filter Data
   void resetFilter() {
     startTimeController.clear();
     endTimeController.clear();
-    state = state.copyWith(selectedDateList: <DateTime>[]);
-    state = state.copyWith(selectedDateString: '');
-    state = state.copyWith(capacity: 1);
-    state = state.copyWith(startTime: null);
-    state = state.copyWith(endTime: null);
-
+    startDateController.clear();
+    endDateController.clear();
     final lstFloor = state.lstFloors.toList();
     for (final item in lstFloor) {
       item.isSelected = false;
     }
-    state = state.copyWith(lstFloors: lstFloor);
+
+    state = state.copyWith(
+      selectedDateList: <DateTime>[],
+      selectedDateString: '',
+      capacity: 0,
+      startDate: DateTime.now(),
+      endDate: DateTime.now(),
+      startTime: null,
+      endTime: null,
+      lstFloors: lstFloor,
+    );
 
     // updateDateString(DateTime.now());
     // final data = ref.read(spaceBookingProvider.notifier);
     // data.clearFilterData();
-  }
-
-  //Set Default DateTime
-  void setDefaultTime() {
-    final dateTime = DateTime.now();
-    final minute = dateTime.minute;
-    final minuteModulo = minute % 15;
-    var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
-
-    roundedTime =
-        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
-    state = state.copyWith(startTime: roundedTime);
-    state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 15)));
-    updateStartTime(startTime: state.startTime);
   }
 
   //Update Start Time
@@ -241,6 +242,11 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
     startTimeController.text = startTimeString;
+
+    state = state.copyWith(endTime: startTime.add(const Duration(minutes: 15)));
+
+    final endTimeString = DateFormat('hh:mm a').format(startTime.add(const Duration(minutes: 15)));
+    endTimeController.text = endTimeString;
   }
 
   //Update End Time
@@ -254,5 +260,14 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
     final endTimeString = DateFormat('hh:mm a').format(endTime);
     endTimeController.text = endTimeString;
+  }
+
+  @override
+  void dispose() {
+    startDateController.dispose();
+    endDateController.dispose();
+    startTimeController.dispose();
+    endTimeController.dispose();
+    super.dispose();
   }
 }

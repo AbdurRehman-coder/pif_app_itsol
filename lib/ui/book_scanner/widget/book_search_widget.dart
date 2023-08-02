@@ -47,17 +47,6 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
               ],
             ),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Text(
-              S.of(context).troubleScanningQRCodeEnterManually,
-              style: Style.commonTextStyle(
-                fontSize: 18.sp,
-                color: blackColor,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
           SizedBox(height: 10.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.w),

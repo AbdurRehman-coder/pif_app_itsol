@@ -84,10 +84,11 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Set Default Data For Scan
   Future<void> bindScanData() async {
     final userDetails = await DixelsSDK.instance.userDetails;
-    titleController.text = S.current.bookingFor + userDetails!.name!;
+    titleController.text = '${S.current.bookingFor} ${userDetails!.name!}';
     final currentDateTime = DateTime.now();
     final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
-    state = state.copyWith(selectedDates: [currentDate]);
+    updateStartDate(currentDate);
+
     _setNearestTimeSlot();
   }
 
@@ -335,8 +336,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
       } else {
         alertMessage(
-          errorMessage:
-              '${S.current.bookingAlert} On Date ${state.startDate.toFormattedString('dd MMM yyyy')}',
+          errorMessage: '${S.current.bookingAlert} On Date ${state.startDate.toFormattedString('dd MMM yyyy')}',
           context: context,
         );
       }
@@ -478,8 +478,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   //Filter Task Data
   void filterTaskData() {
     final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData =
-        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
@@ -496,8 +495,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
             final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime =
-                DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
             allBookingTasks.add(
               TimePlannerTask(
                 color: gradientEnd,
@@ -538,8 +536,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime =
-        DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
     state = state.copyWith(startTime: roundedTime);
     state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);

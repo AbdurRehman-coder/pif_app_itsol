@@ -30,6 +30,9 @@ class _BookingPageState extends ConsumerState<BookingPage> {
       Duration.zero,
       () {
         ref.read(bookingProvider.notifier).getBookings(spaceData: widget.spaceData);
+        if (widget.isFromScan) {
+          ref.read(bookingProvider.notifier).bindScanData();
+        }
       },
     );
 

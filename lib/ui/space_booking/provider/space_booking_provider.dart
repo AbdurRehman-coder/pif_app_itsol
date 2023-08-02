@@ -6,8 +6,7 @@ import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
-final spaceBookingProvider =
-    StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>((ref) {
+final spaceBookingProvider = StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>((ref) {
   return SpaceBookingNotifier(ref: ref);
 });
 
@@ -27,8 +26,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
 
   //Get Space Data
   Future<void> getSpaceAsync({bool isFilter = false}) async {
-    final data = await DixelsSDK.instance.roomService
-        .getPageData(fromJson: RoomModel.fromJson, params: getFilterQuery(isFilter: isFilter));
+    final data = await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: getFilterQuery(isFilter: isFilter));
     if (data != null) {
       allListData = data.items;
       state = state.copyWith(lstData: AsyncData(data.items!));
@@ -46,8 +44,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     if (isFilter) {
       final filterProvider = ref.read(filterByProvider);
       final filterNotifier = ref.read(filterByProvider.notifier);
-      final selectedFloor =
-          filterProvider.lstFloors.where((element) => element.isSelected ?? false == true).toList();
+      final selectedFloor = filterProvider.lstFloors.where((element) => element.isSelected ?? false == true).toList();
 
       if (filterProvider.selectedDateList.isNotEmpty) {
         // Date Filter Query
@@ -87,7 +84,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
         }
         filterQuery = '($floorQuery)';
       }
-      if (filterProvider.capacity != 1) {
+      if (filterProvider.capacity != 0) {
         filterQuery = '$filterQuery and ${FilterUtils.filterBy(
           key: 'capacity',
           value: filterProvider.capacity.toString(),
@@ -97,6 +94,8 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
 
       final filterModel = FilterModel(
         selectedDates: filterProvider.selectedDateList.toList(),
+        startDate: filterProvider.startDate,
+        endDate: filterProvider.endDate,
         startTime: filterProvider.startTime,
         endTime: filterProvider.endTime,
         capacity: filterProvider.capacity.toString(),
@@ -111,9 +110,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
         timeString = '$startTimeString - $endTimeString - ';
       }
 
-      final firstDateString = filterModel.selectedDates.isNotEmpty
-          ? filterModel.selectedDates.first.toFormattedString('d MMM')
-          : '';
+      final firstDateString = filterModel.selectedDates.isNotEmpty ? filterModel.selectedDates.first.toFormattedString('d MMM') : '';
 
       if (firstDateString.isNotEmpty) {
         filterString = '$timeString${filterModel.selectedDates.length} repeats from $firstDateString';
@@ -144,9 +141,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
       return;
     }
     if (searchText.isNotEmpty) {
-      final data = allListData!
-          .where((element) => element.name!.toLowerCase().contains(searchText.toLowerCase()))
-          .toList();
+      final data = allListData!.where((element) => element.name!.toLowerCase().contains(searchText.toLowerCase())).toList();
       state = state.copyWith(lstData: AsyncData(data));
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));

@@ -8,13 +8,15 @@ part 'filter_by_state.freezed.dart';
 class FilterByState with _$FilterByState {
   const factory FilterByState({
     required String selectedDateString,
-    required bool isOpenPopup,
-    required bool isOpenTimePicker,
+    required bool isOpenStartDatePicker,
     required bool isOpenStartTimePicker,
+    required bool isOpenEndDatePicker,
     required bool isOpenEndTimePicker,
     required DateTime selectedSingleDate,
     required List<DateTime> selectedDateList,
     required List<FloorModel> lstFloors,
+    required DateTime startDate,
+    required DateTime endDate,
     required DateTime? startTime,
     required DateTime? endTime,
     required int capacity,
@@ -22,17 +24,19 @@ class FilterByState with _$FilterByState {
   }) = _FilterByState;
 
   factory FilterByState.initial() => FilterByState(
+        isOpenEndDatePicker: false,
+        isOpenEndTimePicker: false,
+        isOpenStartDatePicker: false,
+        isOpenStartTimePicker: false,
+        startDate: DateTime.now(),
+        endDate: DateTime.now(),
         selectedDateString: '',
-        isOpenPopup: false,
-        isOpenTimePicker: false,
         selectedSingleDate: DateTime.now(),
         selectedDateList: <DateTime>[],
         lstFloors: <FloorModel>[],
         startTime: null,
         endTime: null,
-        capacity: 1,
-        isOpenStartTimePicker: false,
-        isOpenEndTimePicker: false,
+        capacity: 0,
         rangeData: const RangeValues(660, 675),
       );
 }
