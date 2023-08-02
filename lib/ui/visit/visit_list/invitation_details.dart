@@ -1,6 +1,7 @@
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/background_widget.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/popup_menu_button.dart';
 import 'package:pif_flutter/ui/visit/visit_list/widget/single_visitor.dart';
@@ -11,6 +12,7 @@ class InvitationDetailsView extends StatelessWidget {
     required this.visitModel,
     super.key,
   });
+
   final VisitModel? visitModel;
 
   @override
@@ -22,30 +24,23 @@ class InvitationDetailsView extends StatelessWidget {
       fontWeight: FontWeight.w500,
     );
     return Scaffold(
-      backgroundColor: expireBgColor,
       appBar: CustomAppBar(
         title: S.of(context).invitationDetails,
-        actionWidget: Padding(
-          padding: EdgeInsets.only(top: 8.h, right: 16),
-          child: const CustomPopupMenuButton(
-            isFromDetails: true,
+        actionWidget: [
+          Padding(
+            padding: EdgeInsets.only(top: 8.h, right: 16),
+            child: const CustomPopupMenuButton(
+              isFromDetails: true,
+            ),
           ),
-        ),
+        ],
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.symmetric(
-          vertical: 16.h,
-          horizontal: 16.w,
-        ),
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.emptySearchBgImage),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body:BackgroundWidget(
         child: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(
+            vertical: 16.h,
+            horizontal: 16.w,
+          ),
           physics: const ClampingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

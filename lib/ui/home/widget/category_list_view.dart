@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/custom_lottie_widget.dart';
 import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 
@@ -51,11 +52,9 @@ class CategoryListView extends ConsumerWidget {
                     color: grayD7,
                   ),
                 ),
-                child: Image.asset(
-                  data[index].image ?? '',
-                  fit: BoxFit.scaleDown,
-                  height: 50.h,
-                  width: 50.w,
+                child: CustomLottieWidget(
+                  lottieUrl: data[index].image ?? '',
+                  isAssets: true,
                 ),
               ),
               SizedBox(

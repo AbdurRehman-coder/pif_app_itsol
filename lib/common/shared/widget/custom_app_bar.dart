@@ -3,18 +3,19 @@ import 'package:pif_flutter/common/index.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
-    required this.title,
-    this.actionWidget = const SizedBox(),
+    this.title,
+    this.actionWidget,
     super.key,
+    this.titleWidget,
   });
 
-  final String title;
-  final Widget? actionWidget;
+  final String? title;
+  final Widget? titleWidget;
+  final List<Widget>? actionWidget;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: whiteColor,
       elevation: 0,
       centerTitle: true,
       leading: InkWell(
@@ -36,15 +37,31 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ),
-      title: Text(
-        title,
-        style: Style.commonTextStyle(
-          color: textColor,
-          fontSize: 18.sp,
-          fontWeight: FontWeight.w500,
+      flexibleSpace: Container(
+        decoration:  const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              whiteColor,
+              whiteColor,
+              whiteColor,
+              whiteColor,
+              whiteColor,
+              whiteColor,
+              expireBgColor,
+            ],
+          ),
         ),
       ),
-      actions: [actionWidget!],
+      title: titleWidget ??
+          Text(
+            title ?? '',
+            style: Style.commonTextStyle(
+              color: textColor,
+              fontSize: 18.sp,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+      actions: actionWidget,
     );
   }
 

@@ -124,6 +124,16 @@ class Assets {
   static const String close = 'assets/svg/close.svg';
   static const String backgorundSecond = 'assets/background_image_second.png';
 
+  //Lottie
+  static const String bookingLottie = 'assets/lottie/booking.json';
+  static const String creativesLottie = 'assets/lottie/creatives.json';
+  static const String inviteVisitorsLottie = 'assets/lottie/invite_visitors.json';
+  static const String itSupportLottie = 'assets/lottie/it_support.json';
+  static const String logisticsLottie = 'assets/lottie/logistics.json';
+  static const String newJoinerLottie = 'assets/lottie/new_joiner.json';
+  static const String photographyLottie = 'assets/lottie/photography.json';
+  static const String qrBookingLottie = 'assets/lottie/qr_booking.json';
+
   // Gif
   static const String addVisitorGif = 'assets/gif/ic_add_visitors.gif';
   static const String bookingGif = 'assets/gif/ic_booking.gif';

@@ -34,14 +34,14 @@ class HomeNotifier extends StateNotifier<HomeStates> {
   void _initData() {
     lstCategory.add(
       CategoryModel(
-        image: Assets.qrView,
+        image: Assets.bookingLottie,
         text: 'QR Scan',
         onTap: () => AppRouter.pushNamed(Routes.bookingScannerScreen),
       ),
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.creative,
+        image: Assets.photographyLottie,
         text: 'Photography',
         onTap: () => AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
@@ -54,7 +54,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.visitor,
+        image: Assets.inviteVisitorsLottie,
         text: 'New Visit',
         onTap: () => AppRouter.pushNamed(
           Routes.inviteVisitorScreen,
@@ -64,14 +64,14 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.qrView,
+        image: Assets.qrBookingLottie,
         text: 'Booking',
         onTap: () => AppRouter.pushNamed(Routes.spaceBookingScreen),
       ),
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.creative,
+        image: Assets.newJoinerLottie,
         text: 'New Joiner',
         onTap: () => AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
@@ -84,7 +84,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.creative,
+        image: Assets.itSupportLottie,
         text: 'IT Support',
         onTap: () => AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
@@ -96,7 +96,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.creative,
+        image: Assets.logisticsLottie,
         text: 'Logistics',
         onTap: () => AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
@@ -108,7 +108,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
     );
     lstCategory.add(
       CategoryModel(
-        image: Assets.creative,
+        image: Assets.creativesLottie,
         text: 'Creatives',
         onTap: () => AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,

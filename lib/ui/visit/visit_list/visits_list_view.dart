@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/app_bar_with_search.dart';
+import 'package:pif_flutter/common/shared/widget/background_widget.dart';
+import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
@@ -19,9 +20,8 @@ class VisitsListView extends ConsumerWidget {
     final provider = ref.watch(visitListProvider);
     final notifier = ref.read(visitListProvider.notifier);
     return Scaffold(
-      backgroundColor: expireBgColor,
-      appBar: AppBarWithCustomTitle(
-        title: SearchTextField(
+      appBar: CustomAppBar(
+        titleWidget: SearchTextField(
           textEditingController: notifier.searchVisitController,
           onChanged: (value) {},
           hintText: S.of(context).searchVisitInvitation,
@@ -34,18 +34,13 @@ class VisitsListView extends ConsumerWidget {
           showBorders: false,
         ),
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(Assets.emptySearchBgImage),
-            fit: BoxFit.cover,
-          ),
-        ),
+      body: BackgroundWidget(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 14.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(height: 10.h),
               VisitStatus(
                 notifier: notifier,
                 provider: provider,

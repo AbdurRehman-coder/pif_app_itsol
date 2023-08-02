@@ -39,9 +39,6 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
       SideMenuModel(name: S.current.handBook, icon: Assets.handBookIcon),
     );
     lstMenu.add(
-      SideMenuModel(name: S.current.appTour, icon: Assets.appTourIcon),
-    );
-    lstMenu.add(
       SideMenuModel(name: S.current.termsOfService, icon: Assets.termsIcon),
     );
     lstMenu.add(

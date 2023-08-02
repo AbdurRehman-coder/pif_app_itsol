@@ -28,13 +28,13 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
   Widget build(BuildContext context) {
     final provider = ref.watch(inviteVisitorProvider);
     final notifier = ref.read(inviteVisitorProvider.notifier);
-    return BackgroundWidget(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: CustomAppBar(
-          title: S.current.inviteVisitors,
-        ),
-        body: GestureDetector(
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        title: S.current.inviteVisitors,
+      ),
+      body: BackgroundWidget(
+        child: GestureDetector(
           onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
               ? notifier.closeDateAndTime()
               : null,
@@ -222,22 +222,22 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
             ),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: ElevatedButton(
-            onPressed: () => notifier.sendInvitation(
-              context: context,
-              fromHomepage: widget.fromHomepage,
-            ),
-            style: Style.primaryButtonStyleSecond(
-              context: context,
-              primaryColor:
-                  provider.isFieldDisable ? primaryDisabledColor : primaryColor,
-            ),
-            child: Text(
-              S.of(context).sendInvitation,
-            ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: ElevatedButton(
+          onPressed: () => notifier.sendInvitation(
+            context: context,
+            fromHomepage: widget.fromHomepage,
+          ),
+          style: Style.primaryButtonStyleSecond(
+            context: context,
+            primaryColor:
+                provider.isFieldDisable ? primaryDisabledColor : primaryColor,
+          ),
+          child: Text(
+            S.of(context).sendInvitation,
           ),
         ),
       ),

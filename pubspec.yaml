@@ -95,6 +95,7 @@ dependencies:
   hive_generator: ^2.0.0
   path_provider: ^2.0.14
   shared_preferences: ^2.2.0
+  lottie: ^2.5.0
   awesome_calendar:
     path: awesome_calendar-main
 
@@ -142,6 +143,7 @@ flutter:
     - assets/svg/
     - assets/gif/
     - assets/svg/amenities/
+    - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
