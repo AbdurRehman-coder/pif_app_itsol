@@ -22,8 +22,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "IAgreeToThe": MessageLookupByLibrary.simpleMessage("I Agree To The "),
+        "IAgreeToTheCoBuilder":
+            MessageLookupByLibrary.simpleMessage("I Agree To The Co-Builder "),
+        "NDA": MessageLookupByLibrary.simpleMessage("NDA"),
         "OnBehalfOfCoBuilderTeam": MessageLookupByLibrary.simpleMessage(
             "On behalf of Co-builder team,we are thrilled to have you onboard."),
+        "TermsAndConditions":
+            MessageLookupByLibrary.simpleMessage("Terms & Conditions"),
         "activeStatus": MessageLookupByLibrary.simpleMessage("Active"),
         "add": MessageLookupByLibrary.simpleMessage("Add"),
         "addComment": MessageLookupByLibrary.simpleMessage("Add a comment..."),
@@ -31,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addMoreItems": MessageLookupByLibrary.simpleMessage("Add more items"),
         "addMoreVisitors":
             MessageLookupByLibrary.simpleMessage("Add More Visitors"),
+        "addPrevious": MessageLookupByLibrary.simpleMessage("ADD Previous"),
         "addPreviousVisitor":
             MessageLookupByLibrary.simpleMessage("Add previous visitors"),
         "addToCart": MessageLookupByLibrary.simpleMessage("Add to order"),
@@ -44,6 +51,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "appName": MessageLookupByLibrary.simpleMessage("PIF"),
         "appTour": MessageLookupByLibrary.simpleMessage("App Tour"),
         "arabic": MessageLookupByLibrary.simpleMessage("العربية"),
+        "availableRoom":
+            MessageLookupByLibrary.simpleMessage("Available Rooms"),
         "book": MessageLookupByLibrary.simpleMessage("Book"),
         "bookNow": MessageLookupByLibrary.simpleMessage("Book now"),
         "bookedByMistake":
@@ -71,6 +80,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter comment"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
+        "dateAndTime": MessageLookupByLibrary.simpleMessage("Date and time"),
         "dateTime": MessageLookupByLibrary.simpleMessage("Date & Time"),
         "dateTimeCompareMsg": MessageLookupByLibrary.simpleMessage(
             "End date should be greater than start date"),
@@ -101,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "email": MessageLookupByLibrary.simpleMessage("E-mail"),
         "emailEmpty":
             MessageLookupByLibrary.simpleMessage("Please enter email"),
+        "end": MessageLookupByLibrary.simpleMessage("End"),
         "endingDate": MessageLookupByLibrary.simpleMessage("Ending Date"),
         "endingTime": MessageLookupByLibrary.simpleMessage("Ending time"),
         "english": MessageLookupByLibrary.simpleMessage("English"),
@@ -139,6 +150,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "idType": MessageLookupByLibrary.simpleMessage("ID Type"),
         "ideaGenerationWithClient":
             MessageLookupByLibrary.simpleMessage("Idea Generation with Client"),
+        "imageError": MessageLookupByLibrary.simpleMessage(
+            "Checking Photo Compliance Error"),
         "inProgress": MessageLookupByLibrary.simpleMessage("In Progress"),
         "instanceBooking": MessageLookupByLibrary.simpleMessage("Instant Book"),
         "invitationDetails":
@@ -166,6 +179,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
         "maxLengthOf": MessageLookupByLibrary.simpleMessage("Max length of"),
+        "moreVisitors": MessageLookupByLibrary.simpleMessage("More Visitors"),
         "nationality": MessageLookupByLibrary.simpleMessage("Nationality"),
         "newVisitors": MessageLookupByLibrary.simpleMessage("New visitor"),
         "next": MessageLookupByLibrary.simpleMessage("Next"),
@@ -248,6 +262,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search Nationality"),
         "searchService":
             MessageLookupByLibrary.simpleMessage("Search Services"),
+        "searchSpaces": MessageLookupByLibrary.simpleMessage("Search Spaces"),
         "searchSupport": MessageLookupByLibrary.simpleMessage("Search Support"),
         "searchVisitor": MessageLookupByLibrary.simpleMessage("Search Visitor"),
         "selectDates": MessageLookupByLibrary.simpleMessage("Select Dates"),
@@ -270,11 +285,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "spaceBooking": MessageLookupByLibrary.simpleMessage("Space Booking"),
+        "start": MessageLookupByLibrary.simpleMessage("Start"),
         "startingDate": MessageLookupByLibrary.simpleMessage("Starting Date"),
         "startingTime": MessageLookupByLibrary.simpleMessage("Starting time"),
         "storeNotAvailable": MessageLookupByLibrary.simpleMessage(
             "Note: The catering services are out of working hours at the moment, we will be happy to serve you again when the team is available"),
         "subCategory": MessageLookupByLibrary.simpleMessage("Sub category"),
+        "successfullySentRequest":
+            MessageLookupByLibrary.simpleMessage("Successfully sent request"),
         "support": MessageLookupByLibrary.simpleMessage("Support"),
         "supportStatus": MessageLookupByLibrary.simpleMessage("Support Status"),
         "supportTickets":
@@ -305,6 +323,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "verified": MessageLookupByLibrary.simpleMessage("Verified"),
         "videoConferencing":
             MessageLookupByLibrary.simpleMessage("Video conferencing"),
+        "viewCalender": MessageLookupByLibrary.simpleMessage("View Calender"),
+        "visitInformation":
+            MessageLookupByLibrary.simpleMessage("Visit Information"),
         "visitorAlreadyFound": MessageLookupByLibrary.simpleMessage(
             "This email address is already used to invite another visitor you added. !"),
         "visitorEmail": MessageLookupByLibrary.simpleMessage("Visitor Email"),

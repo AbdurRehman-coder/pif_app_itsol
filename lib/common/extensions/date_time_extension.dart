@@ -20,10 +20,6 @@ extension DateTimeExt on DateTime {
   /// used this to show the time with lowercase: 10:00 am
   String getTimeWithLowerCase({String pattern = 'hh:mm a'}) {
     String timeString = DateFormat(pattern, 'en').format(this);
-    // return timeString.replaceFirst(
-    //   RegExp(r'\s[A|P]M$'),
-    //   timeString.substring(timeString.length - 2).toLowerCase(),
-    // );
     return timeString.replaceFirstMapped(
       RegExp(r'([AP]M)$'),
       (match) => '${match.group(1)}'.toLowerCase(),
@@ -32,6 +28,22 @@ extension DateTimeExt on DateTime {
 
   int toTotalMinutes() {
     return (hour * 60) + minute;
+  }
+
+  /// get time passed
+  String getTimePassed() {
+    final now = DateTime.now();
+    final difference = now.difference(this);
+    if (difference.inSeconds < 60) {
+      return '${difference.inSeconds} seconds ago';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes} minutes ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours} hours ago';
+    } else {
+      final format = DateFormat('dd MMM yyyy');
+      return format.format(this);
+    }
   }
 }
 

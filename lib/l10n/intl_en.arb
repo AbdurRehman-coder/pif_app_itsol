@@ -235,6 +235,10 @@
   "visitInformation":"Visit Information",
   "addPrevious":"ADD Previous",
   "moreVisitors":"More Visitors",
+  "dateAndTime":"Date and time",
+  "start":"Start",
+  "end":"End",
+  "notifications":"Notifications",
   "searchVisitInvitation" : "Search Visit Invitation"
 
 }

@@ -188,4 +188,7 @@ class Assets {
   static const String locationPin = 'assets/svg/location_pin.svg';
   static const String homeIndicator = 'assets/3x/home_indicator.png';
   static const String emptySearchBgImage = 'assets/empty_page_bgcolor.png';
+
+  // Visit
+  static const String vEditButton = 'assets/3x/verticle_edit_btn.png';
 }

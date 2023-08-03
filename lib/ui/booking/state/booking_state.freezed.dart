@@ -19,11 +19,15 @@ mixin _$BookingState {
   String get bookingTitle => throw _privateConstructorUsedError;
   List<DateTime> get selectedDates => throw _privateConstructorUsedError;
   String get selectedDateString => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
   DateTime? get startTime => throw _privateConstructorUsedError;
   DateTime? get endTime => throw _privateConstructorUsedError;
-  bool get isOpenDatePicker => throw _privateConstructorUsedError;
+  bool get isOpenStartDatePicker => throw _privateConstructorUsedError;
   bool get isOpenStartTimePicker => throw _privateConstructorUsedError;
   bool get isOpenEndTimePicker => throw _privateConstructorUsedError;
+  bool get isOpenEndDatePicker => throw _privateConstructorUsedError;
+  bool get isOpenDatePicker => throw _privateConstructorUsedError;
   List<DayHeaderModel> get lstDays => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   List<UserModel> get lstGuests => throw _privateConstructorUsedError;
@@ -47,11 +51,15 @@ abstract class $BookingStateCopyWith<$Res> {
       {String bookingTitle,
       List<DateTime> selectedDates,
       String selectedDateString,
+      DateTime startDate,
+      DateTime endDate,
       DateTime? startTime,
       DateTime? endTime,
-      bool isOpenDatePicker,
+      bool isOpenStartDatePicker,
       bool isOpenStartTimePicker,
       bool isOpenEndTimePicker,
+      bool isOpenEndDatePicker,
+      bool isOpenDatePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
       List<UserModel> lstGuests,
@@ -76,11 +84,15 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
     Object? bookingTitle = null,
     Object? selectedDates = null,
     Object? selectedDateString = null,
+    Object? startDate = null,
+    Object? endDate = null,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? isOpenDatePicker = null,
+    Object? isOpenStartDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
+    Object? isOpenEndDatePicker = null,
+    Object? isOpenDatePicker = null,
     Object? lstDays = null,
     Object? errorMessage = null,
     Object? lstGuests = null,
@@ -101,6 +113,14 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.selectedDateString
           : selectedDateString // ignore: cast_nullable_to_non_nullable
               as String,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -109,9 +129,9 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isOpenDatePicker: null == isOpenDatePicker
-          ? _value.isOpenDatePicker
-          : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
+      isOpenStartDatePicker: null == isOpenStartDatePicker
+          ? _value.isOpenStartDatePicker
+          : isOpenStartDatePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       isOpenStartTimePicker: null == isOpenStartTimePicker
           ? _value.isOpenStartTimePicker
@@ -120,6 +140,14 @@ class _$BookingStateCopyWithImpl<$Res, $Val extends BookingState>
       isOpenEndTimePicker: null == isOpenEndTimePicker
           ? _value.isOpenEndTimePicker
           : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenEndDatePicker: null == isOpenEndDatePicker
+          ? _value.isOpenEndDatePicker
+          : isOpenEndDatePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenDatePicker: null == isOpenDatePicker
+          ? _value.isOpenDatePicker
+          : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       lstDays: null == lstDays
           ? _value.lstDays
@@ -161,11 +189,15 @@ abstract class _$$_BookingStateCopyWith<$Res>
       {String bookingTitle,
       List<DateTime> selectedDates,
       String selectedDateString,
+      DateTime startDate,
+      DateTime endDate,
       DateTime? startTime,
       DateTime? endTime,
-      bool isOpenDatePicker,
+      bool isOpenStartDatePicker,
       bool isOpenStartTimePicker,
       bool isOpenEndTimePicker,
+      bool isOpenEndDatePicker,
+      bool isOpenDatePicker,
       List<DayHeaderModel> lstDays,
       String errorMessage,
       List<UserModel> lstGuests,
@@ -188,11 +220,15 @@ class __$$_BookingStateCopyWithImpl<$Res>
     Object? bookingTitle = null,
     Object? selectedDates = null,
     Object? selectedDateString = null,
+    Object? startDate = null,
+    Object? endDate = null,
     Object? startTime = freezed,
     Object? endTime = freezed,
-    Object? isOpenDatePicker = null,
+    Object? isOpenStartDatePicker = null,
     Object? isOpenStartTimePicker = null,
     Object? isOpenEndTimePicker = null,
+    Object? isOpenEndDatePicker = null,
+    Object? isOpenDatePicker = null,
     Object? lstDays = null,
     Object? errorMessage = null,
     Object? lstGuests = null,
@@ -213,6 +249,14 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value.selectedDateString
           : selectedDateString // ignore: cast_nullable_to_non_nullable
               as String,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
@@ -221,9 +265,9 @@ class __$$_BookingStateCopyWithImpl<$Res>
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      isOpenDatePicker: null == isOpenDatePicker
-          ? _value.isOpenDatePicker
-          : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
+      isOpenStartDatePicker: null == isOpenStartDatePicker
+          ? _value.isOpenStartDatePicker
+          : isOpenStartDatePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       isOpenStartTimePicker: null == isOpenStartTimePicker
           ? _value.isOpenStartTimePicker
@@ -232,6 +276,14 @@ class __$$_BookingStateCopyWithImpl<$Res>
       isOpenEndTimePicker: null == isOpenEndTimePicker
           ? _value.isOpenEndTimePicker
           : isOpenEndTimePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenEndDatePicker: null == isOpenEndDatePicker
+          ? _value.isOpenEndDatePicker
+          : isOpenEndDatePicker // ignore: cast_nullable_to_non_nullable
+              as bool,
+      isOpenDatePicker: null == isOpenDatePicker
+          ? _value.isOpenDatePicker
+          : isOpenDatePicker // ignore: cast_nullable_to_non_nullable
               as bool,
       lstDays: null == lstDays
           ? _value._lstDays
@@ -268,11 +320,15 @@ class _$_BookingState implements _BookingState {
       {required this.bookingTitle,
       required final List<DateTime> selectedDates,
       required this.selectedDateString,
+      required this.startDate,
+      required this.endDate,
       required this.startTime,
       required this.endTime,
-      required this.isOpenDatePicker,
+      required this.isOpenStartDatePicker,
       required this.isOpenStartTimePicker,
       required this.isOpenEndTimePicker,
+      required this.isOpenEndDatePicker,
+      required this.isOpenDatePicker,
       required final List<DayHeaderModel> lstDays,
       required this.errorMessage,
       required final List<UserModel> lstGuests,
@@ -298,15 +354,23 @@ class _$_BookingState implements _BookingState {
   @override
   final String selectedDateString;
   @override
+  final DateTime startDate;
+  @override
+  final DateTime endDate;
+  @override
   final DateTime? startTime;
   @override
   final DateTime? endTime;
   @override
-  final bool isOpenDatePicker;
+  final bool isOpenStartDatePicker;
   @override
   final bool isOpenStartTimePicker;
   @override
   final bool isOpenEndTimePicker;
+  @override
+  final bool isOpenEndDatePicker;
+  @override
+  final bool isOpenDatePicker;
   final List<DayHeaderModel> _lstDays;
   @override
   List<DayHeaderModel> get lstDays {
@@ -346,7 +410,7 @@ class _$_BookingState implements _BookingState {
 
   @override
   String toString() {
-    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startTime: $startTime, endTime: $endTime, isOpenDatePicker: $isOpenDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests, lstAutoCompleteGuests: $lstAutoCompleteGuests, isVisibleAddGuestList: $isVisibleAddGuestList, lstTasks: $lstTasks)';
+    return 'BookingState(bookingTitle: $bookingTitle, selectedDates: $selectedDates, selectedDateString: $selectedDateString, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, isOpenStartDatePicker: $isOpenStartDatePicker, isOpenStartTimePicker: $isOpenStartTimePicker, isOpenEndTimePicker: $isOpenEndTimePicker, isOpenEndDatePicker: $isOpenEndDatePicker, isOpenDatePicker: $isOpenDatePicker, lstDays: $lstDays, errorMessage: $errorMessage, lstGuests: $lstGuests, lstAutoCompleteGuests: $lstAutoCompleteGuests, isVisibleAddGuestList: $isVisibleAddGuestList, lstTasks: $lstTasks)';
   }
 
   @override
@@ -360,15 +424,22 @@ class _$_BookingState implements _BookingState {
                 .equals(other._selectedDates, _selectedDates) &&
             (identical(other.selectedDateString, selectedDateString) ||
                 other.selectedDateString == selectedDateString) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
             (identical(other.startTime, startTime) ||
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
-            (identical(other.isOpenDatePicker, isOpenDatePicker) ||
-                other.isOpenDatePicker == isOpenDatePicker) &&
+            (identical(other.isOpenStartDatePicker, isOpenStartDatePicker) ||
+                other.isOpenStartDatePicker == isOpenStartDatePicker) &&
             (identical(other.isOpenStartTimePicker, isOpenStartTimePicker) ||
                 other.isOpenStartTimePicker == isOpenStartTimePicker) &&
             (identical(other.isOpenEndTimePicker, isOpenEndTimePicker) ||
                 other.isOpenEndTimePicker == isOpenEndTimePicker) &&
+            (identical(other.isOpenEndDatePicker, isOpenEndDatePicker) ||
+                other.isOpenEndDatePicker == isOpenEndDatePicker) &&
+            (identical(other.isOpenDatePicker, isOpenDatePicker) ||
+                other.isOpenDatePicker == isOpenDatePicker) &&
             const DeepCollectionEquality().equals(other._lstDays, _lstDays) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
@@ -387,11 +458,15 @@ class _$_BookingState implements _BookingState {
       bookingTitle,
       const DeepCollectionEquality().hash(_selectedDates),
       selectedDateString,
+      startDate,
+      endDate,
       startTime,
       endTime,
-      isOpenDatePicker,
+      isOpenStartDatePicker,
       isOpenStartTimePicker,
       isOpenEndTimePicker,
+      isOpenEndDatePicker,
+      isOpenDatePicker,
       const DeepCollectionEquality().hash(_lstDays),
       errorMessage,
       const DeepCollectionEquality().hash(_lstGuests),
@@ -411,11 +486,15 @@ abstract class _BookingState implements BookingState {
       {required final String bookingTitle,
       required final List<DateTime> selectedDates,
       required final String selectedDateString,
+      required final DateTime startDate,
+      required final DateTime endDate,
       required final DateTime? startTime,
       required final DateTime? endTime,
-      required final bool isOpenDatePicker,
+      required final bool isOpenStartDatePicker,
       required final bool isOpenStartTimePicker,
       required final bool isOpenEndTimePicker,
+      required final bool isOpenEndDatePicker,
+      required final bool isOpenDatePicker,
       required final List<DayHeaderModel> lstDays,
       required final String errorMessage,
       required final List<UserModel> lstGuests,
@@ -430,15 +509,23 @@ abstract class _BookingState implements BookingState {
   @override
   String get selectedDateString;
   @override
+  DateTime get startDate;
+  @override
+  DateTime get endDate;
+  @override
   DateTime? get startTime;
   @override
   DateTime? get endTime;
   @override
-  bool get isOpenDatePicker;
+  bool get isOpenStartDatePicker;
   @override
   bool get isOpenStartTimePicker;
   @override
   bool get isOpenEndTimePicker;
+  @override
+  bool get isOpenEndDatePicker;
+  @override
+  bool get isOpenDatePicker;
   @override
   List<DayHeaderModel> get lstDays;
   @override

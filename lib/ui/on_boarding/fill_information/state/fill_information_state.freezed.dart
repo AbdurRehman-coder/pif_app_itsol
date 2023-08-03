@@ -18,15 +18,20 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$FillInformationState {
   int get selectedScreen => throw _privateConstructorUsedError;
   bool get isVideoFinish => throw _privateConstructorUsedError;
-  bool get isDropDownOpen => throw _privateConstructorUsedError;
+  bool get acceptTermsAndCondition => throw _privateConstructorUsedError;
+  bool get acceptNDA => throw _privateConstructorUsedError;
   ScrollController get scrollControllerFillInformation =>
       throw _privateConstructorUsedError;
   CameraController? get cameraController => throw _privateConstructorUsedError;
-  AsyncValue<List<LookUpModel>> get nationalList =>
+  AsyncValue<List<TypeModel>> get typeList =>
+      throw _privateConstructorUsedError;
+  AsyncValue<StructureContentModel>? get contentModel =>
+      throw _privateConstructorUsedError;
+  AsyncValue<List<CountryModel>> get countryList =>
       throw _privateConstructorUsedError;
   XFile? get scanFace => throw _privateConstructorUsedError;
-  LookUpModel? get selectedNationality => throw _privateConstructorUsedError;
-  LookUpModel? get selectedType => throw _privateConstructorUsedError;
+  CountryModel? get selectedNationality => throw _privateConstructorUsedError;
+  TypeModel? get selectedType => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FillInformationStateCopyWith<FillInformationState> get copyWith =>
@@ -42,13 +47,16 @@ abstract class $FillInformationStateCopyWith<$Res> {
   $Res call(
       {int selectedScreen,
       bool isVideoFinish,
-      bool isDropDownOpen,
+      bool acceptTermsAndCondition,
+      bool acceptNDA,
       ScrollController scrollControllerFillInformation,
       CameraController? cameraController,
-      AsyncValue<List<LookUpModel>> nationalList,
+      AsyncValue<List<TypeModel>> typeList,
+      AsyncValue<StructureContentModel>? contentModel,
+      AsyncValue<List<CountryModel>> countryList,
       XFile? scanFace,
-      LookUpModel? selectedNationality,
-      LookUpModel? selectedType});
+      CountryModel? selectedNationality,
+      TypeModel? selectedType});
 }
 
 /// @nodoc
@@ -67,10 +75,13 @@ class _$FillInformationStateCopyWithImpl<$Res,
   $Res call({
     Object? selectedScreen = null,
     Object? isVideoFinish = null,
-    Object? isDropDownOpen = null,
+    Object? acceptTermsAndCondition = null,
+    Object? acceptNDA = null,
     Object? scrollControllerFillInformation = null,
     Object? cameraController = freezed,
-    Object? nationalList = null,
+    Object? typeList = null,
+    Object? contentModel = freezed,
+    Object? countryList = null,
     Object? scanFace = freezed,
     Object? selectedNationality = freezed,
     Object? selectedType = freezed,
@@ -84,9 +95,13 @@ class _$FillInformationStateCopyWithImpl<$Res,
           ? _value.isVideoFinish
           : isVideoFinish // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDropDownOpen: null == isDropDownOpen
-          ? _value.isDropDownOpen
-          : isDropDownOpen // ignore: cast_nullable_to_non_nullable
+      acceptTermsAndCondition: null == acceptTermsAndCondition
+          ? _value.acceptTermsAndCondition
+          : acceptTermsAndCondition // ignore: cast_nullable_to_non_nullable
+              as bool,
+      acceptNDA: null == acceptNDA
+          ? _value.acceptNDA
+          : acceptNDA // ignore: cast_nullable_to_non_nullable
               as bool,
       scrollControllerFillInformation: null == scrollControllerFillInformation
           ? _value.scrollControllerFillInformation
@@ -96,10 +111,18 @@ class _$FillInformationStateCopyWithImpl<$Res,
           ? _value.cameraController
           : cameraController // ignore: cast_nullable_to_non_nullable
               as CameraController?,
-      nationalList: null == nationalList
-          ? _value.nationalList
-          : nationalList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<LookUpModel>>,
+      typeList: null == typeList
+          ? _value.typeList
+          : typeList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TypeModel>>,
+      contentModel: freezed == contentModel
+          ? _value.contentModel
+          : contentModel // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<StructureContentModel>?,
+      countryList: null == countryList
+          ? _value.countryList
+          : countryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<CountryModel>>,
       scanFace: freezed == scanFace
           ? _value.scanFace
           : scanFace // ignore: cast_nullable_to_non_nullable
@@ -107,11 +130,11 @@ class _$FillInformationStateCopyWithImpl<$Res,
       selectedNationality: freezed == selectedNationality
           ? _value.selectedNationality
           : selectedNationality // ignore: cast_nullable_to_non_nullable
-              as LookUpModel?,
+              as CountryModel?,
       selectedType: freezed == selectedType
           ? _value.selectedType
           : selectedType // ignore: cast_nullable_to_non_nullable
-              as LookUpModel?,
+              as TypeModel?,
     ) as $Val);
   }
 }
@@ -127,13 +150,16 @@ abstract class _$$_FillInformationStateCopyWith<$Res>
   $Res call(
       {int selectedScreen,
       bool isVideoFinish,
-      bool isDropDownOpen,
+      bool acceptTermsAndCondition,
+      bool acceptNDA,
       ScrollController scrollControllerFillInformation,
       CameraController? cameraController,
-      AsyncValue<List<LookUpModel>> nationalList,
+      AsyncValue<List<TypeModel>> typeList,
+      AsyncValue<StructureContentModel>? contentModel,
+      AsyncValue<List<CountryModel>> countryList,
       XFile? scanFace,
-      LookUpModel? selectedNationality,
-      LookUpModel? selectedType});
+      CountryModel? selectedNationality,
+      TypeModel? selectedType});
 }
 
 /// @nodoc
@@ -149,10 +175,13 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
   $Res call({
     Object? selectedScreen = null,
     Object? isVideoFinish = null,
-    Object? isDropDownOpen = null,
+    Object? acceptTermsAndCondition = null,
+    Object? acceptNDA = null,
     Object? scrollControllerFillInformation = null,
     Object? cameraController = freezed,
-    Object? nationalList = null,
+    Object? typeList = null,
+    Object? contentModel = freezed,
+    Object? countryList = null,
     Object? scanFace = freezed,
     Object? selectedNationality = freezed,
     Object? selectedType = freezed,
@@ -166,9 +195,13 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
           ? _value.isVideoFinish
           : isVideoFinish // ignore: cast_nullable_to_non_nullable
               as bool,
-      isDropDownOpen: null == isDropDownOpen
-          ? _value.isDropDownOpen
-          : isDropDownOpen // ignore: cast_nullable_to_non_nullable
+      acceptTermsAndCondition: null == acceptTermsAndCondition
+          ? _value.acceptTermsAndCondition
+          : acceptTermsAndCondition // ignore: cast_nullable_to_non_nullable
+              as bool,
+      acceptNDA: null == acceptNDA
+          ? _value.acceptNDA
+          : acceptNDA // ignore: cast_nullable_to_non_nullable
               as bool,
       scrollControllerFillInformation: null == scrollControllerFillInformation
           ? _value.scrollControllerFillInformation
@@ -178,10 +211,18 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
           ? _value.cameraController
           : cameraController // ignore: cast_nullable_to_non_nullable
               as CameraController?,
-      nationalList: null == nationalList
-          ? _value.nationalList
-          : nationalList // ignore: cast_nullable_to_non_nullable
-              as AsyncValue<List<LookUpModel>>,
+      typeList: null == typeList
+          ? _value.typeList
+          : typeList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<TypeModel>>,
+      contentModel: freezed == contentModel
+          ? _value.contentModel
+          : contentModel // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<StructureContentModel>?,
+      countryList: null == countryList
+          ? _value.countryList
+          : countryList // ignore: cast_nullable_to_non_nullable
+              as AsyncValue<List<CountryModel>>,
       scanFace: freezed == scanFace
           ? _value.scanFace
           : scanFace // ignore: cast_nullable_to_non_nullable
@@ -189,11 +230,11 @@ class __$$_FillInformationStateCopyWithImpl<$Res>
       selectedNationality: freezed == selectedNationality
           ? _value.selectedNationality
           : selectedNationality // ignore: cast_nullable_to_non_nullable
-              as LookUpModel?,
+              as CountryModel?,
       selectedType: freezed == selectedType
           ? _value.selectedType
           : selectedType // ignore: cast_nullable_to_non_nullable
-              as LookUpModel?,
+              as TypeModel?,
     ));
   }
 }
@@ -204,10 +245,13 @@ class _$_FillInformationState implements _FillInformationState {
   const _$_FillInformationState(
       {required this.selectedScreen,
       required this.isVideoFinish,
-      required this.isDropDownOpen,
+      required this.acceptTermsAndCondition,
+      required this.acceptNDA,
       required this.scrollControllerFillInformation,
       required this.cameraController,
-      required this.nationalList,
+      required this.typeList,
+      required this.contentModel,
+      required this.countryList,
       required this.scanFace,
       required this.selectedNationality,
       required this.selectedType});
@@ -217,23 +261,29 @@ class _$_FillInformationState implements _FillInformationState {
   @override
   final bool isVideoFinish;
   @override
-  final bool isDropDownOpen;
+  final bool acceptTermsAndCondition;
+  @override
+  final bool acceptNDA;
   @override
   final ScrollController scrollControllerFillInformation;
   @override
   final CameraController? cameraController;
   @override
-  final AsyncValue<List<LookUpModel>> nationalList;
+  final AsyncValue<List<TypeModel>> typeList;
+  @override
+  final AsyncValue<StructureContentModel>? contentModel;
+  @override
+  final AsyncValue<List<CountryModel>> countryList;
   @override
   final XFile? scanFace;
   @override
-  final LookUpModel? selectedNationality;
+  final CountryModel? selectedNationality;
   @override
-  final LookUpModel? selectedType;
+  final TypeModel? selectedType;
 
   @override
   String toString() {
-    return 'FillInformationState(selectedScreen: $selectedScreen, isVideoFinish: $isVideoFinish, isDropDownOpen: $isDropDownOpen, scrollControllerFillInformation: $scrollControllerFillInformation, cameraController: $cameraController, nationalList: $nationalList, scanFace: $scanFace, selectedNationality: $selectedNationality, selectedType: $selectedType)';
+    return 'FillInformationState(selectedScreen: $selectedScreen, isVideoFinish: $isVideoFinish, acceptTermsAndCondition: $acceptTermsAndCondition, acceptNDA: $acceptNDA, scrollControllerFillInformation: $scrollControllerFillInformation, cameraController: $cameraController, typeList: $typeList, contentModel: $contentModel, countryList: $countryList, scanFace: $scanFace, selectedNationality: $selectedNationality, selectedType: $selectedType)';
   }
 
   @override
@@ -245,16 +295,23 @@ class _$_FillInformationState implements _FillInformationState {
                 other.selectedScreen == selectedScreen) &&
             (identical(other.isVideoFinish, isVideoFinish) ||
                 other.isVideoFinish == isVideoFinish) &&
-            (identical(other.isDropDownOpen, isDropDownOpen) ||
-                other.isDropDownOpen == isDropDownOpen) &&
+            (identical(
+                    other.acceptTermsAndCondition, acceptTermsAndCondition) ||
+                other.acceptTermsAndCondition == acceptTermsAndCondition) &&
+            (identical(other.acceptNDA, acceptNDA) ||
+                other.acceptNDA == acceptNDA) &&
             (identical(other.scrollControllerFillInformation,
                     scrollControllerFillInformation) ||
                 other.scrollControllerFillInformation ==
                     scrollControllerFillInformation) &&
             (identical(other.cameraController, cameraController) ||
                 other.cameraController == cameraController) &&
-            (identical(other.nationalList, nationalList) ||
-                other.nationalList == nationalList) &&
+            (identical(other.typeList, typeList) ||
+                other.typeList == typeList) &&
+            (identical(other.contentModel, contentModel) ||
+                other.contentModel == contentModel) &&
+            (identical(other.countryList, countryList) ||
+                other.countryList == countryList) &&
             (identical(other.scanFace, scanFace) ||
                 other.scanFace == scanFace) &&
             (identical(other.selectedNationality, selectedNationality) ||
@@ -268,10 +325,13 @@ class _$_FillInformationState implements _FillInformationState {
       runtimeType,
       selectedScreen,
       isVideoFinish,
-      isDropDownOpen,
+      acceptTermsAndCondition,
+      acceptNDA,
       scrollControllerFillInformation,
       cameraController,
-      nationalList,
+      typeList,
+      contentModel,
+      countryList,
       scanFace,
       selectedNationality,
       selectedType);
@@ -288,32 +348,41 @@ abstract class _FillInformationState implements FillInformationState {
   const factory _FillInformationState(
       {required final int selectedScreen,
       required final bool isVideoFinish,
-      required final bool isDropDownOpen,
+      required final bool acceptTermsAndCondition,
+      required final bool acceptNDA,
       required final ScrollController scrollControllerFillInformation,
       required final CameraController? cameraController,
-      required final AsyncValue<List<LookUpModel>> nationalList,
+      required final AsyncValue<List<TypeModel>> typeList,
+      required final AsyncValue<StructureContentModel>? contentModel,
+      required final AsyncValue<List<CountryModel>> countryList,
       required final XFile? scanFace,
-      required final LookUpModel? selectedNationality,
-      required final LookUpModel? selectedType}) = _$_FillInformationState;
+      required final CountryModel? selectedNationality,
+      required final TypeModel? selectedType}) = _$_FillInformationState;
 
   @override
   int get selectedScreen;
   @override
   bool get isVideoFinish;
   @override
-  bool get isDropDownOpen;
+  bool get acceptTermsAndCondition;
+  @override
+  bool get acceptNDA;
   @override
   ScrollController get scrollControllerFillInformation;
   @override
   CameraController? get cameraController;
   @override
-  AsyncValue<List<LookUpModel>> get nationalList;
+  AsyncValue<List<TypeModel>> get typeList;
+  @override
+  AsyncValue<StructureContentModel>? get contentModel;
+  @override
+  AsyncValue<List<CountryModel>> get countryList;
   @override
   XFile? get scanFace;
   @override
-  LookUpModel? get selectedNationality;
+  CountryModel? get selectedNationality;
   @override
-  LookUpModel? get selectedType;
+  TypeModel? get selectedType;
   @override
   @JsonKey(ignore: true)
   _$$_FillInformationStateCopyWith<_$_FillInformationState> get copyWith =>

@@ -13,6 +13,7 @@ import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news
 import 'package:pif_flutter/ui/company_managment/company_details/company_details_page.dart';
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/employee_details/employee_details_page.dart';
+import 'package:pif_flutter/ui/notifications/notification_page.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/privacy_screen.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_sceen.dart';
@@ -140,6 +141,9 @@ class AppRouter {
         );
       case Routes.searchLocationScreen:
         return _setPage(page: const SearchLocationPage(), settings: settings);
+
+      case Routes.notificationScreen:
+        return _setPage(page: const NotificationPage(), settings: settings);
       case Routes.bookingCalenderScreen:
         final lstArgs = settings.arguments! as List<dynamic>;
         final roomModel = lstArgs[0] as RoomModel;

@@ -152,7 +152,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               actions: [
                 if (_bottomNavIndex == 0) ...[
                   InkWell(
-                    onTap: () => AppRouter.pushNamed(Routes.myTicketsScreen),
+                    onTap: () => AppRouter.pushNamed(Routes.notificationScreen),
                     child: Container(
                       height: 40.h,
                       width: 40.h,

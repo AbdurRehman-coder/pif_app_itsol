@@ -5,7 +5,11 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 
 class AddGuestView extends StatelessWidget {
-  const AddGuestView({required this.provider, required this.notifier, super.key});
+  const AddGuestView({
+    required this.provider,
+    required this.notifier,
+    super.key,
+  });
 
   final BookingState provider;
   final BookingNotifier notifier;
@@ -120,24 +124,6 @@ class AddGuestView extends StatelessWidget {
                           final item = provider.lstAutoCompleteGuests[index];
                           return Row(
                             children: [
-                              // if (item.image != null && item.image!.isNotEmpty)
-                              //   ClipRRect(
-                              //     borderRadius: BorderRadius.circular(20.r),
-                              //     child: CachedNetworkImage(
-                              //       imageUrl: item.image!.getImageUrl,
-                              //       width: 40.w,
-                              //       height: 40.h,
-                              //       placeholder: (context, url) => Image.asset(
-                              //         Assets.placeHolder,
-                              //         fit: BoxFit.fill,
-                              //       ),
-                              //       errorWidget: (context, url, error) => Image.asset(
-                              //         Assets.spaceBg2,
-                              //         fit: BoxFit.fill,
-                              //       ),
-                              //     ),
-                              //   )
-                              // else
                               Container(
                                 height: 40.h,
                                 width: 40.w,
@@ -178,7 +164,8 @@ class AddGuestView extends StatelessWidget {
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: Style.commonTextStyle(
-                                        color: blackColorWith900.withOpacity(0.60),
+                                        color:
+                                            blackColorWith900.withOpacity(0.60),
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
