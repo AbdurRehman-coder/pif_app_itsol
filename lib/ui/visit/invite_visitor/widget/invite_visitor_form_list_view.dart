@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/invite_visitor_provider.dart';
@@ -25,7 +26,7 @@ class InviteVisitorFormListView extends StatelessWidget {
             SecondCustomTextField(
               textEditingController: notifier.emailController,
               focusNode: notifier.emailFocus,
-              hintText: S.current.email,
+              hintText: S.current.str_email.mandatory(),
               isEmailField: true,
               checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
@@ -40,7 +41,7 @@ class InviteVisitorFormListView extends StatelessWidget {
                   child: SecondCustomTextField(
                     textEditingController: notifier.firstNameController,
                     focusNode: notifier.firstNameFocus,
-                    hintText: S.current.firstName,
+                    hintText: S.current.firstName.mandatory(),
                     checkEmpty: true,
                     onChanged: notifier.onChangeText,
                   ),
@@ -50,7 +51,7 @@ class InviteVisitorFormListView extends StatelessWidget {
                   child: SecondCustomTextField(
                     textEditingController: notifier.lastNameController,
                     focusNode: notifier.lastNameFocus,
-                    hintText: S.current.lastName,
+                    hintText: S.current.lastName.mandatory(),
                     onChanged: notifier.onChangeText,
                     checkEmpty: true,
                   ),

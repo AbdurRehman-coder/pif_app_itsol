@@ -14,7 +14,7 @@ extension StringExt on String {
     if (this == null || this.isEmpty) {
       return '';
     }
-    final List<String> words = this.toLowerCase().split(RegExp(r'[-\s]'));
+    final words = toLowerCase().split(RegExp(r'[-\s]'));
     final capitalizedWords = words.map((word) {
       if (word.isNotEmpty) {
         return word[0].toUpperCase() + word.substring(1);
@@ -24,5 +24,9 @@ extension StringExt on String {
     }).toList();
 
     return capitalizedWords.join(' ');
+  }
+
+  String mandatory() {
+    return '$this*';
   }
 }
