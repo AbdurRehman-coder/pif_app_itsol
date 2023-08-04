@@ -6,9 +6,8 @@ import 'package:pif_flutter/utils/colors.dart';
 extension BookingStatusExt on BookingStatusEnum {
   Color? get getStatusTextColor {
     final data = {
-      BookingStatusEnum.active: activeStatusColor,
-      BookingStatusEnum.expired: expireStatusColor,
-      BookingStatusEnum.logged: loggedStatusColor,
+      BookingStatusEnum.upcoming: upcomingStatusColor,
+      BookingStatusEnum.history: historyStatusColor,
       BookingStatusEnum.pendingApproval: pendingStatusColor
     };
     return data[this] ?? pendingStatusColor;
@@ -16,9 +15,8 @@ extension BookingStatusExt on BookingStatusEnum {
 
   Color? get getStatusBgColor {
     final data = {
-      BookingStatusEnum.active: activeBgColor,
-      BookingStatusEnum.expired: expireBgColor,
-      BookingStatusEnum.logged: loggedBgColor,
+      BookingStatusEnum.upcoming: upcomingBgColor,
+      BookingStatusEnum.history: historyBgColor,
       BookingStatusEnum.pendingApproval: pendingBgColor
     };
     return data[this] ?? pendingBgColor;
@@ -26,9 +24,8 @@ extension BookingStatusExt on BookingStatusEnum {
 
   String? get getStatusText {
     final data = {
-      BookingStatusEnum.active: S.current.activeStatus,
-      BookingStatusEnum.expired: S.current.expireStatus,
-      BookingStatusEnum.logged: S.current.loggedStatus,
+      BookingStatusEnum.upcoming: S.current.upComing,
+      BookingStatusEnum.history: S.current.history,
       BookingStatusEnum.pendingApproval: S.current.pendingStatus
     };
     return data[this] ?? '';

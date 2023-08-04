@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,29 +19,33 @@ class BookingListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 15.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       margin: EdgeInsets.symmetric(horizontal: 16.w),
       decoration: BoxDecoration(
         color: whiteColor,
-        borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(
-          color: grayBorderColor,
-          width: 1.w,
-        ),
+        borderRadius: BorderRadius.circular(6.r),
+        boxShadow: [
+          BoxShadow(
+            color: darkTextColor.withOpacity(0.10),
+            offset: const Offset(0, 2),
+            blurRadius: 4.r,
+          ),
+        ],
       ),
       child: InkWell(
         onTap: () {
           AppRouter.pushNamed(Routes.bookingDetailsScreen, args: data);
         },
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  height: 29.h,
+                  height: 38.h,
                   alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   decoration: BoxDecoration(
                     color: data.status!.getStatusBgColor,
                     borderRadius: BorderRadius.circular(
@@ -59,208 +62,201 @@ class BookingListTile extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Spacer(),
-                PopupMenuButton(
-                  itemBuilder: (context) => [
-                    PopupMenuItem(
-                      value: 1,
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            Assets.editIcon,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            S.of(context).edit,
-                            style: Style.commonTextStyle(
-                              color: dayTextColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 115,
+                  child: Text(
+                    data.bookingTitle ?? '',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: Style.commonTextStyle(
+                      color: textColor,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                    PopupMenuItem(
-                      value: 2,
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            Assets.duplicateIcon,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            S.of(context).duplicate,
-                            style: Style.commonTextStyle(
-                              color: dayTextColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
-                      ),
+                  ),
+                ),
+                SizedBox(
+                  height: 8.h,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      height: 14.h,
+                      width: 14.w,
+                      Assets.placeIcon,
                     ),
-                    PopupMenuItem(
-                      value: 3,
-                      onTap: () {
-                        Future.delayed(
-                          const Duration(milliseconds: 200),
-                          () {
-                            deleteMessagePopup(
-                              context: context,
-                              deleteMessage: S.of(context).deleteMessageBooking,
-                              onClickYes: () {},
-                            );
-                          },
-                        );
-                      },
-                      child: Row(
-                        children: [
-                          SvgPicture.asset(
-                            Assets.trashBit,
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Text(
-                            S.of(context).delete,
-                            style: Style.commonTextStyle(
-                              color: dayTextColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          )
-                        ],
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      data.spaceName ?? '',
+                      style: Style.commonTextStyle(
+                        color: grayTextColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w400,
                       ),
                     ),
                   ],
-                  icon: SvgPicture.asset(
-                    Assets.optionMenuIcon,
-                  ),
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      height: 16.h,
+                      width: 16.w,
+                      colorFilter: ColorFilter.mode(blackColorWith900.withOpacity(0.45), BlendMode.srcIn),
+                      Assets.calenderTodaySvg,
+                      fit: BoxFit.scaleDown,
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      data.timeString ?? '',
+                      style: Style.commonTextStyle(
+                        color: grayTextColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      height: 16.h,
+                      width: 16.w,
+                      Assets.clock,
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      data.timeRemaining ?? '',
+                      style: Style.commonTextStyle(
+                        color: grayTextColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 12.h,
+                ),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      height: 14.h,
+                      width: 14.w,
+                      Assets.repeatAgain,
+                    ),
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      data.repeatedDates ?? '',
+                      style: Style.commonTextStyle(
+                        color: grayTextColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            SizedBox(
-              height: 8.h,
-            ),
-            Text(
-              data.bookingTitle ?? '',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Style.commonTextStyle(
-                color: textColor,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
+            const Spacer(),
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  value: 1,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        Assets.editIcon,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(
+                        S.of(context).edit,
+                        style: Style.commonTextStyle(
+                          color: dayTextColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 2,
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        Assets.duplicateIcon,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(
+                        S.of(context).duplicate,
+                        style: Style.commonTextStyle(
+                          color: dayTextColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                PopupMenuItem(
+                  value: 3,
+                  onTap: () {
+                    Future.delayed(
+                      const Duration(milliseconds: 200),
+                      () {
+                        deleteMessagePopup(
+                          context: context,
+                          deleteMessage: S.of(context).deleteMessageBooking,
+                          onClickYes: () {},
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(
+                        Assets.trashBit,
+                      ),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Text(
+                        S.of(context).delete,
+                        style: Style.commonTextStyle(
+                          color: dayTextColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+              icon: Icon(
+                Icons.more_vert_outlined,
+                color: blackColor.withOpacity(0.45),
               ),
-            ),
-            SizedBox(
-              height: 8.h,
-            ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  height: 20.h,
-                  width: 20.w,
-                  Assets.placeIcon,
-                ),
-                SizedBox(
-                  width: 10.w,
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16.r),
-                  child: CachedNetworkImage(
-                    height: 32.r,
-                    width: 32.r,
-                    imageUrl: 'https://picsum.photos/50/50',
-                    placeholder: (context, url) => const SizedBox(),
-                    errorWidget: (context, url, error) => const Icon(Icons.error),
-                  ),
-                ),
-                SizedBox(
-                  width: 8.w,
-                ),
-                Text(
-                  data.spaceName ?? '',
-                  style: Style.commonTextStyle(
-                    color: dayTextColor,
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 12.h,
-            ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  height: 20.h,
-                  width: 20.w,
-                  Assets.hourIcon,
-                ),
-                SizedBox(
-                  width: 12.w,
-                ),
-                Text(
-                  data.timeRemaining ?? '',
-                  style: Style.commonTextStyle(
-                    color: grayTextColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 12.h,
-            ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  height: 20.h,
-                  width: 20.w,
-                  Assets.calendar,
-                ),
-                SizedBox(
-                  width: 12.w,
-                ),
-                Text(
-                  data.timeString ?? '',
-                  style: Style.commonTextStyle(
-                    color: grayTextColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 14.h,
-            ),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  height: 20.h,
-                  width: 20.w,
-                  Assets.repeatIcon,
-                ),
-                SizedBox(
-                  width: 12.w,
-                ),
-                Text(
-                  data.repeatedDates ?? '',
-                  style: Style.commonTextStyle(
-                    color: grayTextColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-              ],
             ),
           ],
         ),

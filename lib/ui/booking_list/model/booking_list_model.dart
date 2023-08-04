@@ -20,7 +20,6 @@ class BookingListModel {
 
 enum BookingStatusEnum {
   pendingApproval,
-  active,
-  logged,
-  expired,
+  upcoming,
+  history,
 }

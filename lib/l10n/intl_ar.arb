@@ -235,5 +235,6 @@
   "visitInformation":"Visit Information",
   "addPrevious":"ADD Previous",
   "moreVisitors":"More Visitors",
-  "searchVisitInvitation" : "Search Visit Invitation"
+  "searchVisitInvitation" : "Search Visit Invitation",
+  "str_all": "ALL"
 }

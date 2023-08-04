@@ -121,6 +121,7 @@ class Assets {
   static const String backgroundImage = 'assets/background_image.png';
   static const String close = 'assets/svg/close.svg';
   static const String backgorundSecond = 'assets/background_image_second.png';
+  static const String repeatAgain = 'assets/svg/ic_repeat_again.svg';
 
   //Lottie
   static const String bookingLottie = 'assets/lottie/booking.json';

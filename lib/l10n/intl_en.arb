@@ -239,6 +239,6 @@
   "start":"Start",
   "end":"End",
   "notifications":"Notifications",
-  "searchVisitInvitation" : "Search Visit Invitation"
-
+  "searchVisitInvitation" : "Search Visit Invitation",
+  "str_all": "ALL"
 }

@@ -22,7 +22,9 @@ class BookingListNotifier extends StateNotifier<BookingListState> {
 
   void _initData() {
     searchController = TextEditingController();
-    lstStatus.add(BookingStatusModel(name: S.current.pendingStatus, isSelected: true));
+    lstStatus.add(BookingStatusModel(name: S.current.str_all, isSelected: true));
+    lstStatus.add(BookingStatusModel(name: S.current.pendingStatus, isSelected: false));
+
     lstStatus.add(BookingStatusModel(name: S.current.upComing, isSelected: false));
     lstStatus.add(BookingStatusModel(name: S.current.history, isSelected: false));
     state = state.copyWith(lstStatus: lstStatus);
@@ -42,7 +44,7 @@ class BookingListNotifier extends StateNotifier<BookingListState> {
     );
     lstData.add(
       BookingListModel(
-        status: BookingStatusEnum.expired,
+        status: BookingStatusEnum.upcoming,
         spaceName: 'Al Multaqa 301',
         bookingTitle: 'You sent a request for Idea Generation with Client',
         timeRemaining: '2h 30min left',
@@ -52,7 +54,7 @@ class BookingListNotifier extends StateNotifier<BookingListState> {
     );
     lstData.add(
       BookingListModel(
-        status: BookingStatusEnum.active,
+        status: BookingStatusEnum.history,
         spaceName: 'Al Multaqa 301',
         bookingTitle: 'Idea Generation with Client',
         timeRemaining: '2h 30min left',
@@ -62,7 +64,7 @@ class BookingListNotifier extends StateNotifier<BookingListState> {
     );
     lstData.add(
       BookingListModel(
-        status: BookingStatusEnum.logged,
+        status: BookingStatusEnum.upcoming,
         spaceName: 'Al Multaqa 301',
         bookingTitle: 'Idea Generation with Client',
         timeRemaining: '2h 30min left',
@@ -80,9 +82,7 @@ class BookingListNotifier extends StateNotifier<BookingListState> {
       return;
     }
     if (searchText.isNotEmpty) {
-      final data = allListData
-          .where((element) => element.bookingTitle!.toLowerCase().contains(searchText.toLowerCase()))
-          .toList();
+      final data = allListData.where((element) => element.bookingTitle!.toLowerCase().contains(searchText.toLowerCase())).toList();
       state = state.copyWith(lstData: AsyncData(data));
     } else {
       state = state.copyWith(lstData: AsyncData(allListData));
