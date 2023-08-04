@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 
 class BannerTextView extends StatelessWidget {
   const BannerTextView({required this.text, super.key});
@@ -25,6 +26,7 @@ class BannerTextView extends StatelessWidget {
         ),
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,7 +53,9 @@ class BannerTextView extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  AppRouter.pushNamed(Routes.homeReadMoreScreen);
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12.r),
@@ -72,11 +76,10 @@ class BannerTextView extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(width: 10.w),
           CachedNetworkImage(
             imageUrl: 'http://20.74.136.229/documents/d/guest/group-1686551514',
-            width: 80.w,
-            height: 80.h,
+            width: 70.w,
+            height: 70.h,
           ),
         ],
       ),

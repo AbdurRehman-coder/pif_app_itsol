@@ -30,4 +30,5 @@ class Routes {
   static const String privacyScreen = '/privacyScreen';
   static const String notificationScreen = '/notificationScreen';
   static const String bookingCalenderScreen = '/bookingCalenderScreen';
+  static const String homeReadMoreScreen = '/homeReadMoreScreen';
 }
