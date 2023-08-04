@@ -197,6 +197,10 @@ class Assets {
   static const String homeIndicator = 'assets/3x/home_indicator.png';
   static const String emptySearchBgImage = 'assets/empty_page_bgcolor.png';
 
+  // Booking
+  static const String hotelRoom = 'assets/3x/hotel_room.png';
+  static const String hotelBuildingIcon = 'assets/svg/ic_building.svg';
+  static const String repeatDateIcon = 'assets/svg/ic_repeat_date.svg';
   // Visit
   static const String vEditButton = 'assets/3x/verticle_edit_btn.png';
 }

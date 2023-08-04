@@ -8,26 +8,38 @@ class GuestsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemCount: 3,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (_, index) {
-        return const ListTileWidget(
-          imageProfile: 'https://picsum.photos/80/80',
-          userName: 'Khaled moh (you)',
-          userPosition: 'Product owner',
-        );
-      },
-      separatorBuilder: (BuildContext context, int index) {
-        return Column(
+    return Column(
+      children: [
+        ListView.separated(
+          shrinkWrap: true,
+          itemCount: 2,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (_, index) {
+            return const ListTileWidget(
+              imageProfile: 'https://picsum.photos/80/80',
+              userName: 'Khaled moh',
+              userPosition: 'Product owner',
+              isFromGuest: true,
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Column(
+              children: [
+                SizedBox(height: 8.h),
+                const Divider(color: greyDivider),
+                SizedBox(height: 8.h),
+              ],
+            );
+          },
+        ),
+        Column(
           children: [
-            SizedBox(height: 10.h),
-            const Divider(color: darkBorderColor),
-            SizedBox(height: 10.h),
+            SizedBox(height: 8.h),
+            const Divider(color: greyDivider),
+            SizedBox(height: 8.h),
           ],
-        );
-      },
+        )
+      ],
     );
   }
 }

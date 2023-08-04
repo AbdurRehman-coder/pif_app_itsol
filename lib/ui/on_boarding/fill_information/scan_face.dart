@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
-import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
@@ -11,7 +10,6 @@ import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
-import 'package:video_player/video_player.dart';
 
 class ScanFaceCamera extends StatefulWidget {
   const ScanFaceCamera({Key? key}) : super(key: key);
@@ -56,9 +54,9 @@ class _ScanFaceCameraState extends State<ScanFaceCamera> {
                                 .where(
                                   (element) => element.name == 'faceIDVideo',
                                 )
-                                .firstOrNull
-                                ?.contentFieldValue
-                                ?.document!
+                                .firstOrNull!
+                                .contentFieldValue!
+                                .document!
                                 .contentUrl!)!;
                         return BannerVideoView(
                           videoUrl: videoUrl,

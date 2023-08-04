@@ -108,7 +108,6 @@ dependencies:
     git:
       url: https://Obaida_Alqassem2:ATBBFanZ4FQ28aEWgP7k6yTr65pf6EBA959F@bitbucket.org/appswaveio/pif-flutter-mobile-sdk.git
       ref: main
-  intl_utils: ^2.8.3
 
 dev_dependencies:
   flutter_test:
