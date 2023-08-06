@@ -88,7 +88,6 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
                             hintText: S.of(context).password,
                             obscureText: true,
                             checkEmpty: true,
-                            onTap: notifier.update,
                           ),
                           SizedBox(height: 300.h),
                         ],

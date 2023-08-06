@@ -18,11 +18,13 @@ class ImageProfileVisitor extends StatelessWidget {
       height: 40.h,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: RegExp(r'^[A-J_.]+$').hasMatch(firstName[0].toUpperCase())
-            ? greenBorderColor
-            : RegExp(r'^[K-S_.]+$').hasMatch(firstName[0].toUpperCase())
-                ? gradientEnd
-                : darkBlueColor.withOpacity(0.7),
+        color: RegExp(r'^[A-E_.]+$').hasMatch(firstName[0].toUpperCase())
+            ? primary800
+            : RegExp(r'^[J-M_.]+$').hasMatch(firstName[0].toUpperCase())
+                ? blue400
+                : RegExp(r'^[N-S_.]+$').hasMatch(firstName[0].toUpperCase())
+                    ? pink200
+                    : primary300,
         shape: BoxShape.circle,
       ),
       child: Text(
@@ -30,7 +32,7 @@ class ImageProfileVisitor extends StatelessWidget {
             .toUpperCase(),
         style: Style.commonTextStyle(
           color: whiteColor,
-          fontSize: 14.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.w700,
         ),
       ),

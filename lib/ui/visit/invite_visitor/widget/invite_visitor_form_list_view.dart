@@ -10,11 +10,13 @@ class InviteVisitorFormListView extends StatelessWidget {
   const InviteVisitorFormListView({
     required this.notifier,
     required this.provider,
+    this.isInviteVisit = true,
     super.key,
   });
 
   final InviteVisitorNotifier notifier;
   final InviteVisitorState provider;
+  final bool isInviteVisit;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +61,9 @@ class InviteVisitorFormListView extends StatelessWidget {
               ],
             ),
           ],
-        ).visibility(visible: provider.lstData.isEmpty),
+        ).visibility(
+          visible: provider.lstData.isEmpty && isInviteVisit,
+        ),
         SizedBox(
           height: cellHeight,
           child: ListView.separated(
@@ -68,6 +72,7 @@ class InviteVisitorFormListView extends StatelessWidget {
               return VisitorListTile(
                 item: provider.lstData[index],
                 notifier: notifier,
+                isInviteVisit: isInviteVisit,
               );
             },
             separatorBuilder: (_, index) {

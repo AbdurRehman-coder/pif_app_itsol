@@ -6,16 +6,19 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/custom_lottie_widget.dart';
 import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/widgets/circular_menu/circular_menu.dart';
 
 class CircleMenu extends ConsumerWidget {
   const CircleMenu({
     required this.animationController,
+    required this.isHided,
     super.key,
   });
 
   final AnimationController animationController;
+  final bool isHided;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,6 +29,7 @@ class CircleMenu extends ConsumerWidget {
       bottom: Platform.isIOS ? 60.h : 30.h,
       child: CircularMenu(
         toggleButtonMargin: 0,
+        isHided: isHided,
         onChanged: (value) {},
         toggleButtonColor: primaryDark,
         openToggleIcon: Container(
@@ -60,14 +64,13 @@ class CircleMenu extends ConsumerWidget {
             icon: Container(
               height: 50.h,
               width: 50.w,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: whiteColor,
-                image: DecorationImage(
-                  image: NetworkImage(
-                    provider.actionList.value![index].actionImage,
-                  ),
-                ),
+              ),
+              child: CustomLottieWidget(
+                lottieUrl: provider.actionList.value![index].actionImage,
+                isAssets: true,
               ),
             ),
             color: whiteColor,

@@ -10,10 +10,12 @@ class VisitorListTile extends StatelessWidget {
   const VisitorListTile({
     required this.item,
     required this.notifier,
+    this.isInviteVisit = true,
     super.key,
   });
 
   final InviteVisitorModel item;
+  final bool isInviteVisit;
   final InviteVisitorNotifier notifier;
 
   @override
@@ -66,15 +68,17 @@ class VisitorListTile extends StatelessWidget {
               ],
             ),
           ),
-          IconButton(
-            onPressed: () => notifier.removeVisitor(item),
-            icon: SvgPicture.asset(
-              Assets.close,
-              width: 20.w,
-              height: 20.h,
-              fit: BoxFit.fill,
+          if (isInviteVisit) ...[
+            IconButton(
+              onPressed: () => notifier.removeVisitor(item),
+              icon: SvgPicture.asset(
+                Assets.close,
+                width: 20.w,
+                height: 20.h,
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

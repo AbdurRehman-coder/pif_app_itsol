@@ -1,4 +1,6 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
@@ -7,11 +9,13 @@ class StartDateAndTime extends StatelessWidget {
   const StartDateAndTime({
     required this.notifier,
     required this.provider,
+    this.selectedVisit,
     super.key,
   });
 
   final InviteVisitorNotifier notifier;
   final InviteVisitorState provider;
+  final VisitModel? selectedVisit;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +35,12 @@ class StartDateAndTime extends StatelessWidget {
           children: [
             Expanded(
               child: InkWell(
-                onTap: () => notifier.openStartDatePickerDialog(
-                  context: context,
-                ),
+                onTap: selectedVisit != null &&
+                        selectedVisit!.visitStartDate!.isBeforeNow
+                    ? null
+                    : () => notifier.openStartDatePickerDialog(
+                          context: context,
+                        ),
                 child: SecondCustomTextField(
                   textEditingController: notifier.startDateController,
                   isFocus: provider.isOpenStartDatePicker,
@@ -53,7 +60,10 @@ class StartDateAndTime extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap: notifier.openStartTimePickerDialog,
+                onTap:selectedVisit != null &&
+                    selectedVisit!.visitStartDate!.isBeforeNow
+                    ? null
+                    : () => notifier.openStartTimePickerDialog,
                 child: SecondCustomTextField(
                   textEditingController: notifier.startTimeController,
                   enabled: false,

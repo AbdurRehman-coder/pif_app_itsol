@@ -41,6 +41,7 @@ class CircularMenu extends StatefulWidget {
   final Color? toggleButtonIconColor;
   final Widget openToggleIcon;
   final Widget closeToggleIcon;
+  final bool isHided;
   AnimationController animationController;
 
   /// staring angle in clockwise radian
@@ -58,6 +59,7 @@ class CircularMenu extends StatefulWidget {
     required this.items,
     this.alignment = Alignment.bottomCenter,
     this.radius = 100,
+    this.isHided = false,
     this.backgroundWidget,
     this.animationDuration = const Duration(milliseconds: 500),
     this.curve = Curves.bounceOut,
@@ -75,7 +77,8 @@ class CircularMenu extends StatefulWidget {
     this.key,
     this.startingAngleInRadian,
     this.endingAngleInRadian,
-  })  : assert(items.isNotEmpty, 'items can not be empty list'),
+  })
+      : assert(items.isNotEmpty, 'items can not be empty list'),
         assert(items.length > 1, 'if you have one item no need to use a Menu'),
         super(key: key);
 
@@ -208,7 +211,7 @@ class CircularMenuState extends State<CircularMenu>
                 _completeAngle == (2 * math.pi)
                     ? (_initialAngle + (_completeAngle! / _itemsCount) * index)
                     : (_initialAngle +
-                        (_completeAngle! / (_itemsCount - 1)) * index),
+                    (_completeAngle! / (_itemsCount - 1)) * index),
                 _animation.value * widget.radius,
               ),
               child: Transform.scale(
@@ -233,7 +236,9 @@ class CircularMenuState extends State<CircularMenu>
         child: CircularMenuItem(
           icon: null,
           margin: widget.toggleButtonMargin,
-          color: widget.toggleButtonColor ?? Theme.of(context).primaryColor,
+          color: widget.toggleButtonColor ?? Theme
+              .of(context)
+              .primaryColor,
           padding: (-_animation.value * widget.toggleButtonPadding * 0.5) +
               widget.toggleButtonPadding,
           onTap: () {
@@ -246,9 +251,9 @@ class CircularMenuState extends State<CircularMenu>
           },
           boxShadow: widget.toggleButtonBoxShadow,
           animatedIcon:
-              widget.animationController.status == AnimationStatus.dismissed
-                  ? widget.openToggleIcon
-                  : widget.closeToggleIcon,
+          widget.animationController.status == AnimationStatus.dismissed
+              ? widget.openToggleIcon
+              : widget.closeToggleIcon,
         ),
       ),
     );
@@ -256,68 +261,76 @@ class CircularMenuState extends State<CircularMenu>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        widget.backgroundWidget ?? Container(),
-        if (widget.animationController.status != AnimationStatus.dismissed) ...[
-          Positioned.fill(
-            child: Align(
-              alignment: widget.alignment,
-              child: Transform.scale(
-                scale: _animation.value,
-                child: Container(
-                  height: 150.h,
-                  width: 300.w,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        whiteColor,
-                        expireBgColor.withOpacity(0.3),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(200.r),
-                      topRight: Radius.circular(200.r),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-        if (widget.animationController.status != AnimationStatus.dismissed) ...[
-          Positioned.fill(
-            bottom: 60.h,
-            child: Align(
-              alignment: widget.alignment,
-              child: Transform.scale(
-                scale: _animation.value,
-                child: Material(
-                  color: Colors.transparent,
-                  child: Text(
-                    'Quick Actions',
-                    style: Style.commonTextStyle(
-                      color: expireStatusColor,
-                      fontSize: 12.sp,
-                      fontWeight: FontWeight.w600,
+    if (!widget.isHided) {
+      return Stack(
+        children: <Widget>[
+          widget.backgroundWidget ?? Container(),
+          if (widget.animationController.status !=
+              AnimationStatus.dismissed) ...[
+            Positioned.fill(
+              child: Align(
+                alignment: widget.alignment,
+                child: Transform.scale(
+                  scale: _animation.value,
+                  child: Container(
+                    height: 150.h,
+                    width: 300.w,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          whiteColor,
+                          expireBgColor.withOpacity(0.3),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(200.r),
+                        topRight: Radius.circular(200.r),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
+          if (widget.animationController.status !=
+              AnimationStatus.dismissed) ...[
+            Positioned.fill(
+              bottom: 60.h,
+              child: Align(
+                alignment: widget.alignment,
+                child: Transform.scale(
+                  scale: _animation.value,
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Text(
+                      'Quick Actions',
+                      style: Style.commonTextStyle(
+                        color: expireStatusColor,
+                        fontSize: 12.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+          ..._buildMenuItems(),
+          _buildMenuButton(context),
         ],
-        ..._buildMenuItems(),
-        _buildMenuButton(context),
-      ],
-    );
+      );
+    } else {
+      return const SizedBox();
+    }
   }
 
   @override
   void dispose() {
-    widget.animationController.dispose();
     super.dispose();
+    if (mounted) {
+      widget.animationController.dispose();
+    }
   }
 }

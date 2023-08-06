@@ -22,32 +22,28 @@ class VisitorList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (_, index) {
             final user = visitModel?[index];
-            if (index < 3) {
-              return SizedBox(
-                width: 40.h,
-                child: Column(
-                  children: [
-                    ImageProfileVisitor(
-                      firstName: user?.givenName ?? '',
-                      lastName: user?.familyName ?? '',
+            return SizedBox(
+              width: 40.h,
+              child: Column(
+                children: [
+                  ImageProfileVisitor(
+                    firstName: user?.givenName ?? '',
+                    lastName: user?.familyName ?? '',
+                  ),
+                  SizedBox(height: 5.h),
+                  Text(
+                    '${user?.givenName!.capitalizeTheFirstLetter() ?? ''} ${(user?.familyName!.capitalizeTheFirstLetter() ?? '')[0]}',
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Style.commonTextStyle(
+                      color: gradientStart,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: 5.h),
-                    Text(
-                      '${user?.givenName!.capitalizeTheFirstLetter() ?? ''} ${(user?.familyName!.capitalizeTheFirstLetter() ?? '')[0]}',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: Style.commonTextStyle(
-                        color: gradientStart,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              return const SizedBox();
-            }
+                  ),
+                ],
+              ),
+            ).visibility(visible: index < 3);
           },
           separatorBuilder: (_, index) {
             return SizedBox(

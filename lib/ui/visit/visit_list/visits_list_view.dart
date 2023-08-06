@@ -54,11 +54,12 @@ class VisitsListView extends ConsumerWidget {
                       ? const VisitorEmptyView()
                       : ListView.separated(
                           shrinkWrap: true,
+                          padding: EdgeInsets.only(bottom: 120.h),
                           itemBuilder: (_, index) {
                             final allVisit = provider.allVisitsModel.value;
                             return VisitCard(
                               notifier: notifier,
-                              visitModel: allVisit?[index],
+                              selectedVisit: allVisit?[index],
                             );
                           },
                           separatorBuilder: (_, index) {
@@ -80,7 +81,7 @@ class VisitsListView extends ConsumerWidget {
         elevation: 1,
         onPressed: () => AppRouter.pushNamed(
           Routes.inviteVisitorScreen,
-          args: false,
+          args: [false, true, null],
         ),
         child: Container(
           width: 54.w,

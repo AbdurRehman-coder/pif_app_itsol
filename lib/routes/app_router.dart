@@ -74,10 +74,17 @@ class AppRouter {
           settings: settings,
         );
       case Routes.inviteVisitorScreen:
-        final fromHomepage = settings.arguments! as bool;
+        final lstArgs = settings.arguments != null
+            ? settings.arguments! as List<dynamic>
+            : null;
+        final fromHomepage = lstArgs?[0] as bool;
+        final isInviteVisit = lstArgs?[1] as bool;
+        final visitInformation = lstArgs?[2] as VisitModel?;
         return _setPage(
           page: InviteVisitorPage(
             fromHomepage: fromHomepage,
+            isInviteVisit: isInviteVisit,
+            selectedVisit: visitInformation,
           ),
           settings: settings,
         );
@@ -119,7 +126,7 @@ class AppRouter {
         final data = settings.arguments! as VisitModel;
         return _setPage(
           page: InvitationDetailsView(
-            visitModel: data,
+            selectedVisit: data,
           ),
           settings: settings,
         );

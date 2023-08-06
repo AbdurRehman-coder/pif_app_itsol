@@ -125,6 +125,10 @@ class Assets {
   static const String backgroundImage = 'assets/background_image.png';
   static const String close = 'assets/svg/close.svg';
   static const String backgorundSecond = 'assets/background_image_second.png';
+  static const String digital = 'assets/svg/digital.svg';
+  static const String meetingRoom = 'assets/svg/meeting_room.svg';
+  static const String operation = 'assets/svg/operation.svg';
+  static const String coffee = 'assets/svg/coffee.svg';
   static const String humanFuture = 'assets/3x/human_future.png';
   static const String repeatAgain = 'assets/svg/ic_repeat_again.svg';
 
@@ -138,6 +142,9 @@ class Assets {
   static const String newJoinerLottie = 'assets/lottie/new_joiner.json';
   static const String photographyLottie = 'assets/lottie/photography.json';
   static const String qrBookingLottie = 'assets/lottie/qr_booking.json';
+  static const String coffee1Lottie = 'assets/lottie/coffee_step1.json';
+  static const String coffee2Lottie = 'assets/lottie/coffee_step3.json';
+  static const String coffee3Lottie = 'assets/lottie/coffee_step2.json';
 
   // Gif
   static const String addVisitorGif = 'assets/gif/ic_add_visitors.gif';

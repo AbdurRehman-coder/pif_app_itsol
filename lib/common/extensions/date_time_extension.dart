@@ -19,7 +19,7 @@ extension DateTimeExt on DateTime {
 
   /// used this to show the time with lowercase: 10:00 am
   String getTimeWithLowerCase({String pattern = 'hh:mm a'}) {
-    String timeString = DateFormat(pattern, 'en').format(this);
+    final timeString = DateFormat(pattern, 'en').format(this);
     return timeString.replaceFirstMapped(
       RegExp(r'([AP]M)$'),
       (match) => '${match.group(1)}'.toLowerCase(),
@@ -30,6 +30,13 @@ extension DateTimeExt on DateTime {
     return (hour * 60) + minute;
   }
 
+  bool get isBeforeNow {
+    return isBefore(DateTime.now());
+  }
+
+  bool get isAfterNow {
+    return isAfter(DateTime.now());
+  }
   /// get time passed
   String getTimePassed() {
     final now = DateTime.now();

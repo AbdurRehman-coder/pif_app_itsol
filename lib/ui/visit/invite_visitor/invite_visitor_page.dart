@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
@@ -14,16 +15,30 @@ import 'package:pif_flutter/widgets/time_picker_popup.dart';
 class InviteVisitorPage extends ConsumerStatefulWidget {
   const InviteVisitorPage({
     required this.fromHomepage,
+    this.isInviteVisit = true,
+    this.selectedVisit,
     super.key,
   });
 
   final bool fromHomepage;
+  final bool isInviteVisit;
+  final VisitModel? selectedVisit;
 
   @override
   ConsumerState createState() => _InviteVisitorPageState();
 }
 
 class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
+  @override
+  void initState() {
+    super.initState();
+    final notifier = ref.read(inviteVisitorProvider.notifier);
+    Future.delayed(
+      Duration.zero,
+      () => notifier.fillStartDateAndEndDate(visitModel: widget.selectedVisit),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(inviteVisitorProvider);
@@ -67,57 +82,63 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                             StartDateAndTime(
                               notifier: notifier,
                               provider: provider,
+                              selectedVisit: widget.selectedVisit,
                             ),
                             SizedBox(height: 8.h),
                             EndDateAndTime(
                               notifier: notifier,
                               provider: provider,
+                              selectedVisit: widget.selectedVisit,
                             ),
                             SizedBox(
                               height: 24.h,
                             ),
-                            Row(
+                            Column(
                               children: [
-                                Text(
-                                  S.of(context).visitInformation,
-                                  style: Style.commonTextStyle(
-                                    color: blackColorWith900,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                const Spacer(),
-                                TextButton(
-                                  onPressed: () => notifier.addPreviousVisitor(
-                                    context: context,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      const Icon(
-                                        Icons.add,
-                                        color: primary700,
-                                        size: 18,
+                                Row(
+                                  children: [
+                                    Text(
+                                      S.current.visitInformation,
+                                      style: Style.commonTextStyle(
+                                        color: blackColorWith900,
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                      SizedBox(width: 3.w),
-                                      Text(
-                                        S.of(context).previousVisitors,
-                                        style: Style.commonTextStyle(
-                                          color: primaryColor,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
+                                    ),
+                                    const Spacer(),
+                                    TextButton(
+                                      onPressed: () =>
+                                          notifier.addPreviousVisitor(
+                                        context: context,
                                       ),
-                                    ],
-                                  ),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.add,
+                                            color: primary700,
+                                            size: 18,
+                                          ),
+                                          SizedBox(width: 3.w),
+                                          Text(
+                                            S.current.previousVisitors,
+                                            style: Style.commonTextStyle(
+                                              color: primaryColor,
+                                              fontSize: 14.sp,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                SizedBox(height: 16.h),
                               ],
-                            ),
-                            SizedBox(
-                              height: 16.h,
-                            ),
+                            ).visibility(visible: widget.isInviteVisit),
                             InviteVisitorFormListView(
                               notifier: notifier,
                               provider: provider,
+                              isInviteVisit: widget.isInviteVisit,
                             ),
                             SizedBox(
                               height: 40.h,
@@ -148,6 +169,8 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
                                   ),
                                 ],
                               ),
+                            ).visibility(
+                              visible: widget.isInviteVisit,
                             ),
                             SizedBox(height: 100.h),
                           ],
@@ -227,17 +250,29 @@ class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
       floatingActionButton: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w),
         child: ElevatedButton(
-          onPressed: () => notifier.sendInvitation(
-            context: context,
-            fromHomepage: widget.fromHomepage,
-          ),
+          onPressed: widget.isInviteVisit
+              ? () => notifier.sendAndEditInvitation(
+                    context: context,
+                    fromHomepage: widget.fromHomepage,
+                  )
+              : () => notifier.sendAndEditInvitation(
+                    context: context,
+                    fromHomepage: widget.fromHomepage,
+                    isEditVisit: true,
+            visitId: widget.selectedVisit?.id,
+                  ),
           style: Style.primaryButtonStyleSecond(
             context: context,
-            primaryColor:
-                provider.isFieldDisable ? primaryDisabledColor : primaryColor,
+            primaryColor: widget.isInviteVisit
+                ? provider.isFieldDisable
+                    ? primaryDisabledColor
+                    : primaryColor
+                : primaryColor,
           ),
           child: Text(
-            S.of(context).sendInvitation,
+            widget.isInviteVisit
+                ? S.current.sendInvitation
+                : S.current.editVisit,
           ),
         ),
       ),

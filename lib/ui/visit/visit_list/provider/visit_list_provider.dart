@@ -3,7 +3,9 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visitor_status_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/state/visit_list_state.dart';
 
@@ -18,7 +20,8 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
   }
 
   late TextEditingController searchVisitController;
-  List<VisitModel> allVisitsData = <VisitModel>[];
+  List<VisitModel> allVisitsDataUpcoming = <VisitModel>[];
+  List<VisitModel> allVisitsDataHistory = <VisitModel>[];
   final Ref ref;
 
   void _initData() {
@@ -41,16 +44,23 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
     data.isSelected = true;
 
     if (data.title == 'Upcoming') {
-      state = state.copyWith(allVisitsModel: AsyncData(allVisitsData));
+      allVisitsDataUpcoming.sort((a, b) {
+        //sorting in ascending order
+        return a.visitStartDate!.compareTo(b.dateCreated!);
+      });
+      state = state.copyWith(allVisitsModel: AsyncData(allVisitsDataUpcoming));
     } else {
-      state = state.copyWith(allVisitsModel: const AsyncData(<VisitModel>[]));
+      allVisitsDataHistory.sort((a, b) {
+        return a.visitStartDate!.compareTo(b.dateCreated!);
+      });
+      state = state.copyWith(allVisitsModel: AsyncData(allVisitsDataHistory));
     }
 
     state = state.copyWith(lstStatus: lstData);
   }
 
   Future<void> getVisits() async {
-    allVisitsData.clear();
+    allVisitsDataUpcoming.clear();
     state = state.copyWith(allVisitsModel: const AsyncLoading());
     final result = await DixelsSDK.instance.visitService.getPageData(
       fromJson: VisitModel.fromJson,
@@ -60,11 +70,24 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
         nestedFields: 'visitors',
       ),
     );
-    allVisitsData = result!.items ?? [];
-    allVisitsData.sort((a, b) {
-      //sorting in ascending order
-      return a.visitStartDate!.compareTo(b.visitEndDate!);
-    });
-    state = state.copyWith(allVisitsModel: AsyncData(allVisitsData));
+    allVisitsDataUpcoming = result!.items!
+        .where((element) => element.visitEndDate!.isAfterNow)
+        .toList();
+    allVisitsDataHistory = result.items!
+        .where((element) => !element.visitEndDate!.isAfterNow)
+        .toList();
+
+    updateStatusList(
+        state.lstStatus.indexWhere((element) => element.isSelected ?? false),);
+  }
+
+  Future<void> navigateToEditVisit({
+    required VisitModel? selectedVisit,
+  }) async {
+    await Future.delayed(Duration.zero);
+    await AppRouter.pushNamed(
+      Routes.inviteVisitorScreen,
+      args: [false, false, selectedVisit],
+    );
   }
 }

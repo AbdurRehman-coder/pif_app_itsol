@@ -27,10 +27,10 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
 
   final Ref ref;
   List<String> actionIcon = [
-    'http://20.74.136.229/o/commerce-media/accounts/-1/images/150636?download=false',
-    'http://20.74.136.229/o/commerce-media/accounts/-1/images/172513?download=false',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYDx30d_lWfWk8kJDjv34aVDEO3bwxb-q0fe5hav4&s',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYDx30d_lWfWk8kJDjv34aVDEO3bwxb-q0fe5hav4&s',
+    Assets.coffee1Lottie,
+    Assets.coffee2Lottie,
+    Assets.coffee3Lottie,
+    Assets.coffee3Lottie,
   ];
   AnimationController? animateController;
 

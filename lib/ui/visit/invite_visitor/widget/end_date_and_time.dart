@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
@@ -7,11 +8,13 @@ class EndDateAndTime extends StatelessWidget {
   const EndDateAndTime({
     required this.notifier,
     required this.provider,
+    this.selectedVisit,
     super.key,
   });
 
   final InviteVisitorNotifier notifier;
   final InviteVisitorState provider;
+  final VisitModel? selectedVisit;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,9 @@ class EndDateAndTime extends StatelessWidget {
         ),
         InkWell(
           splashColor: whiteColor,
-          onTap: () => notifier.checkIfAnyDateOrTimeIsOpen() ? notifier.closeDateAndTime() : null,
+          onTap: () => notifier.checkIfAnyDateOrTimeIsOpen()
+              ? notifier.closeDateAndTime()
+              : null,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

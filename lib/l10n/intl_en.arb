@@ -218,6 +218,7 @@
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
   "imageError":"Please use a clear image of your face",
+  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
   "imageError":"Checking Photo Compliance Error",
   "noQuickDrinkAvailableMsg": "You do not have any favorite drink orders",
   "successfullySentRequest": "Successfully sent request",
@@ -235,9 +236,14 @@
   "visitInformation":"Visit Information",
   "addPrevious":"ADD Previous",
   "moreVisitors":"More Visitors",
+  "searchVisitInvitation" : "Search Visit Invitation",
+  "editVisit":"Edit Visit",
+  "editInvitationSuccessfully":"Edit Invitation Successfully",
   "start":"Start",
   "end":"End",
   "notifications":"Notifications",
   "searchVisitInvitation" : "Search Visit Invitation",
-  "str_all": "ALL"
+  "str_all": "ALL",
+  "news":"News",
+  "co_builder":"Co Builder"
 }

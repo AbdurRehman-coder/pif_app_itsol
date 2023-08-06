@@ -219,7 +219,6 @@
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
   "imageError":"Please use a clear image of your face",
-  "imageError":"Checking Photo Compliance Error",
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",
   "availableRoom": "Available Rooms",
@@ -236,5 +235,8 @@
   "addPrevious":"ADD Previous",
   "moreVisitors":"More Visitors",
   "searchVisitInvitation" : "Search Visit Invitation",
-  "str_all": "ALL"
+  "editVisit":"Edit Visit",
+  "editInvitationSuccessfully":"Edit Invitation Successfully",
+  "str_all": "ALL",
+  "co_builder":"Co Builder"
 }

@@ -9,11 +9,13 @@ part 'visit_list_state.freezed.dart';
 class VisitListState with _$VisitListState {
   const factory VisitListState({
     required AsyncValue<List<VisitModel>> allVisitsModel,
+    required AsyncValue<List<VisitModel>> allVisitHistory,
     required List<VisitorStatusModel> lstStatus,
   }) = _VisitListState;
 
   factory VisitListState.initial() => const VisitListState(
         allVisitsModel: AsyncLoading(),
+        allVisitHistory: AsyncLoading(),
         lstStatus: <VisitorStatusModel>[],
       );
 }

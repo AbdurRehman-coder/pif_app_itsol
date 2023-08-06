@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/edit_visit_param.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
     as visit;
@@ -65,12 +66,20 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
     startDateSelectController = TextEditingController();
     endDateSelectController = TextEditingController();
     formKeyForDate = GlobalKey<FormState>();
-
     _setDefaultDateTime();
   }
 
   void onChangeText(String text) {
     _updateDisableFields();
+  }
+
+  void fillStartDateAndEndDate({
+    VisitModel? visitModel,
+  }) {
+    if (visitModel != null) {
+      updateStartDate(visitModel.visitStartDate!);
+      updateEndDate(visitModel.visitEndDate!);
+    }
   }
 
   // Check text
@@ -135,13 +144,17 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
   }
 
   //Send Invitation
-  void sendInvitation({
+  void sendAndEditInvitation({
     required BuildContext context,
     required bool fromHomepage,
+    bool isEditVisit = false,
+    int? visitId,
   }) {
     if (formKeyForDate.currentState!.validate()) {
-      if (state.isFieldDisable) {
-        return;
+      if (!isEditVisit) {
+        if (state.isFieldDisable) {
+          return;
+        }
       }
 
       if (state.startDate.isAfter(state.endDate)) {
@@ -161,12 +174,21 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
             .replaceAll('pm', 'PM')
             .replaceAll('am', 'AM'),
       );
-      inviteVisitorApi(
-        context: context,
-        startDate: startDate,
-        endDate: endDate,
-        fromHomepage: fromHomepage,
-      );
+      if (!isEditVisit) {
+        inviteVisitorApi(
+          context: context,
+          startDate: startDate,
+          endDate: endDate,
+          fromHomepage: fromHomepage,
+        );
+      } else {
+        editVisitAPI(
+          context: context,
+          startDate: startDate,
+          endDate: endDate,
+          visitId: visitId!,
+        );
+      }
     }
   }
 
@@ -474,14 +496,15 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
             if (fromHomepage) {
               AppRouter.popUntil(Routes.dashboardScreen);
             } else {
-              await notifier.getVisits();
+              alertMessage(
+                errorMessage: S.current.inviteVisitorSuccess,
+                context: context,
+                statusEnum: AlertStatusEnum.success,
+              );
               AppRouter.popUntil(Routes.visitListScreen);
+
+              await notifier.getVisits();
             }
-            alertMessage(
-              errorMessage: S.current.inviteVisitorSuccess,
-              context: context,
-              statusEnum: AlertStatusEnum.success,
-            );
           } else {
             alertMessage(
               errorMessage: result.getLeft().message,
@@ -489,6 +512,40 @@ class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
             );
           }
         },
+      );
+    }
+  }
+
+  Future<void> editVisitAPI({
+    required BuildContext context,
+    required DateTime startDate,
+    required DateTime endDate,
+    required int visitId,
+  }) async {
+    final appProgressDialog = AppProgressDialog(context: context);
+    await appProgressDialog.start();
+    final result = await DixelsSDK.instance.visitService.editVisit(
+      visitId: visitId,
+      editVisitParam: EditVisitParam(
+        visitStartDate: startDate.toIso8601String(),
+        visitEndDate: endDate.toIso8601String(),
+      ),
+    );
+    await appProgressDialog.stop();
+    if (result.isRight()) {
+      final notifier = ref.read(visitListProvider.notifier);
+      alertMessage(
+        errorMessage: S.current.editInvitationSuccessfully,
+        context: context,
+        statusEnum: AlertStatusEnum.success,
+      );
+      AppRouter.popUntil(Routes.visitListScreen);
+
+      await notifier.getVisits();
+    } else {
+      alertMessage(
+        errorMessage: result.getLeft().message,
+        context: context,
       );
     }
   }

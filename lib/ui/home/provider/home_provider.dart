@@ -58,7 +58,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
         text: 'New Visit',
         onTap: () => AppRouter.pushNamed(
           Routes.inviteVisitorScreen,
-          args: true,
+          args: [true, true, null],
         ),
       ),
     );

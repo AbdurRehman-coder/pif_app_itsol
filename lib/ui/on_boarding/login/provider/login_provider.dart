@@ -76,7 +76,4 @@ class LogInNotifier extends StateNotifier<LogInState> {
       );
     }
   }
-
-  void update() {
-  }
 }

@@ -9,11 +9,11 @@ import 'package:pif_flutter/ui/visit/visit_list/widget/start_end_time.dart';
 
 class InvitationDetailsView extends StatelessWidget {
   const InvitationDetailsView({
-    required this.visitModel,
+    required this.selectedVisit,
     super.key,
   });
 
-  final VisitModel? visitModel;
+  final VisitModel? selectedVisit;
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,14 @@ class InvitationDetailsView extends StatelessWidget {
         actionWidget: [
           Padding(
             padding: EdgeInsets.only(top: 8.h, right: 16),
-            child: const CustomPopupMenuButton(
+            child: CustomPopupMenuButton(
               isFromDetails: true,
+              selectedVisit: selectedVisit,
             ),
           ),
         ],
       ),
-      body:BackgroundWidget(
+      body: BackgroundWidget(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(
             vertical: 16.h,
@@ -83,7 +84,7 @@ class InvitationDetailsView extends StatelessWidget {
                 shrinkWrap: true,
                 padding: EdgeInsets.only(top: 16.h),
                 itemBuilder: (_, index) {
-                  final visit = visitModel!.visitors![index];
+                  final visit = selectedVisit!.visitors![index];
                   return Container(
                     padding:
                         EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
@@ -117,7 +118,7 @@ class InvitationDetailsView extends StatelessWidget {
                     height: 12.h,
                   );
                 },
-                itemCount: visitModel!.visitors!.length,
+                itemCount: selectedVisit!.visitors!.length,
               ),
               SizedBox(
                 height: 24.h,
@@ -134,7 +135,7 @@ class InvitationDetailsView extends StatelessWidget {
                 height: 16.h,
               ),
               StartEndTime(
-                visitModel: visitModel,
+                visitModel: selectedVisit,
               ),
             ],
           ),

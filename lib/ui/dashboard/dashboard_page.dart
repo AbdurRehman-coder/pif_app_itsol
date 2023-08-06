@@ -247,13 +247,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             ),
           ),
         ),
-        if (!isMenuOpen) ...[
-          if (animationController != null) ...[
-            CircleMenu(
-              animationController: animationController!,
-            ),
-          ],
-        ]
+        CircleMenu(
+          animationController: animationController!,
+          isHided: isMenuOpen,
+        ),
       ],
     );
   }

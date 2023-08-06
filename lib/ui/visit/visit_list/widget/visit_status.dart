@@ -23,9 +23,7 @@ class VisitStatus extends StatelessWidget {
         itemBuilder: (_, index) {
           final item = provider.lstStatus[index];
           return InkWell(
-            onTap: () {
-              notifier.updateStatusList(index);
-            },
+            onTap: () => notifier.updateStatusList(index),
             child: Container(
               alignment: Alignment.center,
               decoration: BoxDecoration(
@@ -34,7 +32,6 @@ class VisitStatus extends StatelessWidget {
                     color: grayGradientStart,
                     offset: Offset(0, 2),
                     blurRadius: 4,
-                    spreadRadius: 0,
                   ),
                 ],
                 color: item.isSelected! ? secondary : whiteColor,
