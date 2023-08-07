@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:pif_flutter/common/index.dart';
 
 extension DateTimeExt on DateTime {
   bool isSameDate(DateTime other) {
@@ -37,6 +38,19 @@ extension DateTimeExt on DateTime {
   bool get isAfterNow {
     return isAfter(DateTime.now());
   }
+
+  ///Calculate different between two days
+  String get daysBetween {
+    final different = DateTime.now().difference(this);
+    if ((different.inDays) > 0) {
+      return '${different.inDays} ${S.current.days}';
+    } else if ((different.inHours) > 0) {
+      return '${((different.inHours) / 24).round()} ${S.current.hours}';
+    } else {
+      return '${different.inMinutes} ${S.current.minutes}';
+    }
+  }
+
   /// get time passed
   String getTimePassed() {
     final now = DateTime.now();

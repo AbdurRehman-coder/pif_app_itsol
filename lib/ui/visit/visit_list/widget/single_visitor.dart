@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class SingleVisitor extends StatelessWidget {
   const SingleVisitor({

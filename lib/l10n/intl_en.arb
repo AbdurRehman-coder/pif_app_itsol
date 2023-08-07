@@ -245,5 +245,8 @@
   "searchVisitInvitation" : "Search Visit Invitation",
   "str_all": "ALL",
   "news":"News",
-  "co_builder":"Co Builder"
+  "co_builder":"Co Builder",
+  "days":"Days",
+  "minutes":"Minutes",
+  "hours":"Hours"
 }

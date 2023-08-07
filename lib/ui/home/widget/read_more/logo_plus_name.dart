@@ -1,33 +1,46 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/common/utilities/constant.dart';
 
 class LogoNameWidget extends StatelessWidget {
-  const LogoNameWidget({super.key});
+  const LogoNameWidget({
+    required this.creator,
+    required this.dateCreated,
+    super.key,
+  });
+
+  final Creator creator;
+  final DateTime dateCreated;
 
   @override
   Widget build(BuildContext context) {
-    final time = DateTime.now().subtract(const Duration(hours: 2));
-
     return Row(
       children: [
-        Container(
-          height: 48.h,
-          width: 48.w,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: grayBorderColor,
-              width: 1.w,
+        if (creator.image != null) ...[
+          Container(
+            height: 48.h,
+            width: 48.w,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: grayBorderColor,
+                width: 1.w,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: CachedNetworkImage(
+              imageUrl: Constant.imageBaseUrl + (creator.image ?? ''),
             ),
           ),
-          alignment: Alignment.center,
-          child: Image.asset(
-            Assets.groupLogo,
-            height: 35.h,
-            width: 35.w,
+        ] else ...[
+          ImageProfileVisitor(
+            firstName: creator.givenName ?? '',
+            lastName: creator.familyName ?? '',
           ),
-        ),
+        ],
         SizedBox(
           width: 8.w,
         ),
@@ -35,7 +48,7 @@ class LogoNameWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              S.of(context).co_builder,
+              creator.name ?? '',
               style: Style.commonTextStyle(
                 color: textColor,
                 fontSize: 16.sp,
@@ -43,7 +56,7 @@ class LogoNameWidget extends StatelessWidget {
               ),
             ),
             Text(
-              time.getTimePassed(),
+              dateCreated.daysBetween,
               style: Style.commonTextStyle(
                 color: darkBorderColor,
                 fontSize: 10.sp,

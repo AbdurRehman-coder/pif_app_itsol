@@ -56,7 +56,7 @@ class CategoryListView extends ConsumerWidget {
                 ?.data;
             final servicesType = data[index]
                 .contentFields
-                ?.where((content) => content.name == 'Numeric98141434')
+                ?.where((content) => content.name == 'servicesType')
                 .firstOrNull
                 ?.contentFieldValue
                 ?.data;
@@ -67,7 +67,7 @@ class CategoryListView extends ConsumerWidget {
                   animationController: animationController,
                 );
                 notifier.onTapServices(
-                  type: servicesText ?? '',
+                  type: servicesType ?? '',
                   categoryId: servicesCategoryId,
                   subCategoryId: servicesSubCategoryId,
                 );

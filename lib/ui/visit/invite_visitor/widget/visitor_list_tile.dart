@@ -4,7 +4,7 @@ import 'package:hive/hive.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
 
-import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class VisitorListTile extends StatelessWidget {
   const VisitorListTile({

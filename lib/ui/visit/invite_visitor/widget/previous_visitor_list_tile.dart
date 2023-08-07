@@ -4,7 +4,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
 import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
 
-import 'package:pif_flutter/ui/visit/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class PreviousVisitorListTile extends StatelessWidget {
   const PreviousVisitorListTile({

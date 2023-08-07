@@ -1,12 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/utilities/constant.dart';
 import 'package:pif_flutter/routes/routes.dart';
 
 class BannerTextView extends StatelessWidget {
-  const BannerTextView({required this.text, super.key});
+  const BannerTextView({
+    required this.text,
+    required this.imageCompany,
+    required this.creator,
+    required this.contentFields,
+    required this.dateCreated,
+    super.key,
+  });
 
   final String text;
+  final String imageCompany;
+  final Creator creator;
+  final DateTime dateCreated;
+  final List<ContentField> contentFields;
 
   @override
   Widget build(BuildContext context) {
@@ -28,56 +42,54 @@ class BannerTextView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  text: 'Welcome company\n',
-                  style: Style.commonTextStyle(
-                    color: blackColor,
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Neom to the co-builder',
-                      style: Style.commonTextStyle(
-                        color: blackColor,
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 70.h,
+                  child: HtmlWidget(
+                    text,
+                    textStyle: Style.commonTextStyle(
+                      color: blackColor,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 20.h),
-              ElevatedButton(
-                onPressed: () {
-                  AppRouter.pushNamed(Routes.homeReadMoreScreen);
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 25.w,
-                    vertical: 10.h,
                   ),
                 ),
-                child: Text(
-                  S.current.readMore,
-                  style: Style.commonTextStyle(
-                    color: whiteColor,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
+                SizedBox(height: 20.h),
+                ElevatedButton(
+                  onPressed: () => AppRouter.pushNamed(
+                    Routes.newsDetails,
+                    args: [
+                      creator,
+                      dateCreated,
+                      contentFields,
+                    ],
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 25.w,
+                      vertical: 10.h,
+                    ),
+                  ),
+                  child: Text(
+                    S.current.readMore,
+                    style: Style.commonTextStyle(
+                      color: whiteColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           CachedNetworkImage(
-            imageUrl: 'http://20.74.136.229/documents/d/guest/group-1686551514',
+            imageUrl: Constant.imageBaseUrl + imageCompany,
             width: 70.w,
             height: 70.h,
           ),

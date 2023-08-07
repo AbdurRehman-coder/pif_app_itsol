@@ -3,7 +3,6 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/home/model/category_model.dart';
@@ -36,8 +35,9 @@ class HomeNotifier extends StateNotifier<HomeStates> {
   ];
 
   void _initData() {
-    getWeather();
+    getNews();
     getServices();
+    getWeather();
   }
 
   Future<void> getWeather() async {
@@ -57,7 +57,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
       params: ParametersModel(
         fields: 'contentFields',
         restrictFields: 'actions',
-        sort: 'priority%3Adesc%2CdateCreated%3Adesc',
+        sort: 'priority:desc,dateCreated:desc',
         pageSize: '3',
       ),
     );
@@ -79,7 +79,7 @@ class HomeNotifier extends StateNotifier<HomeStates> {
       case 'QR Booking':
         AppRouter.pushNamed(Routes.bookingScannerScreen);
         break;
-      case 'IT Support':
+      case 'Support':
         AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
@@ -129,6 +129,23 @@ class HomeNotifier extends StateNotifier<HomeStates> {
       case 'Booking':
         AppRouter.pushNamed(Routes.spaceBookingScreen);
         break;
+    }
+  }
+
+  Future<void> getNews() async {
+    final result = await DixelsSDK.instance.structureContentService
+        .getStructureByStructureId(
+      structureId: '207731',
+      params: ParametersModel(
+        fields: 'taxonomyCategoryBriefs,contentFields,creator,dateCreated',
+        sort: 'priority:desc,dateCreated:desc',
+        restrictFields: 'actions',
+        pageSize: '5',
+      ),
+    );
+    if (result.isRight()) {
+      state =
+          state.copyWith(newsList: AsyncData(result.getRight()?.items ?? []));
     }
   }
 }

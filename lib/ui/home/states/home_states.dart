@@ -8,11 +8,13 @@ part 'home_states.freezed.dart';
 @freezed
 class HomeStates with _$HomeStates {
   const factory HomeStates({
+    required AsyncValue<List<StructureContentModel>> newsList,
     required int weatherDegree,
     required AsyncValue<List<StructureContentModel>> servicesList,
   }) = _HomeStates;
 
   factory HomeStates.initial() => const HomeStates(
+        newsList: AsyncLoading(),
         servicesList: AsyncLoading(),
         weatherDegree: 40,
       );

@@ -238,5 +238,8 @@
   "editVisit":"Edit Visit",
   "editInvitationSuccessfully":"Edit Invitation Successfully",
   "str_all": "ALL",
-  "co_builder":"Co Builder"
+  "co_builder":"Co Builder",
+  "days":"Days",
+  "minutes":"Minutes",
+  "hours":"Hours"
 }

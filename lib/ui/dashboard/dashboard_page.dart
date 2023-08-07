@@ -169,8 +169,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                       ),
                     ),
                   ),
-                ] else if (_bottomNavIndex == 1)
-                  ...[],
+                ],
               ],
             ),
             drawer: const SideMenuPage(),

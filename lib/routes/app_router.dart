@@ -1,6 +1,9 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
+import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart'
+    as Structure;
+import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/book_scanner_view.dart';
@@ -13,7 +16,7 @@ import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news
 import 'package:pif_flutter/ui/company_managment/company_details/company_details_page.dart';
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/employee_details/employee_details_page.dart';
-import 'package:pif_flutter/ui/home/widget/read_more/read_more_view.dart';
+import 'package:pif_flutter/ui/home/widget/read_more/news_details_view.dart';
 import 'package:pif_flutter/ui/notifications/notification_page.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/privacy_screen.dart';
@@ -155,8 +158,22 @@ class AppRouter {
 
       case Routes.notificationScreen:
         return _setPage(page: const NotificationPage(), settings: settings);
-      case Routes.homeReadMoreScreen:
-        return _setPage(page: const ReadMoreView(), settings: settings);
+      case Routes.newsDetails:
+        final lstArgs = settings.arguments != null
+            ? settings.arguments! as List<dynamic>
+            : null;
+        final creator = lstArgs?[0] as Structure.Creator;
+        final dateCreated = lstArgs?[1] as DateTime;
+        final contentField = lstArgs?[2] as List<ContentField>;
+
+        return _setPage(
+          page: NewsDetails(
+            creator: creator,
+            dateCreated: dateCreated,
+            contentFieldValue: contentField,
+          ),
+          settings: settings,
+        );
 
       case Routes.bookingCalenderScreen:
         final lstArgs = settings.arguments! as List<dynamic>;
