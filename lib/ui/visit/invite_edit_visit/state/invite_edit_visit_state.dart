@@ -1,11 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
 
-part 'invite_visitor_state.freezed.dart';
+part 'invite_edit_visit_state.freezed.dart';
 
 @freezed
-class InviteVisitorState with _$InviteVisitorState {
-  const factory InviteVisitorState({
+class InviteEditVisitState with _$InviteEditVisitState {
+  const factory InviteEditVisitState({
     required DateTime startDate,
     required DateTime startTime,
     required DateTime endDate,
@@ -16,9 +16,9 @@ class InviteVisitorState with _$InviteVisitorState {
     required bool isOpenStartTimePicker,
     required bool isOpenEndTimePicker,
     required bool isFieldDisable,
-  }) = _InviteVisitorState;
+  }) = _InviteEditVisitState;
 
-  factory InviteVisitorState.initial() => InviteVisitorState(
+  factory InviteEditVisitState.initial() => InviteEditVisitState(
         lstData: <InviteVisitorModel>[],
         isOpenStartDatePicker: false,
         isOpenEndDatePicker: false,

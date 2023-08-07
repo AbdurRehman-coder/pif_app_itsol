@@ -15,19 +15,19 @@ import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/popup/previous_visitor_popup.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/popup/previous_visitor_popup.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/previous_visitor_provider.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
 final inviteVisitorProvider = StateNotifierProvider.autoDispose<
-    InviteVisitorNotifier, InviteVisitorState>((ref) {
+    InviteVisitorNotifier, InviteEditVisitState>((ref) {
   return InviteVisitorNotifier(ref: ref);
 });
 
-class InviteVisitorNotifier extends StateNotifier<InviteVisitorState> {
+class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   InviteVisitorNotifier({required this.ref})
-      : super(InviteVisitorState.initial()) {
+      : super(InviteEditVisitState.initial()) {
     _initData();
   }
 

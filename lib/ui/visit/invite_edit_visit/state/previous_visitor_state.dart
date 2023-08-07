@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
 
 part 'previous_visitor_state.freezed.dart';
 

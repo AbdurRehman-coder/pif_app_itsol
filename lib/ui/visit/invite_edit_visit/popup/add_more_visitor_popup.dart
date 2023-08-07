@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/provider/add_more_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/add_more_visitor_provider.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
 void addMoreVisitorPopup({

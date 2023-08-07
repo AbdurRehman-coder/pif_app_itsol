@@ -1,10 +1,13 @@
 import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/cancel_visit_param.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
+import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/visit/visit_list/model/visitor_status_model.dart';
 import 'package:pif_flutter/ui/visit/visit_list/state/visit_list_state.dart';
@@ -45,7 +48,6 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
 
     if (data.title == 'Upcoming') {
       allVisitsDataUpcoming.sort((a, b) {
-        //sorting in ascending order
         return a.visitStartDate!.compareTo(b.dateCreated!);
       });
       state = state.copyWith(allVisitsModel: AsyncData(allVisitsDataUpcoming));
@@ -71,14 +73,23 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
       ),
     );
     allVisitsDataUpcoming = result!.items!
-        .where((element) => element.visitEndDate!.isAfterNow)
+        .where(
+          (element) =>
+              element.visitEndDate!.isAfterNow &&
+              element.state?.key != 'cancelled',
+        )
         .toList();
     allVisitsDataHistory = result.items!
-        .where((element) => !element.visitEndDate!.isAfterNow)
+        .where(
+          (element) =>
+              !element.visitEndDate!.isAfterNow ||
+              element.state?.key == 'cancelled',
+        )
         .toList();
 
     updateStatusList(
-        state.lstStatus.indexWhere((element) => element.isSelected ?? false),);
+      state.lstStatus.indexWhere((element) => element.isSelected ?? false),
+    );
   }
 
   Future<void> navigateToEditVisit({
@@ -89,5 +100,34 @@ class VisitListNotifier extends StateNotifier<VisitListState> {
       Routes.inviteVisitorScreen,
       args: [false, false, selectedVisit],
     );
+  }
+
+  Future<void> cancelVisit({
+    required BuildContext context,
+    required int visitId,
+  }) async {
+    final appProgressDialog = AppProgressDialog(context: context);
+    await appProgressDialog.start();
+    final result = await DixelsSDK.instance.visitService.cancelVisit(
+      visitId: visitId,
+      cancelVisitParam: CancelVisitParam(
+        visitState: 'cancelled',
+      ),
+    );
+    await appProgressDialog.stop();
+    if (result.isRight()) {
+      Future.delayed(Duration.zero, AppRouter.pop);
+      await getVisits();
+      alertMessage(
+        errorMessage: S.current.editInvitationSuccessfully,
+        context: context,
+        statusEnum: AlertStatusEnum.success,
+      );
+    } else {
+      alertMessage(
+        errorMessage: result.getLeft().message,
+        context: context,
+      );
+    }
   }
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive/hive.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
 
 import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 

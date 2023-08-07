@@ -2,7 +2,7 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
 
 class EndDateAndTime extends StatelessWidget {
   const EndDateAndTime({
@@ -13,7 +13,7 @@ class EndDateAndTime extends StatelessWidget {
   });
 
   final InviteVisitorNotifier notifier;
-  final InviteVisitorState provider;
+  final InviteEditVisitState provider;
   final VisitModel? selectedVisit;
 
   @override

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/provider/invite_visitor_provider.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/state/invite_visitor_state.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/widget/visitor_list_tile.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/invite_edit_visit_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/state/invite_edit_visit_state.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/visitor_list_tile.dart';
 
 class InviteVisitorFormListView extends StatelessWidget {
   const InviteVisitorFormListView({
@@ -15,7 +15,7 @@ class InviteVisitorFormListView extends StatelessWidget {
   });
 
   final InviteVisitorNotifier notifier;
-  final InviteVisitorState provider;
+  final InviteEditVisitState provider;
   final bool isInviteVisit;
 
   @override

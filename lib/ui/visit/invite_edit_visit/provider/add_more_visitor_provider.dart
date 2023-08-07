@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/provider/invite_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/invite_edit_visit_provider.dart';
 
 final addMoreVisitorProvider =
     Provider.autoDispose<AddMoreVisitorNotifier>((ref) {

@@ -6,14 +6,14 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/background_widget.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/common/shared/widget/date_picker_widget.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/widget/end_date_and_time.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/widget/invite_visitor_form_list_view.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/widget/start_date_and_time.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/end_date_and_time.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/invite_visitor_form_list_view.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/start_date_and_time.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
-class InviteVisitorPage extends ConsumerStatefulWidget {
-  const InviteVisitorPage({
+class InviteEditVisitPage extends ConsumerStatefulWidget {
+  const InviteEditVisitPage({
     required this.fromHomepage,
     this.isInviteVisit = true,
     this.selectedVisit,
@@ -28,7 +28,7 @@ class InviteVisitorPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _InviteVisitorPageState();
 }
 
-class _InviteVisitorPageState extends ConsumerState<InviteVisitorPage> {
+class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
   @override
   void initState() {
     super.initState();

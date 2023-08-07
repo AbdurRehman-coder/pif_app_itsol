@@ -53,34 +53,16 @@ class CustomPopupMenuButton extends StatelessWidget {
             ),
             PopupMenuItem(
               value: 2,
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    Assets.duplicateIcon,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Text(
-                    S.of(context).duplicate,
-                    style: Style.commonTextStyle(
-                      color: dayTextColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  )
-                ],
-              ),
-            ),
-            PopupMenuItem(
-              value: 3,
               onTap: () => Future.delayed(
                 const Duration(milliseconds: 200),
                 () {
                   alertPopup(
                     context: context,
                     deleteMessage: S.current.deleteVisitMessage,
-                    onClickYes: () {},
+                    onClickYes: () => notifier.cancelVisit(
+                      context: context,
+                      visitId: selectedVisit!.id,
+                    ),
                   );
                 },
               ),

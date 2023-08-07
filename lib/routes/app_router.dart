@@ -30,7 +30,7 @@ import 'package:pif_flutter/ui/support_and_service/add_ticket/add_view.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/my_tickets_view.dart';
 import 'package:pif_flutter/ui/support_and_service/ticket_details/ticket_details_page.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/invite_visitor_page.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/invite_edit_visit_page.dart';
 import 'package:pif_flutter/ui/visit/visit_list/invitation_details.dart';
 import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 
@@ -84,7 +84,7 @@ class AppRouter {
         final isInviteVisit = lstArgs?[1] as bool;
         final visitInformation = lstArgs?[2] as VisitModel?;
         return _setPage(
-          page: InviteVisitorPage(
+          page: InviteEditVisitPage(
             fromHomepage: fromHomepage,
             isInviteVisit: isInviteVisit,
             selectedVisit: visitInformation,

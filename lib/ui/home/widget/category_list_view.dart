@@ -38,25 +38,25 @@ class CategoryListView extends ConsumerWidget {
                 '${Constants.baseUrl}${data[index].contentFields?.where((content) => content.name == 'lottieFile').firstOrNull?.contentFieldValue?.document?.contentUrl}';
             final servicesText = data[index]
                 .contentFields
-                ?.where((content) => content.name == 'Text57336959')
+                ?.where((content) => content.name == 'title')
                 .firstOrNull
                 ?.contentFieldValue
                 ?.data;
             final servicesCategoryId = data[index]
                 .contentFields
-                ?.where((content) => content.name == 'Numeric50450853')
+                ?.where((content) => content.name == 'category')
                 .firstOrNull
                 ?.contentFieldValue
                 ?.data;
             final servicesSubCategoryId = data[index]
                 .contentFields
-                ?.where((content) => content.name == 'Numeric98141434')
+                ?.where((content) => content.name == 'subCategory')
                 .firstOrNull
                 ?.contentFieldValue
                 ?.data;
             final servicesType = data[index]
                 .contentFields
-                ?.where((content) => content.name == 'servicesType')
+                ?.where((content) => content.name == 'page')
                 .firstOrNull
                 ?.contentFieldValue
                 ?.data;

@@ -241,5 +241,6 @@
   "co_builder":"Co Builder",
   "days":"Days",
   "minutes":"Minutes",
-  "hours":"Hours"
+  "hours":"Hours",
+  "visitIsCancel":"Visit is cancel"
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
 
 class StartDateAndTime extends StatelessWidget {
   const StartDateAndTime({
@@ -14,7 +14,7 @@ class StartDateAndTime extends StatelessWidget {
   });
 
   final InviteVisitorNotifier notifier;
-  final InviteVisitorState provider;
+  final InviteEditVisitState provider;
   final VisitModel? selectedVisit;
 
   @override

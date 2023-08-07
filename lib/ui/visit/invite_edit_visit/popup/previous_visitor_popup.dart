@@ -5,9 +5,9 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/model/invite_visitor_model.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/provider/previous_visitor_provider.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/widget/previous_visitor_list_tile.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/previous_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/previous_visitor_list_tile.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
 Future<List<InviteVisitorModel>> previousVisitorPopup({

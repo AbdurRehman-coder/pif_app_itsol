@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/index.dart';
-import 'package:pif_flutter/ui/visit/invite_visitor/state/previous_visitor_state.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/state/previous_visitor_state.dart';
 
 final previousVisitorProvider =
     StateNotifierProvider.autoDispose<PreviousVisitorNotifier, PreviousVisitorState>((ref) {
