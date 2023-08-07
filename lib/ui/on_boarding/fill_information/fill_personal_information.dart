@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/helpers/constants.dart';
-import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
+import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/check_privacy.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/personal_information.dart';
@@ -82,15 +82,18 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> {
                         builder: (context) {
                           final videoUrl = Constants.baseUrl +
                               (provider.contentModel?.value?.contentFields!
-                                      .where(
-                                        (element) =>
-                                            element.name == 'onBoardingVideo',
-                                      )
-                                      .firstOrNull
-                                      ?.contentFieldValue
-                                      ?.document!
-                                      .contentUrl ??
-                                  '');
+                                          .where(
+                                            (element) =>
+                                                element.name ==
+                                                'onBoardingVideo',
+                                          )
+                                          .firstOrNull
+                                          ?.contentFieldValue
+                                          ?.document!
+                                          .contentUrl ??
+                                      '')
+                                  .replaceAll('+', '%20');
+
                           return BannerVideoView(
                             videoUrl: videoUrl,
                           );

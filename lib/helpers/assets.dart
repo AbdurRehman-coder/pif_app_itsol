@@ -145,6 +145,7 @@ class Assets {
   static const String coffee1Lottie = 'assets/lottie/coffee_step1.json';
   static const String coffee2Lottie = 'assets/lottie/coffee_step3.json';
   static const String coffee3Lottie = 'assets/lottie/coffee_step2.json';
+  static const String loaderLottie = 'assets/lottie/loader.json';
 
   // Gif
   static const String addVisitorGif = 'assets/gif/ic_add_visitors.gif';
@@ -208,6 +209,7 @@ class Assets {
   static const String hotelRoom = 'assets/3x/hotel_room.png';
   static const String hotelBuildingIcon = 'assets/svg/ic_building.svg';
   static const String repeatDateIcon = 'assets/svg/ic_repeat_date.svg';
+
   // Visit
   static const String vEditButton = 'assets/3x/verticle_edit_btn.png';
 }

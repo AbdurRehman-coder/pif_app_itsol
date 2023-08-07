@@ -16,10 +16,14 @@ class CustomLottieWidget extends StatelessWidget {
     if (!isAssets) {
       return Lottie.network(
         lottieUrl,
+        repeat: false,
+        reverse: false,
+        animate: true,
       );
     } else {
       return Lottie.asset(
         lottieUrl,
+
       );
     }
   }

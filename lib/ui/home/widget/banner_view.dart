@@ -5,7 +5,7 @@ import 'package:pif_flutter/ui/home/model/banner_model.dart';
 import 'package:pif_flutter/ui/home/provider/banner_provider.dart';
 import 'package:pif_flutter/ui/home/widget/banner_image_view.dart';
 import 'package:pif_flutter/ui/home/widget/banner_text_view.dart';
-import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
+import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/widgets/dotindicator.dart';
 
 class BannerView extends ConsumerWidget {

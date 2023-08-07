@@ -96,6 +96,7 @@ dependencies:
   path_provider: ^2.0.14
   shared_preferences: ^2.2.0
   lottie: ^2.5.0
+  weather: ^3.1.0
   awesome_calendar:
     path: awesome_calendar-main
 

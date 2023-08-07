@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/wait_reload.dart';
+import 'package:pif_flutter/common/shared/widget/custom_lottie_widget.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class AppProgressDialog {
@@ -22,34 +24,14 @@ class AppProgressDialog {
       context: context,
       builder: (c) => WillPopScope(
         onWillPop: () => Future.value(false),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.w),
-            child: Container(
-              height: 70,
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.r),
-                ),
-              ),
-              child: Row(
-                children: [
-                  const AppWait(),
-                  SizedBox(width: kIsWeb ? 20 : 20.w),
-                  Text(
-                    message,
-                    style: TextStyle(
-                      color: primaryColor,
-                      decoration: TextDecoration.none,
-                      fontSize: kIsWeb ? 17 : 15.sp,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ],
-              ),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.transparent,
+          child: const Center(
+            child: CustomLottieWidget(
+              lottieUrl: Assets.loaderLottie,
+              isAssets: true,
             ),
           ),
         ),

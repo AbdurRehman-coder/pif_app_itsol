@@ -6,13 +6,11 @@ import 'package:video_player/video_player.dart';
 class BannerVideoView extends StatefulWidget {
   const BannerVideoView({
     required this.videoUrl,
-    this.videoPlayerController,
     this.onVideoFinish,
     super.key,
   });
 
   final String videoUrl;
-  final VideoPlayerController? videoPlayerController;
   final void Function(bool)? onVideoFinish;
 
   @override
@@ -26,12 +24,11 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void initState() {
     super.initState();
-    videoController = widget.videoPlayerController ??
-        VideoPlayerController.networkUrl(
-          Uri.parse(
-            widget.videoUrl,
-          ),
-        );
+    videoController = VideoPlayerController.networkUrl(
+      Uri.parse(
+        widget.videoUrl,
+      ),
+    );
     videoController.initialize().then((value) {
       setState(() {
         videoController.play();
@@ -68,7 +65,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
           InkWell(
             onTap: () => videoController.play(),
             child: VideoPlayer(
-              widget.videoPlayerController ?? videoController,
+              videoController,
             ),
           ),
           Positioned(
@@ -102,6 +99,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void dispose() {
     super.dispose();
+    print('DisposeDisposeDispose');
     videoController.dispose();
   }
 }

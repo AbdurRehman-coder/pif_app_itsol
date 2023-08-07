@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/helpers/constants.dart';
-import 'package:pif_flutter/ui/home/widget/banner_video_view.dart';
 import 'package:pif_flutter/ui/on_boarding/login/provider/login_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget_with_logo.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';

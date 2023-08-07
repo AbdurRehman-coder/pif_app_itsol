@@ -1,7 +1,10 @@
+import 'package:dixels_sdk/common/models/parameters_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/helpers/assets.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/home/model/category_model.dart';
 import 'package:pif_flutter/ui/home/states/home_states.dart';
@@ -11,6 +14,7 @@ import 'package:pif_flutter/ui/home/widget/order_status_card.dart';
 import 'package:pif_flutter/ui/home/widget/support_status_card.dart';
 import 'package:pif_flutter/ui/home/widget/today_status.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
+import 'package:weather/weather.dart';
 
 final homeProvider = StateNotifierProvider<HomeNotifier, HomeStates>((ref) {
   return HomeNotifier(ref: ref);
@@ -32,93 +36,99 @@ class HomeNotifier extends StateNotifier<HomeStates> {
   ];
 
   void _initData() {
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.bookingLottie,
-        text: 'QR Scan',
-        onTap: () => AppRouter.pushNamed(Routes.bookingScannerScreen),
+    getWeather();
+    getServices();
+  }
+
+  Future<void> getWeather() async {
+    final weatherFactory = WeatherFactory(Constants.apiKeyWeather);
+    const lat = 24.7747;
+    const lon = 46.6371;
+    final weather = await weatherFactory.currentWeatherByLocation(lat, lon);
+    if (weather.tempMax != null) {
+      state = state.copyWith(weatherDegree: weather.tempMax!.celsius!.toInt());
+    }
+  }
+
+  Future<void> getServices() async {
+    final result = await DixelsSDK.instance.structureContentService
+        .getStructureByStructureId(
+      structureId: '207816',
+      params: ParametersModel(
+        fields: 'contentFields',
+        restrictFields: 'actions',
+        sort: 'priority%3Adesc%2CdateCreated%3Adesc',
+        pageSize: '3',
       ),
     );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.photographyLottie,
-        text: 'Photography',
-        onTap: () => AppRouter.pushNamed(
+    if (result.isRight()) {
+      state = state.copyWith(
+        servicesList: AsyncData(
+          result.getRight()?.items ?? [],
+        ),
+      );
+    }
+  }
+
+  void onTapServices({
+    required String type,
+    String? categoryId,
+    String? subCategoryId,
+  }) {
+    switch (type) {
+      case 'QR Booking':
+        AppRouter.pushNamed(Routes.bookingScannerScreen);
+        break;
+      case 'IT Support':
+        AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
-            idSelectedCategory: '180101',
-            isSelectedSubCategory: '180110',
+            idSelectedCategory: categoryId,
           ),
-        ),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.inviteVisitorsLottie,
-        text: 'New Visit',
-        onTap: () => AppRouter.pushNamed(
+        );
+        break;
+      case 'Photography':
+        AppRouter.pushNamed(
+          Routes.addOrEditTicketScreen,
+          args: AddTicketModel(
+            idSelectedCategory: categoryId,
+            isSelectedSubCategory: subCategoryId,
+          ),
+        );
+        break;
+      case 'Invite Visitors':
+        AppRouter.pushNamed(
           Routes.inviteVisitorScreen,
           args: [true, true, null],
-        ),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.qrBookingLottie,
-        text: 'Booking',
-        onTap: () => AppRouter.pushNamed(Routes.spaceBookingScreen),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.newJoinerLottie,
-        text: 'New Joiner',
-        onTap: () => AppRouter.pushNamed(
+        );
+        break;
+      case 'New Joiner':
+        AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
-            idSelectedCategory: '180101',
-            isSelectedSubCategory: '180110',
+            idSelectedCategory: categoryId,
           ),
-        ),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.itSupportLottie,
-        text: 'IT Support',
-        onTap: () => AppRouter.pushNamed(
+        );
+        break;
+      case 'Logistics':
+        AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
-            idSelectedCategory: '180101',
+            idSelectedCategory: categoryId,
           ),
-        ),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.logisticsLottie,
-        text: 'Logistics',
-        onTap: () => AppRouter.pushNamed(
+        );
+        break;
+      case 'Creatives':
+        AppRouter.pushNamed(
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
-            idSelectedCategory: '180101',
+            idSelectedCategory: categoryId,
           ),
-        ),
-      ),
-    );
-    lstCategory.add(
-      CategoryModel(
-        image: Assets.creativesLottie,
-        text: 'Creatives',
-        onTap: () => AppRouter.pushNamed(
-          Routes.addOrEditTicketScreen,
-          args: AddTicketModel(
-            idSelectedCategory: '180101',
-          ),
-        ),
-      ),
-    );
-
-    state = state.copyWith(lstCategory: lstCategory);
+        );
+        break;
+      case 'Booking':
+        AppRouter.pushNamed(Routes.spaceBookingScreen);
+        break;
+    }
   }
 }
