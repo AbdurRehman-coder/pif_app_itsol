@@ -27,8 +27,15 @@ class DrinksBagView extends ConsumerWidget {
       width: context.screenWidth - 40,
       padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 12.h),
       decoration: BoxDecoration(
-        color: primaryColor,
+        color: primaryDarkColor,
         borderRadius: BorderRadius.circular(16.r),
+        boxShadow: const [
+          BoxShadow(
+            color: grayGradientStart,
+            offset: Offset(0, 8),
+            blurRadius: 16,
+          ),
+        ],
       ),
       child: Row(
         children: [

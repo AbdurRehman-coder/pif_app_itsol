@@ -27,7 +27,7 @@ class _CustomCheckBoxWithTextState extends State<CustomCheckBoxWithText> {
           child: Checkbox(
             value: widget.isChecked,
             onChanged: widget.onChanged,
-            activeColor: Colors.black,
+            activeColor: primaryDarkColor,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
         ),
