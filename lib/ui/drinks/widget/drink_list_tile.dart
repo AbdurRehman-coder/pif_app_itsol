@@ -162,7 +162,7 @@ class DrinkListTile extends StatelessWidget {
                             color: whiteColor,
                           ),
                         ),
-                      ),
+                      ).visibility(visible: !provider.storeClosed),
                     ],
                   ),
                 ),
