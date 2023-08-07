@@ -66,7 +66,8 @@ void showOrderCartAndDetails({
                                   if (provider.lstCarts.isNotEmpty) ...[
                                     ListView.separated(
                                       shrinkWrap: true,
-                                      physics: const NeverScrollableScrollPhysics(),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (_, index) {
                                         return SizedBox(height: 20.h);
                                       },
@@ -86,7 +87,8 @@ void showOrderCartAndDetails({
                                   ],
                                   SizedBox(height: 20.h),
                                   CustomTextField(
-                                    textEditingController: notifier.notesController,
+                                    textEditingController:
+                                        notifier.notesController,
                                     maxLines: 3,
                                     hintText: S.current.notes,
                                   ),
@@ -94,7 +96,8 @@ void showOrderCartAndDetails({
                                     isChecked: provider.isSelectedPinOrder,
                                     text: S.of(context).pinOrderQuickActions,
                                     onChanged: (value) {
-                                      notifier.updatePinOrderQuickActions(value: value!);
+                                      notifier.updatePinOrderQuickActions(
+                                          value: value!);
                                     },
                                   ),
                                   SizedBox(
@@ -185,7 +188,7 @@ class FloatActionWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 2.h),
+            SizedBox(height: 12.h),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

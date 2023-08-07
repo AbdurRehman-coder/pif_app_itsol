@@ -46,7 +46,10 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                             children: [
                               if (notifier.searchController.text.isNotEmpty &&
                                   data.isNotEmpty)
-                                const SizedBox()
+                                SizedBox(
+                                  height: 1.h,
+                                  width: double.infinity,
+                                )
                               else
                                 Column(
                                   children: [
@@ -74,29 +77,33 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                         Flexible(
                           child: Column(
                             children: [
-                              SizedBox(
-                                height: 50.h,
-                                child: ListView.separated(
-                                  itemCount: provider.lstCategory.length,
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(
-                                      width: 12.w,
-                                    );
-                                  },
-                                  itemBuilder: (context, index) {
-                                    return InkWell(
-                                      onTap: () =>
-                                          notifier.updateCategory(index: index),
-                                      child: CategoryListTile(
-                                        item: provider.lstCategory[index],
-                                        withOutSearch: notifier
-                                            .searchController.text.isEmpty,
-                                      ),
-                                    );
-                                  },
+                              if (!(notifier.searchController.text.isNotEmpty &&
+                                  data.isNotEmpty)) ...[
+                                SizedBox(
+                                  height: 50.h,
+                                  child: ListView.separated(
+                                    itemCount: provider.lstCategory.length,
+                                    scrollDirection: Axis.horizontal,
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(
+                                        width: 12.w,
+                                      );
+                                    },
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () => notifier.updateCategory(
+                                          index: index,
+                                        ),
+                                        child: CategoryListTile(
+                                          item: provider.lstCategory[index],
+                                          withOutSearch: notifier
+                                              .searchController.text.isEmpty,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
+                              ],
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(
@@ -106,8 +113,6 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                     top: 14.h,
                                   ),
                                   child: GridView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
