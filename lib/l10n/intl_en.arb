@@ -249,5 +249,9 @@
   "days":"Days",
   "minutes":"Minutes",
   "hours":"Hours",
-  "visitIsCancel":"Visit is cancel"
+  "visitIsCancel":"Visit is cancel",
+  "save" : "Save",
+  "baseCamp" : "Base Camp",
+  "spaceType" : "Space Type",
+  "desk" : "Desk"
 }

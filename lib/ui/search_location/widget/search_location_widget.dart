@@ -40,7 +40,8 @@ class SearchLocationListView extends ConsumerWidget {
                       fit: BoxFit.fill,
                       imageUrl: 'https://picsum.photos/40/40',
                       placeholder: (context, url) => const SizedBox(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   SizedBox(
@@ -56,7 +57,7 @@ class SearchLocationListView extends ConsumerWidget {
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: Style.commonTextStyle(
-                            color: primaryColor,
+                            color: pendingStatusColor,
                             fontSize: 16.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -75,9 +76,13 @@ class SearchLocationListView extends ConsumerWidget {
                     ),
                   ),
                   Icon(
-                    provider.lstSearchLocation[index].isLocationSelected! ? Icons.radio_button_checked_outlined : Icons.radio_button_off,
+                    provider.lstSearchLocation[index].isLocationSelected!
+                        ? Icons.radio_button_checked_outlined
+                        : Icons.radio_button_off,
                     size: 22.sp,
-                    color: provider.lstSearchLocation[index].isLocationSelected! ? primaryColor : grayTextColor,
+                    color: provider.lstSearchLocation[index].isLocationSelected!
+                        ? primaryColor
+                        : grayTextColor,
                   )
                 ],
               ),

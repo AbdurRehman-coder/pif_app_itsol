@@ -21,6 +21,7 @@ class VisitsListView extends ConsumerWidget {
     final notifier = ref.read(visitListProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar(
+        bgColor: lightGrayBgColor,
         titleWidget: SearchTextField(
           textEditingController: notifier.searchVisitController,
           onChanged: (value) {},

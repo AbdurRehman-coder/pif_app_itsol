@@ -7,15 +7,18 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actionWidget,
     super.key,
     this.titleWidget,
+    this.bgColor,
   });
 
   final String? title;
   final Widget? titleWidget;
   final List<Widget>? actionWidget;
+  final Color? bgColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: bgColor,
       elevation: 0,
       centerTitle: true,
       leading: InkWell(
@@ -38,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       flexibleSpace: Container(
-        decoration:  const BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               whiteColor,

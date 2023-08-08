@@ -120,7 +120,7 @@ class Assets {
   static const String basicCalendar = 'assets/svg/calender.svg';
   static const String walkingTo = 'assets/svg/walking_to.svg';
   static const String walkingFrom = 'assets/svg/walking_from.svg';
-  static const String searchLocation = 'assets/ic_search_location.png';
+  static const String searchLocation = 'assets/3x/ic_search_location.png';
   static const String calenderTodaySvg = 'assets/svg/ic_calendar_today.svg';
   static const String backgroundImage = 'assets/background_image.png';
   static const String close = 'assets/svg/close.svg';
