@@ -56,5 +56,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSContactsUsageDescription</key>
+    <string>We need access to your contacts to save the new contact.</string>
+
 </dict>
 </plist>

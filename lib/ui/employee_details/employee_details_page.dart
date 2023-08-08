@@ -39,11 +39,13 @@ class EmployeeDetailsPage extends ConsumerWidget {
                       width: 100.w,
                       imageUrl: 'https://picsum.photos/100/100',
                       placeholder: (context, url) => const SizedBox(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   Positioned(
-                    top: 175.h, // Adjust this value to position the image as per your requirement.
+                    top: 175
+                        .h, // Adjust this value to position the image as per your requirement.
                     left: 16.w,
                     child: Container(
                       height: 80.r,
@@ -145,7 +147,9 @@ class EmployeeDetailsPage extends ConsumerWidget {
                                     child: Text(
                                       'General',
                                       style: Style.commonTextStyle(
-                                        color: provider.isGeneralVisible ? textColor : grayTextColor,
+                                        color: provider.isGeneralVisible
+                                            ? textColor
+                                            : grayTextColor,
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -162,7 +166,9 @@ class EmployeeDetailsPage extends ConsumerWidget {
                                     child: Text(
                                       'Preferences',
                                       style: Style.commonTextStyle(
-                                        color: provider.isPreferenceVisible ? textColor : grayTextColor,
+                                        color: provider.isPreferenceVisible
+                                            ? textColor
+                                            : grayTextColor,
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -175,14 +181,17 @@ class EmployeeDetailsPage extends ConsumerWidget {
                               height: 1.h,
                               color: textColor,
                               thickness: 4,
-                              endIndent: MediaQuery.of(context).size.width * 0.75,
+                              endIndent:
+                                  MediaQuery.of(context).size.width * 0.75,
                             ).visibility(visible: provider.isGeneralVisible),
                             Divider(
                               height: 1.h,
                               color: textColor,
                               thickness: 4,
-                              indent: MediaQuery.of(context).size.width * 0.24, // 30% of the screen width
-                              endIndent: MediaQuery.of(context).size.width * 0.44,
+                              indent: MediaQuery.of(context).size.width *
+                                  0.24, // 30% of the screen width
+                              endIndent:
+                                  MediaQuery.of(context).size.width * 0.44,
                             ).visibility(visible: provider.isPreferenceVisible),
                             Divider(
                               height: 1.h,
@@ -240,8 +249,10 @@ class EmployeeDetailsPage extends ConsumerWidget {
                                       height: 56.r,
                                       width: 56.r,
                                       imageUrl: 'https://picsum.photos/60/60',
-                                      placeholder: (context, url) => const SizedBox(),
-                                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                                      placeholder: (context, url) =>
+                                          const SizedBox(),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
                                   ),
                                 ),
@@ -260,7 +271,8 @@ class EmployeeDetailsPage extends ConsumerWidget {
                                       ),
                                     ),
                                     Text(
-                                      provider.lstEmployee[index].streetName ?? '',
+                                      provider.lstEmployee[index].streetName ??
+                                          '',
                                       style: Style.commonTextStyle(
                                         color: grayTextColor,
                                         fontSize: 14.sp,
@@ -310,14 +322,18 @@ class EmployeeDetailsPage extends ConsumerWidget {
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
                               return Container(
-                                padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 10.h),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 15.w,
+                                  vertical: 10.h,
+                                ),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20.r),
                                   color: grayGradientStart,
                                 ),
                                 child: Text(
-                                  provider.lstService[index].companyService ?? '',
+                                  provider.lstService[index].companyService ??
+                                      '',
                                   style: Style.commonTextStyle(
                                     color: darkBorderColor,
                                     fontSize: 14.sp,
@@ -352,7 +368,8 @@ class EmployeeDetailsPage extends ConsumerWidget {
                 child: Container(
                   height: 33.h,
                   width: 33.h,
-                  margin: EdgeInsets.only(top: context.statusBarHeight, left: 20.w),
+                  margin:
+                      EdgeInsets.only(top: context.statusBarHeight, left: 20.w),
                   decoration: const BoxDecoration(
                     color: activeBgColor,
                     shape: BoxShape.circle,
@@ -365,10 +382,15 @@ class EmployeeDetailsPage extends ConsumerWidget {
                 ),
               ),
               InkWell(
+                // call permissions for contacts, to save user info to contact
+                onTap: notifier.askPermissions,
                 child: Container(
                   height: 33.h,
                   width: 33.h,
-                  margin: EdgeInsets.only(top: context.statusBarHeight, right: 20.w),
+                  margin: EdgeInsets.only(
+                    top: context.statusBarHeight,
+                    right: 20.w,
+                  ),
                   decoration: const BoxDecoration(
                     color: activeBgColor,
                     shape: BoxShape.circle,
