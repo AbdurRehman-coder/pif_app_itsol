@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/previous_visitor_provider.dart';
-
-import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class PreviousVisitorListTile extends StatelessWidget {
   const PreviousVisitorListTile({

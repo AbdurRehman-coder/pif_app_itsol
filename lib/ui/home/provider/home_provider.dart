@@ -19,7 +19,7 @@ final homeProvider = StateNotifierProvider<HomeNotifier, HomeStates>((ref) {
   return HomeNotifier(ref: ref);
 });
 
-class HomeNotifier extends StateNotifier<HomeStates> {
+class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
   HomeNotifier({required this.ref}) : super(HomeStates.initial()) {
     _initData();
   }
@@ -57,8 +57,8 @@ class HomeNotifier extends StateNotifier<HomeStates> {
       params: ParametersModel(
         fields: 'contentFields',
         restrictFields: 'actions',
+        pageSize: '8',
         sort: 'priority:desc,dateCreated:desc',
-        pageSize: '3',
       ),
     );
     if (result.isRight()) {

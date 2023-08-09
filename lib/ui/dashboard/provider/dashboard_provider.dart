@@ -190,11 +190,4 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       );
     }
   }
-
-  Future<void> test({required BuildContext context}) async {
-    final appProgressDialog = AppProgressDialog(context: context);
-    await appProgressDialog.start();
-    await Future.delayed(const Duration(seconds: 2));
-    await appProgressDialog.stop();
-  }
 }

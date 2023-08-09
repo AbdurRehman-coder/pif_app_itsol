@@ -111,8 +111,6 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
         ),
       );
       await getInformation();
-    } else {
-      print('result.getLeft().message ${result.getLeft().message}');
     }
   }
 

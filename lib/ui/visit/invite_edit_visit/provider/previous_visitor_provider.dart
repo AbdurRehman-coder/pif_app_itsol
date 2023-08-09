@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dixels_sdk/features/commerce/visit/models/visitor_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -6,13 +7,14 @@ import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/state/previous_visitor_state.dart';
 
-final previousVisitorProvider =
-    StateNotifierProvider.autoDispose<PreviousVisitorNotifier, PreviousVisitorState>((ref) {
+final previousVisitorProvider = StateNotifierProvider.autoDispose<
+    PreviousVisitorNotifier, PreviousVisitorState>((ref) {
   return PreviousVisitorNotifier(ref: ref);
 });
 
 class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
-  PreviousVisitorNotifier({required this.ref}) : super(PreviousVisitorState.initial()) {
+  PreviousVisitorNotifier({required this.ref})
+      : super(PreviousVisitorState.initial()) {
     _initData();
   }
 
@@ -23,48 +25,22 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
 
   void _initData() {
     searchController = TextEditingController();
-    final lstData = <InviteVisitorModel>[];
-    lstData.add(
-      InviteVisitorModel(
-        'Abdul',
-        'Moqatder',
-        'test@yopmail.com',
-        fromHistory: true,
-        isVisitorVerified: true,
-      ),
-    );
-    lstData.add(
-      InviteVisitorModel(
-        'Muath',
-        'Awad',
-        'muath@yopmail.com',
-        fromHistory: true,
-        isVisitorVerified: true,
-      ),
-    );
-    lstData.add(
-      InviteVisitorModel(
-        'Alaa',
-        'Awad',
-        'alaa@yopmail.com',
-        isVisitorVerified: true,
-        fromHistory: true,
-      ),
-    );
-    lstData.add(
-      InviteVisitorModel(
-        'Viral',
-        'Panchal',
-        'viral@yopmail.com',
-        isVisitorVerified: true,
-        fromHistory: true,
-      ),
-    );
 
     final selectedData = ref.read(inviteVisitorProvider);
+    final lstData = selectedData.visitorModelList.value
+        ?.map(
+          (visitor) => InviteVisitorModel(
+            visitor.givenName,
+            visitor.familyName,
+            visitor.emailAddress,
+            fromHistory: true,
+            isVisitorVerified: true,
+          ),
+        )
+        .toList();
     final lstSelected = selectedData.lstData.toList();
     for (final item in lstSelected) {
-      final data = lstData.firstWhereOrNull(
+      final data = lstData!.firstWhereOrNull(
         (element) => element.email!.toLowerCase() == item.email!.toLowerCase(),
       );
       if (data != null) {
@@ -72,7 +48,7 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
       }
     }
 
-    state = state.copyWith(previousVisitorList: lstData);
+    state = state.copyWith(previousVisitorList: lstData!);
     allData = lstData;
   }
 

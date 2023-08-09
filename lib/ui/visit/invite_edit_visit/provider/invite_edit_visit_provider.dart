@@ -5,6 +5,7 @@ import 'package:dixels_sdk/features/commerce/visit/models/edit_visit_param.dart'
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart'
     as visit;
+import 'package:dixels_sdk/features/commerce/visit/models/visitor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -67,6 +68,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     endDateSelectController = TextEditingController();
     formKeyForDate = GlobalKey<FormState>();
     _setDefaultDateTime();
+    getVisitorHistory();
   }
 
   void onChangeText(String text) {
@@ -267,7 +269,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   //Remove Visitor List Item
   void removeVisitor(InviteVisitorModel item) {
     final data = state.lstData.toList();
-    data.remove(item);
+    data.removeWhere((visitor) => visitor.email==item.email);
 
     state = state.copyWith(lstData: data);
 
@@ -546,6 +548,20 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
       alertMessage(
         errorMessage: result.getLeft().message,
         context: context,
+      );
+    }
+  }
+
+  Future<void> getVisitorHistory() async {
+    final visitorHistoryResult =
+        await DixelsSDK.instance.visitorService.getPageDataWithEither(
+      fromJson: VisitorModel.fromJson,
+    );
+    if (visitorHistoryResult.isRight()) {
+      state = state.copyWith(
+        visitorModelList: AsyncData(
+          visitorHistoryResult.getRight()?.items ?? [],
+        ),
       );
     }
   }

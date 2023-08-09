@@ -1,4 +1,6 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visitor_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
 
 part 'invite_edit_visit_state.freezed.dart';
@@ -11,6 +13,7 @@ class InviteEditVisitState with _$InviteEditVisitState {
     required DateTime endDate,
     required DateTime endTime,
     required List<InviteVisitorModel> lstData,
+    required AsyncValue<List<VisitorModel>> visitorModelList,
     required bool isOpenStartDatePicker,
     required bool isOpenEndDatePicker,
     required bool isOpenStartTimePicker,
@@ -25,6 +28,7 @@ class InviteEditVisitState with _$InviteEditVisitState {
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
         startDate: DateTime.now(),
+        visitorModelList: const AsyncLoading(),
         endDate: DateTime.now(),
         endTime: DateTime.now().add(const Duration(hours: 1)),
         startTime: DateTime.now(),

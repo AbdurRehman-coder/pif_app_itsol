@@ -10,7 +10,7 @@ import 'package:pif_flutter/ui/home/widget/banner_image_view.dart';
 import 'package:pif_flutter/ui/home/widget/banner_text_view.dart';
 import 'package:pif_flutter/widgets/dotindicator.dart';
 
-class BannerView extends ConsumerWidget {
+class BannerView extends ConsumerWidget with RouteAware {
   const BannerView({super.key});
 
   @override
@@ -59,25 +59,28 @@ class BannerView extends ConsumerWidget {
                   final type = newsVideo != null
                       ? NewsEnum.video
                       : newsText != null
-                      ? NewsEnum.text
-                      : NewsEnum.image;
+                          ? NewsEnum.text
+                          : NewsEnum.image;
                   if (type == NewsEnum.image) {
                     return BannerImageView(
                       imageUrl: Constant.imageBaseUrl + (newsImage ?? '') ?? '',
                     );
                   } else if (type == NewsEnum.video) {
-                    return BannerVideoView(
-                      videoUrl: Constant.imageBaseUrl + newsVideo! ?? '',
+                    return Builder(
+                      builder: (context) {
+                        return BannerVideoView(
+                          videoUrl: Constant.imageBaseUrl + newsVideo! ?? '',
+                        );
+                      },
                     );
                   } else {
                     return BannerTextView(
-                        text: newsText ?? '',
-                        imageCompany: newsImage ?? '',
-                        creator: creator!,
-                        contentFields: newsList[index].contentFields ?? [],
-                        dateCreated: newsList[index].dateCreated ??
-                            DateTime.now(),
-
+                      text: newsText ?? '',
+                      imageCompany: newsImage ?? '',
+                      creator: creator!,
+                      contentFields: newsList[index].contentFields ?? [],
+                      dateCreated:
+                          newsList[index].dateCreated ?? DateTime.now(),
                     );
                   }
                 },
@@ -116,4 +119,5 @@ class BannerView extends ConsumerWidget {
       ),
     );
   }
+
 }

@@ -32,7 +32,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
     videoController.initialize().then((value) {
       setState(() {
         videoController.play();
-        videoController.setVolume(0.0);
+        videoController.setVolume(0);
         videoMute = true;
       });
     });
@@ -99,7 +99,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void dispose() {
     super.dispose();
-    print('DisposeDisposeDispose');
+    videoController.pause();
     videoController.dispose();
   }
 }

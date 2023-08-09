@@ -81,17 +81,11 @@ class _PinPutWidgetState extends State<PinPutWidget> {
               textDirection: TextDirection.ltr,
               child: Pinput(
                 autofocus: true,
-                controller: notifier.pinController,
                 keyboardType: TextInputType.phone,
-                focusNode: focusNode,
-                androidSmsAutofillMethod:
-                    AndroidSmsAutofillMethod.smsUserConsentApi,
-                listenForMultipleSmsOnAndroid: true,
                 defaultPinTheme: defaultPinTheme,
                 validator: (value) {
                   return value == '2222' ? null : S.current.otpIsNotCorrect;
                 },
-                hapticFeedbackType: HapticFeedbackType.lightImpact,
                 onCompleted: (pin) {
                   notifier.goToWelcomeScreen();
                 },
