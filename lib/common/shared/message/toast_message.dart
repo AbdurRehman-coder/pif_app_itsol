@@ -28,12 +28,16 @@ void alertMessage({
       decoration: ShapeDecoration(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(5.0.r),
+          side: BorderSide(
+            color: textColor,
+            width: .8,
+          ),
         ),
-        color: statusEnum==AlertStatusEnum.success ? activeBgColor : bgColor,
+        color: statusEnum == AlertStatusEnum.success ? activeBgColor : bgColor,
       ),
       child: Row(
         children: [
-          if (statusEnum==AlertStatusEnum.success) ...[
+          if (statusEnum == AlertStatusEnum.success) ...[
             const Icon(
               Icons.done,
               color: primaryColor,
@@ -52,9 +56,11 @@ void alertMessage({
               errorMessage,
               style: errorMessageStyle ??
                   TextStyle(
-                    color: statusEnum==AlertStatusEnum.success ? primaryColor : textColor,
+                    color: statusEnum == AlertStatusEnum.success
+                        ? primaryColor
+                        : textColor,
                     fontSize: 14.sp,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w400,
                   ),
             ),
           ),

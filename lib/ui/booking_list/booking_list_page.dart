@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/background_widget.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
-import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/booking_list/provider/booking_list_provider.dart';
 import 'package:pif_flutter/ui/booking_list/widget/booking_list_tile.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 
 class BookingListPage extends ConsumerStatefulWidget {
   const BookingListPage({
@@ -26,6 +25,7 @@ class _BookingListPageState extends ConsumerState<BookingListPage> {
     final notifier = ref.read(bookingListProvider.notifier);
     final provider = ref.watch(bookingListProvider);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         titleWidget: SearchTextField(
           textEditingController: notifier.searchController,
@@ -59,7 +59,9 @@ class _BookingListPageState extends ConsumerState<BookingListPage> {
                         height: 38.h,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20.r),
-                          color: provider.lstStatus[index].isSelected! ? secondary : Colors.white,
+                          color: provider.lstStatus[index].isSelected!
+                              ? secondary
+                              : Colors.white,
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.10),
@@ -71,7 +73,9 @@ class _BookingListPageState extends ConsumerState<BookingListPage> {
                         child: Text(
                           provider.lstStatus[index].name ?? '',
                           style: Style.commonTextStyle(
-                            color: provider.lstStatus[index].isSelected! ? Colors.white : darkBorderColor,
+                            color: provider.lstStatus[index].isSelected!
+                                ? Colors.white
+                                : darkBorderColor,
                             fontSize: 12.sp,
                             fontWeight: FontWeight.w400,
                           ),
@@ -102,6 +106,16 @@ class _BookingListPageState extends ConsumerState<BookingListPage> {
               },
             )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'btn',
+        elevation: 1,
+        onPressed: () {
+          AppRouter.pushNamed(Routes.spaceBookingScreen);
+        },
+        child: SvgPicture.asset(
+          Assets.addIcon,
         ),
       ),
     );

@@ -8,7 +8,9 @@ import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/booking/state/add_visitor_state.dart';
 
-final addVisitorProvider = StateNotifierProvider.autoDispose<AddVisitorNotifier, AddVisitorState>((ref) {
+final addVisitorProvider =
+    StateNotifierProvider.autoDispose<AddVisitorNotifier, AddVisitorState>(
+        (ref) {
   return AddVisitorNotifier(ref: ref);
 });
 
@@ -64,10 +66,14 @@ class AddVisitorNotifier extends StateNotifier<AddVisitorState> {
         name: '$firstName $lastName',
       );
       final lstData = provider.lstGuests.toList();
-      final isDataAvailable =
-          lstData.firstWhereOrNull((element) => element.emailAddress == model.emailAddress);
+      final isDataAvailable = lstData.firstWhereOrNull(
+        (element) => element.emailAddress == model.emailAddress,
+      );
       if (isDataAvailable != null) {
-        alertMessage(errorMessage: S.current.alreadyAdded, context: context);
+        alertMessage(
+          errorMessage: S.current.visitorAlreadyFound,
+          context: context,
+        );
         return;
       }
       lstData.add(model);
