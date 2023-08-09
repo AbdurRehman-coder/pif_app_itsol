@@ -17,7 +17,7 @@ class BannerTextView extends StatelessWidget {
   });
 
   final String text;
-  final String imageCompany;
+  final String? imageCompany;
   final Creator creator;
   final DateTime dateCreated;
   final List<ContentField> contentFields;
@@ -47,7 +47,7 @@ class BannerTextView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 70.h,
+                  height: 60.h,
                   child: HtmlWidget(
                     text,
                     textStyle: Style.commonTextStyle(
@@ -88,11 +88,13 @@ class BannerTextView extends StatelessWidget {
               ],
             ),
           ),
-          CachedNetworkImage(
-            imageUrl: Constant.imageBaseUrl + imageCompany,
-            width: 70.w,
-            height: 70.h,
-          ),
+          if (imageCompany != null) ...[
+            CachedNetworkImage(
+              imageUrl: Constant.imageBaseUrl + imageCompany!,
+              width: 70.w,
+              height: 70.h,
+            ),
+          ],
         ],
       ),
     );

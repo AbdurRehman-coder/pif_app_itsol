@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
-import 'package:pif_flutter/ui/home/widget/read_more/congrates_text.dart';
+import 'package:pif_flutter/helpers/constants.dart';
+import 'package:pif_flutter/ui/home/widget/read_more/news_description.dart';
 import 'package:pif_flutter/ui/home/widget/read_more/logo_plus_name.dart';
 import 'package:pif_flutter/ui/home/widget/read_more/news_button.dart';
 
@@ -49,25 +50,36 @@ class NewsDetails extends StatelessWidget {
                 const NewsButton(),
               ],
             ),
-            SizedBox(
-              height: 8.h,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 56),
-              child: Column(
-                children: [
-                  CongratsText(
-                    newsDescription: newsText ?? '',
-                  ),
-                  SizedBox(
-                    height: 8.h,
-                  ),
-                  if (newsVideo != null) ...[
-                    BannerVideoView(
-                      videoUrl: newsVideo,
+            SizedBox(height: 15.h),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Row(
+                  children: [
+                    SizedBox(width: 50.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          NewsDescription(
+                            newsDescription: newsText ?? '',
+                          ),
+                          SizedBox(height: 20.h),
+                          if (newsVideo != null) ...[
+                            SizedBox(
+                              height: 200.h,
+                              width: double.infinity,
+                              child: BannerVideoView(
+                                videoUrl: Constants.baseUrl + newsVideo,
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
+                          ],
+                        ],
+                      ),
                     ),
                   ],
-                ],
+                ),
               ),
             ),
           ],

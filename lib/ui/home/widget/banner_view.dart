@@ -49,17 +49,17 @@ class BannerView extends ConsumerWidget with RouteAware {
                       ?.contentFieldValue
                       ?.document
                       ?.contentUrl;
-                  final newsText = newsList[index]
+                  final newsTitle = newsList[index]
                       .contentFields
-                      ?.where((element) => element.name == 'text')
+                      ?.where((element) => element.name == 'title')
                       .firstOrNull
                       ?.contentFieldValue
                       ?.data;
                   final creator = newsList[index].creator;
-                  final type = newsVideo != null
-                      ? NewsEnum.video
-                      : newsText != null
-                          ? NewsEnum.text
+                  final type = newsTitle != null
+                      ? NewsEnum.text
+                      : newsVideo != null
+                          ? NewsEnum.video
                           : NewsEnum.image;
                   if (type == NewsEnum.image) {
                     return BannerImageView(
@@ -75,8 +75,8 @@ class BannerView extends ConsumerWidget with RouteAware {
                     );
                   } else {
                     return BannerTextView(
-                      text: newsText ?? '',
-                      imageCompany: newsImage ?? '',
+                      text: newsTitle ?? '',
+                      imageCompany: newsImage,
                       creator: creator!,
                       contentFields: newsList[index].contentFields ?? [],
                       dateCreated:
@@ -119,5 +119,4 @@ class BannerView extends ConsumerWidget with RouteAware {
       ),
     );
   }
-
 }

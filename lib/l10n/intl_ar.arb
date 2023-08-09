@@ -242,5 +242,11 @@
   "days":"Days",
   "minutes":"Minutes",
   "hours":"Hours",
-  "visitIsCancel":"Visit is cancel"
+  "visitIsCancel":"Visit is cancel",
+ "accessContactDenied" : "Access to contact data denied",
+ "enablePermissionsFromSettings" : "Please enable contact permissions from settings",
+ "save" : "Save",
+ "baseCamp" : "Base Camp",
+ "spaceType" : "Space Type",
+ "desk" : "Desk"
 }

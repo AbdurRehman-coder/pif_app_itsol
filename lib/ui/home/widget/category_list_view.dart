@@ -25,9 +25,8 @@ class CategoryListView extends ConsumerWidget {
         return GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 4,
-            crossAxisSpacing: 40.h,
-            mainAxisSpacing: 10.w,
-            childAspectRatio: 0.6,
+            crossAxisSpacing: 20.w,
+            childAspectRatio: 0.7,
           ),
           itemCount: data.length,
           physics: const NeverScrollableScrollPhysics(),
@@ -74,6 +73,7 @@ class CategoryListView extends ConsumerWidget {
               },
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     height: 60.w,
