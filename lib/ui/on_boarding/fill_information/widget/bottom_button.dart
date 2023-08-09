@@ -69,7 +69,7 @@ class BottomButton extends ConsumerWidget {
                                 : true) &&
                             provider.acceptTermsAndCondition &&
                             provider.acceptNDA
-                        ? notifier.updateIndexSelect
+                        ? () => notifier.checkIfUserFoundOrNot(context: context)
                         : null,
                     child: Text(
                       S.current.next,

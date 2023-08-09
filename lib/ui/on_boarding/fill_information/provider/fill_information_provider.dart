@@ -171,6 +171,24 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     }
   }
 
+  Future<void> checkIfUserFoundOrNot({required BuildContext context}) async {
+    final appProgressDialog = AppProgressDialog(context: context);
+    await appProgressDialog.start();
+    final result = await DixelsSDK.instance.verifyUserService
+        .checkUserByNationalId(nationalId: iDController.text);
+    await appProgressDialog.stop();
+    if (result.isRight()) {
+      if (result.getRight()?.status == 'NOT_FOUND') {
+        updateIndexSelect();
+      } else {
+        alertMessage(
+          errorMessage: S.current.userAlreadyFound,
+          context: context,
+        );
+      }
+    }
+  }
+
   Future<void> verifyUser({required BuildContext context}) async {
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
