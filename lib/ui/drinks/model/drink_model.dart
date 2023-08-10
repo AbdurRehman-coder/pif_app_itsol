@@ -36,7 +36,10 @@ class DrinkModel {
   List<Options>? optionList;
 
   String get imageUrl => drinkImage != null
-      ? drinkImage!.replaceAll('https://localhost:8080', 'http://20.74.136.229')
+      ? drinkImage == 'https://localhost:8080'
+          ? drinkImage!
+              .replaceAll('https://localhost:8080', 'http://20.74.136.229')
+          : drinkImage!.replaceAll('https://localhost', 'http://20.74.136.229')
       : '';
 }
 

@@ -34,82 +34,90 @@ void showOrderCartAndDetails({
               padding: MediaQuery.of(context).viewInsets,
               child: FractionallySizedBox(
                 heightFactor: provider.lstCarts.length > 2 ? 0.92 : 0.7,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
-                        child: InkWell(
-                          onTap: AppRouter.pop,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 16.h),
-                            child: Image.asset(
-                              Assets.homeIndicator,
-                              height: 5.h,
-                              width: 60.w,
-                            ),
+                child: Column(
+                  children: [
+                    Center(
+                      child: InkWell(
+                        onTap: AppRouter.pop,
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 16.h),
+                          child: Image.asset(
+                            Assets.homeIndicator,
+                            height: 5.h,
+                            width: 60.w,
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                    ),
+                    Expanded(
+                      child: SingleChildScrollView(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 30.h,
-                            ),
-                            if (provider.lstCarts.isNotEmpty) ...[
-                              ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                separatorBuilder: (_, index) {
-                                  return SizedBox(height: 20.h);
-                                },
-                                itemBuilder: (_, index) {
-                                  return DrinkCartTile(
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  if (provider.lstCarts.isNotEmpty) ...[
+                                    ListView.separated(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      separatorBuilder: (_, index) {
+                                        return SizedBox(height: 20.h);
+                                      },
+                                      itemBuilder: (_, index) {
+                                        return DrinkCartTile(
+                                          notifier: notifier,
+                                          item: provider.lstCarts[index],
+                                        );
+                                      },
+                                      itemCount: provider.lstCarts.length,
+                                    ),
+                                  ] else ...[
+                                    DrinkCartTile(
+                                      notifier: notifier,
+                                      item: drinkModel,
+                                    ),
+                                  ],
+                                  SizedBox(height: 20.h),
+                                  CustomTextField(
+                                    textEditingController:
+                                        notifier.notesController,
+                                    maxLines: 3,
+                                    hintText: S.current.notes,
+                                  ),
+                                  CustomCheckBoxWithText(
+                                    isChecked: provider.isSelectedPinOrder,
+                                    text: S.of(context).pinOrderQuickActions,
+                                    onChanged: (value) {
+                                      notifier.updatePinOrderQuickActions(
+                                        value: value!,
+                                      );
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  FloatActionWidget(
+                                    provider: provider,
                                     notifier: notifier,
-                                    item: provider.lstCarts[index],
-                                  );
-                                },
-                                itemCount: provider.lstCarts.length,
+                                    drinkModel: drinkModel,
+                                  ),
+                                ],
                               ),
-                            ] else ...[
-                              DrinkCartTile(
-                                notifier: notifier,
-                                item: drinkModel,
-                              ),
-                            ],
-                            SizedBox(height: 20.h),
-                            CustomTextField(
-                              textEditingController: notifier.notesController,
-                              maxLines: 3,
-                              hintText: S.current.notes,
-                            ),
-                            CustomCheckBoxWithText(
-                              isChecked: provider.isSelectedPinOrder,
-                              text: S.of(context).pinOrderQuickActions,
-                              onChanged: (value) {
-                                notifier.updatePinOrderQuickActions(
-                                  value: value!,
-                                );
-                              },
-                            ),
-                            SizedBox(
-                              height: 24.h,
-                            ),
-                            FloatActionWidget(
-                              provider: provider,
-                              notifier: notifier,
-                              drinkModel: drinkModel,
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -75,7 +75,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                               style: Style.commonTextStyle(
                                 color: blackColorWith900,
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                             SizedBox(height: 8.h),
