@@ -148,9 +148,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Update End Time
   void updateEndTime({required DateTime? endTime, BuildContext? context}) {
-    print('end time: $endTime ,, start time: ${state.startTime}');
-    print('is time equal>>>: ${state.startTime == endTime}');
-
     if (endTime == null) {
       return;
     }
@@ -495,8 +492,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     final isDataAvailable =
         data.where((element) => element.isSelected == true).toList();
-
-    state = state.copyWith(lstGuests: isDataAvailable);
+    isDataAvailable.addAll(state.lstGuests);
+    // Check if a selected guest is not already in lstGuests and then add it
+    final newGuests = isDataAvailable
+        .where((guest) => !state.lstGuests.contains(guest))
+        .toList();
+    // Combine the new guests with invited guest
+    final updatedGuests = [...state.lstGuests, ...newGuests];
+    state = state.copyWith(lstGuests: updatedGuests);
   }
 
   // Remove Invite Guest Data
