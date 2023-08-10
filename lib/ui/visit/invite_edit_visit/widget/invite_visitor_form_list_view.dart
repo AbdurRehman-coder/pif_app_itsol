@@ -38,6 +38,7 @@ class InviteVisitorFormListView extends StatelessWidget {
               height: 24.h,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: SecondCustomTextField(
@@ -62,7 +63,7 @@ class InviteVisitorFormListView extends StatelessWidget {
             ),
           ],
         ).visibility(
-          visible: provider.lstData.isEmpty && isInviteVisit,
+        visible: provider.lstData.isEmpty && isInviteVisit,
         ),
         SizedBox(
           height: cellHeight,

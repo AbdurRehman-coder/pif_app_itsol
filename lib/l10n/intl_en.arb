@@ -257,6 +257,6 @@
   "spaceType" : "Space Type",
   "desk" : "Desk",
   "bookingSubject": "Booking Subject",
-  "newGuest": "New Guest"
+  "newGuest": "New Guest",
   "userAlreadyFound":"User already found"
 }

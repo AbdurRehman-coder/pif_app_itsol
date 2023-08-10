@@ -60,10 +60,10 @@ class StartDateAndTime extends StatelessWidget {
             ),
             Expanded(
               child: InkWell(
-                onTap:selectedVisit != null &&
-                    selectedVisit!.visitStartDate!.isBeforeNow
+                onTap: selectedVisit != null &&
+                        selectedVisit!.visitStartDate!.isBeforeNow
                     ? null
-                    : () => notifier.openStartTimePickerDialog,
+                    : notifier.openStartTimePickerDialog,
                 child: SecondCustomTextField(
                   textEditingController: notifier.startTimeController,
                   enabled: false,

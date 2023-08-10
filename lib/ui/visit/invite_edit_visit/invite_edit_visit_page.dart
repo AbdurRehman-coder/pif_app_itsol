@@ -172,7 +172,12 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                             ).visibility(
                               visible: widget.isInviteVisit,
                             ),
-                            SizedBox(height: 100.h),
+                            if (provider.lstData.isEmpty &&
+                                widget.isInviteVisit) ...[
+                              SizedBox(height: 160.h),
+                            ] else ...[
+                              SizedBox(height: 100.h),
+                            ],
                           ],
                         ),
                         Visibility(
@@ -259,7 +264,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                     context: context,
                     fromHomepage: widget.fromHomepage,
                     isEditVisit: true,
-            visitId: widget.selectedVisit?.id,
+                    visitId: widget.selectedVisit?.id,
                   ),
           style: Style.primaryButtonStyleSecond(
             context: context,
