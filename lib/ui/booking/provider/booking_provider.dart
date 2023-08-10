@@ -8,7 +8,6 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
@@ -19,7 +18,8 @@ import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
-final bookingProvider = StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {
+final bookingProvider =
+    StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {
   return BookingNotifier(ref: ref);
 });
 
@@ -86,7 +86,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final userDetails = await DixelsSDK.instance.userDetails;
     titleController.text = '${S.current.bookingFor} ${userDetails!.name!}';
     final currentDateTime = DateTime.now();
-    final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
+    final currentDate = DateTime(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+      12,
+    );
     updateStartDate(currentDate);
 
     _setNearestTimeSlot();
@@ -109,6 +114,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     endDateController.text = DateFormat('dd MMM yyyy').format(date);
 
     closeStartDatePickerDialog();
+    formKey.currentState?.validate();
   }
 
   //Update End Date
@@ -117,6 +123,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     endDateController.text = DateFormat('dd MMM yyyy').format(date);
 
     closeEndDatePicker();
+    formKey.currentState?.validate();
   }
 
   //Update Start Time
@@ -136,11 +143,18 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final startTimeString = DateFormat('hh:mm a').format(startTime);
     updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
     startTimeController.text = startTimeString;
+    formKey.currentState?.validate();
   }
 
   //Update End Time
   void updateEndTime({required DateTime? endTime, BuildContext? context}) {
+    print('end time: $endTime ,, start time: ${state.startTime}');
+    print('is time equal>>>: ${state.startTime == endTime}');
+
     if (endTime == null) {
+      return;
+    }
+    if (state.startTime != null && state.startTime == endTime) {
       return;
     }
     endTime = DateTime(
@@ -162,6 +176,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     final endTimeString = DateFormat('hh:mm a').format(endTime);
     endTimeController.text = endTimeString;
+    formKey.currentState?.validate();
   }
 
   //Open Start DatePicker Dialog
@@ -292,7 +307,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (searchText.isNotEmpty) {
       final data = filterAuoCompleteGuestData
           .where(
-            (element) => element.name!.toLowerCase().contains(searchText.toLowerCase()),
+            (element) =>
+                element.name!
+                    .toLowerCase()
+                    .contains(searchText.toLowerCase()) ||
+                element.emailAddress!
+                    .toLowerCase()
+                    .contains(searchText.toLowerCase()),
           )
           .toList();
       state = state.copyWith(lstAutoCompleteGuests: data);
@@ -318,7 +339,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
         return;
       }
 
-      if (state.startDate.isSameDate(DateTime.now()) && state.startTime!.isBefore(DateTime.now())) {
+      if (state.startDate.isSameDate(DateTime.now()) &&
+          state.startTime!.isBefore(DateTime.now())) {
         alertMessage(
           errorMessage: S.current.pastBookingAlert,
           context: context,
@@ -336,7 +358,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
       } else {
         alertMessage(
-          errorMessage: '${S.current.bookingAlert} On Date ${state.startDate.toFormattedString('dd MMM yyyy')}',
+          errorMessage:
+              '${S.current.bookingAlert} On Date ${state.startDate.toFormattedString('dd MMM yyyy')}',
           context: context,
         );
       }
@@ -344,12 +367,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   bool isSlotAvailable() {
-    final data = allBookingTasks.where((element) => element.dateTime.isSameDate(state.startDate)).toList();
+    final data = allBookingTasks
+        .where((element) => element.dateTime.isSameDate(state.startDate))
+        .toList();
     var isAvailable = false;
     if (data.isNotEmpty) {
       for (final item in data) {
         final startTime = item.dateTime;
-        final endTime = item.dateTime.add(Duration(minutes: item.minutesDuration));
+        final endTime =
+            item.dateTime.add(Duration(minutes: item.minutesDuration));
 
         final stateStartTime = DateTime(
           startTime.year,
@@ -366,10 +392,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
           state.endTime!.hour,
           state.endTime!.minute,
         );
-        if ((startTime.isBefore(stateEndTime) && endTime.isAfter(stateStartTime)) ||
+        if ((startTime.isBefore(stateEndTime) &&
+                endTime.isAfter(stateStartTime)) ||
             (startTime.isAtSameMomentAs(stateStartTime)) ||
             (endTime.isAtSameMomentAs(stateEndTime))) {
-          isAvailable = true; // Overlapping slot found, set availability to false
+          isAvailable =
+              true; // Overlapping slot found, set availability to false
           break; // Exit the loop since availability is already determined
         }
       }
@@ -400,17 +428,22 @@ class BookingNotifier extends StateNotifier<BookingState> {
               givenName: e.givenName ?? '',
               familyName: e.familyName ?? '',
               emailAddress: e.emailAddress ?? '',
-              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+              alternateName:
+                  e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
             ),
           )
           .toList(),
     );
     showSuccessMessage(
       context: context,
-      titleText: isBookEnabled ? S.of(context).requestBookTitle : S.of(context).bookingRoom,
+      titleText: isBookEnabled
+          ? S.of(context).requestBookTitle
+          : S.of(context).bookingRoom,
       subTitle: S.of(context).bookedByMistake,
-      cancelText: isBookEnabled ? S.of(context).cancelRequest : S.of(context).cancel,
-      image: isBookEnabled ? Assets.requestBookingConf : Assets.bookConfirmation,
+      cancelText:
+          isBookEnabled ? S.of(context).cancelRequest : S.of(context).cancel,
+      image:
+          isBookEnabled ? Assets.requestBookingConf : Assets.bookConfirmation,
       navigateAfterEndTime: () async {
         Future.delayed(Duration.zero, () async {
           await appProgress.start();
@@ -460,7 +493,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(isVisibleAddGuestList: false);
     final data = state.lstAutoCompleteGuests.toList();
 
-    final isDataAvailable = data.where((element) => element.isSelected == true).toList();
+    final isDataAvailable =
+        data.where((element) => element.isSelected == true).toList();
 
     state = state.copyWith(lstGuests: isDataAvailable);
   }
@@ -477,14 +511,19 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Filter Task Data
   void filterTaskData() {
-    final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData = allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
+    final selectedDay =
+        state.lstDays.firstWhere((element) => element.isSelected! == true);
+    final taskData = allBookingTasks
+        .where((element) => element.dateTime.day == selectedDay.dateTime!.day)
+        .toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
   // Get Booking Task Data
   Future<void> getBookings({required RoomModel? spaceData}) async {
-    if (spaceData != null && spaceData.bookings != null && spaceData.bookings!.isNotEmpty) {
+    if (spaceData != null &&
+        spaceData.bookings != null &&
+        spaceData.bookings!.isNotEmpty) {
       lstBookings = spaceData.bookings!;
       final userDetails = await DixelsSDK.instance.userDetails;
       for (final mainElement in spaceData.bookings!) {
@@ -494,8 +533,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
           for (final element in dateList) {
             final dateString = element as String;
             final taskDate = DateTime.parse(dateString);
-            final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+            final taskTime = DateTime(taskDate.year)
+                .add(Duration(minutes: mainElement.startTime!));
+            final bookingDateTime = DateTime(
+              taskDate.year,
+              taskDate.month,
+              taskDate.day,
+              taskTime.hour,
+              taskTime.minute,
+            );
             allBookingTasks.add(
               TimePlannerTask(
                 color: gradientEnd,
@@ -536,9 +582,16 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final minuteModulo = minute % 15;
     var roundedTime = dateTime.subtract(Duration(minutes: minuteModulo));
 
-    roundedTime = DateTime(roundedTime.year, roundedTime.month, roundedTime.day, roundedTime.hour, roundedTime.minute);
+    roundedTime = DateTime(
+      roundedTime.year,
+      roundedTime.month,
+      roundedTime.day,
+      roundedTime.hour,
+      roundedTime.minute,
+    );
     state = state.copyWith(startTime: roundedTime);
-    state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
+    state =
+        state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);
     updateEndTime(endTime: state.endTime);
   }

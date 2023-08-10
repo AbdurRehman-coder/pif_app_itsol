@@ -45,7 +45,8 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
         lstData?.add(
           WheelChoice(
             value: date.add(Duration(minutes: i * 15)),
-            title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 15))),
+            title: DateFormat('hh:mm a')
+                .format(date.add(Duration(minutes: i * 15))),
           ),
         );
       }
@@ -54,7 +55,8 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
         lstData?.add(
           WheelChoice(
             value: date.add(Duration(minutes: i * 60)),
-            title: DateFormat('hh:mm a').format(date.add(Duration(minutes: i * 60))),
+            title: DateFormat('hh:mm a')
+                .format(date.add(Duration(minutes: i * 60))),
           ),
         );
       }
@@ -66,7 +68,8 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
+      padding:
+          EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         color: Colors.white,
@@ -147,7 +150,9 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
 
   void initTimeData() {
     final data = lstData?.firstWhereOrNull(
-      (element) => !element.value.isBefore(widget.timeData) && !element.value.isAfter(widget.timeData),
+      (element) =>
+          !element.value.isBefore(widget.timeData) &&
+          !element.value.isAfter(widget.timeData),
     );
     if (data != null) {
       selectedTimeIndex = lstData?.indexOf(data);

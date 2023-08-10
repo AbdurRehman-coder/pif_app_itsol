@@ -243,6 +243,8 @@
   "minutes":"Minutes",
   "hours":"Hours",
   "visitIsCancel":"Visit is cancel",
+  "bookingSubject": "Booking Subject",
+  "newGuest": "New Guest",
  "accessContactDenied" : "Access to contact data denied",
  "enablePermissionsFromSettings" : "Please enable contact permissions from settings",
  "save" : "Save",

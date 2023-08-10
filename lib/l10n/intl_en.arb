@@ -256,5 +256,7 @@
   "baseCamp" : "Base Camp",
   "spaceType" : "Space Type",
   "desk" : "Desk",
+  "bookingSubject": "Booking Subject",
+  "newGuest": "New Guest"
   "userAlreadyFound":"User already found"
 }
