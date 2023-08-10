@@ -119,6 +119,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   ),
                 )
               ],
+            ).visibility(
+              visible: provider.lstData.hasValue && provider.lstData.value != null && provider.lstData.value!.isNotEmpty,
             ),
             SizedBox(
               height: 16.h,
@@ -127,7 +129,9 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
               child: provider.lstData.when(
                 data: (data) {
                   if (data.isEmpty) {
-                    return const SpaceBookingEmptyView();
+                    return SpaceBookingEmptyView(
+                      isFromEdit: false,
+                    );
                   } else {
                     return setListView(data, notifier);
                   }

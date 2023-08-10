@@ -7,7 +7,9 @@ import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
 
 class SpaceBookingEmptyView extends StatelessWidget {
-  const SpaceBookingEmptyView({super.key});
+  SpaceBookingEmptyView({this.isFromEdit, super.key});
+
+  bool? isFromEdit = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class SpaceBookingEmptyView extends StatelessWidget {
             height: 10.h,
           ),
           Text(
-            S.of(context).noRoomToShow,
+            isFromEdit == false ? S.of(context).noRoomToShow : 'no booking available',
             textAlign: TextAlign.center,
             style: Style.commonTextStyle(
               color: primaryColor,

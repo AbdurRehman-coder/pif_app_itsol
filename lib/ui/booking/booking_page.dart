@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,14 +15,11 @@ import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 class BookingPage extends ConsumerStatefulWidget {
-  const BookingPage({
-    required this.spaceData,
-    required this.isFromScan,
-    super.key,
-  });
+  const BookingPage({required this.spaceData, required this.isFromScan, this.bookingModel, super.key});
 
   final RoomModel spaceData;
   final bool isFromScan;
+  final BookingModel? bookingModel;
 
   @override
   ConsumerState createState() => _BookingPageState();
@@ -37,9 +35,13 @@ class _BookingPageState extends ConsumerState<BookingPage> {
     Future.delayed(
       Duration.zero,
       () {
-        ref
-            .read(bookingProvider.notifier)
-            .getBookings(spaceData: widget.spaceData);
+        if (widget.bookingModel != null) {
+          ref.read(bookingProvider.notifier).bindEditData(spaceData: widget.bookingModel!, context: context);
+          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.bookingModel!.roomModel);
+        } else {
+          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.spaceData);
+        }
+
         if (widget.isFromScan) {
           ref.read(bookingProvider.notifier).bindScanData();
         }
@@ -414,7 +416,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                               timeData: provider.endTime ?? DateTime.now(),
                               onCancel: notifier.closeEndTimePickerDialog,
                               onConfirm: (selectedTime) {
-                                notifier.updateEndTime(endTime: selectedTime);
+                                notifier.updateEndTime(endTime: selectedTime, context: context);
                                 notifier.closeEndTimePickerDialog();
                               },
                             ).visibility(visible: provider.isOpenEndTimePicker),
@@ -534,11 +536,19 @@ class _BookingPageState extends ConsumerState<BookingPage> {
         margin: EdgeInsets.only(bottom: 40.h, right: 16.w, left: 16.w),
         child: ElevatedButton(
           onPressed: () {
-            notifier.bookNowAsync(
-              context: context,
-              isBookEnabled: widget.spaceData.needApproval!,
-              roomId: widget.spaceData.id!,
-            );
+            if (widget.bookingModel != null) {
+              notifier.bookNowAsync(
+                context: context,
+                isBookEnabled: false,
+                roomId: widget.bookingModel!.id!,
+              );
+            } else {
+              notifier.bookNowAsync(
+                context: context,
+                isBookEnabled: widget.spaceData.needApproval!,
+                roomId: widget.spaceData.id!,
+              );
+            }
           },
           style: Style.primaryButtonStyle(
             context: context,

@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/index.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
@@ -120,8 +121,10 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
       bottomNavigationBar: Container(
         height: 70.h,
         color: whiteColor,
-        child: const BottomSheetButtonWidget(
-          onTap: AppRouter.pop,
+        child: BottomSheetButtonWidget(
+          onTap: () {
+            AppRouter.pushReplacement(Routes.spaceBookingScreen);
+          },
         ),
       ),
     );

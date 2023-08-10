@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:pif_flutter/ui/booking/model/day_header_model.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
@@ -26,6 +27,8 @@ class BookingState with _$BookingState {
     required List<UserModel> lstAutoCompleteGuests,
     required bool isVisibleAddGuestList,
     required List<TimePlannerTask> lstTasks,
+    required bool isFromEdit,
+    required BookingModel? bookingModel,
   }) = _BookingState;
 
   factory BookingState.initial() => BookingState(
@@ -44,8 +47,10 @@ class BookingState with _$BookingState {
         lstDays: <DayHeaderModel>[],
         lstGuests: <UserModel>[],
         errorMessage: '',
+        isFromEdit: false,
         lstAutoCompleteGuests: <UserModel>[],
         isVisibleAddGuestList: false,
         lstTasks: <TimePlannerTask>[],
+        bookingModel: null,
       );
 }

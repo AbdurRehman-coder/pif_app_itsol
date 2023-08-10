@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_request_model.dart';
@@ -13,6 +14,7 @@ import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
+import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
@@ -97,6 +99,36 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _setNearestTimeSlot();
   }
 
+  //Set Default Data For Edit
+  Future<void> bindEditData({required BookingModel spaceData, required BuildContext context}) async {
+    state = state.copyWith(isFromEdit: true, bookingModel: spaceData);
+    // bind the title
+    titleController.text = '${S.current.bookingFor} ${spaceData.subject}';
+
+    //bind the start time
+    final currentDateTime = DateTime.now();
+    var startTime = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day);
+    startTime = startTime.add(Duration(minutes: spaceData.startTime!));
+    updateStartTime(startTime: startTime);
+
+    //bind thr end time
+    var endTime = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day);
+    endTime = endTime.add(Duration(minutes: spaceData.endTime!));
+    updateEndTime(endTime: endTime, context: context);
+    var date = spaceData.bookedDates?.split(',').first;
+    date = date!.replaceAll('[', '');
+    date = date.replaceAll(']', '');
+    date = date.replaceAll('"', '');
+    final startDate = date.getDateTime;
+    updateStartDate(startDate);
+
+    // bind the guest data
+    if (spaceData.attendees != null && spaceData.attendees!.isNotEmpty) {
+      filterAuoCompleteGuestData = spaceData.attendees!;
+      state = state.copyWith(lstAutoCompleteGuests: filterAuoCompleteGuestData, lstGuests: filterAuoCompleteGuestData);
+    }
+  }
+
   // Get Guest Data
   Future<void> getGuestData() async {
     final result = await DixelsSDK.instance.accountService.getUsers();
@@ -141,7 +173,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
-    updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
+    if (state.bookingModel == null) {
+      updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
+    }
     startTimeController.text = startTimeString;
     formKey.currentState?.validate();
   }
@@ -369,13 +403,22 @@ class BookingNotifier extends StateNotifier<BookingState> {
       }
 
       if (!isSlotAvailable()) {
-        await createBooking(
-          roomId: roomId,
-          startTimeInMinutes: startTimeInMinutes,
-          endTimeInMinutes: endTimeInMinutes,
-          isBookEnabled: isBookEnabled,
-          context: context,
-        );
+        if (state.isFromEdit == true) {
+          await editBooking(
+            endTimeInMinutes: endTimeInMinutes,
+            startTimeInMinutes: startTimeInMinutes,
+            roomId: roomId,
+            context: context,
+          );
+        } else {
+          await createBooking(
+            roomId: roomId,
+            startTimeInMinutes: startTimeInMinutes,
+            endTimeInMinutes: endTimeInMinutes,
+            isBookEnabled: isBookEnabled,
+            context: context,
+          );
+        }
       } else {
         alertMessage(
           errorMessage:
@@ -384,6 +427,83 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
       }
     }
+  }
+
+  Future<void> editBooking({
+    required int roomId,
+    required int startTimeInMinutes,
+    required int endTimeInMinutes,
+    required BuildContext context,
+  }) async {
+    final appProgress = AppProgressDialog(context: context);
+    final dayString = '\"${state.startDate.toFormattedString('yyyy-MM-dd')}\"';
+    final requestModel = BookingRequestModel(
+      subject: titleController.text,
+      bookedDates: '[$dayString]',
+      startTime: startTimeInMinutes,
+      endTime: endTimeInMinutes,
+      r_bookings_c_roomId: roomId,
+      attendees: state.lstGuests
+          .map(
+            (e) => Visitors(
+              givenName: e.givenName ?? '',
+              familyName: e.familyName ?? '',
+              emailAddress: e.emailAddress ?? '',
+              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+            ),
+          )
+          .toList(),
+    );
+
+    showSuccessMessage(
+      context: context,
+      titleText:
+          // isBookEnabled ? S.of(context).requestBookTitle :
+          S.of(context).bookingRoom,
+      subTitle: S.of(context).bookedByMistake,
+      cancelText:
+          // isBookEnabled ? S.of(context).cancelRequest :
+          S.of(context).cancel,
+      image:
+          // isBookEnabled ? Assets.requestBookingConf :
+          Assets.bookConfirmation,
+      navigateAfterEndTime: () async {
+        Future.delayed(Duration.zero, () async {
+          await appProgress.start();
+        });
+        final param = ParametersModel();
+        param.query = '${state.bookingModel?.id!}';
+        final result = await DixelsSDK.instance.bookingService.patchPageDataWithEither(
+          reqModel: requestModel,
+          fromJson: BookingModel.fromJson,
+          params: param,
+        );
+
+        if (result.isRight()) {
+          await appProgress.stop();
+          await AppRouter.pop();
+          state = state.copyWith(isFromEdit: false);
+          final notifier = ref.read(spaceBookingProvider.notifier);
+          await notifier.getSpaceAsync();
+
+          if (mounted) {
+            alertMessage(
+              errorMessage: S.current.bookingSlotSuccess,
+              context: context,
+              statusEnum: AlertStatusEnum.success,
+            );
+          }
+        } else {
+          await appProgress.stop();
+          if (mounted) {
+            alertMessage(
+              errorMessage: S.current.somethingWentWrong,
+              context: context,
+            );
+          }
+        }
+      },
+    );
   }
 
   bool isSlotAvailable() {
@@ -551,46 +671,69 @@ class BookingNotifier extends StateNotifier<BookingState> {
         spaceData.bookings != null &&
         spaceData.bookings!.isNotEmpty) {
       lstBookings = spaceData.bookings!;
-      final userDetails = await DixelsSDK.instance.userDetails;
-      for (final mainElement in spaceData.bookings!) {
-        final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
-        final duration = mainElement.endTime! - mainElement.startTime!;
-        if (dateList.isNotEmpty) {
-          for (final element in dateList) {
-            final dateString = element as String;
-            final taskDate = DateTime.parse(dateString);
-            final taskTime = DateTime(taskDate.year)
-                .add(Duration(minutes: mainElement.startTime!));
-            final bookingDateTime = DateTime(
-              taskDate.year,
-              taskDate.month,
-              taskDate.day,
-              taskTime.hour,
-              taskTime.minute,
-            );
-            allBookingTasks.add(
-              TimePlannerTask(
-                color: gradientEnd,
-                leftSpace: 40,
-                isBlocked: userDetails?.id != mainElement.creator?.id,
-                dateTime: bookingDateTime,
-                minutesDuration: duration,
-                onTap: () {},
-                child: Text(
-                  mainElement.subject ?? '',
-                  style: Style.commonTextStyle(
-                    color: whiteColor,
-                    height: 1.3,
-                    fontSize: duration <= 30 ? 12.sp : 16.sp,
-                    fontWeight: FontWeight.w500,
-                  ),
+      await bindCalendarData(lstBookings);
+    } else {
+      await getBookingInformation(context: AppRouter.navigatorKey.currentContext!, roomId: spaceData!.id!.toString());
+    }
+  }
+
+  Future<void> bindCalendarData(List<BookingModel>? data) async {
+    final userDetails = await DixelsSDK.instance.userDetails;
+    for (final mainElement in data!) {
+      final dateList = jsonDecode(mainElement.bookedDates!) as List<dynamic>;
+      final duration = mainElement.endTime! - mainElement.startTime!;
+      if (dateList.isNotEmpty) {
+        for (final element in dateList) {
+          final dateString = element as String;
+          final taskDate = DateTime.parse(dateString);
+          final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
+          final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+          allBookingTasks.add(
+            TimePlannerTask(
+              color: gradientEnd,
+              leftSpace: 40,
+              isBlocked: userDetails?.id != mainElement.creator?.id,
+              dateTime: bookingDateTime,
+              minutesDuration: duration,
+              onTap: () {},
+              child: Text(
+                mainElement.subject ?? '',
+                style: Style.commonTextStyle(
+                  color: whiteColor,
+                  height: 1.3,
+                  fontSize: duration <= 30 ? 12.sp : 16.sp,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
-            );
-          }
+            ),
+          );
         }
       }
-      filterTaskData();
+    }
+    filterTaskData();
+  }
+
+  Future<void> getBookingInformation({
+    required String roomId,
+    required BuildContext context,
+  }) async {
+    var filterQuery = FilterUtils.filterBy(
+      key: 'bookable',
+      value: true.toString(),
+      operator: FilterOperator.equal.value,
+    );
+    filterQuery = '$filterQuery and ${FilterUtils.filterBy(
+      key: 'id',
+      value: "'$roomId'",
+      operator: FilterOperator.equal.value,
+    )}';
+    final param = ParametersModel();
+    param.filter = filterQuery;
+    param.nestedFields = 'bookings';
+    final result = await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
+
+    if (result != null && result.items!.isNotEmpty) {
+      await bindCalendarData(result.items![0].bookings);
     }
   }
 

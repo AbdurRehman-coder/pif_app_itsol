@@ -70,7 +70,9 @@ class _BookSearchViewState extends ConsumerState<BookSearchWidget> {
             child: provider.lstData.when(
               data: (data) {
                 if (data.isEmpty) {
-                  return const SpaceBookingEmptyView();
+                  return SpaceBookingEmptyView(
+                    isFromEdit: false,
+                  );
                 } else {
                   return setListView(data, notifier);
                 }

@@ -1,18 +1,15 @@
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pif_flutter/generated/l10n.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/booking_details/widget/guests_list.dart';
 import 'package:pif_flutter/ui/booking_details/widget/list_tile_widget.dart';
 import 'package:pif_flutter/ui/booking_details/widget/room_information.dart';
 import 'package:pif_flutter/ui/booking_list/extensions/booking_status_extensions.dart';
-import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
 
 class RoomDetails extends StatelessWidget {
   const RoomDetails({required this.item, super.key});
 
-  final BookingListModel item;
+  final BookingModel item;
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +21,15 @@ class RoomDetails extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                item.spaceName.toString(),
-                style: Style.commonTextStyle(
-                  color: textColor,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
+              Flexible(
+                child: Text(
+                  item.roomModel != null && item.roomModel!.name != null ? item.roomModel?.name ?? '' : '-',
+                  maxLines: 2,
+                  style: Style.commonTextStyle(
+                    color: textColor,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
               ),
               Container(
@@ -38,27 +38,27 @@ class RoomDetails extends StatelessWidget {
                   horizontal: 12.w,
                 ),
                 decoration: BoxDecoration(
-                  color: item.status!.getStatusBgColor,
+                  color: item.bookingStatus?.key!.getStatusBgColor,
                   borderRadius: BorderRadius.all(
                     Radius.circular(16.r),
                   ),
                 ),
                 child: Text(
-                  item.status!.getStatusText ?? '',
+                  item.bookingStatus?.name ?? '',
                   style: Style.commonTextStyle(
-                    color: item.status!.getStatusTextColor,
+                    color: item.bookingStatus?.key!.getStatusTextColor,
                     fontSize: 12.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-              ),
+              ).visibility(visible: item.bookingStatus != null && item.bookingStatus!.name != null),
             ],
           ),
           SizedBox(
             height: 8.h,
           ),
           Text(
-            item.bookingTitle ?? '',
+            item.subject ?? '',
             style: Style.commonTextStyle(
               color: textColor,
               fontSize: 16.sp,
@@ -66,6 +66,7 @@ class RoomDetails extends StatelessWidget {
             ),
           ),
           SizedBox(height: 16.h),
+
           /// Room information
           RoomInformation(data: item),
           SizedBox(height: 16.h),
@@ -78,9 +79,9 @@ class RoomDetails extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          const ListTileWidget(
+          ListTileWidget(
             imageProfile: 'https://picsum.photos/80/80',
-            userName: 'Khaled moh(you)',
+            userName: item.creator?.name ?? '',
             userPosition: 'Product owner',
           ),
           SizedBox(height: 18.h),
@@ -91,9 +92,9 @@ class RoomDetails extends StatelessWidget {
               fontSize: 18.sp,
               fontWeight: FontWeight.w500,
             ),
-          ),
-          SizedBox(height: 10.h),
-          const GuestsList(),
+          ).visibility(visible: item.attendees!.isNotEmpty),
+          SizedBox(height: 10.h).visibility(visible: item.attendees!.isNotEmpty),
+          GuestsList(model: item.attendees!).visibility(visible: item.attendees!.isNotEmpty),
         ],
       ),
     );

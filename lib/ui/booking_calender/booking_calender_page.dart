@@ -139,9 +139,7 @@ class _BookingCalenderPageState extends ConsumerState<BookingCalenderPage> {
                                     Text(
                                       provider.lstDays[index].dayDate ?? '',
                                       style: Style.commonTextStyle(
-                                        color: provider.lstDays[index].isSelected!
-                                            ? provider.lstDays[index].bgColor
-                                            : textColor,
+                                        color: provider.lstDays[index].isSelected! ? provider.lstDays[index].bgColor : textColor,
                                         fontSize: 18.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
@@ -149,9 +147,7 @@ class _BookingCalenderPageState extends ConsumerState<BookingCalenderPage> {
                                     Text(
                                       provider.lstDays[index].dayName ?? '',
                                       style: Style.commonTextStyle(
-                                        color: provider.lstDays[index].isSelected!
-                                            ? provider.lstDays[index].bgColor
-                                            : dayTextColor,
+                                        color: provider.lstDays[index].isSelected! ? provider.lstDays[index].bgColor : dayTextColor,
                                         fontSize: provider.lstDays[index].textFontSize.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -205,7 +201,7 @@ class _BookingCalenderPageState extends ConsumerState<BookingCalenderPage> {
         padding: EdgeInsets.only(bottom: 20.h),
         child: FloatingActionButton(
           onPressed: () {
-            AppRouter.pushReplacement(Routes.bookingScreen, args: [widget.spaceData, false]);
+            AppRouter.pushReplacement(Routes.bookingScreen, args: [widget.spaceData, false, null]);
           },
           elevation: 0,
           child: Icon(

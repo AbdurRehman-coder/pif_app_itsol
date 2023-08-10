@@ -1,23 +1,23 @@
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/context_extensions.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/delete_meesage.dart';
-import 'package:pif_flutter/generated/l10n.dart';
-import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking_list/extensions/booking_status_extensions.dart';
-import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
-import 'package:pif_flutter/utils/colors.dart';
-import 'package:pif_flutter/utils/styles.dart';
+import 'package:pif_flutter/ui/booking_list/index.dart';
 
-class BookingListTile extends StatelessWidget {
+class BookingListTile extends ConsumerWidget {
   const BookingListTile({required this.data, super.key});
 
-  final BookingListModel data;
+  final BookingModel data;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final notifier = ref.read(bookingListProvider.notifier);
+
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       margin: EdgeInsets.symmetric(horizontal: 16.w),
@@ -47,28 +47,28 @@ class BookingListTile extends StatelessWidget {
                   alignment: Alignment.center,
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                   decoration: BoxDecoration(
-                    color: data.status!.getStatusBgColor,
+                    color: data.bookingStatus?.key!.getStatusBgColor,
                     borderRadius: BorderRadius.circular(
                       20.r,
                     ),
                   ),
                   child: Text(
-                    data.status!.getStatusText ?? '',
+                    data.bookingStatus?.name ?? '',
                     style: Style.commonTextStyle(
-                      color: data.status!.getStatusTextColor,
+                      color: data.bookingStatus?.key!.getStatusTextColor,
                       fontSize: 14.sp,
                       height: 1.4,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                ),
+                ).visibility(visible: data.bookingStatus != null && data.bookingStatus!.name != null),
                 SizedBox(
                   height: 8.h,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width - 115,
                   child: Text(
-                    data.bookingTitle ?? '',
+                    data.subject ?? '',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Style.commonTextStyle(
@@ -91,12 +91,21 @@ class BookingListTile extends StatelessWidget {
                     SizedBox(
                       width: 8.w,
                     ),
-                    Text(
-                      data.spaceName ?? '',
-                      style: Style.commonTextStyle(
-                        color: grayTextColor,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
+                    SizedBox(
+                      width: context.screenWidth - 134,
+                      child: Text(
+                        data.roomModel != null &&
+                                data.roomModel!.name != null &&
+                                data.roomModel!.name!.isNotEmpty
+                            ? data.roomModel?.name ?? ''
+                            : '-',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: Style.commonTextStyle(
+                          color: grayTextColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ],
@@ -117,7 +126,7 @@ class BookingListTile extends StatelessWidget {
                       width: 8.w,
                     ),
                     Text(
-                      data.timeString ?? '',
+                      notifier.formatTimeString(data: data),
                       style: Style.commonTextStyle(
                         color: grayTextColor,
                         fontSize: 12.sp,
@@ -140,7 +149,7 @@ class BookingListTile extends StatelessWidget {
                       width: 8.w,
                     ),
                     Text(
-                      data.timeRemaining ?? '',
+                      notifier.formatLeftTime(data: data),
                       style: Style.commonTextStyle(
                         color: grayTextColor,
                         fontSize: 14.sp,
@@ -162,12 +171,15 @@ class BookingListTile extends StatelessWidget {
                     SizedBox(
                       width: 8.w,
                     ),
-                    Text(
-                      data.repeatedDates ?? '',
-                      style: Style.commonTextStyle(
-                        color: grayTextColor,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
+                    SizedBox(
+                      width: context.screenWidth - 134,
+                      child: Text(
+                        notifier.formatDateString(data: data),
+                        style: Style.commonTextStyle(
+                          color: grayTextColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
                       ),
                     ),
                   ],
@@ -176,6 +188,11 @@ class BookingListTile extends StatelessWidget {
             ),
             const Spacer(),
             PopupMenuButton(
+              onSelected: (value) {
+                if (value == 1) {
+                  AppRouter.pushNamed(Routes.bookingScreen, args: [data.roomModel, false, data]);
+                }
+              },
               itemBuilder: (context) => [
                 PopupMenuItem(
                   value: 1,
@@ -228,7 +245,10 @@ class BookingListTile extends StatelessWidget {
                         deleteMessagePopup(
                           context: context,
                           deleteMessage: S.of(context).deleteMessageBooking,
-                          onClickYes: () {},
+                          onClickYes: () async {
+                            await AppRouter.pop();
+                            await notifier.onClickDeleteBooking(booking: data, context: context);
+                          },
                         );
                       },
                     );
@@ -257,7 +277,7 @@ class BookingListTile extends StatelessWidget {
                 Icons.more_vert_outlined,
                 color: blackColor.withOpacity(0.45),
               ),
-            ),
+            ).visibility(visible: notifier.isEditBooking(data: data)),
           ],
         ),
       ),

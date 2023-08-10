@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart'
@@ -11,7 +12,6 @@ import 'package:pif_flutter/ui/booking/booking_page.dart';
 import 'package:pif_flutter/ui/booking_calender/booking_calender_page.dart';
 import 'package:pif_flutter/ui/booking_details/booking_details_view.dart';
 import 'package:pif_flutter/ui/booking_list/booking_list_page.dart';
-import 'package:pif_flutter/ui/booking_list/model/booking_list_model.dart';
 import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news.dart';
 import 'package:pif_flutter/ui/company_managment/company_details/company_details_page.dart';
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
@@ -37,8 +37,7 @@ import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -61,15 +60,17 @@ class AppRouter {
         final lstArgs = settings.arguments! as List<dynamic>;
         final roomModel = lstArgs[0] as RoomModel;
         final isFromScan = lstArgs[1] as bool;
+        final bookingModel = lstArgs[2] as BookingModel?;
         return _setPage(
           page: BookingPage(
             spaceData: roomModel,
             isFromScan: isFromScan,
+            bookingModel: bookingModel,
           ),
           settings: settings,
         );
       case Routes.bookingDetailsScreen:
-        final data = settings.arguments! as BookingListModel;
+        final data = settings.arguments! as BookingModel;
         return _setPage(
           page: BookingDetails(
             data: data,
@@ -77,9 +78,7 @@ class AppRouter {
           settings: settings,
         );
       case Routes.inviteVisitorScreen:
-        final lstArgs = settings.arguments != null
-            ? settings.arguments! as List<dynamic>
-            : null;
+        final lstArgs = settings.arguments != null ? settings.arguments! as List<dynamic> : null;
         final fromHomepage = lstArgs?[0] as bool;
         final isInviteVisit = lstArgs?[1] as bool;
         final visitInformation = lstArgs?[2] as VisitModel?;
@@ -98,9 +97,7 @@ class AppRouter {
       case Routes.companyAndNewsScreen:
         return _setPage(page: const CompanyAndNews(), settings: settings);
       case Routes.addOrEditTicketScreen:
-        final addTicketModel = settings.arguments != null
-            ? settings.arguments! as AddTicketModel
-            : null;
+        final addTicketModel = settings.arguments != null ? settings.arguments! as AddTicketModel : null;
         return _setPage(
           page: AddTicketView(
             addTicketModel: addTicketModel,
@@ -232,21 +229,18 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!
-        .pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!
-        .popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamedWithTransition(
     String routeName, {
     dynamic args,
   }) {
-    return navigatorKey.currentState!
-        .popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {

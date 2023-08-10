@@ -1,10 +1,13 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pif_flutter/ui/booking_details/widget/list_tile_widget.dart';
 import 'package:pif_flutter/utils/colors.dart';
 
 class GuestsList extends StatelessWidget {
-  const GuestsList({super.key});
+  const GuestsList({required this.model, super.key});
+
+  final List<UserModel> model;
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +15,12 @@ class GuestsList extends StatelessWidget {
       children: [
         ListView.separated(
           shrinkWrap: true,
-          itemCount: 2,
+          itemCount: model.length,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (_, index) {
-            return const ListTileWidget(
+            return ListTileWidget(
               imageProfile: 'https://picsum.photos/80/80',
-              userName: 'Khaled moh',
+              userName: model[index].name ?? '',
               userPosition: 'Product owner',
               isFromGuest: true,
             );
