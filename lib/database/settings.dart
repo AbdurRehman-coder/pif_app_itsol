@@ -3,6 +3,7 @@ import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/database/hive_keys.dart';
 import 'package:pif_flutter/database/hive_storage.dart';
 import 'package:pif_flutter/main.dart';
+import 'package:pif_flutter/penguin/model/user_location.dart';
 import 'package:pif_flutter/ui/drinks/model/order_request_model.dart';
 
 class Settings {
@@ -19,5 +20,13 @@ class Settings {
 
   static set orderRequestModel(OrderRequestModel? value) {
     storage.put(key: HiveKeys.drinkRequest, value: value);
+  }
+
+  static UserLocation? get userLocation {
+    return storage.get<UserLocation>(key: HiveKeys.userLocation);
+  }
+
+  static set userLocation(UserLocation? value) {
+    storage.put(key: HiveKeys.userLocation, value: value);
   }
 }

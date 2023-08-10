@@ -1,6 +1,15 @@
 package com.appswave.pif.pif_flutter
 
 import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.engine.FlutterEngine
+import penguin.waseela.com.PenguinAPI
 
 class MainActivity: FlutterActivity() {
+
+    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+        super.configureFlutterEngine(flutterEngine)
+
+        // register penguin plugin
+        PenguinPlugin.configure(flutterEngine,this)
+    }
 }

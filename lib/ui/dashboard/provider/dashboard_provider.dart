@@ -1,22 +1,24 @@
+import 'dart:async';
+
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/orders/model/orders_model.dart';
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/database/settings.dart';
-import 'package:pif_flutter/ui/dashboard/model/actions_model.dart'
-    as action_model;
+import 'package:pif_flutter/helpers/common_utils.dart';
+import 'package:pif_flutter/penguin/model/user_location.dart';
+import 'package:pif_flutter/penguin/penguin_service.dart';
+import 'package:pif_flutter/ui/dashboard/model/actions_model.dart' as action_model;
 import 'package:pif_flutter/ui/dashboard/state/dashboard_state.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 
-final dashboardProvider =
-    StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
+final dashboardProvider = StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
   return DashboardNotifier(ref: ref);
 });
 
@@ -26,6 +28,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   final Ref ref;
+  bool isShowPopup = true;
   List<String> actionIcon = [
     Assets.coffee1Lottie,
     Assets.coffee2Lottie,
@@ -49,6 +52,31 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     );
   }
 
+  Future<void> initPenguin(BuildContext context) async {
+    await CommonUtils.checkPermission();
+    final result = await PenguinApiService.initializePenguin;
+    Timer.periodic(const Duration(seconds: 1), (timer) async {
+      final currentLocation = await PenguinApiService.getCurrentLocation;
+      if (currentLocation != null && currentLocation.isNotEmpty) {
+        final point = currentLocation.split('_');
+        final floorId = point[1];
+        final xPos = point[2];
+        final yPos = point[3];
+        print('Floor Id --------$floorId');
+        print('X Position--------$xPos');
+        print('Y Position--------$yPos');
+
+        final location = UserLocation(floorId: floorId, xPos: xPos, yPos: yPos);
+        Settings.userLocation = location;
+        final message = 'User Location Found ---- X Pos : $xPos  Y Pos : $yPos';
+        if (isShowPopup) {
+          alertMessage(errorMessage: message, context: context, statusEnum: AlertStatusEnum.success);
+          isShowPopup = false;
+        }
+      }
+    });
+  }
+
   void closeFloatMenu({required AnimationController animationController}) {
     if (animationController.status != AnimationStatus.dismissed) {
       animationController.reverse();
@@ -56,17 +84,14 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService
-        .getStructureContentByKey(
+    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );
 
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime =
-        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime =
-        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -108,8 +133,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
-            final result =
-                await DixelsSDK.instance.ordersService.postPageDataWithEither(
+            final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
               reqModel: orderParam.toJson(),
               fromJson: OrdersModel.fromJson,
             );
@@ -142,11 +166,13 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> digitalVipSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
 
+    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
+    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
+
     final requestModel = {
       'categoryId': '180101',
       'subCategoryId': '200984',
-      'description':
-          '[${data!.name}] is around [nearest location] and requesting immediate support',
+      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
@@ -168,11 +194,13 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> operationalSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
 
+    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
+    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
+
     final requestModel = {
       'categoryId': '180104',
       'subCategoryId': '200995',
-      'description':
-          '[${data!.name}] is around [nearest location] and requesting immediate support',
+      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();

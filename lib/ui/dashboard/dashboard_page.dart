@@ -22,8 +22,7 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends ConsumerState<DashboardPage>
-    with SingleTickerProviderStateMixin {
+class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTickerProviderStateMixin {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -69,6 +68,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
       ),
     );
     setState(() {});
+
+    Future.delayed(Duration.zero, () {
+      ref.read(dashboardProvider.notifier).initPenguin(context);
+    });
   }
 
   @override
@@ -123,9 +126,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
-                  ? lightGrayBgColor
-                  : Colors.transparent,
+              backgroundColor:
+                  _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
               centerTitle: true,
               title: title,
               leading: Builder(
@@ -181,8 +183,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             body: NotificationListener<ScrollNotification>(
               child: lstMenu.elementAt(_bottomNavIndex).child!,
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: SizedBox(
               height: 40.h,
               width: 60.w,
