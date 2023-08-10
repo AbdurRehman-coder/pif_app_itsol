@@ -197,6 +197,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
     Future.delayed(Duration.zero, () {
       state = state.copyWith(isOpenStartDatePicker: true);
     });
+    Future.delayed(const Duration(seconds: 1), () {
+      controller.animateTo(
+        controller.position.maxScrollExtent - 230.h,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   //Close end  DatePicker Dialog
@@ -224,6 +231,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     Future.delayed(Duration.zero, () {
       state = state.copyWith(isOpenEndDatePicker: true);
+    });
+
+    /// animate scroll controller to show the date picker
+    Future.delayed(const Duration(seconds: 1), () {
+      controller.animateTo(
+        controller.position.maxScrollExtent - 110.h,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
     });
   }
 
@@ -280,6 +296,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     Future.delayed(Duration.zero, () {
       state = state.copyWith(isOpenEndTimePicker: true);
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      controller.animateTo(
+        controller.position.maxScrollExtent - 30.h,
+        duration: const Duration(seconds: 1),
+        curve: Curves.easeOut,
+      );
     });
   }
 
