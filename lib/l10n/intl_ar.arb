@@ -251,5 +251,6 @@
  "baseCamp" : "Base Camp",
  "spaceType" : "Space Type",
  "desk" : "Desk",
- "userAlreadyFound":"User already found"
+ "userAlreadyFound":"User already found",
+  "selectLocation": "Select Location"
 }

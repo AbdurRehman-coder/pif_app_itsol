@@ -23,10 +23,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
     final notifier = ref.read(drinksProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: (notifier.searchController.text.isNotEmpty
-              ? provider.allDrinks
-              : provider.lstDrinks)
-          .when(
+      body: (notifier.searchController.text.isNotEmpty ? provider.allDrinks : provider.lstDrinks).when(
         data: (data) {
           if (data.isEmpty && notifier.searchController.text.isNotEmpty) {
             return const DrinkEmptyView();
@@ -36,16 +33,14 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
               children: [
                 NestedScrollView(
                   physics: const NeverScrollableScrollPhysics(),
-                  headerSliverBuilder:
-                      (BuildContext context, bool innerBoxIsScrolled) {
+                  headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: Column(
                             children: [
-                              if (notifier.searchController.text.isNotEmpty &&
-                                  data.isNotEmpty)
+                              if (notifier.searchController.text.isNotEmpty && data.isNotEmpty)
                                 SizedBox(
                                   height: 1.h,
                                   width: double.infinity,
@@ -53,7 +48,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                               else
                                 Column(
                                   children: [
-                                    const UserLocationWidget(),
+                                    UserLocationWidget(provider),
                                     SizedBox(
                                       height: 12.h,
                                     ),
@@ -77,8 +72,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                         Flexible(
                           child: Column(
                             children: [
-                              if (!(notifier.searchController.text.isNotEmpty &&
-                                  data.isNotEmpty)) ...[
+                              if (!(notifier.searchController.text.isNotEmpty && data.isNotEmpty)) ...[
                                 SizedBox(
                                   height: 50.h,
                                   child: ListView.separated(
@@ -96,8 +90,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                         ),
                                         child: CategoryListTile(
                                           item: provider.lstCategory[index],
-                                          withOutSearch: notifier
-                                              .searchController.text.isEmpty,
+                                          withOutSearch: notifier.searchController.text.isEmpty,
                                         ),
                                       );
                                     },
@@ -107,14 +100,11 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                               Expanded(
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                    bottom: provider.lstCarts.isNotEmpty
-                                        ? 60.h
-                                        : 10.h,
+                                    bottom: provider.lstCarts.isNotEmpty ? 60.h : 10.h,
                                     top: 14.h,
                                   ),
                                   child: GridView.builder(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 18.w,
                                       mainAxisSpacing: 10.h,

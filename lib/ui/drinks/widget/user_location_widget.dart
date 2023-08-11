@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
 
 class UserLocationWidget extends StatelessWidget {
-  const UserLocationWidget({super.key});
+  const UserLocationWidget(this.provider, {super.key});
+
+  final DrinksState provider;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class UserLocationWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Al-Multaqa 301',
+                  provider.deliveryLocation != null ? provider.deliveryLocation?.name ?? '' : S.of(context).selectLocation,
                   style: Style.commonTextStyle(
                     color: blackColorWith900,
                     fontSize: 14.sp,

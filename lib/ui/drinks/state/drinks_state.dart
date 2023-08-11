@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/commerce/booking/model/deliver_space_model.dart';
 import 'package:dixels_sdk/features/commerce/products/models/category_model.dart';
 import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,6 +17,7 @@ class DrinksState with _$DrinksState {
     required AsyncValue<StructureContentModel> structureContent,
     required bool storeClosed,
     required bool isSelectedPinOrder,
+    required DeliverySpaceModel? deliveryLocation,
   }) = _DrinksState;
 
   factory DrinksState.initial() => const DrinksState(
@@ -26,5 +28,6 @@ class DrinksState with _$DrinksState {
         structureContent: AsyncLoading(),
         storeClosed: false,
         isSelectedPinOrder: false,
+        deliveryLocation: null,
       );
 }

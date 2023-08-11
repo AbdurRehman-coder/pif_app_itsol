@@ -258,5 +258,6 @@
   "desk" : "Desk",
   "bookingSubject": "Booking Subject",
   "newGuest": "New Guest",
-  "userAlreadyFound":"User already found"
+  "userAlreadyFound":"User already found",
+  "selectLocation": "Select Location"
 }

@@ -9,18 +9,39 @@ import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/ui/search_location/index.dart';
 import 'package:pif_flutter/ui/search_location/widget/floor_space_filter.dart';
 
-class SearchLocationPage extends ConsumerWidget {
+class SearchLocationPage extends ConsumerStatefulWidget {
   const SearchLocationPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState createState() => _SearchLocationPageState();
+}
+
+class _SearchLocationPageState extends ConsumerState<SearchLocationPage> {
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(
+      Duration.zero,
+      () async {
+        await ref.read(searchLocationProvider.notifier).getLocationData();
+        ref.read(searchLocationProvider.notifier).getFloor();
+        ref.read(searchLocationProvider.notifier).getRoomType();
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final notifier = ref.read(searchLocationProvider.notifier);
+    final provider = ref.watch(searchLocationProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
         bgColor: lightGrayBgColor,
         titleWidget: SearchTextField(
-          textEditingController: TextEditingController(),
-          onChanged: (value) {},
+          textEditingController: notifier.searchController,
+          onChanged: notifier.searchData,
           hintText: S.current.searchLocation,
           hintTextStyle: Style.commonTextStyle(
             color: hintColor,
@@ -64,23 +85,21 @@ class SearchLocationPage extends ConsumerWidget {
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                 ),
-              ),
+              ).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
               SizedBox(
                 height: 8.h,
-              ),
-              const FloorSpaceFilter(),
+              ).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
+              FloorSpaceFilter(provider, notifier).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
               SizedBox(
                 height: 16.h,
               ),
-              const SearchLocationListView(),
+              SearchLocationListView(provider, notifier),
             ],
           ),
         ),
       ),
       bottomNavigationBar: Container(
-        height: 141.h,
-        padding:
-            EdgeInsets.only(right: 16.w, left: 16.w, top: 35.h, bottom: 58.w),
+        padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 20.h, bottom: 40.h),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -92,7 +111,7 @@ class SearchLocationPage extends ConsumerWidget {
           ],
         ),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: notifier.saveAsync,
           style: ElevatedButton.styleFrom(
             fixedSize: Size(context.screenWidth, 48.h),
             shape: RoundedRectangleBorder(
