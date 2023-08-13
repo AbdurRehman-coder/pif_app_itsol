@@ -92,6 +92,12 @@ void showOrderCartAndDetails({
                                         notifier.notesController,
                                     maxLines: 3,
                                     hintText: S.current.notes,
+                                    maxLength: 100,
+                                    isMaxLengthCount: true,
+                                    drinkNoteCharCount:
+                                        provider.drinkNoteCharCount,
+                                    onChanged:
+                                        notifier.updateTypedCharacterCount,
                                   ),
                                   CustomCheckBoxWithText(
                                     isChecked: provider.isSelectedPinOrder,

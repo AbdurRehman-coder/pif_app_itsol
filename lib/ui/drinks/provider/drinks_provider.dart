@@ -22,7 +22,8 @@ import 'package:pif_flutter/ui/drinks/model/order_request_model.dart';
 import 'package:pif_flutter/ui/drinks/popup/drink_cart_and_details.dart';
 import 'package:pif_flutter/ui/drinks/state/drinks_state.dart';
 
-final drinksProvider = StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
+final drinksProvider =
+    StateNotifierProvider.autoDispose<DrinksNotifier, DrinksState>((ref) {
   return DrinksNotifier(ref: ref);
 });
 
@@ -30,7 +31,6 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   DrinksNotifier({required this.ref}) : super(DrinksState.initial()) {
     _initData();
   }
-
   final Ref ref;
 
   void _initData() {
@@ -47,14 +47,17 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   FocusNode searchFocusNode = FocusNode();
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
+    final storeInformation = await DixelsSDK.instance.structureContentService
+        .getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );
 
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime =
+        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime =
+        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -81,14 +84,16 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   bool checkDateEnd(DateTime dateTime) {
     final dateTimeNow = DateTime.now();
     if (dateTime.hour != dateTimeNow.hour) {
-      return dateTimeNow.hour > dateTime.hour && dateTimeNow.minute > dateTime.minute;
+      return dateTimeNow.hour > dateTime.hour &&
+          dateTimeNow.minute > dateTime.minute;
     } else {
       return dateTimeNow.minute > dateTime.minute;
     }
   }
 
   Future<void> _getDrinks() async {
-    final result = await DixelsSDK.instance.productService.getProductsByChannelAsync(
+    final result =
+        await DixelsSDK.instance.productService.getProductsByChannelAsync(
       channelId: '147240',
       accountId: '148293',
     );
@@ -135,7 +140,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
     lstData[index].isSelected = true;
 
-    final lstDrink = allDrinks.where((element) => element.categoryId == int.parse(lstData[index].id!)).toList();
+    final lstDrink = allDrinks
+        .where((element) => element.categoryId == int.parse(lstData[index].id!))
+        .toList();
 
     selectedCatDrinks = lstDrink;
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
@@ -145,7 +152,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void searchData(String searchTxt) {
     final lstData = allDrinks
         .where(
-          (element) => element.drinkTitle!.toLowerCase().contains(searchTxt.toLowerCase()),
+          (element) => element.drinkTitle!
+              .toLowerCase()
+              .contains(searchTxt.toLowerCase()),
         )
         .toList();
 
@@ -160,7 +169,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   void removeDrinks({required DrinkModel item, bool isFromCartDetail = false}) {
     if (state.lstCarts.isEmpty) {
       final navigation = NavigationHistoryObserver().history.last;
-      if (navigation.settings.name == Routes.drinkDetailsScreen && item.count == 1) {
+      if (navigation.settings.name == Routes.drinkDetailsScreen &&
+          item.count == 1) {
         return;
       }
     }
@@ -238,9 +248,15 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     )) {
       final itemCart = state.lstCarts.toList().map(
         (itemInCart) {
-          final item = itemInCart.optionList!.where((element) => element.isOptionSelect).toList().map(
+          final item = itemInCart.optionList!
+              .where((element) => element.isOptionSelect)
+              .toList()
+              .map(
             (e) {
-              final listString = e.valueOptionModel.where((element) => element.valueOptionSelected).first.valueOptionKey;
+              final listString = e.valueOptionModel
+                  .where((element) => element.valueOptionSelected)
+                  .first
+                  .valueOptionKey;
               return DrinksOptions(
                 key: e.productOptionsModel.key!,
                 required: false,
@@ -249,7 +265,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
             },
           ).toList();
           return OrderItem(
-            options: item.isNotEmpty ? jsonEncode(item).replaceAll('"', r'\"') : '',
+            options:
+                item.isNotEmpty ? jsonEncode(item).replaceAll('"', r'\"') : '',
             quantity: itemInCart.count!,
             skuId: itemInCart.skus!,
             productId: itemInCart.id!,
@@ -275,7 +292,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
-            final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
+            final result =
+                await DixelsSDK.instance.ordersService.postPageDataWithEither(
               reqModel: orderParam.toJson(),
               fromJson: OrdersModel.fromJson,
             );
@@ -315,7 +333,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       item.count = 0;
     }
 
-    final selectedCategory = state.lstCategory.firstWhere((element) => element.isSelected! == true);
+    final selectedCategory =
+        state.lstCategory.firstWhere((element) => element.isSelected! == true);
 
     final lstDrink = allDrinks
         .where(
@@ -331,12 +350,20 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     state = state.copyWith(isSelectedPinOrder: value);
   }
 
+  void updateTypedCharacterCount(String newText) {
+    state = state.copyWith(drinkNoteCharCount: newText.length);
+  }
+
   void updateValueOption({
     required Options options,
     required ValueOptions valueOptions,
   }) {
-    options.valueOptionModel.any((element) => element.valueOptionSelected = false);
-    options.valueOptionModel.where((value) => value == valueOptions).first.valueOptionSelected = true;
+    options.valueOptionModel
+        .any((element) => element.valueOptionSelected = false);
+    options.valueOptionModel
+        .where((value) => value == valueOptions)
+        .first
+        .valueOptionSelected = true;
   }
 
   void updateDeliveryLocation({required DeliverySpaceModel spaceModel}) {

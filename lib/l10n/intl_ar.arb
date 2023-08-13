@@ -251,6 +251,8 @@
  "baseCamp" : "Base Camp",
  "spaceType" : "Space Type",
  "desk" : "Desk",
+ "exceedMaxBookingDuration": "Booking Duration exceeds the maximum booking duration",
+ "charCountExceeds": "Character count exceeds 100 characters",
  "selectLocation": "Select Location",
  "userAlreadyFound":"ID number is already used for another user , please make sure your ID is unique",
  "selectStartDate":"Please select start date",

@@ -17,6 +17,7 @@ class DrinksState with _$DrinksState {
     required AsyncValue<StructureContentModel> structureContent,
     required bool storeClosed,
     required bool isSelectedPinOrder,
+    required int drinkNoteCharCount,
     required DeliverySpaceModel? deliveryLocation,
   }) = _DrinksState;
 
@@ -28,6 +29,7 @@ class DrinksState with _$DrinksState {
         structureContent: AsyncLoading(),
         storeClosed: false,
         isSelectedPinOrder: false,
+        drinkNoteCharCount: 0,
         deliveryLocation: null,
       );
 }

@@ -15,7 +15,12 @@ import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 class BookingPage extends ConsumerStatefulWidget {
-  const BookingPage({required this.spaceData, required this.isFromScan, this.bookingModel, super.key});
+  const BookingPage({
+    required this.spaceData,
+    required this.isFromScan,
+    this.bookingModel,
+    super.key,
+  });
 
   final RoomModel spaceData;
   final bool isFromScan;
@@ -26,20 +31,22 @@ class BookingPage extends ConsumerStatefulWidget {
 }
 
 class _BookingPageState extends ConsumerState<BookingPage> {
-  final GlobalKey<FormFieldState<String>> _field1Key =
-      GlobalKey<FormFieldState<String>>();
-  final GlobalKey<FormFieldState<String>> _field2Key =
-      GlobalKey<FormFieldState<String>>();
   @override
   void initState() {
     Future.delayed(
       Duration.zero,
       () {
         if (widget.bookingModel != null) {
-          ref.read(bookingProvider.notifier).bindEditData(spaceData: widget.bookingModel!, context: context);
-          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.bookingModel!.roomModel);
+          ref
+              .read(bookingProvider.notifier)
+              .bindEditData(spaceData: widget.bookingModel!, context: context);
+          ref
+              .read(bookingProvider.notifier)
+              .getBookings(spaceData: widget.bookingModel!.roomModel);
         } else {
-          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.spaceData);
+          ref
+              .read(bookingProvider.notifier)
+              .getBookings(spaceData: widget.spaceData);
         }
 
         if (widget.isFromScan) {
@@ -416,7 +423,10 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                               timeData: provider.endTime ?? DateTime.now(),
                               onCancel: notifier.closeEndTimePickerDialog,
                               onConfirm: (selectedTime) {
-                                notifier.updateEndTime(endTime: selectedTime, context: context);
+                                notifier.updateEndTime(
+                                  endTime: selectedTime,
+                                  context: context,
+                                );
                                 notifier.closeEndTimePickerDialog();
                               },
                             ).visibility(visible: provider.isOpenEndTimePicker),

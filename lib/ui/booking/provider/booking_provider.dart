@@ -48,7 +48,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
   late List<TimePlannerTask> allBookingTasks = [];
   late List<UserModel> filterAuoCompleteGuestData = [];
   List<BookingModel> lstBookings = <BookingModel>[];
-
   List<DateTime> selectedDateLst = <DateTime>[];
   List<DateTime> confirmDateLst = <DateTime>[];
 
@@ -100,19 +99,30 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   //Set Default Data For Edit
-  Future<void> bindEditData({required BookingModel spaceData, required BuildContext context}) async {
+  Future<void> bindEditData({
+    required BookingModel spaceData,
+    required BuildContext context,
+  }) async {
     state = state.copyWith(isFromEdit: true, bookingModel: spaceData);
     // bind the title
     titleController.text = '${S.current.bookingFor} ${spaceData.subject}';
 
     //bind the start time
     final currentDateTime = DateTime.now();
-    var startTime = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day);
+    var startTime = DateTime(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+    );
     startTime = startTime.add(Duration(minutes: spaceData.startTime!));
     updateStartTime(startTime: startTime);
 
     //bind thr end time
-    var endTime = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day);
+    var endTime = DateTime(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+    );
     endTime = endTime.add(Duration(minutes: spaceData.endTime!));
     updateEndTime(endTime: endTime, context: context);
     var date = spaceData.bookedDates?.split(',').first;
@@ -125,7 +135,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
     // bind the guest data
     if (spaceData.attendees != null && spaceData.attendees!.isNotEmpty) {
       filterAuoCompleteGuestData = spaceData.attendees!;
-      state = state.copyWith(lstAutoCompleteGuests: filterAuoCompleteGuestData, lstGuests: filterAuoCompleteGuestData);
+      state = state.copyWith(
+        lstAutoCompleteGuests: filterAuoCompleteGuestData,
+        lstGuests: filterAuoCompleteGuestData,
+      );
     }
   }
 
@@ -186,6 +199,19 @@ class BookingNotifier extends StateNotifier<BookingState> {
       return;
     }
     if (state.startTime != null && state.startTime == endTime) {
+      return;
+    }
+    // Calculate the difference between start and end times
+    final duration = endTime.difference(state.startTime ?? DateTime.now());
+
+    // Check if the duration is greater than 30 minutes
+    if (duration.inMinutes >
+        (state.bookingModel?.roomModel?.maximumBookingDurationInMinutes ??
+            30)) {
+      alertMessage(
+        errorMessage: S.current.exceedMaxBookingDuration,
+        context: context ?? AppRouter.navigatorKey.currentContext!,
+      );
       return;
     }
     endTime = DateTime(
@@ -449,7 +475,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
               givenName: e.givenName ?? '',
               familyName: e.familyName ?? '',
               emailAddress: e.emailAddress ?? '',
-              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+              alternateName:
+                  e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
             ),
           )
           .toList(),
@@ -473,7 +500,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
         });
         final param = ParametersModel();
         param.query = '${state.bookingModel?.id!}';
-        final result = await DixelsSDK.instance.bookingService.patchPageDataWithEither(
+        final result =
+            await DixelsSDK.instance.bookingService.patchPageDataWithEither(
           reqModel: requestModel,
           fromJson: BookingModel.fromJson,
           params: param,
@@ -673,7 +701,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
       lstBookings = spaceData.bookings!;
       await bindCalendarData(lstBookings);
     } else {
-      await getBookingInformation(context: AppRouter.navigatorKey.currentContext!, roomId: spaceData!.id!.toString());
+      await getBookingInformation(
+        context: AppRouter.navigatorKey.currentContext!,
+        roomId: spaceData!.id!.toString(),
+      );
     }
   }
 
@@ -686,8 +717,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
         for (final element in dateList) {
           final dateString = element as String;
           final taskDate = DateTime.parse(dateString);
-          final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
-          final bookingDateTime = DateTime(taskDate.year, taskDate.month, taskDate.day, taskTime.hour, taskTime.minute);
+          final taskTime = DateTime(taskDate.year)
+              .add(Duration(minutes: mainElement.startTime!));
+          final bookingDateTime = DateTime(
+            taskDate.year,
+            taskDate.month,
+            taskDate.day,
+            taskTime.hour,
+            taskTime.minute,
+          );
           allBookingTasks.add(
             TimePlannerTask(
               color: gradientEnd,
@@ -730,7 +768,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final param = ParametersModel();
     param.filter = filterQuery;
     param.nestedFields = 'bookings';
-    final result = await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
+    final result = await DixelsSDK.instance.roomService
+        .getPageData(fromJson: RoomModel.fromJson, params: param);
 
     if (result != null && result.items!.isNotEmpty) {
       await bindCalendarData(result.items![0].bookings);

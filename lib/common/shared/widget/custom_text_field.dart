@@ -32,6 +32,8 @@ class CustomTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.isFocus = false,
     this.autoFocus = false,
+    this.isMaxLengthCount = false,
+    this.drinkNoteCharCount = 0,
     super.key,
   });
 
@@ -60,6 +62,8 @@ class CustomTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool isFocus;
   final bool autoFocus;
+  final bool isMaxLengthCount;
+  final int drinkNoteCharCount;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +87,8 @@ class CustomTextField extends StatelessWidget {
               } else {
                 return null;
               }
+            } else if (val!.length > 100) {
+              return S.current.charCountExceeds;
             } else {
               return null;
             }
@@ -169,13 +175,29 @@ class CustomTextField extends StatelessWidget {
         if (maxLength != null) ...[
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 6.h),
-            child: Text(
-              '${S.current.maxLengthOf} ${maxLength!} ${S.current.character}',
-              style: Style.commonTextStyle(
-                color: darkBorderColor,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w400,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${S.current.maxLengthOf} ${maxLength!} ${S.current.character}',
+                  style: Style.commonTextStyle(
+                    color: darkBorderColor,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                if (isMaxLengthCount) ...[
+                  Text(
+                    '$drinkNoteCharCount/100', // Customize the text as needed
+                    style: TextStyle(
+                      color: drinkNoteCharCount > 100
+                          ? dangerousColor
+                          : textColor, // Change color if limit is exceeded
+                      fontSize: 12,
+                    ),
+                  )
+                ]
+              ],
             ),
           ),
         ],
