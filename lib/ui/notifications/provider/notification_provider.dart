@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:dixels_sdk/common/models/parameters_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/common/shared/widget/sliding_toast_notification.dart';
-import 'package:pif_flutter/ui/notifications/model/notification_model.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/notifications/state/notification_state.dart';
 
 final notificationProvider =
@@ -17,74 +17,35 @@ class NotificationNotifier extends StateNotifier<NotificationState> {
   }
 
   final Ref ref;
+
   void _initData() {
     /// load notification asynchronously
     loadNotifications();
   }
 
   Future<void> loadNotifications() async {
-    try {
-      state = const NotificationState(notificationList: AsyncLoading());
-      final notifications = await fetchNotifications();
-      state = NotificationState(notificationList: AsyncData(notifications));
-    } catch (e, stackTrace) {
-      state = NotificationState(notificationList: AsyncError(e, stackTrace));
+    final result =
+        await DixelsSDK.instance.notificationService.getAllNotification(
+      params: ParametersModel(sort: 'dateCreated:desc'),
+    );
+    if (result.isRight()) {
+      state = NotificationState(
+        notificationList: AsyncData(
+          result.getRight()?.items ?? [],
+        ),
+      );
+      await readNotifications();
     }
   }
 
-  Future<List<NotificationModel>> fetchNotifications() async {
-    await Future.delayed(const Duration(seconds: 2));
-
-    /// static list of notification Model
-    return [
-      NotificationModel(
-        title: 'Drink order has been placed',
-        time: DateTime.now().subtract(const Duration(minutes: 30)),
-      ),
-      NotificationModel(
-        title: 'Upcoming Visit reminder in 30 mints',
-        time: DateTime.now().subtract(const Duration(hours: 2)),
-      ),
-      NotificationModel(
-        title: 'Booking approved Madan Saleh booking request is confirmed',
-        time: DateTime.now().subtract(const Duration(hours: 5)),
-      ),
-      NotificationModel(
-        title: 'Upcoming Visit reminder in 30 mints',
-        time: DateTime.now().subtract(const Duration(hours: 1)),
-      ),
-    ];
-  }
-
-  /// show the sliding toast notification
-  void showSlidingToast(BuildContext context) {
-    showGeneralDialog(
-      context: context,
-      barrierDismissible: true,
-      barrierLabel: '',
-      transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return Center(
-          child: SlidingToast(
-            message: 'Space Booked, did you book this by mistake?',
-            onCancel: () {
-              // Handle cancel booking
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Booking canceled!',
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      },
-    );
+  Future<void> readNotifications() async {
+    final result =
+        await DixelsSDK.instance.notificationService.readNotification();
+    if (result.isRight()) {
+      if (result.getRight()!.status?.toLowerCase() == 'ok') {
+        final notifier = ref.read(dashboardProvider.notifier);
+        await notifier.getUnReadNotificationCount();
+      }
+    }
   }
 }

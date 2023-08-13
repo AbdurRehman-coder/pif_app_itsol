@@ -11,6 +11,7 @@ class DashboardState with _$DashboardState {
     required AsyncValue<List<ActionModel>> actionList,
     required AsyncValue<StructureContentModel> structureContent,
     required bool storeClosed,
+    required int? unReadNotification,
     required bool closeVideo,
   }) = _DashboardState;
 
@@ -19,5 +20,6 @@ class DashboardState with _$DashboardState {
         structureContent: AsyncLoading(),
         storeClosed: false,
         closeVideo: false,
+        unReadNotification: null,
       );
 }

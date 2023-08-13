@@ -1,6 +1,5 @@
 
-import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/ui/notifications/model/notification_model.dart';
+import 'package:dixels_sdk/features/users/notification/model/notification_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

@@ -79,6 +79,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(dashboardProvider.notifier);
+    final provider = ref.watch(dashboardProvider);
     Widget? title;
     if (_bottomNavIndex == 0) {
       title = Row(
@@ -161,16 +162,25 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                     child: Container(
                       height: 40.h,
                       width: 40.h,
+                      padding: EdgeInsets.all(10.w),
                       margin: EdgeInsets.only(right: 16.w),
                       decoration: const BoxDecoration(
                         color: activeBgColor,
                         shape: BoxShape.circle,
                       ),
-                      child: SvgPicture.asset(
-                        Assets.svgNotification,
-                        height: 24.h,
-                        width: 24.w,
-                        fit: BoxFit.scaleDown,
+                      child: Badge(
+                        backgroundColor: primaryColor,
+                        label: Text(provider.unReadNotification.toString()),
+                        isLabelVisible: provider.unReadNotification != null &&
+                            provider.unReadNotification != 0,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            Assets.svgNotification,
+                            height: 24.h,
+                            width: 24.w,
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -247,9 +257,6 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               activeIndex: _bottomNavIndex,
               splashColor: primaryColor,
               splashRadius: 0,
-              borderColor: primaryColor,
-              leftCornerRadius: 20.r,
-              rightCornerRadius: 20.r,
               splashSpeedInMilliseconds: 200,
               notchSmoothness: NotchSmoothness.softEdge,
               gapLocation: GapLocation.center,

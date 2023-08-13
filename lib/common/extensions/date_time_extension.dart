@@ -52,7 +52,7 @@ extension DateTimeExt on DateTime {
   }
 
   /// get time passed
-  String getTimePassed() {
+  String get getTimePassed {
     final now = DateTime.now();
     final difference = now.difference(this);
     if (difference.inSeconds < 60) {

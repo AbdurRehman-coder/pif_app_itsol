@@ -21,7 +21,6 @@ import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 
-
 final dashboardProvider =
     StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
   return DashboardNotifier(ref: ref);
@@ -52,6 +51,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         },
       ),
     ).toList();
+    getUnReadNotificationCount();
     state = state.copyWith(
       actionList: AsyncData(actions),
     );
@@ -93,6 +93,14 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       const Duration(seconds: 1),
       () => state = state.copyWith(closeVideo: false),
     );
+  }
+
+  Future<void> getUnReadNotificationCount() async {
+    final result =
+        await DixelsSDK.instance.notificationService.unReadNotificationCount();
+    if (result.isRight()) {
+      state = state.copyWith(unReadNotification: result.getRight()!.count);
+    }
   }
 
   void closeFloatMenu({required AnimationController animationController}) {
@@ -259,10 +267,12 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         );
         break;
       case 'Support':
-        AppRouter.pushNamed(
-          Routes.addOrEditTicketScreen,
-          args: AddTicketModel(
-            idSelectedCategory: categoryId,
+        closeVideoFun(
+          onTap: () => AppRouter.pushNamed(
+            Routes.addOrEditTicketScreen,
+            args: AddTicketModel(
+              idSelectedCategory: categoryId,
+            ),
           ),
         );
         break;
