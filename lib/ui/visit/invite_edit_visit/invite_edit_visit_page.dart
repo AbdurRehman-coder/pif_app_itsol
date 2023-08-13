@@ -35,7 +35,10 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
     final notifier = ref.read(inviteVisitorProvider.notifier);
     Future.delayed(
       Duration.zero,
-      () => notifier.fillStartDateAndEndDate(visitModel: widget.selectedVisit),
+      () => notifier.fillStartDateAndEndDate(
+        visitModel: widget.selectedVisit,
+        context: context,
+      ),
     );
   }
 
@@ -217,7 +220,10 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                             padding: EdgeInsets.only(top: 105.h),
                             child: DatePickerWidget(
                               selectedDate: provider.endDate,
-                              onConfirm: notifier.updateEndDate,
+                              onConfirm: (dateTime) => notifier.updateEndDate(
+                                context: context,
+                                date: dateTime,
+                              ),
                               onCancel: notifier.closeEndDatePickerDialog,
                             ),
                           ),

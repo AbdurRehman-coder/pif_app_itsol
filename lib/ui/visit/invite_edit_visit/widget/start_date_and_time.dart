@@ -46,6 +46,10 @@ class StartDateAndTime extends StatelessWidget {
                   isFocus: provider.isOpenStartDatePicker,
                   enabled: false,
                   checkEmpty: true,
+                  fillColor: selectedVisit != null &&
+                          selectedVisit!.visitStartDate!.isBeforeNow
+                      ? grayE3
+                      : whiteColor,
                   hintText: S.current.startingDate,
                   suffixIcon: const Icon(
                     Icons.calendar_today,
@@ -67,10 +71,13 @@ class StartDateAndTime extends StatelessWidget {
                 child: SecondCustomTextField(
                   textEditingController: notifier.startTimeController,
                   enabled: false,
+                  fillColor: selectedVisit != null &&
+                          selectedVisit!.visitStartDate!.isBeforeNow
+                      ? grayE3
+                      : whiteColor,
                   checkEmpty: true,
                   isFocus: provider.isOpenStartTimePicker,
                   hintText: S.current.time,
-                  fillColor: whiteColor,
                   suffixIcon: const Icon(
                     Icons.keyboard_arrow_down_sharp,
                     color: expireStatusColor,

@@ -114,9 +114,9 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
           await alertPopup(
             context: context,
             deleteMessage: S.current.discardTheTicket,
-            onClickYes: () {
-              AppRouter.popUntil(Routes.myTicketsScreen);
-            },
+            onClickYes: () => widget.addTicketModel != null
+                ? AppRouter.popUntil(Routes.dashboardScreen)
+                : AppRouter.popUntil(Routes.myTicketsScreen),
           );
           return true;
         },
@@ -204,7 +204,8 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                     item: data!,
                   ),
                   selectedValue: provider.selectedSubCategory,
-                  dropDownMenuItemList: addDividersAfterItems(provider.lstSubCategory),
+                  dropDownMenuItemList:
+                      addDividersAfterItems(provider.lstSubCategory),
                 ),
                 SizedBox(
                   height: 220.h,

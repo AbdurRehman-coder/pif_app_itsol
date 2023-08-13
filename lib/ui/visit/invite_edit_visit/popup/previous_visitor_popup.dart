@@ -1,14 +1,14 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/model/invite_edit_visit_model.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/previous_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/previos_visitor_history.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/widget/previous_visitor_list_tile.dart';
-import 'package:pif_flutter/widgets/margin_widget.dart';
 
 Future<List<InviteVisitorModel>> previousVisitorPopup({
   required BuildContext context,
@@ -30,7 +30,6 @@ Future<List<InviteVisitorModel>> previousVisitorPopup({
         builder: (context, ref, child) {
           final provider = ref.watch(previousVisitorProvider);
           final notifier = ref.read(previousVisitorProvider.notifier);
-          previousVisitorSelected = provider.previousVisitorList;
           return Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
@@ -84,21 +83,34 @@ Future<List<InviteVisitorModel>> previousVisitorPopup({
                   ).visibility(visible: provider.isVisibleCancel),
                 ),
                 Expanded(
-                  child: ListView.separated(
-                    padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
-                    itemCount: provider.previousVisitorList.length,
-                    separatorBuilder: (_, index) {
-                      return Divider(
-                        height: 30.h,
-                        thickness: 1.h,
-                        color: lineColor,
+                  child: provider.previousVisitorList.when(
+                    data: (data) {
+                      previousVisitorSelected =
+                          provider.previousVisitorList.value ?? [];
+
+                      return ListView.separated(
+                        padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
+                        itemCount: data.length,
+                        separatorBuilder: (_, index) {
+                          return Divider(
+                            height: 30.h,
+                            thickness: 1.h,
+                            color: lineColor,
+                          );
+                        },
+                        itemBuilder: (_, index) {
+                          return PreviousVisitorListTile(
+                            item: data[index],
+                            notifier: notifier,
+                          );
+                        },
                       );
                     },
-                    itemBuilder: (_, index) {
-                      return PreviousVisitorListTile(
-                        item: provider.previousVisitorList[index],
-                        notifier: notifier,
-                      );
+                    error: (_, __) {
+                      return const SizedBox();
+                    },
+                    loading: () {
+                      return const PreviousVisitorHistoryShimmer();
                     },
                   ),
                 ),

@@ -4,6 +4,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/common/shared/widget/shimmer_wrapper.dart';
 import 'package:pif_flutter/common/utilities/constant.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/home/enum/news_enum.dart';
 import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 import 'package:pif_flutter/ui/home/widget/banner_image_view.dart';
@@ -17,6 +18,8 @@ class BannerView extends ConsumerWidget with RouteAware {
   Widget build(BuildContext context, WidgetRef ref) {
     final controller = PageController();
     final providerHomePage = ref.watch(homeProvider);
+    final providerDashboard = ref.watch(dashboardProvider);
+
     final newsList = providerHomePage.newsList;
 
     return Container(
@@ -56,10 +59,10 @@ class BannerView extends ConsumerWidget with RouteAware {
                       ?.contentFieldValue
                       ?.data;
                   final creator = newsList[index].creator;
-                  final type = newsTitle != null
-                      ? NewsEnum.text
-                      : newsVideo != null
-                          ? NewsEnum.video
+                  final type = newsVideo != null
+                      ? NewsEnum.video
+                      : newsTitle != null
+                          ? NewsEnum.text
                           : NewsEnum.image;
                   if (type == NewsEnum.image) {
                     return BannerImageView(
@@ -70,6 +73,7 @@ class BannerView extends ConsumerWidget with RouteAware {
                       builder: (context) {
                         return BannerVideoView(
                           videoUrl: Constant.imageBaseUrl + newsVideo! ?? '',
+                          closeVideo: providerDashboard.closeVideo,
                         );
                       },
                     );

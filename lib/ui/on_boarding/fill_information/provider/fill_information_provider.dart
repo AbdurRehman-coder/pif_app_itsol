@@ -205,6 +205,8 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     );
     await appProgress.stop();
     if (verifyUser.isRight()) {
+      await DixelsSDK.instance.updateUserDetails(user: verifyUser.getRight()!);
+
       await AppRouter.startNewRoute(Routes.dashboardScreen);
     } else {
       alertMessage(

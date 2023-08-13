@@ -12,6 +12,7 @@ import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
+import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 import 'package:pif_flutter/ui/services/index.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
 
@@ -22,7 +23,8 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTickerProviderStateMixin {
+class _DashboardPageState extends ConsumerState<DashboardPage>
+    with SingleTickerProviderStateMixin {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -126,8 +128,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               elevation: 0,
-              backgroundColor:
-                  _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
+              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
+                  ? lightGrayBgColor
+                  : Colors.transparent,
               centerTitle: true,
               title: title,
               leading: Builder(
@@ -176,14 +179,25 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
             ),
             drawer: const SideMenuPage(),
             onDrawerChanged: (val) {
-              setState(() {
-                isMenuOpen = val;
-              });
+              if (!isMenuOpen) {
+                notifier.closeVideoFun(
+                  onTap: () {
+                    setState(() {
+                      isMenuOpen = val;
+                    });
+                  },
+                );
+              } else {
+                setState(() {
+                  isMenuOpen = val;
+                });
+              }
             },
             body: NotificationListener<ScrollNotification>(
               child: lstMenu.elementAt(_bottomNavIndex).child!,
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             floatingActionButton: SizedBox(
               height: 40.h,
               width: 60.w,
@@ -233,8 +247,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
               activeIndex: _bottomNavIndex,
               splashColor: primaryColor,
               splashRadius: 0,
+              borderColor: primaryColor,
+              leftCornerRadius: 20.r,
+              rightCornerRadius: 20.r,
               splashSpeedInMilliseconds: 200,
-              notchSmoothness: NotchSmoothness.defaultEdge,
+              notchSmoothness: NotchSmoothness.softEdge,
               gapLocation: GapLocation.center,
               onTap: (index) => setState(
                 () {

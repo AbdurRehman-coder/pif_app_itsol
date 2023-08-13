@@ -8,9 +8,9 @@ part 'invite_edit_visit_state.freezed.dart';
 @freezed
 class InviteEditVisitState with _$InviteEditVisitState {
   const factory InviteEditVisitState({
-    required DateTime startDate,
+    required DateTime? startDate,
     required DateTime startTime,
-    required DateTime endDate,
+    required DateTime? endDate,
     required DateTime endTime,
     required List<InviteVisitorModel> lstData,
     required AsyncValue<List<VisitorModel>> visitorModelList,
@@ -27,9 +27,9 @@ class InviteEditVisitState with _$InviteEditVisitState {
         isOpenEndDatePicker: false,
         isOpenStartTimePicker: false,
         isOpenEndTimePicker: false,
-        startDate: DateTime.now(),
+        startDate: null,
+        endDate: null,
         visitorModelList: const AsyncLoading(),
-        endDate: DateTime.now(),
         endTime: DateTime.now().add(const Duration(hours: 1)),
         startTime: DateTime.now(),
         isFieldDisable: true,

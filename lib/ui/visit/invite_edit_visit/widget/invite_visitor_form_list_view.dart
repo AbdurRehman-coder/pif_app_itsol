@@ -63,12 +63,11 @@ class InviteVisitorFormListView extends StatelessWidget {
             ),
           ],
         ).visibility(
-        visible: provider.lstData.isEmpty && isInviteVisit,
+          visible: provider.lstData.isEmpty && isInviteVisit,
         ),
         SizedBox(
-          height: cellHeight,
+          height: 220.h,
           child: ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) {
               return VisitorListTile(
                 item: provider.lstData[index],

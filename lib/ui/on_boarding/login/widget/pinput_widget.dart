@@ -77,7 +77,7 @@ class _PinPutWidgetState extends State<PinPutWidget> {
 
         return Column(
           children: [
-            Directionality(
+            Directionality (
               textDirection: TextDirection.ltr,
               child: Pinput(
                 autofocus: true,

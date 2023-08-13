@@ -33,8 +33,7 @@ class CircleMenu extends ConsumerWidget {
         onChanged: (value) {},
         toggleButtonColor: primaryDark,
         openToggleIcon: Container(
-          width: 40.w,
-          height: 40.h,
+          padding: EdgeInsets.symmetric(horizontal: 7.w,vertical: 7.h),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: primaryDark,
@@ -42,8 +41,8 @@ class CircleMenu extends ConsumerWidget {
           child: SvgPicture.asset(
             Assets.instant,
             fit: BoxFit.cover,
-            width: 16.w,
-            height: 20.h,
+            width: 24.w,
+            height: 24.h,
           ),
         ),
         closeToggleIcon: Container(

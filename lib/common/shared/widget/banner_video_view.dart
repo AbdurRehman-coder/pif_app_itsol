@@ -7,10 +7,12 @@ class BannerVideoView extends StatefulWidget {
   const BannerVideoView({
     required this.videoUrl,
     this.onVideoFinish,
+    this.closeVideo = false,
     super.key,
   });
 
   final String videoUrl;
+  final bool closeVideo;
   final void Function(bool)? onVideoFinish;
 
   @override
@@ -37,6 +39,9 @@ class _BannerVideoViewState extends State<BannerVideoView> {
       });
     });
     videoController.addListener(() {
+      if (widget.closeVideo) {
+        videoController.pause();
+      }
       Future.delayed(
         const Duration(seconds: 3),
         () {

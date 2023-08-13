@@ -77,6 +77,7 @@ void addMoreVisitorPopup({
                         height: 12.h,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: SecondCustomTextField(

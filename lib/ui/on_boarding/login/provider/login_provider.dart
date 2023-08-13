@@ -34,10 +34,10 @@ class LogInNotifier extends StateNotifier<LogInState> {
       final result = await DixelsSDK.instance.initialize(
         baseUrl: Constants.baseUrl,
         auth: OAuth2PasswordGrant(
-          username: 'mwafeeq@appswave.io',
-          // username: emailController.text,
-          password: 'Mwni127199411',
-          // password: passwordController.text,
+          // username: 'mwafeeq@appswave.io',
+          username: emailController.text,
+          // password: 'Mwni127199411',
+          password: passwordController.text,
           clientId: Constants.clientId,
           clientSecret: Constants.clientSecret,
         ),
@@ -59,12 +59,12 @@ class LogInNotifier extends StateNotifier<LogInState> {
     emailController.clear();
     final data = await DixelsSDK.instance.userDetails;
     if (data?.customFields
-        ?.where((element) => element.name == 'isVerified')
-        .firstOrNull
-        ?.customValue
-        .data
-        .toString()
-        .toLowerCase() ==
+            ?.where((element) => element.name == 'isVerified')
+            .firstOrNull
+            ?.customValue
+            .data
+            .toString()
+            .toLowerCase() ==
         'true') {
       await AppRouter.startNewRoute(
         Routes.dashboardScreen,

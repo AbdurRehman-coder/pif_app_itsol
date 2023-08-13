@@ -14,7 +14,7 @@ class DatePickerWidget extends StatefulWidget {
 
   final void Function(DateTime) onConfirm;
   final void Function() onCancel;
-  final DateTime selectedDate;
+  final DateTime? selectedDate;
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();

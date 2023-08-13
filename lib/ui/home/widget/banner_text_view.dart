@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/utilities/constant.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -48,13 +48,15 @@ class BannerTextView extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 60.h,
-                  child: HtmlWidget(
-                    text,
-                    textStyle: Style.commonTextStyle(
-                      color: blackColor,
-                      fontSize: 18.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
+                  child: html.Html(
+                    data: text,
+                    style: {
+                      '#': html.Style(
+                        fontSize: html.FontSize(18),
+                        maxLines: 2,
+                        textOverflow: TextOverflow.ellipsis,
+                      ),
+                    },
                   ),
                 ),
                 SizedBox(height: 20.h),

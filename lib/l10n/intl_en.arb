@@ -258,6 +258,9 @@
   "desk" : "Desk",
   "bookingSubject": "Booking Subject",
   "newGuest": "New Guest",
-  "userAlreadyFound":"User already found",
-  "selectLocation": "Select Location"
+  "selectLocation": "Select Location",
+  "userAlreadyFound":"ID number is already used for another user , please make sure your ID is unique",
+  "selectStartDate":"Please select start date",
+  "enterCorrectEndDate":"Enter Correct End  Date"
+
 }

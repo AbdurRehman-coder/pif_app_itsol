@@ -48,7 +48,7 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
       }
     }
 
-    state = state.copyWith(previousVisitorList: lstData!);
+    state = state.copyWith(previousVisitorList: AsyncData(lstData!));
     allData = lstData;
   }
 
@@ -60,13 +60,13 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
               element.name.toLowerCase().contains(searchText.toLowerCase()),
         )
         .toList();
-    state = state.copyWith(previousVisitorList: lstData);
+    state = state.copyWith(previousVisitorList: AsyncData(lstData));
   }
 
   void clearSearch() {
     searchController.clear();
     searchFocusNode.unfocus();
-    state = state.copyWith(previousVisitorList: allData);
+    state = state.copyWith(previousVisitorList: AsyncData(allData));
     state = state.copyWith(isVisibleCancel: false);
   }
 
@@ -74,16 +74,16 @@ class PreviousVisitorNotifier extends StateNotifier<PreviousVisitorState> {
     required BuildContext context,
     required InviteVisitorModel inviteModel,
   }) {
-    final index = state.previousVisitorList.indexWhere(
+    final index = state.previousVisitorList.value!.indexWhere(
       (element) => element == inviteModel,
     );
     if (index != -1) {
       final notifier = ref.read(inviteVisitorProvider.notifier);
       if (notifier.visitorNotFoundLocally(email: inviteModel.email ?? '') ||
-          state.previousVisitorList[index].isSelected) {
-        state.previousVisitorList[index].isSelected =
-            !state.previousVisitorList[index].isSelected;
-        if (!state.previousVisitorList[index].isSelected) {
+          state.previousVisitorList.value![index].isSelected) {
+        state.previousVisitorList.value![index].isSelected =
+            !state.previousVisitorList.value![index].isSelected;
+        if (!state.previousVisitorList.value![index].isSelected) {
           notifier.removeVisitor(inviteModel);
         }
       } else {

@@ -76,11 +76,15 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   }
 
   void fillStartDateAndEndDate({
+    required BuildContext context,
     VisitModel? visitModel,
   }) {
     if (visitModel != null) {
       updateStartDate(visitModel.visitStartDate!);
-      updateEndDate(visitModel.visitEndDate!);
+      updateEndDate(
+        date: visitModel.visitEndDate!,
+        context: context,
+      );
     }
   }
 
@@ -159,7 +163,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         }
       }
 
-      if (state.startDate.isAfter(state.endDate)) {
+      if (state.startDate!.isAfter(state.endDate!)) {
         alertMessage(
           context: context,
           errorMessage: S.current.dateTimeCompareMsg,
@@ -233,7 +237,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   //Check if visitor not found from history
   bool visitorNotFoundFromVisitorHistory({required String email}) {
     final previousProvider = ref.read(previousVisitorProvider);
-    if (previousProvider.previousVisitorList
+    if (previousProvider.previousVisitorList.value!
             .where(
               (visitor) => visitor.email?.toLowerCase() == email.toLowerCase(),
             )
@@ -269,7 +273,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   //Remove Visitor List Item
   void removeVisitor(InviteVisitorModel item) {
     final data = state.lstData.toList();
-    data.removeWhere((visitor) => visitor.email==item.email);
+    data.removeWhere((visitor) => visitor.email == item.email);
 
     state = state.copyWith(lstData: data);
 
@@ -298,12 +302,22 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   }
 
   //Update End Date
-  void updateEndDate(DateTime date) {
-    state = state.copyWith(endDate: date);
-    endDateController.text = DateFormat('dd/MM/yyyy').format(date);
-    endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
+  void updateEndDate({
+    required DateTime date,
+    required BuildContext context,
+  }) {
+    if (!(startDateController.text.isEmpty || startDateController.text == '')) {
+      state = state.copyWith(endDate: date);
+      endDateController.text = DateFormat('dd/MM/yyyy').format(date);
+      endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
-    closeEndDatePickerDialog();
+      closeEndDatePickerDialog();
+    } else {
+      alertMessage(
+        errorMessage: S.current.selectStartDate,
+        context: context,
+      );
+    }
   }
 
   //Update Start Time
@@ -459,8 +473,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
               final param = ParametersModel(
                 filter: FilterUtils.filterBy(
                   key: 'emailAddress',
-                  value: "'usera@mail.com'",
-                  // value: "'${visitorFromHistory.email}'",
+                  value: "'${visitorFromHistory.email}'",
                   operator: FilterOperator.equal.value,
                 ),
               );
