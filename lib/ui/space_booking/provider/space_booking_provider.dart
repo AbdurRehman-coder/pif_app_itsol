@@ -143,6 +143,13 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     return param;
   }
 
+  Future<void> openFilterPopUp({required BuildContext context}) async {
+    await showFilterPopup(
+      context: context,
+    );
+    await getSpaceAsync(isFilter: true);
+  }
+
   void clearFilterData() {
     state = state.copyWith(filterData: null);
     state = state.copyWith(filterDataString: '');

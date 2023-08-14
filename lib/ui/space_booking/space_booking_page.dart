@@ -23,7 +23,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
       Duration.zero,
       () async {
         await ref.read(spaceBookingProvider.notifier).getSpaceAsync();
-        await showFilterPopup(context: context);
+        await ref.read(spaceBookingProvider.notifier).openFilterPopUp(context: context);
       },
     );
 
@@ -74,17 +74,22 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 16.w, left: 5.w),
-            child: Container(
-              padding: EdgeInsets.all(8.r),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: activeBgColor,
-              ),
-              height: 40.h,
-              width: 40.w,
-              child: const Icon(
-                Icons.history,
-                color: dayTextColor,
+            child: InkWell(
+              onTap: () {
+                AppRouter.pushNamed(Routes.bookingListScreen);
+              },
+              child: Container(
+                padding: EdgeInsets.all(8.r),
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: activeBgColor,
+                ),
+                height: 40.h,
+                width: 40.w,
+                child: const Icon(
+                  Icons.history,
+                  color: dayTextColor,
+                ),
               ),
             ),
           )
@@ -161,8 +166,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     Assets.instant,
                     height: 16.h,
                     width: 16.w,
-                    colorFilter:
-                        const ColorFilter.mode(textColor, BlendMode.srcIn),
+                    colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                   ),
                   SizedBox(
                     width: 8.w,

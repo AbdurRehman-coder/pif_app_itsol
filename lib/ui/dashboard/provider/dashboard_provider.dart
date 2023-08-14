@@ -171,7 +171,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     } else {
       await appProgressDialog.stop();
       alertMessage(
-        errorMessage: S.current.storeNotAvailable,
+        errorMessage: S.current.noStoreAvailableMsg,
         context: context,
       );
     }

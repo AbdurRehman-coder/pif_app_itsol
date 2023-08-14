@@ -218,8 +218,6 @@
   "IAgreeToTheCoBuilder":"I Agree To The Co-Builder ",
   "NDA":"NDA",
   "imageError":"Please use a clear image of your face",
-  "noQuickDrinkAvailableMsg": "no data available for order quick drinks",
-  "imageError":"Checking Photo Compliance Error",
   "noQuickDrinkAvailableMsg": "You do not have any favorite drink orders",
   "successfullySentRequest": "Successfully sent request",
   "viewCalender": "View Calender",
@@ -242,7 +240,6 @@
   "start":"Start",
   "end":"End",
   "notifications":"Notifications",
-  "searchVisitInvitation" : "Search Visit Invitation",
   "str_all": "ALL",
   "news":"News",
   "co_builder":"Co Builder",
@@ -264,7 +261,7 @@
   "userAlreadyFound":"ID number is already used for another user , please make sure your ID is unique",
   "selectStartDate":"Please select start date",
   "enterCorrectEndDate":"Enter Correct End  Date",
-  "readMore" : "read more",
   "readLess" : "read less",
-  "noSpacesToShow": "NO SPACES TO SHOW"
+  "noSpacesToShow": "NO SPACES TO SHOW",
+  "noStoreAvailableMsg": "The catering services are out of working hours"
 }
