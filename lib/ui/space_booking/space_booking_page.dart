@@ -120,7 +120,9 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                 )
               ],
             ).visibility(
-              visible: provider.lstData.hasValue && provider.lstData.value != null && provider.lstData.value!.isNotEmpty,
+              visible: provider.lstData.hasValue &&
+                  provider.lstData.value != null &&
+                  provider.lstData.value!.isNotEmpty,
             ),
             SizedBox(
               height: 16.h,
@@ -163,7 +165,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     Assets.instant,
                     height: 16.h,
                     width: 16.w,
-                    colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
+                    colorFilter:
+                        const ColorFilter.mode(textColor, BlendMode.srcIn),
                   ),
                   SizedBox(
                     width: 8.w,

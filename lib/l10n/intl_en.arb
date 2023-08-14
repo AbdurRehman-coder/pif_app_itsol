@@ -263,6 +263,8 @@
   "selectLocation": "Select Location",
   "userAlreadyFound":"ID number is already used for another user , please make sure your ID is unique",
   "selectStartDate":"Please select start date",
-  "enterCorrectEndDate":"Enter Correct End  Date"
+  "enterCorrectEndDate":"Enter Correct End  Date",
+  "readMore" : "read more",
+  "readLess" : "read less"
 
 }

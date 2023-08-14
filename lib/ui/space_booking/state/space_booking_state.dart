@@ -12,6 +12,7 @@ class SpaceBookingState with _$SpaceBookingState {
     required AsyncValue<List<RoomModel>> lstDataSearch,
     FilterModel? filterData,
     String? filterDataString,
+    bool? isReadMore,
   }) = _SpaceBookingState;
 
   factory SpaceBookingState.initial() => const SpaceBookingState(
@@ -19,5 +20,6 @@ class SpaceBookingState with _$SpaceBookingState {
         lstDataSearch: AsyncLoading(),
         filterDataString: '',
         filterData: null,
+        isReadMore: false,
       );
 }

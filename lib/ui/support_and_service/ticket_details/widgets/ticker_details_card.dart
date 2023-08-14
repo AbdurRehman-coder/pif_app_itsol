@@ -1,7 +1,9 @@
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
+import 'package:pif_flutter/widgets/custom_image.dart';
 
 class TicketDetailsCard extends StatelessWidget {
   const TicketDetailsCard({required this.ticketData, super.key});
@@ -29,30 +31,17 @@ class TicketDetailsCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // if (ticketData.attachment.isNotEmpty) ...[
-          //   ClipRRect(
-          //     borderRadius: BorderRadius.circular(6),
-          //     child: CachedNetworkImage(
-          //       imageUrl: ticketData.attachment,
-          //       fit: BoxFit.cover,
-          //       height: 170.h,
-          //       width: context.screenWidth,
-          //       placeholder: (context, url) => Image.asset(
-          //         Assets.placeHolder,
-          //         fit: BoxFit.fill,
-          //         height: 170.h,
-          //       ),
-          //       errorWidget: (context, url, error) => Image.asset(
-          //         Assets.placeHolder,
-          //         fit: BoxFit.fill,
-          //         height: 170.h,
-          //       ),
-          //     ),
-          //   ),
-          //   SizedBox(
-          //     height: 10.h,
-          //   )
-          // ],
+          if (ticketData.attachment?.link != null) ...[
+            CustomImage(
+              fit: BoxFit.cover,
+              borderRadius: BorderRadius.circular(6.r),
+              image:
+                  NetworkImage(ticketData.attachment!.link!.href!.getImageUrl),
+            ),
+            SizedBox(
+              height: 10.h,
+            )
+          ],
           if (ticketData.ticketStatus != null) ...[
             TicketStatus(
               ticketStatus: ticketData.ticketStatus!,

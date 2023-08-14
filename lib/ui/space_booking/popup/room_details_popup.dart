@@ -8,6 +8,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/utilities/constant.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/space_booking/extension/amenities_extension.dart';
+import 'package:pif_flutter/ui/space_booking/widget/room_description.dart';
 import 'package:pif_flutter/widgets/dotindicator.dart';
 
 void roomDetailsPopUp({
@@ -35,7 +36,8 @@ void roomDetailsPopUp({
           if (image1.link != null || image1.link!.href!.isNotEmpty) {
             final endIndex = image1.link!.href!.indexOf(image1.link!.label!);
             if (endIndex != -1) {
-              final url = image1.link!.href!.substring(0, endIndex) + image1.link!.label!;
+              final url = image1.link!.href!.substring(0, endIndex) +
+                  image1.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -44,7 +46,8 @@ void roomDetailsPopUp({
           if (image2.link != null || image2.link!.href!.isNotEmpty) {
             final endIndex = image2.link!.href!.indexOf(image2.link!.label!);
             if (endIndex != -1) {
-              final url = image2.link!.href!.substring(0, endIndex) + image2.link!.label!;
+              final url = image2.link!.href!.substring(0, endIndex) +
+                  image2.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -53,7 +56,8 @@ void roomDetailsPopUp({
           if (image3.link != null || image3.link!.href!.isNotEmpty) {
             final endIndex = image3.link!.href!.indexOf(image3.link!.label!);
             if (endIndex != -1) {
-              final url = image3.link!.href!.substring(0, endIndex) + image3.link!.label!;
+              final url = image3.link!.href!.substring(0, endIndex) +
+                  image3.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -64,19 +68,25 @@ void roomDetailsPopUp({
       final controller = PageController();
       final data = getSpaceImages();
       return Padding(
-        padding: EdgeInsets.only(right: 16.w, left: 16.w, top: 16.h, bottom: 40.h),
+        padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 40.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              height: 5.h,
-              width: 67.w,
-              decoration: BoxDecoration(
-                color: dividerColor,
-                borderRadius: BorderRadius.circular(2.h),
+            InkWell(
+              onTap: AppRouter.pop,
+              child: Padding(
+                padding: EdgeInsets.only(top: 16.h),
+                child: Container(
+                  height: 5.h,
+                  width: 67.w,
+                  decoration: BoxDecoration(
+                    color: dividerColor,
+                    borderRadius: BorderRadius.circular(2.h),
+                  ),
+                ).toCenter(),
               ),
-            ).toCenter(),
+            ),
             SizedBox(
               height: 24.h,
             ),
@@ -184,16 +194,7 @@ void roomDetailsPopUp({
             SizedBox(
               height: 8.h,
             ),
-            Text(
-              spaceData.description ?? '',
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: Style.commonTextStyle(
-                color: grayTextColor,
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            RoomDescription(description: spaceData.description ?? ''),
             SizedBox(
               height: 16.h,
             ),
@@ -264,7 +265,10 @@ void roomDetailsPopUp({
             ),
             ElevatedButton(
               onPressed: () {
-                AppRouter.pushNamed(Routes.bookingScreen, args: [spaceData, false, null]);
+                AppRouter.pushNamed(
+                  Routes.bookingScreen,
+                  args: [spaceData, false, null],
+                );
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(context.screenWidth, 48.h),
@@ -286,7 +290,10 @@ void roomDetailsPopUp({
             ),
             ElevatedButton(
               onPressed: () {
-                AppRouter.pushNamed(Routes.bookingCalenderScreen, args: [spaceData, true]);
+                AppRouter.pushNamed(
+                  Routes.bookingCalenderScreen,
+                  args: [spaceData, true],
+                );
               },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size(context.screenWidth, 48.h),

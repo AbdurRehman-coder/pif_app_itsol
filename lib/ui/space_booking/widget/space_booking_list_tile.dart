@@ -18,58 +18,56 @@ class SpaceBookingListTile extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(16.r),
-              child: CachedNetworkImage(
-                imageUrl: item.imagePrimary!.getImageUrl,
-                fit: BoxFit.cover,
-                height: 168.h,
-                width: context.screenWidth,
-                placeholder: (context, url) => ShimmerEffect(
+        InkWell(
+          onTap: () => roomDetailsPopUp(context: context, spaceData: item),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16.r),
+                child: CachedNetworkImage(
+                  imageUrl: item.imagePrimary!.getImageUrl,
+                  fit: BoxFit.cover,
                   height: 168.h,
                   width: context.screenWidth,
-                  borderRadius: BorderRadius.circular(40.r),
-                ),
-                errorWidget: (context, url, error) => Image.asset(
-                  Assets.spaceBg2,
-                  fit: BoxFit.fill,
-                  height: 250.h,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.w,
-                  vertical: 5.h,
-                ),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(17.r),
-                    topRight: Radius.circular(16.r),
+                  placeholder: (context, url) => ShimmerEffect(
+                    height: 168.h,
+                    width: context.screenWidth,
+                    borderRadius: BorderRadius.circular(40.r),
                   ),
-                ),
-                child: Text(
-                  '${item.capacity} seats',
-                  style: TextStyle(
-                    color: primaryDarkColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                  errorWidget: (context, url, error) => Image.asset(
+                    Assets.spaceBg2,
+                    fit: BoxFit.fill,
+                    height: 250.h,
                   ),
                 ),
               ),
-            ),
-            Positioned(
-              right: 10.w,
-              bottom: 10.h,
-              child: InkWell(
-                onTap: () {
-                  roomDetailsPopUp(context: context, spaceData: item);
-                },
+              Align(
+                alignment: Alignment.topRight,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 5.h,
+                  ),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(17.r),
+                      topRight: Radius.circular(16.r),
+                    ),
+                  ),
+                  child: Text(
+                    '${item.capacity} seats',
+                    style: TextStyle(
+                      color: primaryDarkColor,
+                      fontSize: 12.sp,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                right: 10.w,
+                bottom: 10.h,
                 child: Container(
                   height: 36.h,
                   width: 99.w,
@@ -91,8 +89,8 @@ class SpaceBookingListTile extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         SizedBox(
           height: 8.h,
