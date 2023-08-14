@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,7 +14,6 @@ import 'package:pif_flutter/ui/dashboard/widget/circle_menu.dart';
 import 'package:pif_flutter/ui/drinks/drinks_page.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 import 'package:pif_flutter/ui/home/home_page.dart';
-import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 import 'package:pif_flutter/ui/services/index.dart';
 import 'package:pif_flutter/ui/side_menu/side_menu_page.dart';
 
@@ -23,8 +24,7 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends ConsumerState<DashboardPage>
-    with SingleTickerProviderStateMixin {
+class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTickerProviderStateMixin {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -71,9 +71,11 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
     );
     setState(() {});
 
-    Future.delayed(Duration.zero, () {
-      ref.read(dashboardProvider.notifier).initPenguin(context);
-    });
+    if (Platform.isAndroid) {
+      Future.delayed(Duration.zero, () {
+        ref.read(dashboardProvider.notifier).initPenguin(context);
+      });
+    }
   }
 
   @override
@@ -129,9 +131,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
-                  ? lightGrayBgColor
-                  : Colors.transparent,
+              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
               centerTitle: true,
               title: title,
               leading: Builder(
@@ -171,8 +171,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                       child: Badge(
                         backgroundColor: primaryColor,
                         label: Text(provider.unReadNotification.toString()),
-                        isLabelVisible: provider.unReadNotification != null &&
-                            provider.unReadNotification != 0,
+                        isLabelVisible: provider.unReadNotification != null && provider.unReadNotification != 0,
                         child: Center(
                           child: SvgPicture.asset(
                             Assets.svgNotification,
@@ -206,8 +205,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
             body: NotificationListener<ScrollNotification>(
               child: lstMenu.elementAt(_bottomNavIndex).child!,
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: SizedBox(
               height: 40.h,
               width: 60.w,

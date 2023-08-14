@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_lottie_widget.dart';
 import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
@@ -33,7 +31,7 @@ class CircleMenu extends ConsumerWidget {
         onChanged: (value) {},
         toggleButtonColor: primaryDark,
         openToggleIcon: Container(
-          padding: EdgeInsets.symmetric(horizontal: 7.w,vertical: 7.h),
+          padding: EdgeInsets.symmetric(horizontal: 7.w, vertical: 7.h),
           decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: primaryDark,
@@ -75,7 +73,7 @@ class CircleMenu extends ConsumerWidget {
             color: whiteColor,
             onTap: () {
               if (index == 0) {
-                notifier.orderNow(context: context);
+                notifier.quickOrderNow(context: context);
               }
               if (index == 2) {
                 notifier.digitalVipSupportAsync(context: context);
