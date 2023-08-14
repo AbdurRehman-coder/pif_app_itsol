@@ -6,6 +6,7 @@ import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/search_location/provider/search_location_provider.dart';
 import 'package:pif_flutter/ui/search_location/states/search_location_state.dart';
+import 'package:pif_flutter/ui/search_location/widget/search_location_empty_view.dart';
 import 'package:pif_flutter/ui/search_location/widget/search_location_shimmer_widget.dart';
 
 class SearchLocationListView extends StatelessWidget {
@@ -18,13 +19,13 @@ class SearchLocationListView extends StatelessWidget {
       child: provider.lstSearchLocation.when(
         data: (data) {
           if (data.isEmpty) {
-            return const SizedBox();
+            return const SearchLocationEmptyView();
           } else {
             return _setListView(data, provider, notifier);
           }
         },
         error: (error, stackTrace) {
-          return const SizedBox();
+          return const SearchLocationEmptyView();
         },
         loading: () {
           return const SearchLocationShimmerWidget();

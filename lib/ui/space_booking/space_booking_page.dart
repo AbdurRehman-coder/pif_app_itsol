@@ -119,10 +119,6 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                   ),
                 )
               ],
-            ).visibility(
-              visible: provider.lstData.hasValue &&
-                  provider.lstData.value != null &&
-                  provider.lstData.value!.isNotEmpty,
             ),
             SizedBox(
               height: 16.h,

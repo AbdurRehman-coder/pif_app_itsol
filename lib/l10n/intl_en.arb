@@ -265,6 +265,6 @@
   "selectStartDate":"Please select start date",
   "enterCorrectEndDate":"Enter Correct End  Date",
   "readMore" : "read more",
-  "readLess" : "read less"
-
+  "readLess" : "read less",
+  "noSpacesToShow": "NO SPACES TO SHOW"
 }
