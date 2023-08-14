@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:focus_detector/focus_detector.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:video_player/video_player.dart';
 
@@ -7,12 +8,10 @@ class BannerVideoView extends StatefulWidget {
   const BannerVideoView({
     required this.videoUrl,
     this.onVideoFinish,
-    this.closeVideo = false,
     super.key,
   });
 
   final String videoUrl;
-  final bool closeVideo;
   final void Function(bool)? onVideoFinish;
 
   @override
@@ -35,13 +34,11 @@ class _BannerVideoViewState extends State<BannerVideoView> {
       setState(() {
         videoController.play();
         videoController.setVolume(0);
+        videoController.setLooping(true);
         videoMute = true;
       });
     });
     videoController.addListener(() {
-      if (widget.closeVideo) {
-        videoController.pause();
-      }
       Future.delayed(
         const Duration(seconds: 3),
         () {
@@ -63,21 +60,28 @@ class _BannerVideoViewState extends State<BannerVideoView> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24.r),
-      child: Stack(
-        children: [
-          InkWell(
-            onTap: () => videoController.play(),
-            child: VideoPlayer(
-              videoController,
-            ),
-          ),
-          Positioned(
-            bottom: 10.h,
-            right: 10.w,
-            child: InkWell(
+    return FocusDetector(
+      onFocusLost: () {
+        if (videoController.value.isPlaying) {
+          videoController.pause();
+        }
+      },
+      onFocusGained: () {
+        videoController.play();
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(24.r),
+        child: Stack(
+          children: [
+            InkWell(
               onTap: updateVolume,
+              child: VideoPlayer(
+                videoController,
+              ),
+            ),
+            Positioned(
+              bottom: 10.h,
+              right: 10.w,
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
                 decoration: const BoxDecoration(
@@ -95,8 +99,8 @@ class _BannerVideoViewState extends State<BannerVideoView> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

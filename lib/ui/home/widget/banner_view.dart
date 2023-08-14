@@ -73,7 +73,6 @@ class BannerView extends ConsumerWidget with RouteAware {
                       builder: (context) {
                         return BannerVideoView(
                           videoUrl: Constant.imageBaseUrl + newsVideo! ?? '',
-                          closeVideo: providerDashboard.closeVideo,
                         );
                       },
                     );

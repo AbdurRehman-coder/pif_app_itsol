@@ -18,6 +18,7 @@ class CategoryListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(homeProvider);
+    final notifier = ref.read(homeProvider.notifier);
     final notifierDashboard = ref.read(dashboardProvider.notifier);
     return provider.servicesList.when(
       data: (data) {
@@ -64,7 +65,7 @@ class CategoryListView extends ConsumerWidget {
                 notifierDashboard.closeFloatMenu(
                   animationController: animationController,
                 );
-                notifierDashboard.onTapServices(
+                notifier.onTapServices(
                   type: servicesType ?? '',
                   categoryId: servicesCategoryId,
                   subCategoryId: servicesSubCategoryId,

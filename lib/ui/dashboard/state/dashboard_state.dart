@@ -12,14 +12,12 @@ class DashboardState with _$DashboardState {
     required AsyncValue<StructureContentModel> structureContent,
     required bool storeClosed,
     required int? unReadNotification,
-    required bool closeVideo,
   }) = _DashboardState;
 
   factory DashboardState.initial() => const DashboardState(
         actionList: AsyncLoading(),
         structureContent: AsyncLoading(),
         storeClosed: false,
-        closeVideo: false,
         unReadNotification: null,
       );
 }

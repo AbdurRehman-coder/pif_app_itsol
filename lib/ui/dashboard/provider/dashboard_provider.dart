@@ -84,15 +84,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     });
   }
 
-  Future<void> closeVideoFun({required void Function() onTap}) async {
-    state = state.copyWith(closeVideo: true);
-    onTap();
-    Future.delayed(
-      const Duration(seconds: 1),
-      () => state = state.copyWith(closeVideo: false),
-    );
-  }
-
   Future<void> getUnReadNotificationCount() async {
     final result = await DixelsSDK.instance.notificationService.unReadNotificationCount();
     if (result.isRight()) {
@@ -239,84 +230,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         context: context,
         statusEnum: AlertStatusEnum.success,
       );
-    }
-  }
-
-  void onTapServices({
-    required String type,
-    String? categoryId,
-    String? subCategoryId,
-  }) {
-    switch (type) {
-      case 'QR Booking':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(Routes.bookingScannerScreen),
-        );
-        break;
-      case 'Support':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.addOrEditTicketScreen,
-            args: AddTicketModel(
-              idSelectedCategory: categoryId,
-            ),
-          ),
-        );
-        break;
-      case 'Photography':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.addOrEditTicketScreen,
-            args: AddTicketModel(
-              idSelectedCategory: categoryId,
-              isSelectedSubCategory: subCategoryId,
-            ),
-          ),
-        );
-        break;
-      case 'Invite Visitors':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.inviteVisitorScreen,
-            args: [true, true, null],
-          ),
-        );
-        break;
-      case 'New Joiner':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.addOrEditTicketScreen,
-            args: AddTicketModel(
-              idSelectedCategory: categoryId,
-            ),
-          ),
-        );
-        break;
-      case 'Logistics':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.addOrEditTicketScreen,
-            args: AddTicketModel(
-              idSelectedCategory: categoryId,
-            ),
-          ),
-        );
-        break;
-      case 'Creatives':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(
-            Routes.addOrEditTicketScreen,
-            args: AddTicketModel(
-              idSelectedCategory: categoryId,
-            ),
-          ),
-        );
-        break;
-      case 'Booking':
-        closeVideoFun(
-          onTap: () => AppRouter.pushNamed(Routes.spaceBookingScreen),
-        );
-        break;
     }
   }
 }

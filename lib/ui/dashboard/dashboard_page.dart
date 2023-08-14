@@ -24,7 +24,8 @@ class DashboardPage extends ConsumerStatefulWidget {
   ConsumerState createState() => _DashboardPageState();
 }
 
-class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTickerProviderStateMixin {
+class _DashboardPageState extends ConsumerState<DashboardPage>
+    with SingleTickerProviderStateMixin {
   final lstMenu = <BottomMenuModel>[];
   var _bottomNavIndex = 0;
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -131,7 +132,9 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
             resizeToAvoidBottomInset: false,
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3 ? lightGrayBgColor : Colors.transparent,
+              backgroundColor: _bottomNavIndex == 0 || _bottomNavIndex == 3
+                  ? lightGrayBgColor
+                  : Colors.transparent,
               centerTitle: true,
               title: title,
               leading: Builder(
@@ -171,7 +174,8 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
                       child: Badge(
                         backgroundColor: primaryColor,
                         label: Text(provider.unReadNotification.toString()),
-                        isLabelVisible: provider.unReadNotification != null && provider.unReadNotification != 0,
+                        isLabelVisible: provider.unReadNotification != null &&
+                            provider.unReadNotification != 0,
                         child: Center(
                           child: SvgPicture.asset(
                             Assets.svgNotification,
@@ -188,24 +192,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage> with SingleTicker
             ),
             drawer: const SideMenuPage(),
             onDrawerChanged: (val) {
-              if (!isMenuOpen) {
-                notifier.closeVideoFun(
-                  onTap: () {
-                    setState(() {
-                      isMenuOpen = val;
-                    });
-                  },
-                );
-              } else {
-                setState(() {
-                  isMenuOpen = val;
-                });
-              }
+              setState(() {
+                isMenuOpen = val;
+              });
             },
             body: NotificationListener<ScrollNotification>(
               child: lstMenu.elementAt(_bottomNavIndex).child!,
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
             floatingActionButton: SizedBox(
               height: 40.h,
               width: 60.w,
