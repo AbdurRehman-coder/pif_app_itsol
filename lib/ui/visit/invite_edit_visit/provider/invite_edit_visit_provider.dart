@@ -427,6 +427,22 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     updateEndTime(endTime: roundedTime.add(const Duration(hours: 1)));
   }
 
+  void fetchVisitor({required VisitModel selectedVisit}) {
+    state = state.copyWith(
+      lstData: selectedVisit.visitors!
+          .map(
+            (e) => InviteVisitorModel(
+              e.givenName,
+              e.familyName,
+              e.emailAddress,
+              fromHistory: true,
+              isVisitorVerified: true,
+            ),
+          )
+          .toList(),
+    );
+  }
+
   Future<void> inviteVisitorApi({
     required BuildContext context,
     required DateTime startDate,
@@ -451,7 +467,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
           final result =
               await DixelsSDK.instance.visitService.postPageDataWithEither(
             reqModel: visit.VisitParam(
-              state: visit.State(key: 'pendingVerification'),
               visitStartDate: startDate.toIso8601String(),
               visitEndDate: endDate.toIso8601String(),
               visitors: visitorAddedLocallyList
@@ -460,8 +475,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
                       givenName: e.firstName ?? '',
                       familyName: e.lastName ?? '',
                       emailAddress: e.email ?? '',
-                      alternateName:
-                          e.email!.substring(0, e.email!.indexOf('@')),
+                      alternateName: e.email!.replaceAll('@', '.'),
                     ),
                   )
                   .toList(),
@@ -507,7 +521,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
           await appProgressDialog.stop();
           if (result.isRight()) {
             final notifier = ref.read(visitListProvider.notifier);
-
             if (fromHomepage) {
               AppRouter.popUntil(Routes.dashboardScreen);
             } else {

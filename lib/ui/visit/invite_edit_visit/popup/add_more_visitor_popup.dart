@@ -76,6 +76,17 @@ void addMoreVisitorPopup({
                       SizedBox(
                         height: 12.h,
                       ),
+                      SecondCustomTextField(
+                        textEditingController: notifier.emailController,
+                        checkEmpty: true,
+                        autoFocus: true,
+                        hintText: S.current.email,
+                        isEmailField: true,
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(
+                        height: 20.h,
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -83,7 +94,6 @@ void addMoreVisitorPopup({
                             child: SecondCustomTextField(
                               textEditingController:
                                   notifier.firstNameController,
-                              autoFocus: true,
                               checkEmpty: true,
                               hintText: S.current.firstName,
                             ),
@@ -98,16 +108,6 @@ void addMoreVisitorPopup({
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      SecondCustomTextField(
-                        textEditingController: notifier.emailController,
-                        checkEmpty: true,
-                        hintText: S.current.email,
-                        isEmailField: true,
-                        keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(
                         height: 24.h,

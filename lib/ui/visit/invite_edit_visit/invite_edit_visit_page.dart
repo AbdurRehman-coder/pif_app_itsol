@@ -40,6 +40,14 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
         context: context,
       ),
     );
+    if (!widget.isInviteVisit) {
+      Future.delayed(
+        Duration.zero,
+        () => notifier.fetchVisitor(
+          selectedVisit: widget.selectedVisit!,
+        ),
+      );
+    }
   }
 
   @override
@@ -49,7 +57,9 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
-        title: S.current.inviteVisitors,
+        title: widget.isInviteVisit
+            ? S.current.inviteVisitors
+            : S.current.editVisit,
       ),
       body: BackgroundWidget(
         child: GestureDetector(
@@ -143,9 +153,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                               provider: provider,
                               isInviteVisit: widget.isInviteVisit,
                             ),
-                            SizedBox(
-                              height: 40.h,
-                            ),
+                            SizedBox(height: 20.h),
                             ElevatedButton(
                               style:
                                   Style.secondaryButtonStyle(context: context),
@@ -257,9 +265,11 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 10.h),
+        color: expireBgColor,
+        width: double.infinity,
         child: ElevatedButton(
           onPressed: widget.isInviteVisit
               ? () => notifier.sendAndEditInvitation(

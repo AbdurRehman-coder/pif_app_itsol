@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -10,6 +11,7 @@ class InviteVisitorFormListView extends StatelessWidget {
   const InviteVisitorFormListView({
     required this.notifier,
     required this.provider,
+    this.selectedVisit,
     this.isInviteVisit = true,
     super.key,
   });
@@ -17,10 +19,11 @@ class InviteVisitorFormListView extends StatelessWidget {
   final InviteVisitorNotifier notifier;
   final InviteEditVisitState provider;
   final bool isInviteVisit;
+  final VisitModel? selectedVisit;
 
   @override
   Widget build(BuildContext context) {
-    final cellHeight = provider.lstData.length * 80.h;
+    final cellHeight = provider.lstData.length * 75.h;
     return Column(
       children: [
         Column(
@@ -66,8 +69,9 @@ class InviteVisitorFormListView extends StatelessWidget {
           visible: provider.lstData.isEmpty && isInviteVisit,
         ),
         SizedBox(
-          height: 220.h,
+          height: cellHeight,
           child: ListView.separated(
+            physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (_, index) {
               return VisitorListTile(
                 item: provider.lstData[index],
@@ -80,7 +84,7 @@ class InviteVisitorFormListView extends StatelessWidget {
             },
             itemCount: provider.lstData.length,
           ),
-        )
+        ),
       ],
     );
   }
