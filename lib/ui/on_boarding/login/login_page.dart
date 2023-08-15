@@ -19,7 +19,6 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.read(logInProvider.notifier);
-    final provider = ref.watch(logInProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: grayF5,

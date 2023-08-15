@@ -174,8 +174,18 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
   Future<void> checkIfUserFoundOrNot({required BuildContext context}) async {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
-    final result = await DixelsSDK.instance.verifyUserService
-        .checkUserByNationalId(nationalId: iDController.text);
+    final isSaudi = state.selectedNationality?.a2 == 'SA';
+    final isPassport = state.selectedType?.id == '1';
+    final param = ParametersModel();
+    param.query = isSaudi
+        ? '?nationalId=${iDController.text}'
+        : isPassport
+            ? '?passportId=${iDController.text}'
+            : '?residentId=${iDController.text}';
+    final result =
+        await DixelsSDK.instance.verifyUserService.checkIfUserAlreadyFound(
+      params: param,
+    );
     await appProgressDialog.stop();
     if (result.isRight()) {
       if (result.getRight()?.status == 'NOT_FOUND') {
@@ -201,6 +211,9 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
         nationalId: isSaudi ? iDController.text : '',
         passportId: isPassport ? iDController.text : '',
         residentId: isIqama ? iDController.text : '',
+        base64Image: state.scanFace != null
+            ? File(state.scanFace!.path).convertFileToBase64
+            : '',
       ),
     );
     await appProgress.stop();
