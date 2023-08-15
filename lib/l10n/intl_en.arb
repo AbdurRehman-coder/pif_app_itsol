@@ -263,5 +263,6 @@
   "enterCorrectEndDate":"Enter Correct End  Date",
   "readLess" : "read less",
   "noSpacesToShow": "NO SPACES TO SHOW",
-  "noStoreAvailableMsg": "The catering services are out of working hours"
+  "noStoreAvailableMsg": "The catering services are out of working hours",
+ "dateTimeCompareMsgTime":"End time should be greater than start time"
 }

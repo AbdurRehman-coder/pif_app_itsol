@@ -257,7 +257,8 @@
  "userAlreadyFound":"ID number is already used for another user , please make sure your ID is unique",
  "selectStartDate":"Please select start date",
  "enterCorrectEndDate":"Enter Correct End  Date",
-  "readLess" : "read less",
-  "noSpacesToShow": "NO SPACES TO SHOW",
-  "noStoreAvailableMsg": "The catering services are out of working hours"
+ "readLess" : "read less",
+ "noSpacesToShow": "NO SPACES TO SHOW",
+ "noStoreAvailableMsg": "The catering services are out of working hours",
+ "dateTimeCompareMsgTime":"End time should be greater than start time"
 }

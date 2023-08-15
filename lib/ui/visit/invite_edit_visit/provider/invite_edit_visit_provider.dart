@@ -170,6 +170,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         );
         return;
       }
+
       final startDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
         '${startDateSelectController.text} ${startTimeController.text}'
             .replaceAll('pm', 'PM')
@@ -180,6 +181,13 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
             .replaceAll('pm', 'PM')
             .replaceAll('am', 'AM'),
       );
+      if (startDate.isAfter(endDate)||startDate.isAtSameMomentAs(endDate)) {
+        alertMessage(
+          context: context,
+          errorMessage: S.current.dateTimeCompareMsgTime,
+        );
+        return;
+      }
       if (!isEditVisit) {
         inviteVisitorApi(
           context: context,
