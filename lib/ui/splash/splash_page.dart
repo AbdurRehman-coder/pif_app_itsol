@@ -4,6 +4,7 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
 import 'package:pif_flutter/routes/routes.dart';
 
 class SplashPage extends HookWidget {
@@ -20,19 +21,11 @@ class SplashPage extends HookWidget {
       );
       return null;
     });
-    return Scaffold(
-      body: Stack(
-        alignment: Alignment.bottomCenter,
-        children: [
-          Center(
-            child: Image.asset(
-              'assets/ic_logo.png',
-              height: 167,
-              width: 177,
-            ),
-          ),
-        ],
-      ),
+    return const Scaffold(
+      body: BannerVideoView(
+        videoUrl: Assets.splashScreenVideo,
+        isVideoAsset: true,
+        ),
     );
   }
 

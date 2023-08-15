@@ -212,4 +212,6 @@ class Assets {
 
   // Visit
   static const String vEditButton = 'assets/3x/verticle_edit_btn.png';
+  //Video
+  static const String splashScreenVideo = 'assets/video/splash_screen_video.mp4';
 }

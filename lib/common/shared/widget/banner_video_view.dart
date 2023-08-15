@@ -8,10 +8,12 @@ class BannerVideoView extends StatefulWidget {
   const BannerVideoView({
     required this.videoUrl,
     this.onVideoFinish,
+    this.isVideoAsset = false,
     super.key,
   });
 
   final String videoUrl;
+  final bool isVideoAsset;
   final void Function(bool)? onVideoFinish;
 
   @override
@@ -25,11 +27,15 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void initState() {
     super.initState();
-    videoController = VideoPlayerController.networkUrl(
-      Uri.parse(
-        widget.videoUrl,
-      ),
-    );
+    if (!widget.isVideoAsset) {
+      videoController = VideoPlayerController.networkUrl(
+        Uri.parse(
+          widget.videoUrl,
+        ),
+      );
+    } else {
+      videoController = VideoPlayerController.asset(widget.videoUrl);
+    }
     videoController.initialize().then((value) {
       setState(() {
         videoController.play();
@@ -41,7 +47,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
     videoController.addListener(() {
       Future.delayed(
         const Duration(seconds: 3),
-        () {
+            () {
           widget.onVideoFinish?.call(!videoController.value.isPlaying);
         },
       );
@@ -79,26 +85,28 @@ class _BannerVideoViewState extends State<BannerVideoView> {
                 videoController,
               ),
             ),
-            Positioned(
-              bottom: 10.h,
-              right: 10.w,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    image: AssetImage(
-                      Assets.backgroundSound,
+            if(!widget.isVideoAsset)...[
+              Positioned(
+                bottom: 10.h,
+                right: 10.w,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: AssetImage(
+                        Assets.backgroundSound,
+                      ),
                     ),
                   ),
-                ),
-                child: Icon(
-                  videoMute ? Icons.volume_off : Icons.volume_up_outlined,
-                  color: blackIcon,
-                  size: 18,
+                  child: Icon(
+                    videoMute ? Icons.volume_off : Icons.volume_up_outlined,
+                    color: blackIcon,
+                    size: 18,
+                  ),
                 ),
               ),
-            ),
+            ],
           ],
         ),
       ),
