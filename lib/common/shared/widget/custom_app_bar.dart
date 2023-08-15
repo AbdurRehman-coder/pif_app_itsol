@@ -7,11 +7,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.actionWidget,
     super.key,
     this.titleWidget,
+    this.onClickBack,
     this.bgColor,
   });
 
   final String? title;
   final Widget? titleWidget;
+  final void Function()? onClickBack;
   final List<Widget>? actionWidget;
   final Color? bgColor;
 
@@ -22,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: 0,
       centerTitle: true,
       leading: InkWell(
-        onTap: AppRouter.pop,
+        onTap: onClickBack ?? AppRouter.pop,
         child: Padding(
           padding: EdgeInsets.only(left: 16.w),
           child: Container(

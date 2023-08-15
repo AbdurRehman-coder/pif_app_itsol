@@ -16,7 +16,7 @@ class SplashPage extends HookWidget {
   Widget build(BuildContext context) {
     useEffect(() {
       Timer(
-        const Duration(seconds: 5),
+        const Duration(seconds: 4),
         _navigateUser,
       );
       return null;

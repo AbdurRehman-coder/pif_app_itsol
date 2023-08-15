@@ -54,6 +54,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
             idSelectedCategory: categoryId,
+            isSelectedSubCategory: subCategoryId,
           ),
         );
         break;
@@ -77,6 +78,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
             idSelectedCategory: categoryId,
+            isSelectedSubCategory: subCategoryId,
           ),
         );
         break;
@@ -85,6 +87,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
             idSelectedCategory: categoryId,
+            isSelectedSubCategory: subCategoryId,
           ),
         );
         break;
@@ -93,6 +96,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
           Routes.addOrEditTicketScreen,
           args: AddTicketModel(
             idSelectedCategory: categoryId,
+            isSelectedSubCategory: subCategoryId,
           ),
         );
         break;

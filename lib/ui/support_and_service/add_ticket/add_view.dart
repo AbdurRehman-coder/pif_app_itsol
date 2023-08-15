@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
+import 'package:pif_flutter/common/shared/widget/background_widget.dart';
+import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/common/shared/widget/custom_drop_down.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -71,147 +73,122 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
     }
 
     return Scaffold(
-      backgroundColor: expireBgColor,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        backgroundColor: expireBgColor,
-        elevation: 0,
-        leading: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: InkWell(
-            onTap: () => alertPopup(
+      appBar: CustomAppBar(
+        title: S.current.getSupport,
+        onClickBack: () => alertPopup(
+          context: context,
+          deleteMessage: S.current.discardTheTicket,
+          onClickYes: () => widget.addTicketModel != null
+              ? AppRouter.popUntil(Routes.dashboardScreen)
+              : AppRouter.popUntil(Routes.myTicketsScreen),
+        ),
+      ),
+      body: BackgroundWidget(
+        child: WillPopScope(
+          onWillPop: () async {
+            await alertPopup(
               context: context,
               deleteMessage: S.current.discardTheTicket,
               onClickYes: () => widget.addTicketModel != null
                   ? AppRouter.popUntil(Routes.dashboardScreen)
                   : AppRouter.popUntil(Routes.myTicketsScreen),
+            );
+            return true;
+          },
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.only(
+              left: 18.w,
+              right: 18.w,
             ),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: primaryColor.withOpacity(0.2),
-              ),
-              child: const Icon(
-                Icons.arrow_back_ios_new,
-                color: dayTextColor,
-                size: 25,
-              ),
-            ),
-          ),
-        ),
-        title: Text(
-          S.current.getSupport,
-          style: Style.commonTextStyle(
-            color: blackColor,
-            fontSize: 18.sp,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        titleSpacing: 0,
-      ),
-      body: WillPopScope(
-        onWillPop: () async {
-          await alertPopup(
-            context: context,
-            deleteMessage: S.current.discardTheTicket,
-            onClickYes: () => widget.addTicketModel != null
-                ? AppRouter.popUntil(Routes.dashboardScreen)
-                : AppRouter.popUntil(Routes.myTicketsScreen),
-          );
-          return true;
-        },
-        child: SingleChildScrollView(
-          physics: const AlwaysScrollableScrollPhysics(),
-          padding: EdgeInsets.only(
-            left: 18.w,
-            right: 18.w,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20.h,
-              ),
-              Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  CustomTextField(
-                    keyboardType: TextInputType.multiline,
-                    textEditingController: notifier.issueDescriptionController,
-                    maxLines: 9,
-                    hintText: S.current.issueDescription,
-                    maxLength: 300,
-                    style: Style.commonTextStyle(
-                      color: dayTextColor,
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  if (provider.image == null) ...[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 30.h),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.image_outlined,
-                          color: hintColor,
-                        ),
-                        onPressed: notifier.uploadImage,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20.h,
+                ),
+                Stack(
+                  alignment: Alignment.bottomRight,
+                  children: [
+                    CustomTextField(
+                      keyboardType: TextInputType.multiline,
+                      textEditingController: notifier.issueDescriptionController,
+                      maxLines: 9,
+                      hintText: S.current.issueDescription,
+                      maxLength: 300,
+                      style: Style.commonTextStyle(
+                        color: dayTextColor,
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
+                    if (provider.image == null) ...[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 30.h),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.image_outlined,
+                            color: hintColor,
+                          ),
+                          onPressed: notifier.uploadImage,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
-              ),
-              SizedBox(height: 5.h),
-              if (provider.loadImage) ...[
-                Container(
-                  height: 100.h,
-                  width: 100.w,
-                  decoration: BoxDecoration(
-                    color: gray98.withOpacity(0.3),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.r),
+                ),
+                SizedBox(height: 5.h),
+                if (provider.loadImage) ...[
+                  Container(
+                    height: 100.h,
+                    width: 100.w,
+                    decoration: BoxDecoration(
+                      color: gray98.withOpacity(0.3),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10.r),
+                      ),
+                    ),
+                    child: const Icon(
+                      Icons.image,
+                      size: 40,
+                      color: gray85,
                     ),
                   ),
-                  child: const Icon(
-                    Icons.image,
-                    size: 40,
-                    color: gray85,
+                  SizedBox(
+                    height: 15.h,
                   ),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-              ],
-              if (provider.image != null) ...[
-                ImageSelected(
-                  imageFile: provider.image!,
-                  onDeleteFile: notifier.onDeleteFile,
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-              ],
-              TeamsList(
-                notifier: notifier,
-                provider: provider,
-              ),
-              SizedBox(height: 15.h),
-              if (provider.selectedCategory != null) ...[
-                CustomDropDownMenu<TicketCategoryModel>(
-                  hintText: S.current.subCategory,
-                  items: provider.lstSubCategory,
-                  onChanged: (data) => notifier.updateSubCategory(
-                    item: data!,
+                ],
+                if (provider.image != null) ...[
+                  ImageSelected(
+                    imageFile: provider.image!,
+                    onDeleteFile: notifier.onDeleteFile,
                   ),
-                  selectedValue: provider.selectedSubCategory,
-                  dropDownMenuItemList:
-                      addDividersAfterItems(provider.lstSubCategory),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                ],
+                TeamsList(
+                  notifier: notifier,
+                  provider: provider,
                 ),
-                SizedBox(
-                  height: 220.h,
-                )
+                SizedBox(height: 15.h),
+                if (provider.selectedCategory != null) ...[
+                  CustomDropDownMenu<TicketCategoryModel>(
+                    hintText: S.current.subCategory,
+                    items: provider.lstSubCategory,
+                    onChanged: (data) => notifier.updateSubCategory(
+                      item: data!,
+                    ),
+                    selectedValue: provider.selectedSubCategory,
+                    dropDownMenuItemList:
+                        addDividersAfterItems(provider.lstSubCategory),
+                  ),
+                  SizedBox(
+                    height: 220.h,
+                  )
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),

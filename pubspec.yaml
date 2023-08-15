@@ -99,6 +99,7 @@ dependencies:
   weather: ^3.1.0
   flutter_contacts: ^1.1.7+1
   flutter_html: ^3.0.0-beta.2
+  flutter_cached_pdfview: ^0.4.2
   awesome_calendar:
     path: awesome_calendar-main
 
