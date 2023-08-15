@@ -1,13 +1,11 @@
-import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/check_privacy.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/widget/personal_information.dart';
-import 'package:video_player/video_player.dart';
 
 class FillPersonalInformation extends StatefulWidget {
   const FillPersonalInformation({
@@ -48,7 +46,7 @@ class _FillPersonalInformationState extends State<FillPersonalInformation> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 55.h),
+                SizedBox(height: 16.h),
                 Text(
                   '${S.current.hi}${widget.userName}!',
                   style: Style.commonTextStyle(

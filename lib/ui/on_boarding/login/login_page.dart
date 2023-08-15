@@ -31,21 +31,6 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          Text(S.current.lang),
-                          SizedBox(width: 4.w),
-                          const Icon(
-                            Icons.language,
-                            color: blackColor,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
                   SizedBox(height: 24.h),
                   TileCard(
                     title: S.current.login,

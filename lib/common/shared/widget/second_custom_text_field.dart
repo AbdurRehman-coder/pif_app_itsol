@@ -76,7 +76,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
   @override
   Widget build(BuildContext context) {
     final isEnableFiled =
-    widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
+        widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
     return Stack(
       children: [
         Column(
@@ -130,7 +130,10 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                           left: 12.w,
                           right: 12.w,
                           top: 25.h,
-                          bottom: widget.prefixIcon != null || widget.suffixIcon != null ? 5.h : 6.h,
+                          bottom: widget.prefixIcon != null ||
+                                  widget.suffixIcon != null
+                              ? 5.h
+                              : 6.h,
                         ),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -148,7 +151,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                         Radius.circular(widget.borderRadius),
                       ),
                       borderSide:
-                      BorderSide(color: grayBorderColor, width: 1.w),
+                          BorderSide(color: grayBorderColor, width: 1.w),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -177,11 +180,16 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                       borderSide: BorderSide(color: redColor, width: 1.w),
                     ),
                     suffixIcon: widget.suffixIcon,
-                    prefixIcon:
-                    widget.prefixIcon != null ?
-                    Padding(padding:  EdgeInsets.only(top:widget.textEditingController.text.isEmpty?0: 20.h),
-                      child: widget.prefixIcon,
-                    ):widget.prefixIcon,
+                    prefixIcon: widget.prefixIcon != null
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                              top: widget.textEditingController.text.isEmpty
+                                  ? 0
+                                  : 20.h,
+                            ),
+                            child: widget.prefixIcon,
+                          )
+                        : widget.prefixIcon,
                     counterText: '',
                     floatingLabelStyle: Style.commonTextStyle(
                       color: grayTextColor,

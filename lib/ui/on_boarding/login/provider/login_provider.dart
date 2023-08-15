@@ -1,7 +1,6 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
@@ -44,7 +43,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
       );
       await appProgressDialog.stop();
       if (result) {
-        await AppRouter.pushReplacement(Routes.verifyOTPScreen);
+        await AppRouter.pushNamed(Routes.verifyOTPScreen);
       } else {
         alertMessage(
           errorMessage: 'User not found',

@@ -26,7 +26,7 @@ class PrivacyScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: lightGrayBgColor,
       appBar: CustomAppBar(
-        title: fromNda ? S.current.NDA : S.current.termsOfService,
+        title: fromNda ? S.current.NDU : S.current.termsOfService,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
