@@ -11,6 +11,7 @@ import 'package:pif_flutter/ui/home/widget/read_more/news_button.dart';
 class NewsDetails extends StatelessWidget {
   const NewsDetails({
     required this.creator,
+    required this.newsType,
     required this.dateCreated,
     required this.contentFieldValue,
     super.key,
@@ -18,6 +19,7 @@ class NewsDetails extends StatelessWidget {
 
   final Creator creator;
   final DateTime dateCreated;
+  final String newsType;
   final List<ContentField> contentFieldValue;
 
   @override
@@ -47,7 +49,9 @@ class NewsDetails extends StatelessWidget {
                   creator: creator,
                   dateCreated: dateCreated,
                 ),
-                const NewsButton(),
+                NewsButton(
+                  newsType: newsType,
+                ),
               ],
             ),
             SizedBox(height: 15.h),

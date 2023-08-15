@@ -84,6 +84,10 @@ class BannerView extends ConsumerWidget with RouteAware {
                       contentFields: newsList[index].contentFields ?? [],
                       dateCreated:
                           newsList[index].dateCreated ?? DateTime.now(),
+                      newsType: newsList[index]
+                          .taxonomyCategoryBriefs!
+                          .first
+                          .taxonomyCategoryName,
                     );
                   }
                 },

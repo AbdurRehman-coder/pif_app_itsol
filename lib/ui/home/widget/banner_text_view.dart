@@ -12,6 +12,7 @@ class BannerTextView extends StatelessWidget {
     required this.imageCompany,
     required this.creator,
     required this.contentFields,
+    required this.newsType,
     required this.dateCreated,
     super.key,
   });
@@ -20,6 +21,7 @@ class BannerTextView extends StatelessWidget {
   final String? imageCompany;
   final Creator creator;
   final DateTime dateCreated;
+  final String newsType;
   final List<ContentField> contentFields;
 
   @override
@@ -67,6 +69,7 @@ class BannerTextView extends StatelessWidget {
                       creator,
                       dateCreated,
                       contentFields,
+                      newsType,
                     ],
                   ),
                   style: ElevatedButton.styleFrom(

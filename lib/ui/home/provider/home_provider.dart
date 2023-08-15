@@ -140,7 +140,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
         fields: 'taxonomyCategoryBriefs,contentFields,creator,dateCreated',
         sort: 'priority:desc,dateCreated:desc',
         restrictFields: 'actions',
-        pageSize: '10',
+        pageSize: '5',
       ),
     );
     if (result.isRight()) {

@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 
 class NewsButton extends StatelessWidget {
-  const NewsButton({super.key});
+  const NewsButton({
+    required this.newsType,
+    super.key,
+  });
+
+  final String newsType;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +33,7 @@ class NewsButton extends StatelessWidget {
                 ).createShader(bounds);
               },
               child: Text(
-                S.of(context).news,
+                newsType,
                 style: Style.commonTextStyle(
                   color: darkBorderColor,
                   fontSize: 10.sp,

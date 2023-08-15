@@ -175,12 +175,14 @@ class AppRouter {
         final creator = lstArgs?[0] as Structure.Creator;
         final dateCreated = lstArgs?[1] as DateTime;
         final contentField = lstArgs?[2] as List<ContentField>;
+        final newsType = lstArgs?[3] as String;
 
         return _setPage(
           page: NewsDetails(
             creator: creator,
             dateCreated: dateCreated,
             contentFieldValue: contentField,
+            newsType: newsType,
           ),
           settings: settings,
         );
