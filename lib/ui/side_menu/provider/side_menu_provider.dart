@@ -1,5 +1,4 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -72,11 +71,13 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
     state = state.copyWith(lstTheme: state.lstTheme);
   }
 
+  final pdfUrl = 'http://20.74.136.229/documents/d/guest/resident-handbook';
   //Menu Item Click
   void onItemTap({required int index}) {
     if (lstMenu[index].name == S.current.profileSetting) {
       AppRouter.pushNamed(Routes.employeeDetailsScreen, args: true);
     } else if (lstMenu[index].name == S.current.handBook) {
+      AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
     } else if (lstMenu[index].name == S.current.appTour) {
     } else if (lstMenu[index].name == S.current.termsOfService) {
     } else if (lstMenu[index].name == S.current.faq) {
