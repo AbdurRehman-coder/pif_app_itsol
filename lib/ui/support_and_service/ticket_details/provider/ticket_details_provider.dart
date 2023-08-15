@@ -12,13 +12,14 @@ import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/support_and_service/ticket_details/index.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 
-final ticketDetailsProvider =
-    StateNotifierProvider.autoDispose<TicketDetailsNotifier, TicketDetailsState>((ref) {
+final ticketDetailsProvider = StateNotifierProvider.autoDispose<
+    TicketDetailsNotifier, TicketDetailsState>((ref) {
   return TicketDetailsNotifier(ref: ref);
 });
 
 class TicketDetailsNotifier extends StateNotifier<TicketDetailsState> {
-  TicketDetailsNotifier({required this.ref}) : super(TicketDetailsState.initial()) {
+  TicketDetailsNotifier({required this.ref})
+      : super(TicketDetailsState.initial()) {
     _initData();
   }
 
@@ -107,14 +108,18 @@ class TicketDetailsNotifier extends StateNotifier<TicketDetailsState> {
     if (response != null) {
       // final appProgress = AppProgressDialog(context: context);
       // await appProgress.start();
-      final attachment = await uploadAttachmentAsync(fileName: response.name, filePath: response.path);
+      final attachment = await uploadAttachmentAsync(
+        fileName: response.name,
+        filePath: response.path,
+      );
       if (attachment != null) {
         final request = {
           'commentDescription': 'attachment',
           'commentAttachment': attachment.id,
           'r_ticketComments_c_supportTicketId': ticketData?.id
         };
-        final result = await DixelsSDK.instance.ticketCommentsService.postPageData(
+        final result =
+            await DixelsSDK.instance.ticketCommentsService.postPageData(
           reqModel: request,
           fromJson: TicketCommentModel.fromJson,
         );

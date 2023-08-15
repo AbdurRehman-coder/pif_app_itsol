@@ -72,6 +72,7 @@ class _SupportDetailsPageState extends ConsumerState<TicketDetailsPage> {
                 padding: EdgeInsets.only(bottom: 60.h),
                 itemBuilder: (_, index) {
                   final item = provider.lstComments[index];
+
                   return AutoScrollTag(
                     key: ValueKey(index),
                     controller: notifier.scrollController,
@@ -98,9 +99,16 @@ class _SupportDetailsPageState extends ConsumerState<TicketDetailsPage> {
     );
   }
 
-  Widget getCommentView(TicketCommentModel item, TicketDetailsNotifier notifier) {
-    final viewType = item.creator?.id == notifier.userId ? CommentViewEnum.sender : CommentViewEnum.receiver;
-    final type = item.commentAttachment != null ? CommentTypeEnum.image : CommentTypeEnum.text;
+  Widget getCommentView(
+    TicketCommentModel item,
+    TicketDetailsNotifier notifier,
+  ) {
+    final viewType = item.creator?.id == notifier.userId
+        ? CommentViewEnum.sender
+        : CommentViewEnum.receiver;
+    final type = item.commentAttachment != null
+        ? CommentTypeEnum.image
+        : CommentTypeEnum.text;
 
     if (viewType == CommentViewEnum.sender) {
       if (type == CommentTypeEnum.text) {

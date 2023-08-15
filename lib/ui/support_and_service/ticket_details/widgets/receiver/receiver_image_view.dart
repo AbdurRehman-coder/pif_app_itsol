@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/widgets/custom_image.dart';
 
 class ReceiverImageView extends StatelessWidget {
   const ReceiverImageView({required this.item, super.key});
@@ -12,24 +12,30 @@ class ReceiverImageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'item.commentAttachment!.link!.href!.getImageUrl ${item.commentAttachment!.link!.href!.getImageUrl.replaceAll('download=true', 'download=false')}',);
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        // Image.network(
-        //   item.commentAttachment!.link!.href!.getImageUrl,
-        // ),
         Padding(
           padding: EdgeInsets.only(bottom: 10.h),
-          child: CustomImage(
-            height: 24.h,
-            width: 24.w,
-            image:  NetworkImage(
-              item.commentAttachment!.getImageUrl,
+          child: CachedNetworkImage(
+            imageUrl: item.commentAttachment!.getImageUrl,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
-            shape: BoxShape.circle,
+            width: 24.w,
+            height: 24.w,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const SizedBox(),
+            errorWidget: (context, url, error) => Image.asset(
+              Assets.spaceBg2,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
         SizedBox(
@@ -47,12 +53,41 @@ class ReceiverImageView extends StatelessWidget {
                 border: Border.all(color: grayBorderColor),
                 borderRadius: BorderRadius.circular(16.r),
               ),
-              child: CustomImage(
+              child: CachedNetworkImage(
+                imageUrl: item.commentAttachment!.getImageUrl,
                 fit: BoxFit.cover,
-                borderRadius: BorderRadius.circular(16.r),
-                image: NetworkImage(item.commentAttachment!.getImageUrl),
+                placeholder: (context, url) => Image.asset(
+                  Assets.placeHolder,
+                  fit: BoxFit.fill,
+                ),
+                errorWidget: (context, url, error) => Image.asset(
+                  Assets.spaceBg2,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
+            SizedBox(
+              height: 6.h,
+            ),
+            if (item.commentDescription != null ||
+                item.commentDescription != '') ...[
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  color: expireBgColor,
+                  border: Border.all(color: grayBorderColor),
+                  borderRadius: BorderRadius.circular(16.r),
+                ),
+                child: HtmlWidget(
+                  item.commentDescription ?? '',
+                  textStyle: Style.commonTextStyle(
+                    color: textColor,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ],
             SizedBox(
               height: 6.h,
             ),
