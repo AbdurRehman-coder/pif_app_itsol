@@ -47,7 +47,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
     videoController.addListener(() {
       Future.delayed(
         const Duration(seconds: 3),
-            () {
+        () {
           widget.onVideoFinish?.call(!videoController.value.isPlaying);
         },
       );
@@ -76,7 +76,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
         videoController.play();
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(24.r),
+        borderRadius: !widget.isVideoAsset ? BorderRadius.circular(24.r) :  BorderRadius.zero,
         child: Stack(
           children: [
             InkWell(
@@ -85,7 +85,7 @@ class _BannerVideoViewState extends State<BannerVideoView> {
                 videoController,
               ),
             ),
-            if(!widget.isVideoAsset)...[
+            if (!widget.isVideoAsset) ...[
               Positioned(
                 bottom: 10.h,
                 right: 10.w,

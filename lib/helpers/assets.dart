@@ -131,6 +131,7 @@ class Assets {
   static const String coffee = 'assets/svg/coffee.svg';
   static const String humanFuture = 'assets/3x/human_future.png';
   static const String repeatAgain = 'assets/svg/ic_repeat_again.svg';
+  static const String emptyNotification = 'assets/svg/empty_notification.svg';
 
   //Lottie
   static const String bookingLottie = 'assets/lottie/booking.json';
@@ -212,6 +213,8 @@ class Assets {
 
   // Visit
   static const String vEditButton = 'assets/3x/verticle_edit_btn.png';
+
   //Video
-  static const String splashScreenVideo = 'assets/video/splash_screen_video.mp4';
+  static const String splashScreenVideo =
+      'assets/video/splash_screen_video.mp4';
 }

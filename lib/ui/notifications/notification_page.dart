@@ -4,6 +4,7 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/background_widget.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/ui/notifications/provider/notification_provider.dart';
+import 'package:pif_flutter/ui/notifications/widget/empty_notification.dart';
 import 'package:pif_flutter/ui/notifications/widget/notification_card.dart';
 import 'package:pif_flutter/ui/notifications/widget/notification_shimmer.dart';
 
@@ -16,11 +17,11 @@ class NotificationPage extends ConsumerWidget {
     final notifier = ref.read(notificationProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar(
-        title: S.of(context).notifications,
+        title: S.current.notifications,
       ),
       body: BackgroundWidget(
         child: RefreshIndicator(
-          onRefresh:notifier.loadNotifications,
+          onRefresh: notifier.loadNotifications,
           child: (provider.notificationList).when(
             data: (notifications) {
               if (notifications.isNotEmpty) {
@@ -32,7 +33,6 @@ class NotificationPage extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return InkWell(
                       /// Open Notification details
-                      // onTap: () => notifier.showSlidingToast(context),
                       child: NotificationCard(
                         notification: notifications[index],
                       ),
@@ -50,7 +50,7 @@ class NotificationPage extends ConsumerWidget {
                   },
                 );
               } else {
-                return Container();
+                return const EmptyNotification();
               }
             },
             error: (e, s) {
