@@ -13,48 +13,53 @@ class NotificationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(notificationProvider);
+    final notifier = ref.read(notificationProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).notifications,
       ),
       body: BackgroundWidget(
-        child: (provider.notificationList).when(
-          data: (notifications) {
-            if (notifications.isNotEmpty) {
-              return ListView.separated(
-                shrinkWrap: true,
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    /// Open Notification details
-                    // onTap: () => notifier.showSlidingToast(context),
-                    child: NotificationCard(
-                      notification: notifications[index],
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
-                    child: Divider(
-                      color: grayBorderColor,
-                      height: 1.h,
-                      thickness: 1,
-                    ),
-                  );
-                },
-              );
-            } else {
+        child: RefreshIndicator(
+          onRefresh:notifier.loadNotifications,
+          child: (provider.notificationList).when(
+            data: (notifications) {
+              if (notifications.isNotEmpty) {
+                return ListView.separated(
+                  shrinkWrap: true,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  itemCount: notifications.length,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      /// Open Notification details
+                      // onTap: () => notifier.showSlidingToast(context),
+                      child: NotificationCard(
+                        notification: notifications[index],
+                      ),
+                    ).visibility(visible: notifications[index].id != null);
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16.h),
+                      child: Divider(
+                        color: grayBorderColor,
+                        height: 1.h,
+                        thickness: 1,
+                      ),
+                    );
+                  },
+                );
+              } else {
+                return Container();
+              }
+            },
+            error: (e, s) {
               return Container();
-            }
-          },
-          error: (e, s) {
-            return Container();
-          },
-          loading: () {
-            return const NotificationShimmerWidget();
-          },
+            },
+            loading: () {
+              return const NotificationShimmerWidget();
+            },
+          ),
         ),
       ),
     );

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/features/users/notification/model/notification_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/utilities/constant.dart';
 import 'package:pif_flutter/helpers/assets.dart';
 import 'package:pif_flutter/utils/colors.dart';
 import 'package:pif_flutter/utils/styles.dart';
@@ -19,11 +21,17 @@ class NotificationCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          Assets.person,
+        Container(
           height: 40.h,
           width: 40.w,
-          fit: BoxFit.scaleDown,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: grayBorderColor),
+          ),
+          child: CachedNetworkImage(
+            imageUrl: '${Constant.imageBaseUrl}${notification.image}',
+            fit: BoxFit.scaleDown,
+          ),
         ),
         SizedBox(width: 12.w),
         Expanded(
