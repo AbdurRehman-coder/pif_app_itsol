@@ -191,6 +191,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
               ],
             ),
             drawer: const SideMenuPage(),
+            drawerScrimColor: const Color.fromRGBO(255, 255, 255, 0),
             onDrawerChanged: (val) {
               setState(() {
                 isMenuOpen = val;
