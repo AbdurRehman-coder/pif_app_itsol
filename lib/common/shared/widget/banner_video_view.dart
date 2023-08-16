@@ -8,12 +8,12 @@ class BannerVideoView extends StatefulWidget {
   const BannerVideoView({
     required this.videoUrl,
     this.onVideoFinish,
-    this.isVideoAsset = false,
+    this.hideChangeAudio = false,
     super.key,
   });
 
   final String videoUrl;
-  final bool isVideoAsset;
+  final bool hideChangeAudio;
   final void Function(bool)? onVideoFinish;
 
   @override
@@ -27,15 +27,11 @@ class _BannerVideoViewState extends State<BannerVideoView> {
   @override
   void initState() {
     super.initState();
-    if (!widget.isVideoAsset) {
       videoController = VideoPlayerController.networkUrl(
         Uri.parse(
           widget.videoUrl,
         ),
       );
-    } else {
-      videoController = VideoPlayerController.asset(widget.videoUrl);
-    }
     videoController.initialize().then((value) {
       setState(() {
         videoController.play();
@@ -76,16 +72,18 @@ class _BannerVideoViewState extends State<BannerVideoView> {
         videoController.play();
       },
       child: ClipRRect(
-        borderRadius: !widget.isVideoAsset ? BorderRadius.circular(24.r) :  BorderRadius.zero,
+        borderRadius: !widget.hideChangeAudio
+            ? BorderRadius.circular(24.r)
+            : BorderRadius.zero,
         child: Stack(
           children: [
             InkWell(
-              onTap: updateVolume,
+              onTap: !widget.hideChangeAudio ? updateVolume : null,
               child: VideoPlayer(
                 videoController,
               ),
             ),
-            if (!widget.isVideoAsset) ...[
+            if (!widget.hideChangeAudio) ...[
               Positioned(
                 bottom: 10.h,
                 right: 10.w,

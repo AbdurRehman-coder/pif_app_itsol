@@ -1,5 +1,6 @@
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
@@ -50,9 +51,9 @@ class TicketDetailsCard extends StatelessWidget {
           SizedBox(
             height: 10.h,
           ),
-          Text(
+          HtmlWidget(
             ticketData.description ?? '',
-            style: Style.commonTextStyle(
+            textStyle: Style.commonTextStyle(
               color: blackColor,
               fontSize: 16.sp,
               fontWeight: FontWeight.w400,
@@ -68,7 +69,8 @@ class TicketDetailsCard extends StatelessWidget {
               ),
               SizedBox(width: 10.w),
               Text(
-                '7:00 pm - 21/3/2023',
+                ticketData.dateCreated!
+                    .toFormattedString('hh:mm a - dd/MM/yyyy'),
                 style: Style.commonTextStyle(
                   color: grayTextColor,
                   fontSize: 12.sp,

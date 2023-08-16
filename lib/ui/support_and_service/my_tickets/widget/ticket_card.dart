@@ -1,9 +1,11 @@
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
+import 'package:flutter_html/flutter_html.dart' as html;
 
 class TicketCard extends StatelessWidget {
   const TicketCard({
@@ -42,7 +44,7 @@ class TicketCard extends StatelessWidget {
                     ticketStatus: ticketModel!.ticketStatus!,
                   ),
                 ],
-                if (index > 0) ...[
+                if (index < -1) ...[
                   Badge(
                     label: Text(index.toString()),
                     backgroundColor: primaryColor,
@@ -64,15 +66,13 @@ class TicketCard extends StatelessWidget {
             SizedBox(
               height: 10.h,
             ),
-            Text(
+            HtmlWidget(
               ticketModel?.description ?? '',
-              style: Style.commonTextStyle(
+              textStyle: Style.commonTextStyle(
                 color: blackColor,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w400,
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
             ),
             SizedBox(
               height: 10.h,
@@ -88,7 +88,8 @@ class TicketCard extends StatelessWidget {
                   width: 8.w,
                 ),
                 Text(
-                  ticketModel!.dateCreated!.toFormattedString('hh:mm a - dd/MM/yyyy'),
+                  ticketModel!.dateCreated!
+                      .toFormattedString('hh:mm a - dd/MM/yyyy'),
                   style: Style.commonTextStyle(
                     color: grayTextColor,
                     fontSize: 15.sp,

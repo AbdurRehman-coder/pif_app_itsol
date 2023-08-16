@@ -18,54 +18,60 @@ class TeamsList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return provider.lstCategory.when(
       data: (data) {
-        return Wrap(
-          spacing: 20.w,
-          runSpacing: 10.h,
-          children: data
-              .map(
-                (item) => InkWell(
-                  onTap: () {
-                    notifier.onSelectCategory(item: item);
-                  },
-                  child: Container(
-                    width: 100.w,
-                    height: 120.h,
-                    padding: EdgeInsets.symmetric(
-                      vertical: 8.h,
-                      horizontal: 10.w,
-                    ),
-                    decoration: BoxDecoration(
-                      color: whiteColor,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(6.r),
-                      ),
-                      border: item.isSelected ?? false ? Border.all(color: primaryColor) : null,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          Assets.spaceIcon,
-                          height: 50.h,
-                        ),
-                        SizedBox(height: 8.h),
-                        Text(
-                          item.name ?? '',
-                          textAlign: TextAlign.center,
-                          style: Style.commonTextStyle(
-                            color: textColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
+        return GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: data.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 12.h,
+            mainAxisSpacing: 10.w,
+            mainAxisExtent: 120.h,
+          ),
+          itemBuilder: (_, index) {
+            final item = data[index];
+            return InkWell(
+              onTap: () => notifier.onSelectCategory(item: item),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 8.h,
+                  horizontal: 10.w,
                 ),
-              )
-              .toList(),
+                decoration: BoxDecoration(
+                  color: whiteColor,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(6.r),
+                  ),
+                  border: item.isSelected ?? false
+                      ? Border.all(color: primaryColor)
+                      : null,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      Assets.spaceIcon,
+                      height: 50.h,
+                    ),
+                    SizedBox(height: 12.h),
+                    Expanded(
+                      child: Text(
+                        item.name ?? '',
+                        textAlign: TextAlign.center,
+                        style: Style.commonTextStyle(
+                          color: textColor,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
         );
       },
       error: (e, s) {

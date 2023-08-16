@@ -21,6 +21,7 @@ Future<void> alertPopup({
         topRight: Radius.circular(24.r),
       ),
     ),
+    isScrollControlled: true,
     context: context,
     builder: (BuildContext context) {
       return Container(
@@ -88,6 +89,7 @@ Future<void> alertPopup({
                 ),
               ],
             ),
+            SizedBox(height: 10.h),
           ],
         ),
       );

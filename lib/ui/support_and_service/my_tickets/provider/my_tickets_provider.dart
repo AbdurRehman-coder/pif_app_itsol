@@ -7,7 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/state/my_tickets_state.dart';
 
-final myTicketsProvider = StateNotifierProvider.autoDispose<MyTicketsNotifier, MyTicketsState>((ref) {
+final myTicketsProvider =
+    StateNotifierProvider.autoDispose<MyTicketsNotifier, MyTicketsState>((ref) {
   return MyTicketsNotifier(ref: ref);
 });
 
@@ -30,9 +31,10 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
   }
 
   void loadMore() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       state = state.copyWith(isLoading: true);
-      final param = ParametersModel();
+      final param = ParametersModel(sort: 'dateCreated:desc');
       if (state.selectedStatus!.key != 'all') {
         param.filter = FilterUtils.filterBy(
           key: 'ticketStatus',
@@ -65,15 +67,21 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     }
 
     pram ??= ParametersModel();
-    pram.page = searchController.text.isNotEmpty ? 0.toString() : page.toString();
-    final result = await DixelsSDK.instance.supportService
-        .getPageData(fromJson: SupportTicketModel.fromJson, params: pram);
-    if (result != null) {
-      lastPage = result.lastPage;
+    pram.page =
+        searchController.text.isNotEmpty ? 0.toString() : page.toString();
+    final result =
+        await DixelsSDK.instance.supportService.getPageDataWithEither(
+      fromJson: SupportTicketModel.fromJson,
+      params: pram,
+    );
+    if (result.isRight()) {
+      lastPage = result.getRight()?.lastPage;
       page = page! + 1;
 
-      final listData = state.lstData.value != null ? state.lstData.value!.toList() : <SupportTicketModel>[];
-      listData.addAll(result.items!);
+      final listData = state.lstData.value != null
+          ? state.lstData.value!.toList()
+          : <SupportTicketModel>[];
+      listData.addAll(result.getRight()!.items ?? []);
       state = state.copyWith(lstData: AsyncData(listData));
     }
   }
@@ -82,7 +90,7 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
     if (searchText.isNotEmpty) {
       state = state.copyWith(lstData: const AsyncLoading());
       final data = "'$searchText'";
-      final param = ParametersModel();
+      final param = ParametersModel(sort: 'dateCreated:desc');
       param.filter = 'contains(description,$data)';
       getMyTickets(pram: param);
     } else {
@@ -93,7 +101,7 @@ class MyTicketsNotifier extends StateNotifier<MyTicketsState> {
   void onFilterData() {
     page = 1;
     state = state.copyWith(lstData: const AsyncLoading());
-    final param = ParametersModel();
+    final param = ParametersModel(sort: 'dateCreated:desc');
     if (state.selectedStatus!.key != 'all') {
       param.filter = FilterUtils.filterBy(
         key: 'ticketStatus',

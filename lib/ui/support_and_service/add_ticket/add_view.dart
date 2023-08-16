@@ -7,6 +7,7 @@ import 'package:pif_flutter/common/shared/widget/background_widget.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
 import 'package:pif_flutter/common/shared/widget/custom_drop_down.dart';
 import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
+import 'package:pif_flutter/common/shared/widget/search_drop_down.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/provider/add_ticket_provider.dart';
@@ -38,8 +39,8 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
 
   @override
   Widget build(BuildContext context) {
-    final notifier = ref.read(addOrEditTicketProvider.notifier);
     final provider = ref.watch(addOrEditTicketProvider);
+    final notifier = ref.read(addOrEditTicketProvider.notifier);
     List<DropdownMenuItem<TicketCategoryModel>> addDividersAfterItems(
       List<TicketCategoryModel> items,
     ) {
@@ -113,7 +114,8 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                   children: [
                     CustomTextField(
                       keyboardType: TextInputType.multiline,
-                      textEditingController: notifier.issueDescriptionController,
+                      textEditingController:
+                          notifier.issueDescriptionController,
                       maxLines: 9,
                       hintText: S.current.issueDescription,
                       maxLength: 300,
@@ -172,6 +174,7 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                   provider: provider,
                 ),
                 SizedBox(height: 15.h),
+/*
                 if (provider.selectedCategory != null) ...[
                   CustomDropDownMenu<TicketCategoryModel>(
                     hintText: S.current.subCategory,
@@ -183,37 +186,60 @@ class _AddOrEditTicketViewState extends ConsumerState<AddTicketView> {
                     dropDownMenuItemList:
                         addDividersAfterItems(provider.lstSubCategory),
                   ),
-                  SizedBox(
-                    height: 220.h,
-                  )
+
+                ],
+*/
+                if (provider.selectedCategory != null) ...[
+                  DropDownSearchApp<TicketCategoryModel>(
+                    withSearch: false,
+                    selectedItem: provider.selectedSubCategory,
+                    hintText: S.current.subCategory,
+                    onChanged: (data) => notifier.updateSubCategory(
+                      item: data!,
+                    ),
+                    items: provider.lstSubCategory,
+                    itemAsString: (item) {
+                      return item.name ?? '';
+                    },
+                    vDropdownSearchController: VDropdownSearchController(),
+                  ),
+                  SizedBox(height: 200.h),
                 ],
               ],
             ),
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: () => notifier.createTicketAsync(
-              context: context,
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: primaryColor,
-              padding: EdgeInsets.symmetric(vertical: 10.h),
-            ),
-            child: Text(
-              S.current.getSupport,
-              style: Style.commonTextStyle(
-                color: whiteColor,
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
+        color: expireBgColor,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () => notifier.createTicketAsync(
+                  context: context,
+                  addTicketModel: widget.addTicketModel,
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: primaryColor,
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                ),
+                child: Text(
+                  S.current.getSupport,
+                  style: Style.commonTextStyle(
+                    color: whiteColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
               ),
             ),
-          ),
+            SizedBox(height: 10.h),
+          ],
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 import 'package:pif_flutter/ui/support_and_service/add_ticket/state/add_ticket_state.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/provider/my_tickets_provider.dart';
@@ -53,7 +54,10 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
     state = state.copyWith(lstCategory: AsyncData(lstData));
   }
 
-  Future<void> createTicketAsync({required BuildContext context}) async {
+  Future<void> createTicketAsync({
+    required BuildContext context,
+    required AddTicketModel? addTicketModel,
+  }) async {
     final desc = issueDescriptionController.text.trim();
 
     if (desc.isEmpty) {
@@ -89,14 +93,24 @@ class AddOrEditTicketNotifier extends StateNotifier<AddOrEditTicketState> {
       }
     }
 
-    final result = await DixelsSDK.instance.supportService.postPageData(
+    final result =
+        await DixelsSDK.instance.supportService.postPageDataWithEither(
       reqModel: requestModel,
       fromJson: SupportTicketModel.fromJson,
     );
     await appProgress.stop();
-    if (result != null) {
-      await ref.read(myTicketsProvider.notifier).getMyTickets();
-      await AppRouter.pop();
+    if (result.isRight()) {
+      alertMessage(
+        errorMessage: S.current.successfullySentRequest,
+        context: context,
+        statusEnum: AlertStatusEnum.success,
+      );
+      if (addTicketModel == null) {
+        await ref.read(myTicketsProvider.notifier).getStatusAsync();
+        AppRouter.popUntil(Routes.myTicketsScreen);
+      } else {
+        AppRouter.popUntil(Routes.dashboardScreen);
+      }
     }
   }
 

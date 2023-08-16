@@ -106,8 +106,6 @@ class TicketDetailsNotifier extends StateNotifier<TicketDetailsState> {
   Future<void> onAttachmentTap({required BuildContext context}) async {
     final response = await picker.pickImage(source: ImageSource.gallery);
     if (response != null) {
-      // final appProgress = AppProgressDialog(context: context);
-      // await appProgress.start();
       final attachment = await uploadAttachmentAsync(
         fileName: response.name,
         filePath: response.path,
@@ -123,7 +121,6 @@ class TicketDetailsNotifier extends StateNotifier<TicketDetailsState> {
           reqModel: request,
           fromJson: TicketCommentModel.fromJson,
         );
-        // await appProgress.stop();
         if (result != null) {
           final lstData = state.lstComments.toList();
           lstData.add(result);

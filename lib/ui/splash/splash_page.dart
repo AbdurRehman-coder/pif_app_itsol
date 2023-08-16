@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/banner_video_view.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/routes.dart';
 
 class SplashPage extends HookWidget {
@@ -21,11 +22,12 @@ class SplashPage extends HookWidget {
       );
       return null;
     });
-    return const Scaffold(
+    return Scaffold(
       body: BannerVideoView(
-        videoUrl: Assets.splashScreenVideo,
-        isVideoAsset: true,
-        ),
+        videoUrl:
+            '${Constants.baseUrl}/documents/20120/147621/v1.mp4/?videoPreview=1&type=mp4',
+        hideChangeAudio: true,
+      ),
     );
   }
 
