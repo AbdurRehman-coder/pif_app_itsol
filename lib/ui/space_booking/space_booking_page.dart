@@ -22,11 +22,12 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
     Future.delayed(
       Duration.zero,
       () async {
-        await ref.read(spaceBookingProvider.notifier).getSpaceAsync();
-        await ref.read(spaceBookingProvider.notifier).openFilterPopUp(context: context);
+        ref.read(spaceBookingProvider.notifier).getSpaceAsync();
+        await ref
+            .read(spaceBookingProvider.notifier)
+            .openFilterPopUp(context: context);
       },
     );
-
     super.initState();
   }
 
@@ -166,7 +167,8 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
                     Assets.instant,
                     height: 16.h,
                     width: 16.w,
-                    colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
+                    colorFilter:
+                        const ColorFilter.mode(textColor, BlendMode.srcIn),
                   ),
                   SizedBox(
                     width: 8.w,

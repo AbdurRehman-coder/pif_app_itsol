@@ -1,8 +1,8 @@
 import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
@@ -30,8 +30,9 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   //Get Space Data
   Future<void> getSpaceAsync({bool isFilter = false}) async {
     final data = await DixelsSDK.instance.roomService.getPageData(
-        fromJson: RoomModel.fromJson,
-        params: getFilterQuery(isFilter: isFilter),);
+      fromJson: RoomModel.fromJson,
+      params: getFilterQuery(isFilter: isFilter),
+    );
     if (data != null) {
       allListData = data.items;
       state = state.copyWith(lstData: AsyncData(data.items!));
@@ -143,7 +144,9 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     return param;
   }
 
-  Future<void> openFilterPopUp({required BuildContext context}) async {
+  Future<void> openFilterPopUp({
+    required BuildContext context,
+  }) async {
     await showFilterPopup(
       context: context,
     );
@@ -162,19 +165,21 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     }
     if (searchText.isNotEmpty) {
       final data = allListData!
-          .where((element) =>
-              element.name!.toLowerCase().contains(searchText.toLowerCase()),)
+          .where(
+            (element) =>
+                element.name!.toLowerCase().contains(searchText.toLowerCase()),
+          )
           .toList();
       state = state.copyWith(lstData: AsyncData(data));
     } else {
       state = state.copyWith(lstData: AsyncData(allListData!));
     }
   }
+
   /// toggle read more for room description
   void toggleReadMore() {
     state = state.copyWith(isReadMore: !state.isReadMore!);
   }
-
 
   @override
   void dispose() {

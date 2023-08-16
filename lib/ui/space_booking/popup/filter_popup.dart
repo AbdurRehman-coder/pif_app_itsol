@@ -10,9 +10,10 @@ import 'package:pif_flutter/ui/space_booking/widget/floor_list_view.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 Future<void> showFilterPopup({required BuildContext context}) async {
-  await showModalBottomSheet<dynamic>(
+  await showModalBottomSheet(
     backgroundColor: whiteColor,
     isScrollControlled: true,
+    useRootNavigator: true,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topLeft: Radius.circular(16.r),
@@ -122,21 +123,28 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                             disabledColor: textColor,
                                           ),
                                           child: SecondCustomTextField(
-                                            textEditingController: notifier.startDateController,
+                                            textEditingController:
+                                                notifier.startDateController,
                                             hintText: S.of(context).date,
                                             checkEmpty: true,
                                             enabled: false,
                                             fillColor: whiteColor,
                                             borderRadius: 6.r,
-                                            textFieldBorderColor: textFieldBorderColor,
-                                            contentPadding: EdgeInsets.only(bottom: 8.h, left: 12.w, right: 12.w),
+                                            textFieldBorderColor:
+                                                textFieldBorderColor,
+                                            contentPadding: EdgeInsets.only(
+                                                bottom: 8.h,
+                                                left: 12.w,
+                                                right: 12.w),
                                             hintFontSize: 14.sp,
-                                            hintTextColor: blackColorWith900.withOpacity(0.45),
+                                            hintTextColor: blackColorWith900
+                                                .withOpacity(0.45),
                                             suffixIcon: SvgPicture.asset(
                                               Assets.calenderTodaySvg,
                                               fit: BoxFit.scaleDown,
                                               colorFilter: ColorFilter.mode(
-                                                blackColorWith900.withOpacity(0.45),
+                                                blackColorWith900
+                                                    .withOpacity(0.45),
                                                 BlendMode.srcIn,
                                               ),
                                             ),
@@ -149,26 +157,34 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                     ),
                                     Expanded(
                                       child: InkWell(
-                                        onTap: notifier.openStartTimePickerDialog,
+                                        onTap:
+                                            notifier.openStartTimePickerDialog,
                                         child: Theme(
                                           data: ThemeData(
                                             disabledColor: textColor,
                                           ),
                                           child: SecondCustomTextField(
-                                            textEditingController: notifier.startTimeController,
+                                            textEditingController:
+                                                notifier.startTimeController,
                                             hintText: S.of(context).time,
                                             fillColor: whiteColor,
                                             enabled: false,
                                             checkEmpty: true,
-                                            textFieldBorderColor: textFieldBorderColor,
+                                            textFieldBorderColor:
+                                                textFieldBorderColor,
                                             borderRadius: 6.r,
-                                            contentPadding: EdgeInsets.only(bottom: 8.h, left: 12.w, right: 12.w),
+                                            contentPadding: EdgeInsets.only(
+                                                bottom: 8.h,
+                                                left: 12.w,
+                                                right: 12.w),
                                             hintFontSize: 14.sp,
-                                            hintTextColor: blackColorWith900.withOpacity(0.45),
+                                            hintTextColor: blackColorWith900
+                                                .withOpacity(0.45),
                                             suffixIcon: Icon(
                                               Icons.keyboard_arrow_down,
                                               size: 22.sp,
-                                              color: blackColorWith900.withOpacity(0.45),
+                                              color: blackColorWith900
+                                                  .withOpacity(0.45),
                                             ),
                                           ),
                                         ),
@@ -180,7 +196,8 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                               Visibility(
                                 visible: provider.isOpenStartDatePicker,
                                 child: Padding(
-                                  padding: EdgeInsets.only(top: 10.h, right: 16.w, left: 16.w),
+                                  padding: EdgeInsets.only(
+                                      top: 10.h, right: 16.w, left: 16.w),
                                   child: DatePickerWidget(
                                     selectedDate: provider.startDate,
                                     onConfirm: notifier.updateStartDate,
@@ -189,17 +206,22 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 60.h, right: 16.w, left: 16.w),
+                                margin: EdgeInsets.only(
+                                    top: 60.h, right: 16.w, left: 16.w),
                                 child: InkWell(
                                   onTap: () {},
                                   child: TimePickerPopup(
-                                    timeData: provider.startTime ?? DateTime.now(),
-                                    onCancel: notifier.closeStartTimePickerDialog,
+                                    timeData:
+                                        provider.startTime ?? DateTime.now(),
+                                    onCancel:
+                                        notifier.closeStartTimePickerDialog,
                                     onConfirm: (selectedTime) {
-                                      notifier.updateStartTime(startTime: selectedTime);
+                                      notifier.updateStartTime(
+                                          startTime: selectedTime);
                                       notifier.closeStartTimePickerDialog();
                                     },
-                                  ).visibility(visible: provider.isOpenStartTimePicker),
+                                  ).visibility(
+                                      visible: provider.isOpenStartTimePicker),
                                 ),
                               ),
                             ],
@@ -236,23 +258,30 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                             disabledColor: textColor,
                                           ),
                                           child: SecondCustomTextField(
-                                            textEditingController: notifier.endDateController,
+                                            textEditingController:
+                                                notifier.endDateController,
                                             hintText: S.of(context).date,
                                             checkEmpty: true,
                                             enabled: false,
                                             fillColor: whiteColor,
                                             borderRadius: 6.r,
-                                            textFieldBorderColor: textFieldBorderColor,
-                                            contentPadding: EdgeInsets.only(bottom: 8.h, left: 12.w, right: 12.w),
+                                            textFieldBorderColor:
+                                                textFieldBorderColor,
+                                            contentPadding: EdgeInsets.only(
+                                                bottom: 8.h,
+                                                left: 12.w,
+                                                right: 12.w),
                                             hintFontSize: 14.sp,
-                                            hintTextColor: blackColorWith900.withOpacity(0.45),
+                                            hintTextColor: blackColorWith900
+                                                .withOpacity(0.45),
                                             suffixIcon: SvgPicture.asset(
                                               Assets.calenderTodaySvg,
                                               height: 20.h,
                                               width: 20.w,
                                               fit: BoxFit.scaleDown,
                                               colorFilter: ColorFilter.mode(
-                                                blackColorWith900.withOpacity(0.45),
+                                                blackColorWith900
+                                                    .withOpacity(0.45),
                                                 BlendMode.srcIn,
                                               ),
                                             ),
@@ -271,20 +300,27 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                             disabledColor: textColor,
                                           ),
                                           child: SecondCustomTextField(
-                                            textEditingController: notifier.endTimeController,
+                                            textEditingController:
+                                                notifier.endTimeController,
                                             hintText: S.of(context).time,
                                             fillColor: whiteColor,
                                             enabled: false,
                                             checkEmpty: true,
-                                            textFieldBorderColor: textFieldBorderColor,
+                                            textFieldBorderColor:
+                                                textFieldBorderColor,
                                             borderRadius: 6.r,
-                                            contentPadding: EdgeInsets.only(bottom: 8.h, left: 12.w, right: 12.w),
+                                            contentPadding: EdgeInsets.only(
+                                                bottom: 8.h,
+                                                left: 12.w,
+                                                right: 12.w),
                                             hintFontSize: 14.sp,
-                                            hintTextColor: blackColorWith900.withOpacity(0.45),
+                                            hintTextColor: blackColorWith900
+                                                .withOpacity(0.45),
                                             suffixIcon: Icon(
                                               Icons.keyboard_arrow_down,
                                               size: 22.sp,
-                                              color: blackColorWith900.withOpacity(0.45),
+                                              color: blackColorWith900
+                                                  .withOpacity(0.45),
                                             ),
                                           ),
                                         ),
@@ -296,7 +332,8 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                               Visibility(
                                 visible: provider.isOpenEndDatePicker,
                                 child: Container(
-                                  margin: EdgeInsets.only(top: 10.h, right: 16.w, left: 16.w),
+                                  margin: EdgeInsets.only(
+                                      top: 10.h, right: 16.w, left: 16.w),
                                   child: DatePickerWidget(
                                     selectedDate: provider.endDate,
                                     onConfirm: notifier.updateEndDate,
@@ -305,17 +342,22 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 60.h, right: 16.w, left: 16.w),
+                                margin: EdgeInsets.only(
+                                    top: 60.h, right: 16.w, left: 16.w),
                                 child: InkWell(
                                   onTap: () {},
                                   child: TimePickerPopup(
-                                    timeData: provider.endTime ?? DateTime.now(),
+                                    timeData:
+                                        provider.endTime ?? DateTime.now(),
                                     onCancel: notifier.closeEndTimePickerDialog,
                                     onConfirm: (selectedTime) {
-                                      notifier.updateEndTime(endTime: selectedTime, context: context);
+                                      notifier.updateEndTime(
+                                          endTime: selectedTime,
+                                          context: context);
                                       notifier.closeEndTimePickerDialog();
                                     },
-                                  ).visibility(visible: provider.isOpenEndTimePicker),
+                                  ).visibility(
+                                      visible: provider.isOpenEndTimePicker),
                                 ),
                               ),
                             ],
@@ -366,7 +408,8 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                             height: 40.h,
                           ),
                           Padding(
-                            padding: EdgeInsets.only(right: 16.w, left: 16.w, bottom: 40.h),
+                            padding: EdgeInsets.only(
+                                right: 16.w, left: 16.w, bottom: 40.h),
                             child: ElevatedButton(
                               onPressed: AppRouter.pop,
                               style: Style.primaryButtonStyle(context: context),
