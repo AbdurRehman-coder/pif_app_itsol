@@ -72,7 +72,7 @@ class _SideMenuPageState extends ConsumerState<SideMenuPage> {
                   'Muath Awad',
                   style: Style.commonTextStyle(
                     color: textColor,
-                    fontSize: 22.sp,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 )
