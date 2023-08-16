@@ -190,7 +190,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  AppRouter.pushNamed(Routes.bookingScannerScreen);
+                  AppRouter.pushNamed(Routes.bookingScannerScreen, args: true);
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

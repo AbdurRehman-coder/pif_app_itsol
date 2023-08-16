@@ -2,8 +2,7 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
-import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart'
-    as Structure;
+import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart' as Structure;
 import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -38,8 +37,7 @@ import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -57,17 +55,20 @@ class AppRouter {
       case Routes.bookingListScreen:
         return _setPage(page: const BookingListPage(), settings: settings);
       case Routes.bookingScannerScreen:
-        return _setPage(page: const BookScannerView(), settings: settings);
+        final isFromSpace = settings.arguments! as bool;
+        return _setPage(page: BookScannerView(isFromSpace: isFromSpace), settings: settings);
       case Routes.bookingScreen:
         final lstArgs = settings.arguments! as List<dynamic>;
         final roomModel = lstArgs[0] as RoomModel;
         final isFromScan = lstArgs[1] as bool;
         final bookingModel = lstArgs[2] as BookingModel?;
+        final isFromSpace = lstArgs[3] as bool;
         return _setPage(
           page: BookingPage(
             spaceData: roomModel,
             isFromScan: isFromScan,
             bookingModel: bookingModel,
+            isFromSpace: isFromSpace,
           ),
           settings: settings,
         );
@@ -80,9 +81,7 @@ class AppRouter {
           settings: settings,
         );
       case Routes.inviteVisitorScreen:
-        final lstArgs = settings.arguments != null
-            ? settings.arguments! as List<dynamic>
-            : null;
+        final lstArgs = settings.arguments != null ? settings.arguments! as List<dynamic> : null;
         final fromHomepage = lstArgs?[0] as bool;
         final isInviteVisit = lstArgs?[1] as bool;
         final visitInformation = lstArgs?[2] as VisitModel?;
@@ -101,16 +100,13 @@ class AppRouter {
       case Routes.companyAndNewsScreen:
         return _setPage(page: const CompanyAndNews(), settings: settings);
       case Routes.handbookView:
-        final pdfUrl =
-            settings.arguments != null ? settings.arguments! as String : '';
+        final pdfUrl = settings.arguments != null ? settings.arguments! as String : '';
         return _setPage(
           page: HandbookPDFView(pdfUrl: pdfUrl),
           settings: settings,
         );
       case Routes.addOrEditTicketScreen:
-        final addTicketModel = settings.arguments != null
-            ? settings.arguments! as AddTicketModel
-            : null;
+        final addTicketModel = settings.arguments != null ? settings.arguments! as AddTicketModel : null;
         return _setPage(
           page: AddTicketView(
             addTicketModel: addTicketModel,
@@ -169,9 +165,7 @@ class AppRouter {
       case Routes.notificationScreen:
         return _setPage(page: const NotificationPage(), settings: settings);
       case Routes.newsDetails:
-        final lstArgs = settings.arguments != null
-            ? settings.arguments! as List<dynamic>
-            : null;
+        final lstArgs = settings.arguments != null ? settings.arguments! as List<dynamic> : null;
         final creator = lstArgs?[0] as Structure.Creator;
         final dateCreated = lstArgs?[1] as DateTime;
         final contentField = lstArgs?[2] as List<ContentField>;
@@ -244,21 +238,18 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!
-        .pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!
-        .popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamedWithTransition(
     String routeName, {
     dynamic args,
   }) {
-    return navigatorKey.currentState!
-        .popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {

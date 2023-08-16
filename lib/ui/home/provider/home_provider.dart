@@ -47,7 +47,7 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
   }) {
     switch (type) {
       case 'QR Booking':
-        AppRouter.pushNamed(Routes.bookingScannerScreen);
+        AppRouter.pushNamed(Routes.bookingScannerScreen, args: false);
         break;
       case 'Support':
         AppRouter.pushNamed(

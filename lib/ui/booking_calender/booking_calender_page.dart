@@ -201,7 +201,7 @@ class _BookingCalenderPageState extends ConsumerState<BookingCalenderPage> {
         padding: EdgeInsets.only(bottom: 20.h),
         child: FloatingActionButton(
           onPressed: () {
-            AppRouter.pushReplacement(Routes.bookingScreen, args: [widget.spaceData, false, null]);
+            AppRouter.pushReplacement(Routes.bookingScreen, args: [widget.spaceData, false, null, false]);
           },
           elevation: 0,
           child: Icon(

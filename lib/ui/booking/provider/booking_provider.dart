@@ -398,6 +398,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required BuildContext context,
     required bool isBookEnabled,
     required int roomId,
+    required bool isFromSpace,
   }) async {
     if (formKey.currentState!.validate()) {
       // final lstDates = state.selectedDates;
@@ -435,6 +436,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
             endTimeInMinutes: endTimeInMinutes,
             isBookEnabled: isBookEnabled,
             context: context,
+            isFromSpace: isFromSpace,
           );
         }
       } else {
@@ -474,16 +476,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     showSuccessMessage(
       context: context,
-      titleText:
-          // isBookEnabled ? S.of(context).requestBookTitle :
-          S.of(context).bookingRoom,
+      titleText: S.of(context).bookingRoom,
       subTitle: S.of(context).bookedByMistake,
-      cancelText:
-          // isBookEnabled ? S.of(context).cancelRequest :
-          S.of(context).cancel,
-      image:
-          // isBookEnabled ? Assets.requestBookingConf :
-          Assets.bookConfirmation,
+      cancelText: S.of(context).cancel,
+      image: Assets.bookConfirmation,
       navigateAfterEndTime: () async {
         Future.delayed(Duration.zero, () async {
           await appProgress.start();
@@ -564,6 +560,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required int endTimeInMinutes,
     required bool isBookEnabled,
     required BuildContext context,
+    required bool isFromSpace,
   }) async {
     final appProgress = AppProgressDialog(context: context);
 
@@ -600,10 +597,16 @@ class BookingNotifier extends StateNotifier<BookingState> {
           fromJson: BookingModel.fromJson,
         );
         if (result != null) {
-          final notifier = ref.read(spaceBookingProvider.notifier);
-          await notifier.getSpaceAsync();
-          await appProgress.stop();
-          AppRouter.popUntil(Routes.spaceBookingScreen);
+          if (isFromSpace == true) {
+            final notifier = ref.read(spaceBookingProvider.notifier);
+            await notifier.getSpaceAsync();
+            await appProgress.stop();
+
+            AppRouter.popUntil(Routes.spaceBookingScreen);
+          } else {
+            await appProgress.stop();
+            await AppRouter.pushReplacement(Routes.spaceBookingScreen);
+          }
           if (mounted) {
             alertMessage(
               errorMessage: S.current.bookingSlotSuccess,

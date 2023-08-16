@@ -27,6 +27,7 @@ class BookingScannerNotifier {
   Future<void> getBookingInformation({
     required String roomId,
     required BuildContext context,
+    required bool isFromSpace,
   }) async {
     final appProgressDialog = AppProgressDialog(context: context);
     await appProgressDialog.start();
@@ -48,7 +49,7 @@ class BookingScannerNotifier {
     if (result != null && result.items!.isNotEmpty) {
       await AppRouter.pushNamed(
         Routes.bookingScreen,
-        args: [result.items![0], true, null],
+        args: [result.items![0], true, null, isFromSpace],
       );
     } else {
       alertMessage(

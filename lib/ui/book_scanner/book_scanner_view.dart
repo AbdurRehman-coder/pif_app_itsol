@@ -9,9 +9,11 @@ import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 class BookScannerView extends ConsumerStatefulWidget {
   const BookScannerView({
+    required this.isFromSpace,
     super.key,
   });
 
+  final bool isFromSpace;
   @override
   ConsumerState createState() => _BookScannerViewState();
 }
@@ -97,6 +99,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
                 await provider.getBookingInformation(
                   roomId: barcodes[0].rawValue!.trim(),
                   context: context,
+                  isFromSpace: widget.isFromSpace,
                 );
                 Future.delayed(const Duration(milliseconds: 100), () async {
                   await controller.start();

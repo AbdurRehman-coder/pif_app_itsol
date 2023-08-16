@@ -190,7 +190,7 @@ class BookingListTile extends ConsumerWidget {
             PopupMenuButton(
               onSelected: (value) {
                 if (value == 1) {
-                  AppRouter.pushNamed(Routes.bookingScreen, args: [data.roomModel, false, data]);
+                  AppRouter.pushNamed(Routes.bookingScreen, args: [data.roomModel, false, data, false]);
                 }
               },
               itemBuilder: (context) => [

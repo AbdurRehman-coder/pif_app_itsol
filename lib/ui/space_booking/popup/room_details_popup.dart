@@ -267,7 +267,7 @@ void roomDetailsPopUp({
               onPressed: () {
                 AppRouter.pushNamed(
                   Routes.bookingScreen,
-                  args: [spaceData, false, null],
+                  args: [spaceData, false, null, false],
                 );
               },
               style: ElevatedButton.styleFrom(
