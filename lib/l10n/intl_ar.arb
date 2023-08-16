@@ -262,6 +262,6 @@
  "noStoreAvailableMsg": "The catering services are out of working hours",
  "dateTimeCompareMsgTime":"End time should be greater than start time",
  "noNotificationToShow":"NO NOTIFICATIONS TO SHOW",
- "noNotificationsDemandYourAttention":"Currently, no notifications demand your attention."
-
+ "noNotificationsDemandYourAttention":"Currently, no notifications demand your attention.",
+  "drinkCancelMessage" : "Cancel Drink Request"
 }

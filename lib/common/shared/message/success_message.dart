@@ -10,6 +10,7 @@ void showSuccessMessage({
   required String titleText,
   required String subTitle,
   required void Function() navigateAfterEndTime,
+  void Function()? onCancel,
   String? image,
   String? cancelText,
 }) {
@@ -29,16 +30,18 @@ void showSuccessMessage({
         titleText: titleText,
         subTitle: subTitle,
         navigateAfterEndTime: navigateAfterEndTime,
+        onCancel: onCancel,
       );
     },
   );
 }
 
 class SuccessMessage extends StatefulWidget {
-  const SuccessMessage({
+  SuccessMessage({
     required this.titleText,
     required this.subTitle,
     required this.navigateAfterEndTime,
+    this.onCancel,
     this.image,
     this.cancelText,
     super.key,
@@ -47,6 +50,7 @@ class SuccessMessage extends StatefulWidget {
   final String titleText;
   final String subTitle;
   final void Function() navigateAfterEndTime;
+  void Function()? onCancel;
   final String? image;
   final String? cancelText;
 
@@ -171,6 +175,7 @@ class _SuccessMessageState extends State<SuccessMessage> {
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
                       _timer?.cancel();
+                      widget.onCancel?.call();
                       AppRouter.pop();
                     },
                   style: Style.commonTextStyle(

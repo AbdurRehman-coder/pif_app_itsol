@@ -13,12 +13,10 @@ import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/penguin/model/user_location.dart';
 import 'package:pif_flutter/penguin/penguin_service.dart';
-import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/dashboard/model/actions_model.dart' as action_model;
 import 'package:pif_flutter/ui/dashboard/state/dashboard_state.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/available_time.dart';
-import 'package:pif_flutter/ui/support_and_service/add_ticket/model/add_ticket_model.dart';
 
 final dashboardProvider = StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
   return DashboardNotifier(ref: ref);
@@ -144,6 +142,9 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         context: context,
         titleText: S.of(context).drinkOrder,
         subTitle: S.of(context).orderByMistake,
+        onCancel: () {
+          alertMessage(errorMessage: S.current.drinkCancelMessage, context: context);
+        },
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
