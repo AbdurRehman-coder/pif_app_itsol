@@ -20,6 +20,7 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
   late TextEditingController searchController;
 
   List<DeliverySpaceModel> lstSearchLocation = <DeliverySpaceModel>[];
+  List<DeliverySpaceModel> lstFilterLocation = <DeliverySpaceModel>[];
   List<String> lstFloors = <String>[];
   List<String> lstRoomType = <String>[];
 
@@ -53,24 +54,23 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
   }
 
   void filterSpaceData() {
-    var filterData = <DeliverySpaceModel>[];
     if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty) {
-      filterData = lstSearchLocation.where((element) => element.floor == state.selectedFloor).toList();
+      lstFilterLocation = lstSearchLocation.where((element) => element.floor == state.selectedFloor).toList();
     }
 
     if (state.selectedSpaceType != null && state.selectedSpaceType!.isNotEmpty) {
-      filterData = lstSearchLocation.where((element) => element.spaceType == state.selectedSpaceType).toList();
+      lstFilterLocation = lstSearchLocation.where((element) => element.spaceType == state.selectedSpaceType).toList();
     }
 
     if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty && state.selectedSpaceType != null && state.selectedSpaceType!.isNotEmpty) {
-      filterData = lstSearchLocation
+      lstFilterLocation = lstSearchLocation
           .where((element) => element.floor == state.selectedFloor)
           .toList()
           .where((element) => element.spaceType == state.selectedSpaceType)
           .toList();
     }
-
-    state = state.copyWith(lstSearchLocation: AsyncData(filterData));
+    searchController.text = '';
+    state = state.copyWith(lstSearchLocation: AsyncData(lstFilterLocation));
   }
 
   // update selected floor
@@ -104,18 +104,35 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
       return;
     }
     if (searchText.isNotEmpty) {
-      final data = lstSearchLocation
-          .where(
-            (element) => element.name!.toLowerCase().contains(
-                  searchText.toLowerCase(),
-                ),
-          )
-          .toList();
-      state = state.copyWith(
-        lstSearchLocation: AsyncData(data),
-      );
+      if (state.selectedFloor != null || state.selectedSpaceType != null) {
+        final data = lstFilterLocation
+            .where(
+              (element) => element.name!.toLowerCase().contains(
+                    searchText.toLowerCase(),
+                  ),
+            )
+            .toList();
+        state = state.copyWith(
+          lstSearchLocation: AsyncData(data),
+        );
+      } else {
+        final data = lstSearchLocation
+            .where(
+              (element) => element.name!.toLowerCase().contains(
+                    searchText.toLowerCase(),
+                  ),
+            )
+            .toList();
+        state = state.copyWith(
+          lstSearchLocation: AsyncData(data),
+        );
+      }
     } else {
-      state = state.copyWith(lstSearchLocation: AsyncData(lstSearchLocation));
+      if (state.selectedFloor != null || state.selectedSpaceType != null) {
+        state = state.copyWith(lstSearchLocation: AsyncData(lstFilterLocation));
+      } else {
+        state = state.copyWith(lstSearchLocation: AsyncData(lstSearchLocation));
+      }
     }
   }
 
