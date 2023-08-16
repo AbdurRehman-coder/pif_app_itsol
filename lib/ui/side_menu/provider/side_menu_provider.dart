@@ -38,10 +38,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
       SideMenuModel(name: S.current.handBook, icon: Assets.handBookIcon),
     );
     lstMenu.add(
-      SideMenuModel(name: S.current.termsOfService, icon: Assets.termsIcon),
-    );
-    lstMenu.add(
-      SideMenuModel(name: S.current.faq, icon: Assets.faqIcon),
+      SideMenuModel(name: S.current.TermsAndConditions, icon: Assets.termsIcon),
     );
     lstMenu.add(
       SideMenuModel(name: S.current.booking, icon: Assets.basicCalendar),
@@ -51,9 +48,6 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
     );
     lstMenu.add(
       SideMenuModel(name: S.current.supportTickets, icon: Assets.forum),
-    );
-    lstMenu.add(
-      SideMenuModel(name: S.current.arabic, icon: Assets.languageIcon),
     );
     lstMenu.add(
       SideMenuModel(name: S.current.logout, icon: Assets.logoutIcon),
@@ -79,7 +73,8 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
     } else if (lstMenu[index].name == S.current.handBook) {
       AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
     } else if (lstMenu[index].name == S.current.appTour) {
-    } else if (lstMenu[index].name == S.current.termsOfService) {
+    } else if (lstMenu[index].name == S.current.TermsAndConditions) {
+      AppRouter.pushNamed(Routes.privacyScreen, args: false);
     } else if (lstMenu[index].name == S.current.faq) {
     } else if (lstMenu[index].name == S.current.arabic) {
     } else if (lstMenu[index].name == S.current.booking) {
