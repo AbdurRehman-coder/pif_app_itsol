@@ -45,6 +45,7 @@ class EndDateAndTime extends StatelessWidget {
                     isFocus: provider.isOpenEndDatePicker,
                     enabled: false,
                     checkEmpty: true,
+                    isDateAndTime: true,
                     style: Style.commonTextStyle(
                       color: blackColor,
                       fontSize: 16.sp,
@@ -69,6 +70,7 @@ class EndDateAndTime extends StatelessWidget {
                     isFocus: provider.isOpenEndTimePicker,
                     enabled: false,
                     checkEmpty: true,
+                    isDateAndTime: true,
                     hintText: S.current.time,
                     style: Style.commonTextStyle(
                       color: blackColor,

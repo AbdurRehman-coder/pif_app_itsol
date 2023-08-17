@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/common/shared/widget/custom_text_field.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/add_more_visitor_provider.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
@@ -79,6 +77,7 @@ void addMoreVisitorPopup({
                       SecondCustomTextField(
                         textEditingController: notifier.emailController,
                         checkEmpty: true,
+                        isFocus: true,
                         autoFocus: true,
                         hintText: S.current.email,
                         isEmailField: true,
@@ -94,8 +93,9 @@ void addMoreVisitorPopup({
                             child: SecondCustomTextField(
                               textEditingController:
                                   notifier.firstNameController,
-                              checkEmpty: true,
+                              isFocus: true,
                               hintText: S.current.firstName,
+                              checkEmpty: true,
                             ),
                           ),
                           SizedBox(width: 10.w),
@@ -103,8 +103,9 @@ void addMoreVisitorPopup({
                             child: SecondCustomTextField(
                               textEditingController:
                                   notifier.lastNameController,
-                              checkEmpty: true,
+                              isFocus: true,
                               hintText: S.current.lastName,
+                              checkEmpty: true,
                             ),
                           ),
                         ],

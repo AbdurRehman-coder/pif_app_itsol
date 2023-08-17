@@ -34,6 +34,7 @@ class SecondCustomTextField extends StatefulWidget {
     this.borderRadius = 6,
     this.hintFontSize = 14,
     this.hintTextColor = hintColor,
+    this.isDateAndTime = false,
     super.key,
   });
 
@@ -67,6 +68,7 @@ class SecondCustomTextField extends StatefulWidget {
   final double hintFontSize;
   final Color hintTextColor;
   final EdgeInsets? contentPadding;
+  final bool? isDateAndTime;
 
   @override
   State<SecondCustomTextField> createState() => _SecondCustomTextFieldState();
@@ -140,9 +142,11 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                         Radius.circular(widget.borderRadius),
                       ),
                       borderSide: BorderSide(
-                        color: isEnableFiled!
-                            ? grayTextColor
-                            : widget.textFieldBorderColor,
+                        color: isEnableFiled! && widget.isDateAndTime!
+                            ? primaryLightColor
+                            : isEnableFiled
+                                ? grayTextColor
+                                : widget.textFieldBorderColor,
                         width: 1.w,
                       ),
                     ),

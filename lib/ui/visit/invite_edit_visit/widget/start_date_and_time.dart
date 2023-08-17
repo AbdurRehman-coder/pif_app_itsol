@@ -1,6 +1,5 @@
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/index.dart';
@@ -46,6 +45,7 @@ class StartDateAndTime extends StatelessWidget {
                   isFocus: provider.isOpenStartDatePicker,
                   enabled: false,
                   checkEmpty: true,
+                  isDateAndTime: true,
                   fillColor: selectedVisit != null &&
                           selectedVisit!.visitStartDate!.isBeforeNow
                       ? grayE3
@@ -76,6 +76,7 @@ class StartDateAndTime extends StatelessWidget {
                       ? grayE3
                       : whiteColor,
                   checkEmpty: true,
+                  isDateAndTime: true,
                   isFocus: provider.isOpenStartTimePicker,
                   hintText: S.current.time,
                   suffixIcon: const Icon(

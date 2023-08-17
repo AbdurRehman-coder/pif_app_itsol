@@ -145,7 +145,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   //Add More Visitor
   void addMoreVisitor({required BuildContext context}) {
     if (checkEntryData(context: context)) {
-      addMoreVisitorPopup(context: context);
+      addMoreVisitorPopup(
+        context: context,
+      );
     }
   }
 
@@ -181,7 +183,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
             .replaceAll('pm', 'PM')
             .replaceAll('am', 'AM'),
       );
-      if (startDate.isAfter(endDate)||startDate.isAtSameMomentAs(endDate)) {
+      if (startDate.isAfter(endDate) || startDate.isAtSameMomentAs(endDate)) {
         alertMessage(
           context: context,
           errorMessage: S.current.dateTimeCompareMsgTime,
