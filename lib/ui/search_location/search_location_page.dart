@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,8 +27,7 @@ class _SearchLocationPageState extends ConsumerState<SearchLocationPage> {
       Duration.zero,
       () async {
         await ref.read(searchLocationProvider.notifier).getLocationData();
-        ref.read(searchLocationProvider.notifier).getFloor();
-        ref.read(searchLocationProvider.notifier).getRoomType();
+        ref.read(searchLocationProvider.notifier).getFilterOptionList();
       },
     );
   }
@@ -35,6 +36,7 @@ class _SearchLocationPageState extends ConsumerState<SearchLocationPage> {
   Widget build(BuildContext context) {
     final notifier = ref.read(searchLocationProvider.notifier);
     final provider = ref.watch(searchLocationProvider);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
@@ -60,12 +62,12 @@ class _SearchLocationPageState extends ConsumerState<SearchLocationPage> {
             children: [
               Image.asset(
                 Assets.searchLocation,
-              ).toCenter(),
+              ).toCenter().visibility(visible: Platform.isAndroid),
               SizedBox(
                 height: 15.h,
-              ),
+              ).visibility(visible: Platform.isAndroid),
               Text(
-                'Enable Smart Discovery for nearby spaces',
+                S.of(context).nearBySpaceMsg,
                 style: GoogleFonts.poppins(
                   textStyle: TextStyle(
                     color: primaryColor,
@@ -74,22 +76,28 @@ class _SearchLocationPageState extends ConsumerState<SearchLocationPage> {
                     decoration: TextDecoration.underline,
                   ),
                 ),
-              ).toCenter(),
+              ).toCenter().visibility(visible: Platform.isAndroid),
               SizedBox(
                 height: 16.h,
-              ),
+              ).visibility(visible: Platform.isAndroid),
               Text(
-                'Select Current Location',
+                S.of(context).selectCurrentLocation,
                 style: Style.commonTextStyle(
                   color: textColor,
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w500,
                 ),
-              ).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
+              ).visibility(
+                visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty,
+              ),
               SizedBox(
                 height: 8.h,
-              ).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
-              FloorSpaceFilter(provider, notifier).visibility(visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty),
+              ).visibility(
+                visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty,
+              ),
+              FloorSpaceFilter(provider, notifier).visibility(
+                visible: provider.lstRoomType.isNotEmpty && provider.lstFloor.isNotEmpty,
+              ),
               SizedBox(
                 height: 16.h,
               ),

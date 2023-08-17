@@ -263,5 +263,8 @@
  "dateTimeCompareMsgTime":"End time should be greater than start time",
  "noNotificationToShow":"NO NOTIFICATIONS TO SHOW",
  "noNotificationsDemandYourAttention":"Currently, no notifications demand your attention.",
-  "drinkCancelMessage" : "Cancel Drink Request"
+  "drinkCancelMessage" : "Cancel Drink Request",
+  "strAll": "All",
+  "nearBySpaceMsg": "Enable Smart Discovery for nearby spaces",
+  "selectCurrentLocation": "Select Current Location"
 }

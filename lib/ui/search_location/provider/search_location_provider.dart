@@ -26,6 +26,8 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
 
   void _initData() {
     searchController = TextEditingController();
+    updateSelectedFloor(floor: S.current.strAll);
+    updateSelectedRoomType(roomType: S.current.strAll);
   }
 
   // get location data
@@ -34,11 +36,16 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
     if (result != null && result.items != null) {
       lstSearchLocation = result.items!;
       state = state.copyWith(lstSearchLocation: AsyncData(result.items!));
+      final provider = ref.read(drinksProvider);
+      if (provider.deliveryLocation != null) {
+        final index = lstSearchLocation.indexWhere((element) => element.id == provider.deliveryLocation!.id);
+        updateLocationSelected(index);
+      }
     }
   }
 
-  // get floor data for filter
-  void getFloor() {
+  // get floor data and room type data for filter
+  void getFilterOptionList() {
     if (lstSearchLocation.isEmpty) {
       return;
     }
@@ -49,25 +56,44 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
           lstFloors.add(item.floor ?? '');
         }
       }
+      if (!lstRoomType.contains(item.spaceType)) {
+        if (item.spaceType != null && item.spaceType!.isNotEmpty) {
+          lstRoomType.add(item.spaceType!);
+        }
+      }
     }
-    state = state.copyWith(lstFloor: lstFloors);
+    lstFloors.insert(0, S.current.strAll);
+    lstRoomType.insert(0, S.current.strAll);
+    state = state.copyWith(lstFloor: lstFloors, lstRoomType: lstRoomType);
   }
 
+  // get filter data for floor and room type data
   void filterSpaceData() {
-    if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty) {
+    if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty && state.selectedFloor != S.current.strAll) {
       lstFilterLocation = lstSearchLocation.where((element) => element.floor == state.selectedFloor).toList();
     }
 
-    if (state.selectedSpaceType != null && state.selectedSpaceType!.isNotEmpty) {
+    if (state.selectedSpaceType != null && state.selectedSpaceType!.isNotEmpty && state.selectedSpaceType != S.current.strAll) {
       lstFilterLocation = lstSearchLocation.where((element) => element.spaceType == state.selectedSpaceType).toList();
+    } else {
+      if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty && state.selectedFloor == S.current.strAll) {
+        lstFilterLocation = lstSearchLocation;
+      }
     }
 
-    if (state.selectedFloor != null && state.selectedFloor!.isNotEmpty && state.selectedSpaceType != null && state.selectedSpaceType!.isNotEmpty) {
+    if (state.selectedFloor != null &&
+        state.selectedFloor!.isNotEmpty &&
+        state.selectedSpaceType != null &&
+        state.selectedSpaceType!.isNotEmpty &&
+        state.selectedFloor != S.current.strAll &&
+        state.selectedSpaceType != S.current.strAll) {
       lstFilterLocation = lstSearchLocation
           .where((element) => element.floor == state.selectedFloor)
           .toList()
           .where((element) => element.spaceType == state.selectedSpaceType)
           .toList();
+    } else {
+      lstFilterLocation = lstFilterLocation;
     }
     searchController.text = '';
     state = state.copyWith(lstSearchLocation: AsyncData(lstFilterLocation));
@@ -81,21 +107,6 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
   // update selected room type
   void updateSelectedRoomType({required String roomType}) {
     state = state.copyWith(selectedSpaceType: roomType);
-  }
-
-  // get room type data for filter
-  void getRoomType() {
-    if (lstSearchLocation.isEmpty) {
-      return;
-    }
-    for (final item in lstSearchLocation) {
-      if (!lstRoomType.contains(item.spaceType)) {
-        if (item.spaceType != null && item.spaceType!.isNotEmpty) {
-          lstRoomType.add(item.spaceType!);
-        }
-      }
-    }
-    state = state.copyWith(lstRoomType: lstRoomType);
   }
 
   // get  search data
@@ -128,7 +139,8 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
         );
       }
     } else {
-      if (state.selectedFloor != null || state.selectedSpaceType != null) {
+      if (state.selectedFloor != null && state.selectedFloor != S.current.strAll ||
+          state.selectedSpaceType != null && state.selectedSpaceType != S.current.strAll) {
         state = state.copyWith(lstSearchLocation: AsyncData(lstFilterLocation));
       } else {
         state = state.copyWith(lstSearchLocation: AsyncData(lstSearchLocation));
