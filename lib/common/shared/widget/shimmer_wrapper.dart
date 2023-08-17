@@ -5,15 +5,17 @@ class ShimmerEffect extends StatelessWidget {
   const ShimmerEffect({
     required this.width,
     required this.height,
-    super.key,
-    this.borderRadius = BorderRadius.zero,
+    this.shape = BoxShape.rectangle,
+    this.borderRadius,
     this.duration = const Duration(milliseconds: 1500),
+    super.key,
   });
 
   final double width;
   final double height;
-  final BorderRadius borderRadius;
+  final BorderRadius? borderRadius;
   final Duration duration;
+  final BoxShape shape;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,7 @@ class ShimmerEffect extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: borderRadius,
+          shape: shape,
         ),
       ),
     );

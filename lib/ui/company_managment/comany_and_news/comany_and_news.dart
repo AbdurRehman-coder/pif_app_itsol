@@ -4,6 +4,8 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/company_managment/comany_and_news/provider/company_and_news_provider.dart';
+import 'package:pif_flutter/ui/company_managment/comany_and_news/state/company_and_news_state.dart';
+import 'package:pif_flutter/ui/company_managment/comany_and_news/widget/company_list_widget.dart';
 
 class CompanyAndNews extends ConsumerWidget {
   const CompanyAndNews({super.key});
@@ -16,37 +18,7 @@ class CompanyAndNews extends ConsumerWidget {
       child: Column(
         children: [
           SizedBox(height: 30.h),
-          SizedBox(
-            height: 80.h,
-            child: ListView.separated(
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (_, index) {
-                final company = provider.companyList.value![index];
-                return InkWell(
-                  onTap: () => AppRouter.pushNamed(Routes.companyDetailsScreen),
-                  child: Container(
-                    height: 80.h,
-                    width: 80.w,
-                    decoration:  BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: NetworkImage(company),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                );
-              },
-              separatorBuilder: (_, index) {
-                return SizedBox(
-                  width: 24.w,
-                );
-              },
-              itemCount: provider.companyList.value!.length,
-            ),
-          ),
+          CompanyListWidget(provider: provider),
           SizedBox(height: 16.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
