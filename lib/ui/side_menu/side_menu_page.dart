@@ -65,73 +65,76 @@ class _SideMenuPageState extends ConsumerState<SideMenuPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(width: 50.w,),
+                  SizedBox(
+                    width: 50.w,
+                  ),
                   IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).closeDrawer();
-                      },
-                      icon: SvgPicture.asset(
-                        Assets.cancelIcon,
-                        height: 24.h,
-                        width: 24.w,
-                      ),
-                   ),
+                    onPressed: () {
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    icon: SvgPicture.asset(
+                      Assets.cancelIcon,
+                      height: 24.h,
+                      width: 24.w,
+                    ),
+                  ),
                 ],
               ),
-              SizedBox(
-                height: 30.h,
-              ),
-              Consumer(
-                builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                  final provider = ref.watch(sideMenuProvider);
-                  final notifier = ref.read(sideMenuProvider.notifier);
-                  return Container(
-                    height: 50.h,
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(25.r),
-                    ),
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      padding: EdgeInsets.symmetric(horizontal: 7.w),
-                      scrollDirection: Axis.horizontal,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) {
-                        final item = provider.lstTheme![index];
-                        return InkWell(
-                          onTap: () {
-                            notifier.updateTheme(index);
-                          },
-                          child: Container(
-                            height: 40.h,
-                            width: 40.w,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: item.isSelected ?? false ? darkPrimaryColor : Colors.transparent,
-                              shape: BoxShape.circle,
-                            ),
-                            child: SvgPicture.asset(
-                              item.icon!,
-                              height: 20.h,
-                              width: 20.w,
-                              colorFilter: ColorFilter.mode(
-                                item.isSelected ?? false ? whiteColor : blackColor,
-                                BlendMode.srcIn,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (_, index) {
-                        return SizedBox(
-                          width: 7.w,
-                        );
-                      },
-                      itemCount: provider.lstTheme!.length,
-                    ),
-                  );
-                },
-              ),
+              // Consumer(
+              //   builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              //     final provider = ref.watch(sideMenuProvider);
+              //     final notifier = ref.read(sideMenuProvider.notifier);
+              //     return Container(
+              //       height: 50.h,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(),
+              //         borderRadius: BorderRadius.circular(25.r),
+              //       ),
+              //       child: ListView.separated(
+              //         shrinkWrap: true,
+              //         padding: EdgeInsets.symmetric(horizontal: 7.w),
+              //         scrollDirection: Axis.horizontal,
+              //         physics: const NeverScrollableScrollPhysics(),
+              //         itemBuilder: (_, index) {
+              //           final item = provider.lstTheme![index];
+              //           return InkWell(
+              //             onTap: () {
+              //               notifier.updateTheme(index);
+              //             },
+              //             child: Container(
+              //               height: 40.h,
+              //               width: 40.w,
+              //               alignment: Alignment.center,
+              //               decoration: BoxDecoration(
+              //                 color: item.isSelected ?? false
+              //                     ? darkPrimaryColor
+              //                     : Colors.transparent,
+              //                 shape: BoxShape.circle,
+              //               ),
+              //               child: SvgPicture.asset(
+              //                 item.icon!,
+              //                 height: 20.h,
+              //                 width: 20.w,
+              //                 colorFilter: ColorFilter.mode(
+              //                   item.isSelected ?? false
+              //                       ? whiteColor
+              //                       : blackColor,
+              //                   BlendMode.srcIn,
+              //                 ),
+              //               ),
+              //             ),
+              //           );
+              //         },
+              //         separatorBuilder: (_, index) {
+              //           return SizedBox(
+              //             width: 7.w,
+              //           );
+              //         },
+              //         itemCount: provider.lstTheme!.length,
+              //       ),
+              //     );
+              //   },
+              // ),
               MenuListView(notifier: notifier)
             ],
           ),
