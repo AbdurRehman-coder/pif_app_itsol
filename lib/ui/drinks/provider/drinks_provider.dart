@@ -30,6 +30,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   DrinksNotifier({required this.ref}) : super(DrinksState.initial()) {
     _initData();
   }
+
   final Ref ref;
 
   void _initData() {
@@ -45,32 +46,6 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
   List<DrinkModel> allDrinks = <DrinkModel>[];
   List<DrinkModel> selectedCatDrinks = <DrinkModel>[];
   FocusNode searchFocusNode = FocusNode();
-
-  Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService
-        .getStructureContentByKey(
-      webContentId: '147637',
-      siteId: '20120',
-    );
-
-    state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime =
-        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime =
-        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
-    state = state.copyWith(
-      storeClosed: !checkStoreStatus(
-            openTime: storeStartDateTime,
-            closedTime: storeEndDateTime,
-          ) ||
-          DateTime.now().weekday == DateTime.friday ||
-          DateTime.now().weekday == DateTime.saturday,
-    );
-    return AvailableTime(
-      storeStartTime: storeStartDateTime,
-      storeEndTime: storeEndDateTime,
-    );
-  }
 
   bool checkDateStart(DateTime dateTime) {
     final dateTimeNow = DateTime.now();
@@ -266,8 +241,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
             },
           ).toList();
           return OrderItem(
-            options:
-                item.isNotEmpty ? jsonEncode(item).replaceAll('"', r'\"') : '',
+            options: item.isNotEmpty ? jsonEncode(item) : '',
             quantity: itemInCart.count!,
             skuId: itemInCart.skus!,
             productId: itemInCart.id!,
@@ -280,6 +254,7 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         currencyCode: 'USD',
         printedNote: notesController.text,
         orderItems: itemCart,
+        orderStatus: 2,
       );
 
       if (state.isSelectedPinOrder == true) {
@@ -288,8 +263,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
       await appProgressDialog.stop();
       showSuccessMessage(
         context: context,
-        titleText: S.of(context).drinkOrder,
-        subTitle: S.of(context).orderByMistake,
+        titleText: S.current.drinkOrder,
+        subTitle: S.current.orderByMistake,
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();

@@ -12,9 +12,11 @@ class OrderRequestModel {
     this.orderItems,
     this.printedNote,
     this.currencyCode,
+    this.orderStatus,
   });
 
-  factory OrderRequestModel.fromJson(JSON json) => _$OrderRequestModelFromJson(json);
+  factory OrderRequestModel.fromJson(JSON json) =>
+      _$OrderRequestModelFromJson(json);
 
   JSON toJson() => _$OrderRequestModelToJson(this);
 
@@ -37,6 +39,10 @@ class OrderRequestModel {
   @HiveField(4)
   @JsonKey(name: 'currencyCode')
   String? currencyCode;
+
+  @HiveField(5)
+  @JsonKey(name: 'orderStatus')
+  int? orderStatus;
 }
 
 @JsonSerializable()

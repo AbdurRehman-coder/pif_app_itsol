@@ -4,6 +4,7 @@ import 'package:pif_flutter/common/extensions/color_extensions.dart';
 import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 
 class StoreInformation extends StatelessWidget {
@@ -13,7 +14,7 @@ class StoreInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final provider = ref.watch(drinksProvider);
+        final provider = ref.watch(dashboardProvider);
         return provider.structureContent.when(
           error: (Object error, StackTrace stackTrace) {
             return const SizedBox();
@@ -55,6 +56,7 @@ class StoreInformation extends StatelessWidget {
                   color: whiteColor,
                 ),
                 width: double.infinity,
+
                 child: Row(
                   children: [
                     Expanded(
