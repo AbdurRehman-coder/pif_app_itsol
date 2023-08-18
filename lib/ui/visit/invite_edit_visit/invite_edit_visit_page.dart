@@ -194,7 +194,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                         Visibility(
                           visible: provider.isOpenStartDatePicker,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 50.h),
+                            padding: EdgeInsets.only(top: 70.h),
                             child: DatePickerWidget(
                               selectedDate: provider.startDate,
                               onConfirm: notifier.updateStartDate,
@@ -205,7 +205,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                         Visibility(
                           visible: provider.isOpenStartTimePicker,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 100.h),
+                            padding: EdgeInsets.only(top: 120.h),
                             child: InkWell(
                               onTap: () {},
                               child: TimePickerPopup(
@@ -225,7 +225,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                         Visibility(
                           visible: provider.isOpenEndDatePicker,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 100.h, left: 12.w),
+                            padding: EdgeInsets.only(top: 130.h, left: 12.w),
                             child: DatePickerWidget(
                               selectedDate: provider.endDate,
                               onConfirm: (dateTime) => notifier.updateEndDate(
@@ -239,7 +239,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                         Visibility(
                           visible: provider.isOpenEndTimePicker,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 165.h),
+                            padding: EdgeInsets.only(top: 190.h),
                             child: InkWell(
                               onTap: () {},
                               child: TimePickerPopup(
