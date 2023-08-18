@@ -292,6 +292,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
           });
         },
       );
+      state = state.copyWith(isSelectedPinOrder: false);
+      state = state.copyWith(drinkNoteCharCount: 0);
+      notesController.clear();
     } else {
       await appProgressDialog.stop();
       alertMessage(

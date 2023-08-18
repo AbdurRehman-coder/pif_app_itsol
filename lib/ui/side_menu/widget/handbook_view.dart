@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -14,13 +17,23 @@ class HandbookPDFView extends StatelessWidget {
       appBar: CustomAppBar(
         title: S.current.handBook,
       ),
-      body: const PDF(
-        enableSwipe: true,
-        autoSpacing: false,
+      body: PDF(
+        autoSpacing: Platform.isIOS,
         pageFling: false,
       ).cachedFromUrl(
         pdfUrl,
-        placeholder: (progress) => Center(child: Text('$progress %')),
+        placeholder: (progress) => Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text('$progress%'),
+              const CupertinoActivityIndicator(
+                color: goldenColor,
+              )
+            ],
+          ),
+        ),
         errorWidget: (error) => Center(child: Text(error.toString())),
       ),
     );
