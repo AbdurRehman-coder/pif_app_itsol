@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/custom_app_bar.dart';
+import 'package:pif_flutter/ui/on_boarding/login/provider/login_provider.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/background_widget_with_logo.dart';
 import 'package:pif_flutter/ui/on_boarding/login/widget/pinput_widget.dart';
 import 'package:pif_flutter/ui/on_boarding/widget/tile_card.dart';
 
-class VerifyOTP extends StatelessWidget {
-  const VerifyOTP({super.key});
+class VerifyOTP extends ConsumerWidget {
+  const VerifyOTP({required this.notifier, super.key});
+
+  final LogInNotifier notifier;
 
   @override
-  Widget build(BuildContext context) {
-    const borderColor = Color.fromRGBO(23, 171, 144, 0.4);
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(logInProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: grayF5,
-      appBar: const CustomAppBar(
-        title: '',
-      ),
+      appBar: const CustomAppBar(),
       body: BackgroundWidgetWithLogo(
         child: SafeArea(
           child: Padding(
@@ -30,26 +31,10 @@ class VerifyOTP extends StatelessWidget {
                   description: S.current.weOfferPasswordExperience,
                 ),
                 SizedBox(height: 32.h),
-                const Center(
-                  child: PinPutWidget(),
-                ),
-                SizedBox(height: 20.h),
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: S.current.resendEmail,
-                        style: TextStyle(
-                          color: primaryColor,
-                          fontSize: 14.sp,
-                        ),
-                      )
-                    ],
-                    text: S.current.receiveAnEmail,
-                    style: TextStyle(
-                      color: dayTextColor,
-                      fontSize: 14.sp,
-                    ),
+                Center(
+                  child: PinPutWidget(
+                    notifier: notifier,
+                    provider: provider,
                   ),
                 ),
               ],

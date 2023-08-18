@@ -1,4 +1,5 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/authentication/login/services/oauth_password_grant_password_less.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -14,42 +15,98 @@ final logInProvider =
 });
 
 class LogInNotifier extends StateNotifier<LogInState> {
-  LogInNotifier({required this.ref}) : super(LogInState.initial());
+  LogInNotifier({required this.ref}) : super(LogInState.initial()) {
+    init();
+  }
 
   final Ref ref;
   GlobalKey<FormState> formKeyLogIn = GlobalKey<FormState>();
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  late TextEditingController emailController;
   final passwordFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
 
-  final pinController = TextEditingController();
+  late TextEditingController pinController;
 
-  Future<void> createLogIn({required BuildContext context}) async {
+  void init() {
+    emailController = TextEditingController();
+    pinController = TextEditingController();
+  }
+
+  Future<void> createLogIn({
+    required BuildContext context,
+    required LogInNotifier notifier,
+    bool isResendOTP = false,
+  }) async {
     if (formKeyLogIn.currentState!.validate()) {
       final appProgressDialog = AppProgressDialog(context: context);
       await appProgressDialog.start();
-      final result = await DixelsSDK.instance.initialize(
+      final result = await DixelsSDK.instance.sendOTP(
         baseUrl: Constants.baseUrl,
-        auth: OAuth2PasswordGrant(
-          // username: 'mwafeeq@appswave.io',
-          username: emailController.text,
-          // password: 'Mwni127199411',
-          password: passwordController.text,
+        auth: OAuth2PasswordGrantPasswordLess(
+          // email: 'alaa@appswave.io',
+          email: emailController.text,
           clientId: Constants.clientId,
           clientSecret: Constants.clientSecret,
         ),
       );
       await appProgressDialog.stop();
-      if (result) {
-        await AppRouter.pushNamed(Routes.verifyOTPScreen);
+      if (result.isRight()) {
+        if (result.getRight()?.message != null) {
+          alertMessage(
+            errorMessage: result.getLeft().message,
+            context: context,
+          );
+        } else {
+          state = state.copyWith(otpLength: result.getRight()?.otpLength);
+          state = state.copyWith(expiryTime: result.getRight()?.expiryTime);
+          if (!isResendOTP) {
+            await AppRouter.pushNamed(
+              Routes.verifyOTPScreen,
+              args: notifier,
+            );
+          }
+        }
       } else {
         alertMessage(
-          errorMessage: 'User not found',
+          errorMessage: result.getLeft().message,
           context: context,
         );
       }
+    }
+  }
+
+  Future<void> verifyOTP({
+    required String otpCode,
+    required BuildContext context,
+  }) async {
+    final appProgressDialog = AppProgressDialog(context: context);
+    await appProgressDialog.start();
+    final result = await DixelsSDK.instance.verifyOTP(
+      baseUrl: Constants.baseUrl,
+      auth: OAuth2PasswordGrantPasswordLess(
+        // email: 'alaa@appswave.io',
+        email: emailController.text,
+        clientId: Constants.clientId,
+        clientSecret: Constants.clientSecret,
+        otp: otpCode,
+      ),
+    );
+    await appProgressDialog.stop();
+    if (result.isRight()) {
+      if (result.getRight()?.refreshToken == null) {
+        alertMessage(
+          errorMessage: result.getRight()?.message ?? '',
+          context: context,
+        );
+      } else {
+        await goToWelcomeScreen();
+      }
+    } else {
+      alertMessage(
+        errorMessage: result.getLeft().message,
+        context: context,
+      );
     }
   }
 

@@ -18,6 +18,7 @@ class LogInPage extends ConsumerStatefulWidget {
 class _LogInPageScreenState extends ConsumerState<LogInPage> {
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(logInProvider);
     final notifier = ref.read(logInProvider.notifier);
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -57,20 +58,14 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
                           SecondCustomTextField(
                             textEditingController: notifier.emailController,
                             keyboardType: TextInputType.emailAddress,
-                            hintText: S.of(context).email,
+                            hintText: S.current.email,
                             focusNode: notifier.emailFocusNode,
                             isEmailField: true,
                             checkEmpty: true,
-                            onTap: () => setStateF,
-                          ),
-                          SizedBox(height: 20.h),
-                          SecondCustomTextField(
-                            focusNode: notifier.passwordFocusNode,
-                            textEditingController: notifier.passwordController,
-                            keyboardType: TextInputType.visiblePassword,
-                            hintText: S.of(context).password,
-                            obscureText: true,
-                            checkEmpty: true,
+                            onEditingComplete: () => notifier.createLogIn(
+                              context: context,
+                              notifier: notifier,
+                            ),
                           ),
                           SizedBox(height: 300.h),
                         ],
@@ -92,7 +87,10 @@ class _LogInPageScreenState extends ConsumerState<LogInPage> {
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 10.h),
             ),
-            onPressed: () => notifier.createLogIn(context: context),
+            onPressed: () => notifier.createLogIn(
+              context: context,
+              notifier: notifier,
+            ),
             child: Text(
               S.current.login,
               style: Style.commonTextStyle(

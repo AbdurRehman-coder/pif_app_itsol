@@ -85,7 +85,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
       AppRouter.pushNamed(Routes.myTicketsScreen);
     } else if (lstMenu[index].name == S.current.logout) {
       DixelsSDK.instance.logout();
-      AppRouter.startNewRoute(Routes.logInScreen);
+      AppRouter.startNewRoute(Routes.splashScreen);
     }
   }
 }
