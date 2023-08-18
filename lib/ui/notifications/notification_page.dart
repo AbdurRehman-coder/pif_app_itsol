@@ -17,7 +17,15 @@ class NotificationPage extends ConsumerWidget {
     final notifier = ref.read(notificationProvider.notifier);
     return Scaffold(
       appBar: CustomAppBar(
-        title: S.current.notifications,
+        // title: S.current.notifications,
+        titleWidget: Text(
+          S.current.notifications,
+          style: Style.commonTextStyle(
+            color: textColor,
+            fontSize: 22.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
       body: BackgroundWidget(
         child: RefreshIndicator(

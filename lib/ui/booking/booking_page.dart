@@ -163,47 +163,47 @@ class _BookingPageState extends ConsumerState<BookingPage> {
               return SingleChildScrollView(
                 controller: notifier.controller,
                 padding: EdgeInsets.only(top: 24.h, right: 16.w, left: 16.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Stack(
                   children: [
-                    SecondCustomTextField(
-                      textEditingController: notifier.titleController,
-                      focusNode: notifier.titleFocus,
-                      textFieldBorderColor: textFieldBorderColor,
-                      hintText: S.of(context).bookingSubject,
-                      fillColor: whiteColor,
-                      borderRadius: 6.r,
-                      checkEmpty: true,
-                      hintFontSize: 14.sp,
-                      hintTextColor: blackColorWith900.withOpacity(0.45),
-                    ),
-                    SizedBox(
-                      height: 24.h,
-                    ),
-                    Text(
-                      S.of(context).dateAndTime,
-                      style: Style.commonTextStyle(
-                        color: blackColorWith900,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Text(
-                      S.of(context).str_start,
-                      style: Style.commonTextStyle(
-                        color: blackColorWith900.withOpacity(0.60),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Stack(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SecondCustomTextField(
+                          textEditingController: notifier.titleController,
+                          focusNode: notifier.titleFocus,
+                          textFieldBorderColor: textFieldBorderColor,
+                          hintText: S.of(context).bookingSubject,
+                          fillColor: whiteColor,
+                          borderRadius: 6.r,
+                          checkEmpty: true,
+                          hintFontSize: 14.sp,
+                          hintTextColor: blackColorWith900.withOpacity(0.45),
+                        ),
+                        SizedBox(
+                          height: 24.h,
+                        ),
+                        Text(
+                          S.of(context).dateAndTime,
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Text(
+                          S.of(context).str_start,
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900.withOpacity(0.60),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -220,6 +220,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     hintText: S.of(context).date,
                                     checkEmpty: true,
                                     enabled: false,
+                                    isFocus: provider.isOpenStartDatePicker,
+                                    isDateAndTime: true,
                                     fillColor: whiteColor,
                                     borderRadius: 6.r,
                                     textFieldBorderColor: textFieldBorderColor,
@@ -259,6 +261,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     hintText: S.of(context).time,
                                     fillColor: whiteColor,
                                     enabled: false,
+                                    isFocus: provider.isOpenStartTimePicker,
+                                    isDateAndTime: true,
                                     checkEmpty: true,
                                     textFieldBorderColor: textFieldBorderColor,
                                     borderRadius: 6.r,
@@ -282,53 +286,20 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                             ),
                           ],
                         ),
-                        Visibility(
-                          visible: provider.isOpenStartDatePicker,
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10.h),
-                            child: DatePickerWidget(
-                              selectedDate: provider.startDate,
-                              onConfirm: notifier.updateStartDate,
-                              onCancel: notifier.closeStartDatePickerDialog,
-                            ),
+                        SizedBox(
+                          height: 8.h,
+                        ),
+                        Text(
+                          S.of(context).str_end,
+                          style: Style.commonTextStyle(
+                            color: blackColorWith900.withOpacity(0.60),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 60.h),
-                          child: InkWell(
-                            onTap: () {},
-                            child: TimePickerPopup(
-                              timeData: provider.startTime ?? DateTime.now(),
-                              onCancel: notifier.closeStartTimePickerDialog,
-                              onConfirm: (selectedTime) {
-                                notifier.updateStartTime(
-                                  startTime: selectedTime,
-                                );
-                                notifier.closeStartTimePickerDialog();
-                              },
-                            ).visibility(
-                              visible: provider.isOpenStartTimePicker,
-                            ),
-                          ),
+                        SizedBox(
+                          height: 8.h,
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Text(
-                      S.of(context).str_end,
-                      style: Style.commonTextStyle(
-                        color: blackColorWith900.withOpacity(0.60),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 8.h,
-                    ),
-                    Stack(
-                      children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -345,6 +316,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     hintText: S.of(context).date,
                                     checkEmpty: true,
                                     enabled: false,
+                                    isFocus: provider.isOpenEndDatePicker,
+                                    isDateAndTime: true,
                                     fillColor: whiteColor,
                                     borderRadius: 6.r,
                                     textFieldBorderColor: textFieldBorderColor,
@@ -387,6 +360,8 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     fillColor: whiteColor,
                                     enabled: false,
                                     checkEmpty: true,
+                                    isFocus: provider.isOpenEndTimePicker,
+                                    isDateAndTime: true,
                                     textFieldBorderColor: textFieldBorderColor,
                                     borderRadius: 6.r,
                                     contentPadding: EdgeInsets.only(
@@ -409,135 +384,160 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                             ),
                           ],
                         ),
-                        Visibility(
-                          visible: provider.isOpenEndDatePicker,
-                          child: Container(
-                            margin: EdgeInsets.only(top: 10.h),
-                            child: DatePickerWidget(
-                              selectedDate: provider.endDate,
-                              onConfirm: notifier.updateEndDate,
-                              onCancel: notifier.closeEndDatePicker,
+                        SizedBox(
+                          height: 28.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: S.of(context).guests,
+                                    style: Style.commonTextStyle(
+                                      color: textColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: ' ${S.of(context).optional}',
+                                    style: Style.commonTextStyle(
+                                      color: textColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(top: 60.h),
-                          child: InkWell(
-                            onTap: () {},
-                            child: TimePickerPopup(
-                              timeData: provider.endTime ?? DateTime.now(),
-                              onCancel: notifier.closeEndTimePickerDialog,
-                              onConfirm: (selectedTime) {
-                                notifier.updateEndTime(
-                                  endTime: selectedTime,
+                            InkWell(
+                              onTap: () {
+                                addVisitorBottomSheet(
                                   context: context,
+                                  provider: provider,
+                                  notifier: notifier,
                                 );
-                                notifier.closeEndTimePickerDialog();
                               },
-                            ).visibility(visible: provider.isOpenEndTimePicker),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.add,
+                                    size: 20.sp,
+                                    color: primaryColor,
+                                  ),
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                                  Text(
+                                    S.of(context).newGuest,
+                                    style: Style.commonTextStyle(
+                                      color: primaryColor,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 12.h,
+                        ),
+                        SearchTextField(
+                          textEditingController: notifier.addGuestController,
+                          focusNode: notifier.addGuestFocus,
+                          hintText: S.of(context).searchGuest,
+                          textFieldBorderRadius: 6.r,
+                          contentPadding: EdgeInsets.only(
+                            left: 12.w,
+                            right: 12.w,
+                            top: 30.h,
+                          ),
+                          fillColor: whiteColor,
+                          onChanged: notifier.searchGuest,
+                          height: 50.h,
+                          hintTextStyle: Style.commonTextStyle(
+                            color: blackColorWith900.withOpacity(0.45),
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.search,
+                            color: darkBorderColor,
+                            size: 25,
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 28.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RichText(
-                          text: TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: S.of(context).guests,
-                                style: Style.commonTextStyle(
-                                  color: textColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              const TextSpan(text: ' '),
-                              TextSpan(
-                                text: S.of(context).optional,
-                                style: Style.commonTextStyle(
-                                  color: textColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
+                        SizedBox(
+                          height: 4.h,
                         ),
-                        InkWell(
-                          onTap: () {
-                            addVisitorBottomSheet(
-                              context: context,
-                              provider: provider,
-                              notifier: notifier,
-                            );
-                          },
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 20.sp,
-                                color: primaryColor,
-                              ),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              Text(
-                                S.of(context).newGuest,
-                                style: Style.commonTextStyle(
-                                  color: primaryColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
-                            ],
+                        AddGuestView(
+                          provider: provider,
+                          notifier: notifier,
+                        ),
+                        if (isKeyboardVisible) ...[
+                          SizedBox(
+                            height: 200.h,
                           ),
+                        ],
+                        SizedBox(
+                          height: Platform.isIOS ? 40.h : 20.h,
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 12.h,
-                    ),
-                    SearchTextField(
-                      textEditingController: notifier.addGuestController,
-                      focusNode: notifier.addGuestFocus,
-                      hintText: S.of(context).searchGuest,
-                      textFieldBorderRadius: 6.r,
-                      contentPadding:
-                          const EdgeInsets.only(left: 12, right: 12, top: 30),
-                      fillColor: whiteColor,
-                      onChanged: notifier.searchGuest,
-                      height: 50.h,
-                      hintTextStyle: Style.commonTextStyle(
-                        color: blackColorWith900.withOpacity(0.45),
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w300,
-                      ),
-                      prefixIcon: const Icon(
-                        Icons.search,
-                        color: darkBorderColor,
-                        size: 25,
+                    Visibility(
+                      visible: provider.isOpenStartDatePicker,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 100.h),
+                        child: DatePickerWidget(
+                          selectedDate: provider.startDate,
+                          onConfirm: notifier.updateStartDate,
+                          onCancel: notifier.closeStartDatePickerDialog,
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: 4.h,
-                    ),
-                    AddGuestView(
-                      provider: provider,
-                      notifier: notifier,
-                    ),
-                    if (isKeyboardVisible) ...[
-                      SizedBox(
-                        height: 300.h,
+                    Padding(
+                      padding: EdgeInsets.only(top: 150.h),
+                      child: TimePickerPopup(
+                        timeData: provider.startTime ?? DateTime.now(),
+                        onCancel: notifier.closeStartTimePickerDialog,
+                        onConfirm: (selectedTime) {
+                          notifier.updateStartTime(
+                            startTime: selectedTime,
+                          );
+                          notifier.closeStartTimePickerDialog();
+                        },
+                      ).visibility(
+                        visible: provider.isOpenStartTimePicker,
                       ),
-                    ],
-                    SizedBox(
-                      height: Platform.isIOS ? 40.h : 20.h,
-                    )
+                    ),
+                    Visibility(
+                      visible: provider.isOpenEndDatePicker,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 190.h),
+                        child: DatePickerWidget(
+                          selectedDate: provider.endDate,
+                          onConfirm: notifier.updateEndDate,
+                          onCancel: notifier.closeEndDatePicker,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 240.h),
+                      child: TimePickerPopup(
+                        timeData: provider.endTime ?? DateTime.now(),
+                        onCancel: notifier.closeEndTimePickerDialog,
+                        onConfirm: (selectedTime) {
+                          notifier.updateEndTime(
+                            endTime: selectedTime,
+                            context: context,
+                          );
+                          notifier.closeEndTimePickerDialog();
+                        },
+                      ).visibility(visible: provider.isOpenEndTimePicker),
+                    ),
                   ],
                 ),
               );

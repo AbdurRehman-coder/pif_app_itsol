@@ -263,7 +263,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     });
     Future.delayed(const Duration(milliseconds: 50), () {
       controller.animateTo(
-        controller.position.maxScrollExtent - 230.h,
+        controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );
@@ -300,7 +300,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     /// animate scroll controller to show the date picker
     Future.delayed(const Duration(milliseconds: 50), () {
       controller.animateTo(
-        controller.position.maxScrollExtent - 110.h,
+        controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );
@@ -363,7 +363,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     });
     Future.delayed(const Duration(milliseconds: 50), () {
       controller.animateTo(
-        controller.position.maxScrollExtent - 30.h,
+        controller.position.maxScrollExtent,
         duration: const Duration(milliseconds: 50),
         curve: Curves.easeOut,
       );
