@@ -50,6 +50,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   List<BookingModel> lstBookings = <BookingModel>[];
   List<DateTime> selectedDateLst = <DateTime>[];
   List<DateTime> confirmDateLst = <DateTime>[];
+  RoomModel? roomModel;
 
   // Init Data
   void _initData() {
@@ -198,22 +199,25 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (endTime == null) {
       return;
     }
-    if (state.startTime != null && state.startTime == endTime) {
-      return;
-    }
     // Calculate the difference between start and end times
     final duration = endTime.difference(state.startTime ?? DateTime.now());
-
-    // Check if the duration is greater than 30 minutes
-    if (duration.inMinutes >
-        (state.bookingModel?.roomModel?.maximumBookingDurationInMinutes ??
-            30)) {
+    if (roomModel?.maximumBookingDurationInMinutes != null) {
+      if (duration.inMinutes > roomModel!.maximumBookingDurationInMinutes!) {
+        alertMessage(
+          errorMessage: S.current.exceedMaxBookingDuration,
+          context: context ?? AppRouter.navigatorKey.currentContext!,
+        );
+        return;
+      }
+    }
+    if (state.startTime != null && state.startTime == endTime) {
       alertMessage(
-        errorMessage: S.current.exceedMaxBookingDuration,
+        errorMessage: S.current.timeValidation,
         context: context ?? AppRouter.navigatorKey.currentContext!,
       );
       return;
     }
+
     endTime = DateTime(
       endTime.year,
       endTime.month,
