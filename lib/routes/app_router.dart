@@ -16,6 +16,7 @@ import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news
 import 'package:pif_flutter/ui/company_managment/company_details/company_details_page.dart';
 import 'package:pif_flutter/ui/dashboard/dashboard_page.dart';
 import 'package:pif_flutter/ui/employee_details/employee_details_page.dart';
+import 'package:pif_flutter/ui/employee_details/employee_profile_edit_page.dart';
 import 'package:pif_flutter/ui/home/widget/read_more/news_details_view.dart';
 import 'package:pif_flutter/ui/notifications/notification_page.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
@@ -211,6 +212,8 @@ class AppRouter {
           ),
           settings: settings,
         );
+      case Routes.editProfileDetailsScreen:
+        return _setPage(page: const EmployeeProfileEditPage(), settings: settings);
 
       default:
         return _errorRoute();

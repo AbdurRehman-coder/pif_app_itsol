@@ -12,6 +12,7 @@ class EmployeeDetailsState with _$EmployeeDetailsState {
     required List<EmployeeDetailsModel> lstEmployee,
     required bool isGeneralVisible,
     required bool isPreferenceVisible,
+    required String userProfileImage,
   }) = _EmployeeDetailsState;
 
   factory EmployeeDetailsState.initial() => const EmployeeDetailsState(
@@ -19,5 +20,6 @@ class EmployeeDetailsState with _$EmployeeDetailsState {
         lstEmployee: <EmployeeDetailsModel>[],
         isGeneralVisible: true,
         isPreferenceVisible: false,
+        userProfileImage: '',
       );
 }

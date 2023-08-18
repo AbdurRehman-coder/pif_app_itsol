@@ -128,8 +128,7 @@ class _DropDownSearchAppState<T> extends State<DropDownSearchApp<T>> {
               contentPadding: EdgeInsets.only(
                 left: 10.w,
                 right: 10.w,
-                top: 10.h,
-                bottom: 1.h,
+                top: 45.h,
               ),
               border: InputBorder.none,
               fillColor: whiteColor,
@@ -171,7 +170,7 @@ class _DropDownSearchAppState<T> extends State<DropDownSearchApp<T>> {
         ),
         if (widget.vDropdownSearchController._selectedItem != null) ...[
           Positioned(
-            top: 0.1.h,
+            top: 2.h,
             left: 10.w,
             child: Text(
               widget.hintText ?? '',

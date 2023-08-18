@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 
 class EmployeeDetailsPage extends ConsumerWidget {
@@ -383,7 +384,9 @@ class EmployeeDetailsPage extends ConsumerWidget {
               ),
               InkWell(
                 // call permissions for contacts, to save user info to contact
-                onTap: notifier.askPermissions,
+                onTap:isFromProfile ?() {
+                  AppRouter.pushNamed(Routes.editProfileDetailsScreen);
+                }:notifier.askPermissions,
                 child: Container(
                   height: 33.h,
                   width: 33.h,

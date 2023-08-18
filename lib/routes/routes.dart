@@ -32,4 +32,5 @@ class Routes {
   static const String bookingCalenderScreen = '/bookingCalenderScreen';
   static const String newsDetails = '/newsDetails';
   static const String handbookView = '/handbookView';
+  static const String editProfileDetailsScreen = '/editProfileDetailsScreen';
 }
