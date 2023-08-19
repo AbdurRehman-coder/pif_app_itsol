@@ -557,6 +557,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 isBookEnabled: false,
                 roomId: widget.bookingModel!.id!,
                 isFromSpace: false,
+                isFromScan: widget.isFromScan,
               );
             } else {
               notifier.bookNowAsync(
@@ -564,6 +565,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 isBookEnabled: widget.spaceData.needApproval!,
                 roomId: widget.spaceData.id!,
                 isFromSpace: widget.isFromSpace,
+                isFromScan: widget.isFromScan,
               );
             }
           },

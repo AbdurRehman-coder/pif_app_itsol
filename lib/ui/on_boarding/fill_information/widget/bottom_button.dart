@@ -19,29 +19,6 @@ class BottomButton extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              height: 15.h,
-              child: ListView.separated(
-                itemCount: 2,
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (_, index) {
-                  return Container(
-                    height: 10.h,
-                    width: 10.w,
-                    decoration: BoxDecoration(
-                      color: provider.selectedScreen == index
-                          ? primaryColor
-                          : primaryDisabledColor,
-                      shape: BoxShape.circle,
-                    ),
-                  );
-                },
-                separatorBuilder: (_, index) {
-                  return SizedBox(width: 5.w);
-                },
-              ),
-            ),
             SizedBox(height: 20.h),
             Column(
               children: [

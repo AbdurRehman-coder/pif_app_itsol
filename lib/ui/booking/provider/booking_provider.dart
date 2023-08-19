@@ -410,9 +410,9 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required bool isBookEnabled,
     required int roomId,
     required bool isFromSpace,
+    required bool isFromScan,
   }) async {
     if (formKey.currentState!.validate()) {
-      // final lstDates = state.selectedDates;
       final startTimeInMinutes = state.startTime!.toTotalMinutes();
       final endTimeInMinutes = state.endTime!.toTotalMinutes();
 
@@ -432,7 +432,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
         );
         return;
       }
-
       if (!isSlotAvailable()) {
         if (state.isFromEdit == true) {
           await editBooking(
@@ -449,6 +448,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
             isBookEnabled: isBookEnabled,
             context: context,
             isFromSpace: isFromSpace,
+            isFromScan: isFromScan,
           );
         }
       } else {
@@ -581,6 +581,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required bool isBookEnabled,
     required BuildContext context,
     required bool isFromSpace,
+    required bool isFromScan,
   }) async {
     final appProgress = AppProgressDialog(context: context);
 
@@ -626,11 +627,16 @@ class BookingNotifier extends StateNotifier<BookingState> {
             final notifier = ref.read(spaceBookingProvider.notifier);
             await notifier.getSpaceAsync();
             await appProgress.stop();
-
             AppRouter.popUntil(Routes.spaceBookingScreen);
+          } else if (isFromScan) {
+            Future.delayed(Duration.zero, () {
+              AppRouter.popUntil(Routes.dashboardScreen);
+            });
           } else {
             await appProgress.stop();
-            await AppRouter.pushReplacement(Routes.spaceBookingScreen);
+            Future.delayed(Duration.zero, () async {
+              await AppRouter.pushReplacement(Routes.spaceBookingScreen);
+            });
           }
           if (mounted) {
             alertMessage(
