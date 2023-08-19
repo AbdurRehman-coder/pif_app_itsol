@@ -1,12 +1,19 @@
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 
 class GeneralView extends StatelessWidget {
-  const GeneralView({super.key});
+  const GeneralView({required this.data, super.key});
+
+  final UserModel data;
 
   @override
   Widget build(BuildContext context) {
+    final mobileNumber =
+        data.customFields!.firstWhere((element) => element.name == 'MobileNo').customValue.data.toString();
+
     return Column(
       children: [
         Row(
@@ -18,7 +25,7 @@ class GeneralView extends StatelessWidget {
               width: 8.w,
             ),
             Text(
-              '+966 4526 345 678',
+              mobileNumber.toFormatPhoneNumber(),
               style: Style.commonTextStyle(
                 color: grayTextColor,
                 fontSize: 16.sp,
@@ -26,10 +33,10 @@ class GeneralView extends StatelessWidget {
               ),
             )
           ],
-        ),
+        ).visibility(visible: mobileNumber.isNotEmpty),
         SizedBox(
           height: 12.h,
-        ),
+        ).visibility(visible: mobileNumber.isNotEmpty),
         Row(
           children: [
             SvgPicture.asset(
@@ -40,7 +47,7 @@ class GeneralView extends StatelessWidget {
               width: 8.w,
             ),
             Text(
-              'ahmad@pif.gov.sa',
+              data.emailAddress ?? '',
               style: Style.commonTextStyle(
                 color: grayTextColor,
                 fontSize: 16.sp,

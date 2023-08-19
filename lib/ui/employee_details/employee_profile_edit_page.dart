@@ -8,9 +8,10 @@ import 'package:pif_flutter/ui/employee_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/widget/edit_profile_image.dart';
 
 class EmployeeProfileEditPage extends ConsumerWidget {
- const EmployeeProfileEditPage({
+  const EmployeeProfileEditPage({
     super.key,
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(employeeDetailsProvider.notifier);
@@ -110,8 +111,7 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        if (notifier.formKeyEditProfile.currentState!
-                            .validate()) {}
+                        if (notifier.formKeyEditProfile.currentState!.validate()) {}
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: primaryColor,

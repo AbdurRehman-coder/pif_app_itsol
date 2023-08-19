@@ -6,8 +6,7 @@ import 'package:pif_flutter/ui/side_menu/model/side_menu_model.dart';
 import 'package:pif_flutter/ui/side_menu/model/theme_model.dart';
 import 'package:pif_flutter/ui/side_menu/state/side_menu_state.dart';
 
-final sideMenuProvider =
-    StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
+final sideMenuProvider = StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
   return SideMenuNotifier(ref: ref);
 });
 
@@ -67,25 +66,26 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
 
   final pdfUrl = 'http://20.74.136.229/documents/d/guest/resident-handbook';
   //Menu Item Click
-  void onItemTap({required int index}) {
+  Future<void> onItemTap({required int index}) async {
     if (lstMenu[index].name == S.current.profileSetting) {
-      AppRouter.pushNamed(Routes.employeeDetailsScreen, args: true);
+      final userDetails = await DixelsSDK.instance.userDetails;
+      await AppRouter.pushNamed(Routes.employeeDetailsScreen, args: [true, userDetails, '', 2022]);
     } else if (lstMenu[index].name == S.current.handBook) {
-      AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
+      await AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
     } else if (lstMenu[index].name == S.current.appTour) {
     } else if (lstMenu[index].name == S.current.TermsAndConditions) {
-      AppRouter.pushNamed(Routes.privacyScreen, args: false);
+      await AppRouter.pushNamed(Routes.privacyScreen, args: false);
     } else if (lstMenu[index].name == S.current.faq) {
     } else if (lstMenu[index].name == S.current.arabic) {
     } else if (lstMenu[index].name == S.current.booking) {
-      AppRouter.pushNamed(Routes.bookingListScreen);
+      await AppRouter.pushNamed(Routes.bookingListScreen);
     } else if (lstMenu[index].name == S.current.visits) {
-      AppRouter.pushNamed(Routes.visitListScreen);
+      await AppRouter.pushNamed(Routes.visitListScreen);
     } else if (lstMenu[index].name == S.current.supportTickets) {
-      AppRouter.pushNamed(Routes.myTicketsScreen);
+      await AppRouter.pushNamed(Routes.myTicketsScreen);
     } else if (lstMenu[index].name == S.current.logout) {
       DixelsSDK.instance.logout();
-      AppRouter.startNewRoute(Routes.splashScreen);
+      await AppRouter.startNewRoute(Routes.splashScreen);
     }
   }
 }

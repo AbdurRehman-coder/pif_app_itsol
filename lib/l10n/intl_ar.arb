@@ -263,11 +263,16 @@
  "dateTimeCompareMsgTime":"End time should be greater than start time",
  "noNotificationToShow":"NO NOTIFICATIONS TO SHOW",
  "noNotificationsDemandYourAttention":"Currently, no notifications demand your attention.",
+  "drinkCancelMessage" : " تم الغاء الطلب بنجاح",
  "editProfile": "Edit Profile",
  "jobTitle": "Job title",
  "breif": "Breif",
-  "drinkCancelMessage" : "Cancel Drink Request",
   "strAll": "All",
   "nearBySpaceMsg": "Enable Smart Discovery for nearby spaces",
-  "selectCurrentLocation": "Select Current Location"
+  "selectCurrentLocation": "Select Current Location",
+  "findMeAt" : "Find me at",
+  "general" : "General",
+  "preferences" : "Preferences",
+  "incubatedSince" : "Incubated since "
+
 }

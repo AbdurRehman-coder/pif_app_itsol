@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dixels_sdk/features/commerce/company_managment/model/company_management_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/routes/routes.dart';
-import 'package:pif_flutter/ui/company_managment/company_details/provider/company_details_provider.dart';
+import 'package:pif_flutter/helpers/constants.dart';
+import 'package:pif_flutter/ui/company_managment/company_details/widget/resident_list_view.dart';
 
 class CompanyDetailsPage extends ConsumerWidget {
-  const CompanyDetailsPage({super.key});
+  const CompanyDetailsPage({required this.data, super.key});
 
+  final CompanyManagementModel data;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(companyDetailsProvider);
-
     return Scaffold(
       body: Stack(
         children: [
@@ -34,17 +33,15 @@ class CompanyDetailsPage extends ConsumerWidget {
                       ),
                     ),
                     child: CachedNetworkImage(
-                      height: 100.h,
-                      width: 100.w,
-                      imageUrl: 'https://picsum.photos/100/100',
+                      height: 80.h,
+                      width: 80.w,
+                      imageUrl: '${Constants.baseUrl}${data.logo!.link!.href ?? ''}',
                       placeholder: (context, url) => const SizedBox(),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ),
                   Positioned(
                     top: 175.h,
-                    // Adjust this value to position the image as per your requirement.
                     left: 16.w,
                     child: Container(
                       height: 80.r,
@@ -59,7 +56,7 @@ class CompanyDetailsPage extends ConsumerWidget {
                       ),
                       child: ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: 'https://picsum.photos/50/50',
+                          imageUrl: '${Constants.baseUrl}${data.logo!.link!.href ?? ''}',
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -83,52 +80,37 @@ class CompanyDetailsPage extends ConsumerWidget {
                       children: [
                         Row(
                           children: [
-                            Text(
-                              'Red Sea Global',
-                              style: Style.commonTextStyle(
-                                color: textColor,
-                                fontSize: 22.sp,
-                                fontWeight: FontWeight.w600,
+                            Flexible(
+                              child: Text(
+                                data.name ?? '',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: Style.commonTextStyle(
+                                  color: textColor,
+                                  fontSize: 22.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              width: 8.w,
-                            ),
-                            SvgPicture.asset(
-                              Assets.svgInstagram,
-                            ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
-                            SvgPicture.asset(
-                              Assets.svgLinkedIn,
-                            ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
-                            SvgPicture.asset(
-                              Assets.svgWhatsApp,
-                            ),
+                            // SizedBox(
+                            //   width: 8.w,
+                            // ),
+                            // SvgPicture.asset(
+                            //   Assets.svgInstagram,
+                            // ),
+                            // SizedBox(
+                            //   width: 12.w,
+                            // ),
+                            // SvgPicture.asset(
+                            //   Assets.svgLinkedIn,
+                            // ),
+                            // SizedBox(
+                            //   width: 12.w,
+                            // ),
+                            // SvgPicture.asset(
+                            //   Assets.svgWhatsApp,
+                            // ),
                           ],
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Text(
-                          "Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage. Red Sea Global is a PIF-owned developer creating innovative and sustainable projects, including two luxury tourism destinations. They aim to protect and enhance the environment while creating economic opportunities and preserving Saudi Arabia's heritage.",
-                          style: Style.commonTextStyle(
-                            color: grayTextColor,
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16.h,
-                        ),
-                        Divider(
-                          height: 1.h,
-                          color: grayBorderColor,
-                          thickness: 1,
                         ),
                         SizedBox(
                           height: 16.h,
@@ -136,16 +118,50 @@ class CompanyDetailsPage extends ConsumerWidget {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            'Services',
+                            data.description ?? '',
+                            style: Style.commonTextStyle(
+                              color: grayTextColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ).visibility(
+                          visible: data.description != null && data.description!.isNotEmpty,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
+                        ),
+                        Divider(
+                          height: 1.h,
+                          color: grayBorderColor,
+                          thickness: 1,
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
+                        ),
+                        SizedBox(
+                          height: 16.h,
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            S.of(context).services,
                             style: Style.commonTextStyle(
                               color: textColor,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
                         ),
                         SizedBox(
                           height: 12.h,
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
                         ),
                         SizedBox(
                           height: 40.h,
@@ -160,10 +176,10 @@ class CompanyDetailsPage extends ConsumerWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20.r),
-                                  color: grayGradientStart,
+                                  color: grayF5,
                                 ),
                                 child: Text(
-                                  provider.lstService[index].companyService ?? '',
+                                  data.tags?[index].name ?? '',
                                   style: Style.commonTextStyle(
                                     color: darkBorderColor,
                                     fontSize: 14.sp,
@@ -177,8 +193,10 @@ class CompanyDetailsPage extends ConsumerWidget {
                                 width: 16.h,
                               );
                             },
-                            itemCount: provider.lstService.length,
+                            itemCount: data.tags!.length,
                           ),
+                        ).visibility(
+                          visible: data.tags != null && data.tags!.isNotEmpty,
                         ),
                         SizedBox(
                           height: 16.h,
@@ -187,78 +205,16 @@ class CompanyDetailsPage extends ConsumerWidget {
                           height: 1.h,
                           color: grayBorderColor,
                           thickness: 1,
+                        ).visibility(
+                          visible: data.residents != null && data.residents!.isNotEmpty,
                         ),
                         SizedBox(
                           height: 16.h,
+                        ).visibility(
+                          visible: data.residents != null && data.residents!.isNotEmpty,
                         ),
-                        ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () => AppRouter.pushNamed(
-                                Routes.employeeDetailsScreen,
-                                args: false,
-                              ),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 42.h,
-                                    width: 42.w,
-                                    decoration: ShapeDecoration(
-                                      shape: CircleBorder(
-                                        side: BorderSide(
-                                          width: 2.r,
-                                          color: goldenColor,
-                                        ),
-                                      ),
-                                    ),
-                                    child: ClipOval(
-                                      child: CachedNetworkImage(
-                                        height: 42.r,
-                                        width: 42.r,
-                                        imageUrl: 'https://picsum.photos/50/50',
-                                        placeholder: (context, url) =>
-                                            const SizedBox(),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 16.w,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        provider.lstUser[index].userName ?? '',
-                                        style: Style.commonTextStyle(
-                                          color: textColor,
-                                          fontSize: 16.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      Text(
-                                        provider.lstUser[index].designation ?? '',
-                                        style: Style.commonTextStyle(
-                                          color: grayTextColor,
-                                          fontSize: 14.sp,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return SizedBox(
-                              height: 24.h,
-                            );
-                          },
-                          itemCount: provider.lstUser.length,
+                        ResidentListView(data: data).visibility(
+                          visible: data.residents != null && data.residents!.isNotEmpty,
                         )
                       ],
                     ),
@@ -273,8 +229,8 @@ class CompanyDetailsPage extends ConsumerWidget {
               height: 33.h,
               width: 33.h,
               margin: EdgeInsets.only(top: context.statusBarHeight, left: 20.w),
-              decoration: BoxDecoration(
-                color: primaryColor.withOpacity(0.2),
+              decoration: const BoxDecoration(
+                color: activeBgColor,
                 shape: BoxShape.circle,
               ),
               child: const Icon(

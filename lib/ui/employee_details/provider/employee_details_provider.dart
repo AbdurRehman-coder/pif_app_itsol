@@ -4,74 +4,55 @@ import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
-import 'package:pif_flutter/ui/company_managment/company_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/widget/upload_image_bottom_sheet_options.dart';
 
-final employeeDetailsProvider = StateNotifierProvider.autoDispose<
-    EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
+final employeeDetailsProvider =
+    StateNotifierProvider.autoDispose<EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
   return EmployeeDetailsNotifier(ref: ref);
 });
 
 class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
-  EmployeeDetailsNotifier({required this.ref})
-      : super(EmployeeDetailsState.initial()) {
+  EmployeeDetailsNotifier({required this.ref}) : super(EmployeeDetailsState.initial()) {
     _initData();
   }
 
   final Ref ref;
-  final lstService = <CompanyDetailsModel>[];
-  final lstEmployee = <EmployeeDetailsModel>[];
   final ImagePicker picker = ImagePicker();
   final textfirstNameController = TextEditingController();
   final textlastNameController = TextEditingController();
   String? textJobTitle;
-  final textBriefController = TextEditingController(); 
-  final textEmailController = TextEditingController(); 
+  final textBriefController = TextEditingController();
+  final textEmailController = TextEditingController();
   final List<String> jobTitleList = [
     'JobTitle List',
     'sss two',
     'aaa three',
     'sss foure',
-    'aaa five'
+    'aaa five',
   ];
   GlobalKey<FormState> formKeyEditProfile = GlobalKey<FormState>();
 
   void _initData() {
-    lstService.add(
-      CompanyDetailsModel(
-        id: 0,
-        companyService: 'Photography',
-        selected: false,
-      ),
-    );
-    lstService.add(
-      CompanyDetailsModel(
-        id: 1,
-        companyService: 'Technology',
-        selected: false,
-      ),
-    );
-    lstService.add(
-      CompanyDetailsModel(
-        id: 2,
-        companyService: 'Technology',
-        selected: false,
-      ),
-    );
-    for (var i = 0; i < 5; i++) {
-      lstEmployee.add(
-        EmployeeDetailsModel(
-          address: 'Al Multaqa 304',
-          streetName: 'Incubated since 2022',
-        ),
-      );
-    }
-
-    state = state.copyWith(lstService: lstService, lstEmployee: lstEmployee);
     getUserInformation();
+  }
+
+  Future<void> getSpaceAsync(UserModel data) async {
+    if (data.allocatedResidentRoomId != null) {
+      final result = await DixelsSDK.instance.companyManagementServices
+          .getRoomDetailsByExternalRefCode(refCode: data.allocatedResidentRoomId!);
+      if (result.isRight()) {
+        final item = result.getRight();
+        state = state.copyWith(
+          spaceImage: item!.imagePrimary!.getImageUrl,
+          spaceName: item.name,
+          spaceSinceYear: 'Incubated since 2022',
+        );
+      }
+    }
   }
 
   void isPreferenceVisible() {
@@ -90,7 +71,7 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
 
   /// Ask for permissions
   Future<void> askPermissions() async {
-    PermissionStatus permissionStatus = await _getContactPermission();
+    final permissionStatus = await _getContactPermission();
     if (permissionStatus == PermissionStatus.granted) {
       /// if permission is granted than call save to contact method
       await saveToContact();
@@ -100,10 +81,9 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
   }
 
   Future<PermissionStatus> _getContactPermission() async {
-    PermissionStatus permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.permanentlyDenied) {
-      PermissionStatus permissionStatus = await Permission.contacts.request();
+    final permission = await Permission.contacts.status;
+    if (permission != PermissionStatus.granted && permission != PermissionStatus.permanentlyDenied) {
+      final permissionStatus = await Permission.contacts.request();
       return permissionStatus;
     } else {
       return permission;
@@ -117,18 +97,14 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
           S.of(AppRouter.navigatorKey.currentContext!).accessContactDenied,
         ),
       );
-      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
-          .showSnackBar(snackBar);
+      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(snackBar);
     } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
       final snackBar = SnackBar(
         content: Text(
-          S
-              .of(AppRouter.navigatorKey.currentContext!)
-              .enablePermissionsFromSettings,
+          S.of(AppRouter.navigatorKey.currentContext!).enablePermissionsFromSettings,
         ),
       );
-      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
-          .showSnackBar(snackBar);
+      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(snackBar);
     }
   }
 
@@ -139,7 +115,7 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
     await FlutterContacts.openExternalInsert(newContact);
   }
 
-Future <void> getUserInformation ()async{
+  Future<void> getUserInformation() async {
     final data = await DixelsSDK.instance.userDetails;
     textfirstNameController.text = '${data!.givenName}';
     textlastNameController.text = '${data.familyName}';
@@ -147,27 +123,29 @@ Future <void> getUserInformation ()async{
     textEmailController.text = '${data.emailAddress}';
   }
 
-  void imageSourceBottomSheet(BuildContext ctx,)
-  { 
+  void imageSourceBottomSheet(
+    BuildContext ctx,
+  ) {
     showModalBottomSheet(
-                context: ctx,
-                builder: (BuildContext context) {
-                  return  UploadImageOptions(ctx: ctx,);
-                },
-     );
+      context: ctx,
+      builder: (BuildContext context) {
+        return UploadImageOptions(
+          ctx: ctx,
+        );
+      },
+    );
   }
 
-  Future <void>uploadImage(ImageSource imageSource,BuildContext context) async {
-    const maxImageSize=95000;
+  Future<void> uploadImage(ImageSource imageSource, BuildContext context) async {
+    const maxImageSize = 95000;
     final imageSelected = await picker.pickImage(source: imageSource);
     if (imageSelected != null) {
       final imageSelectedSize = (await imageSelected.readAsBytes()).length;
-      if(imageSelectedSize<=maxImageSize){
-      state=state.copyWith(userProfileImage:imageSelected.path);
-    }
-    else{
-      alertMessage(context: context,errorMessage: 'Image is too large');
-    }
+      if (imageSelectedSize <= maxImageSize) {
+        state = state.copyWith(userProfileImage: imageSelected.path);
+      } else {
+        alertMessage(context: context, errorMessage: 'Image is too large');
+      }
     }
   }
 }

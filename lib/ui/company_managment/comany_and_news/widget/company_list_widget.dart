@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
@@ -28,7 +27,7 @@ class CompanyListWidget extends StatelessWidget {
             itemBuilder: (_, index) {
               final company = data[index];
               return InkWell(
-                onTap: () => AppRouter.pushNamed(Routes.companyDetailsScreen),
+                onTap: () => AppRouter.pushNamed(Routes.companyDetailsScreen, args: company),
                 child: Container(
                   height: 80.h,
                   width: 80.w,
