@@ -72,6 +72,7 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   vDropdownSearchController: VDropdownSearchController(),
                   hintText: S.current.jobTitle,
                   selectedItem: notifier.textJobTitle,
+                  dropDownBorderRadius: BorderRadius.circular(6.r),
                 ),
                 SizedBox(
                   height: 16.h,
@@ -90,6 +91,7 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   withSearch: false,
                   vDropdownSearchController: VDropdownSearchController(),
                   hintText: 'Country',
+                  dropDownBorderRadius: BorderRadius.circular(6.r),
                 ),
                 SizedBox(
                   height: 16.h,

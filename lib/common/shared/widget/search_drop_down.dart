@@ -3,20 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
 
 class DropDownSearchApp<T> extends StatefulWidget {
-  final void Function(T?)? onChanged;
-  final String hintText;
-  final bool enabled;
-  final VDropdownSearchController vDropdownSearchController;
-  final bool withSearch;
-  final List<T>? items;
-  final String Function(T)? itemAsString;
-  final T? selectedItem;
-  final bool Function(T, String)? filterFn;
-  final String? Function(T?)? validator;
-  final String? hintSearchWidget;
-  final Widget Function(BuildContext, T, bool)? itemBuilder;
-
-  const DropDownSearchApp({
+  DropDownSearchApp({
     required this.items,
     required this.hintText,
     required this.vDropdownSearchController,
@@ -29,8 +16,25 @@ class DropDownSearchApp<T> extends StatefulWidget {
     this.itemAsString,
     this.selectedItem,
     this.filterFn,
-    Key? key,
-  }) : super(key: key);
+    this.dropDownBorderRadius = const BorderRadius.all(
+      Radius.circular(15),
+    ),
+    super.key,
+  });
+
+  final void Function(T?)? onChanged;
+  final String hintText;
+  final bool enabled;
+  final VDropdownSearchController vDropdownSearchController;
+  final bool withSearch;
+  final List<T>? items;
+  final String Function(T)? itemAsString;
+  final T? selectedItem;
+  final bool Function(T, String)? filterFn;
+  final String? Function(T?)? validator;
+  final String? hintSearchWidget;
+  final Widget Function(BuildContext, T, bool)? itemBuilder;
+  BorderRadius dropDownBorderRadius;
 
   @override
   State<DropDownSearchApp<T>> createState() => _DropDownSearchAppState<T>();
@@ -113,6 +117,8 @@ class _DropDownSearchAppState<T> extends State<DropDownSearchApp<T>> {
           selectedItem: widget.selectedItem,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           dropdownDecoratorProps: DropDownDecoratorProps(
+            textAlignVertical:
+                widget.vDropdownSearchController._selectedItem != null ? TextAlignVertical.bottom : null,
             baseStyle: TextStyle(
               fontSize: 14.sp,
               color: blackColor,
@@ -128,49 +134,39 @@ class _DropDownSearchAppState<T> extends State<DropDownSearchApp<T>> {
               contentPadding: EdgeInsets.only(
                 left: 10.w,
                 right: 10.w,
-                top: 45.h,
+                bottom: 8.h,
               ),
               border: InputBorder.none,
               fillColor: whiteColor,
               filled: true,
               errorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: redColor),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0.r),
-                ),
+                borderRadius: widget.dropDownBorderRadius,
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(
                   color: grayBorderColor,
                 ),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0.r),
-                ),
+                borderRadius: widget.dropDownBorderRadius,
               ),
               disabledBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: grayBorderColor),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0.r),
-                ),
+                borderRadius: widget.dropDownBorderRadius,
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: grayBorderColor),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0.r),
-                ),
+                borderRadius: widget.dropDownBorderRadius,
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: grayBorderColor),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(15.0.r),
-                ),
+                borderRadius: widget.dropDownBorderRadius,
               ),
             ),
           ),
         ),
         if (widget.vDropdownSearchController._selectedItem != null) ...[
           Positioned(
-            top: 2.h,
+            top: 3.h,
             left: 10.w,
             child: Text(
               widget.hintText ?? '',
