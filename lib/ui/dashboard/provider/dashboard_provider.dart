@@ -13,12 +13,14 @@ import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
 import 'package:pif_flutter/penguin/model/user_location.dart';
 import 'package:pif_flutter/penguin/penguin_service.dart';
-import 'package:pif_flutter/ui/dashboard/model/actions_model.dart' as action_model;
+import 'package:pif_flutter/ui/dashboard/model/actions_model.dart'
+    as action_model;
 import 'package:pif_flutter/ui/dashboard/state/dashboard_state.dart';
 import 'package:pif_flutter/ui/drinks/method/check_store_time.dart';
 import 'package:pif_flutter/ui/drinks/model/available_time.dart';
 
-final dashboardProvider = StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
+final dashboardProvider =
+    StateNotifierProvider.autoDispose<DashboardNotifier, DashboardState>((ref) {
   return DashboardNotifier(ref: ref);
 });
 
@@ -38,6 +40,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   AnimationController? animateController;
 
   void _initData() {
+
     final actions = List.generate(
       actionIcon.length,
       (index) => action_model.ActionModel(
@@ -51,6 +54,11 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     state = state.copyWith(
       actionList: AsyncData(actions),
     );
+    getUserDetails();
+  }
+
+  Future<void> getUserDetails() async {
+    state = state.copyWith(userDetails: await DixelsSDK.instance.userDetails);
   }
 
   Future<void> initPenguin(BuildContext context) async {
@@ -83,7 +91,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   Future<void> getUnReadNotificationCount() async {
-    final result = await DixelsSDK.instance.notificationService.unReadNotificationCount();
+    final result =
+        await DixelsSDK.instance.notificationService.unReadNotificationCount();
     if (result.isRight()) {
       state = state.copyWith(unReadNotification: result.getRight()!.count);
     }
@@ -96,14 +105,17 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   }
 
   Future<AvailableTime> getStoreInformation() async {
-    final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
+    final storeInformation = await DixelsSDK.instance.structureContentService
+        .getStructureContentByKey(
       webContentId: '147637',
       siteId: '20120',
     );
 
     state = state.copyWith(structureContent: AsyncData(storeInformation!));
-    final storeStartDateTime = storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
-    final storeEndDateTime = storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
+    final storeStartDateTime =
+        storeInformation.contentFields![3].contentFieldValue!.data!.getTime;
+    final storeEndDateTime =
+        storeInformation.contentFields![4].contentFieldValue!.data!.getTime;
     state = state.copyWith(
       storeClosed: !checkStoreStatus(
             openTime: storeStartDateTime,
@@ -143,12 +155,16 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
         titleText: S.of(context).drinkOrder,
         subTitle: S.of(context).orderByMistake,
         onCancel: () {
-          alertMessage(errorMessage: S.current.drinkCancelMessage, context: context);
+          alertMessage(
+            errorMessage: S.current.drinkCancelMessage,
+            context: context,
+          );
         },
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
-            final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
+            final result =
+                await DixelsSDK.instance.ordersService.postPageDataWithEither(
               reqModel: orderParam.toJson(),
               fromJson: OrdersModel.fromJson,
             );
@@ -181,13 +197,16 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> digitalVipSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
 
-    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
-    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
+    final xPos =
+        Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
+    final yPos =
+        Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
 
     final requestModel = {
       'categoryId': '180101',
       'subCategoryId': '200984',
-      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
+      'description':
+          '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
@@ -209,13 +228,16 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> operationalSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
 
-    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
-    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
+    final xPos =
+        Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
+    final yPos =
+        Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
 
     final requestModel = {
       'categoryId': '180104',
       'subCategoryId': '200995',
-      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
+      'description':
+          '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/home/model/today_status_model.dart';
 import 'package:pif_flutter/ui/home/provider/home_provider.dart';
 
@@ -33,6 +34,7 @@ class TodayStatus extends StatelessWidget {
     return Consumer(
       builder: (context, ref, child) {
         final provider = ref.watch(homeProvider);
+        final providerDashboard = ref.watch(dashboardProvider);
         return Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.symmetric(
@@ -52,7 +54,7 @@ class TodayStatus extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  '${getImageByStats.statusText},\nMuath!',
+                  '${getImageByStats.statusText},\n${providerDashboard.userDetails!.givenName}!',
                   style: Style.commonTextStyle(
                     color: whiteColor,
                     fontSize: 22.sp,

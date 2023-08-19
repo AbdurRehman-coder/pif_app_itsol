@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/company_managment/comany_and_news/comany_and_news.dart';
@@ -148,12 +151,16 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         );
                         Scaffold.of(context).openDrawer();
                       },
-                      child: Image.asset(
-                        Assets.person,
-                        height: 40.h,
-                        width: 40.w,
-                        fit: BoxFit.scaleDown,
-                      ),
+                      child: provider.userDetails!.image != null
+                          ? CachedNetworkImage(
+                              imageUrl:
+                                  provider.userDetails!.image!.getImageUrl,
+                              fit: BoxFit.cover,
+                            )
+                          : ImageProfileVisitor(
+                              firstName: provider.userDetails!.givenName ?? '',
+                              lastName: provider.userDetails!.familyName ?? '',
+                            ),
                     ),
                   );
                 },

@@ -1,3 +1,4 @@
+import 'package:dixels_sdk/features/commerce/account/model/user_model.dart';
 import 'package:dixels_sdk/features/content/structure_content/model/structure_content_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +13,7 @@ class DashboardState with _$DashboardState {
     required AsyncValue<StructureContentModel> structureContent,
     required bool storeClosed,
     required int? unReadNotification,
+    required UserModel? userDetails,
   }) = _DashboardState;
 
   factory DashboardState.initial() => const DashboardState(
@@ -19,5 +21,6 @@ class DashboardState with _$DashboardState {
         structureContent: AsyncLoading(),
         storeClosed: false,
         unReadNotification: null,
+        userDetails: null,
       );
 }
