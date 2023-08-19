@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:focus_detector/focus_detector.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/custom_lottie_widget.dart';
 import 'package:video_player/video_player.dart';
 
 class BannerVideoView extends StatefulWidget {
@@ -23,15 +23,15 @@ class BannerVideoView extends StatefulWidget {
 class _BannerVideoViewState extends State<BannerVideoView> {
   late VideoPlayerController videoController;
   bool videoMute = false;
-
+  bool isError = false;
   @override
   void initState() {
     super.initState();
-      videoController = VideoPlayerController.networkUrl(
-        Uri.parse(
-          widget.videoUrl,
-        ),
-      );
+    videoController = VideoPlayerController.networkUrl(
+      Uri.parse(
+        widget.videoUrl,
+      ),
+    );
     videoController.initialize().then((value) {
       setState(() {
         videoController.play();
@@ -39,7 +39,12 @@ class _BannerVideoViewState extends State<BannerVideoView> {
         videoController.setLooping(true);
         videoMute = true;
       });
+    }).catchError((error) {
+      setState(() {
+        isError = true;
+      });
     });
+    ;
     videoController.addListener(() {
       Future.delayed(
         const Duration(seconds: 3),
@@ -77,12 +82,27 @@ class _BannerVideoViewState extends State<BannerVideoView> {
             : BorderRadius.zero,
         child: Stack(
           children: [
-            InkWell(
-              onTap: !widget.hideChangeAudio ? updateVolume : null,
-              child: VideoPlayer(
-                videoController,
+            if (isError) ...[
+              Center(
+                child: Container(
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: grayD1,
+                  ),
+                  child: const CustomLottieWidget(
+                    lottieUrl: Assets.loaderLottie,
+                    isAssets: true,
+                  ),
+                ),
+              )
+            ] else ...[
+              InkWell(
+                onTap: !widget.hideChangeAudio ? updateVolume : null,
+                child: VideoPlayer(
+                  videoController,
+                ),
               ),
-            ),
+            ],
             if (!widget.hideChangeAudio) ...[
               Positioned(
                 bottom: 10.h,
