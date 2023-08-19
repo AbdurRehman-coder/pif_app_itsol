@@ -5,17 +5,23 @@ class ImageProfileVisitor extends StatelessWidget {
   const ImageProfileVisitor({
     required this.firstName,
     required this.lastName,
+    this.width = 40,
+    this.height = 40,
+    this.fontSize = 16,
     super.key,
   });
 
   final String firstName;
   final String lastName;
+  final double width;
+  final double height;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 40.w,
-      height: 40.h,
+      width: width.w,
+      height: height.h,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: RegExp(r'^[A-E_.]+$').hasMatch(firstName[0].toUpperCase())
@@ -32,7 +38,7 @@ class ImageProfileVisitor extends StatelessWidget {
             .toUpperCase(),
         style: Style.commonTextStyle(
           color: whiteColor,
-          fontSize: 16.sp,
+          fontSize: fontSize.sp,
           fontWeight: FontWeight.w700,
         ),
       ),

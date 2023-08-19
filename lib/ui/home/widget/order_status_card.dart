@@ -1,11 +1,18 @@
 import 'package:avatar_stack/avatar_stack.dart';
 import 'package:avatar_stack/positions.dart';
+import 'package:dixels_sdk/features/content/cards/model/order_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/home/widget/order_status_icon.dart';
 
 class OrderStatusCard extends StatelessWidget {
-  const OrderStatusCard({super.key});
+  const OrderStatusCard({
+    required this.order,
+    super.key,
+  });
+
+  final OrderModel order;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +24,7 @@ class OrderStatusCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
+        horizontal: 13.w,
       ),
       decoration: const BoxDecoration(
         image: DecorationImage(
@@ -62,34 +69,31 @@ class OrderStatusCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  avatars: [
-                    for (var i = 0; i < 2; i++) ...[
-                      const NetworkImage(
-                        'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
-                        // 'https://cdn.pixabay.com/photo/2016/12/19/08/39/mobile-phone-1917737_1280.jpg',
-                      ),
-                    ]
-                  ],
+                  avatars: order.images!
+                      .map((image) => NetworkImage(image.getImageUrl))
+                      .toList(),
                 ),
               ),
               const Spacer(),
-              const Expanded(
+              Expanded(
                 flex: 3,
                 child: Row(
                   children: [
                     OrderStatusIcon(
-                      orderStatusText: 'Received',
+                      orderStatusText: S.current.received,
                       orderStatusIcon: Assets.recived,
-                      orderStatusSelected: true,
+                      orderStatusSelected: order.step! == 1,
                     ),
                     OrderStatusIcon(
-                      orderStatusText: 'Preparing',
+                      orderStatusText: S.current.preparing,
                       orderStatusIcon: Assets.delivered,
+                      orderStatusSelected: order.step! == 2,
                     ),
                     OrderStatusIcon(
-                      orderStatusText: 'Step',
+                      orderStatusText: S.current.ready,
                       orderStatusIcon: Assets.drinks,
                       isLastItem: true,
+                      orderStatusSelected: order.step! == 3,
                     ),
                   ],
                 ),

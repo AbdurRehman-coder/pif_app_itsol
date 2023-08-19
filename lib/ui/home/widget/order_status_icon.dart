@@ -41,7 +41,7 @@ class OrderStatusIcon extends StatelessWidget {
         if (!isLastItem) ...[
           Container(
             height: 1.h,
-             width: 24.w,
+             width: 15.w,
             color: expireStatusColor,
           ),
 

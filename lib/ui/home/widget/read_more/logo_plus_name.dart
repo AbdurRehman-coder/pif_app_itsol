@@ -56,7 +56,7 @@ class LogoNameWidget extends StatelessWidget {
               ),
             ),
             Text(
-              dateCreated.daysBetween,
+              dateCreated.daysBetweenWithNow,
               style: Style.commonTextStyle(
                 color: darkBorderColor,
                 fontSize: 10.sp,

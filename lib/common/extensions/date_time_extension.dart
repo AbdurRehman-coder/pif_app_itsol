@@ -44,12 +44,24 @@ extension DateTimeExt on DateTime {
   }
 
   ///Calculate different between two days
-  String get daysBetween {
+  String get daysBetweenWithNow {
     final different = DateTime.now().difference(this);
     if ((different.inDays) > 0) {
       return '${different.inDays} ${S.current.days}';
     } else if ((different.inHours) > 0) {
-      return '${((different.inHours) / 24).round()} ${S.current.hours}';
+      return '${different.inHours} ${S.current.hours}';
+    } else {
+      return '${different.inMinutes} ${S.current.minutes}';
+    }
+  }
+
+  ///Calculate different between two days
+  String daysBetweenWithSpecificDate({required DateTime secondDate}) {
+    final different = secondDate.difference(this);
+    if ((different.inDays) > 0) {
+      return '${different.inDays} ${S.current.days}';
+    } else if ((different.inHours) > 0) {
+      return '${different.inHours} ${S.current.hours}';
     } else {
       return '${different.inMinutes} ${S.current.minutes}';
     }
@@ -86,3 +98,4 @@ extension GetDateTimeByString on String {
     return DateFormat('EEE').format(getDateTime);
   }
 }
+

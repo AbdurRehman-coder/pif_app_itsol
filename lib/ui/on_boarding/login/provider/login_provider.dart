@@ -69,7 +69,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
         }
       } else {
         alertMessage(
-          errorMessage: result.getLeft().message,
+          errorMessage: S.current.notAuthorized,
           context: context,
         );
       }

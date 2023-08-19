@@ -1,105 +1,126 @@
+import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
+import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
+import 'package:pif_flutter/routes/routes.dart';
+
+import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
 
 class SupportStatusCard extends StatelessWidget {
-  const SupportStatusCard({super.key});
+  const SupportStatusCard({
+    required this.tickets,
+    super.key,
+  });
+
+  final SupportTicketModel tickets;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.w,
-        vertical: 16.h,
+    final lastActive = tickets.ticketComments!.isNotEmpty
+        ? tickets.ticketComments!.last.dateCreated!.daysBetweenWithNow
+        : tickets.dateModified!.daysBetweenWithNow;
+    return InkWell(
+      onTap: () => AppRouter.pushNamed(
+        Routes.ticketDetailsScreen,
+        args: tickets,
       ),
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage(
-            Assets.supportStatusBackground,
-          ),
-          fit: BoxFit.fill,
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 16.h,
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                S.current.supportStatus,
-                style: Style.commonTextStyle(
-                  color: blackColor,
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Container(
-                height: 32.h,
-                width: 75.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(15.r),
-                  ),
-                  color: activeBgColor,
-                ),
-                child: Center(
-                  child: Text(
-                    S.current.inProgress,
-                    style: Style.commonTextStyle(
-                      color: primaryColor,
-                      fontSize: 10.sp,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Text(
-            '${S.current.lastActivity}: 4 ${S.current.hrs}',
-            style: Style.commonTextStyle(
-              color: blackColor,
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              Assets.supportStatusBackground,
             ),
+            fit: BoxFit.fill,
           ),
-          SizedBox(height: 4.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 4,
-                child: Text(
-                  'I have issues with Network connection',
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  S.current.supportStatus,
                   style: Style.commonTextStyle(
                     color: blackColor,
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w500,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
+                TicketStatus(ticketStatus: tickets.ticketStatus!),
+              ],
+            ),
+            Text(
+              '${S.current.lastActivity}: $lastActive',
+              style: Style.commonTextStyle(
+                color: blackColor,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w400,
               ),
-              const Expanded(child: SizedBox()),
-              Container(
-                height: 32.h,
-                width: 32.w,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: whiteColor),
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
-                      // 'https://cdn.pixabay.com/photo/2016/12/19/08/39/mobile-phone-1917737_1280.jpg',
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 4,
+                  child: Text(
+                    tickets.ticketComments!.isNotEmpty
+                        ? tickets.ticketComments!.last.commentDescription!
+                                .removeAllHtmlTags ??
+                            ''
+                        : tickets.description ?? '',
+                    style: Style.commonTextStyle(
+                      color: blackColor,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
                     ),
-                    fit: BoxFit.cover,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                const Expanded(child: SizedBox()),
+                if (tickets.ticketComments != null &&
+                    tickets.ticketComments!.isNotEmpty) ...[
+                  if (tickets.ticketComments!.last.creator!.image != null) ...[
+                    Container(
+                      height: 32.h,
+                      width: 32.w,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: whiteColor),
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            tickets.ticketComments!.last.creator!.image!
+                                .getImageUrl,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ] else ...[
+                    ImageProfileVisitor(
+                      height: 32.h,
+                      width: 32.w,
+                      fontSize: 14,
+                      firstName:
+                          tickets.ticketComments!.last.creator!.givenName ?? '',
+                      lastName:
+                          tickets.ticketComments!.last.creator!.familyName ??
+                              '',
+                    ),
+                  ],
+                ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

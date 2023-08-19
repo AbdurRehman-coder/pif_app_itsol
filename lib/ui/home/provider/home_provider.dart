@@ -26,15 +26,9 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
 
   final Ref ref;
   List<CategoryModel> lstCategory = <CategoryModel>[];
-  List<Widget> statusList = [
-    const TodayStatus(),
-    const SupportStatusCard(),
-    const MeetingCard(),
-    const ComingVisitorCard(),
-    const OrderStatusCard(),
-  ];
 
   void _initData() {
+    getCards();
     getNews();
     getServices();
     getWeather();
@@ -103,6 +97,68 @@ class HomeNotifier extends StateNotifier<HomeStates> with RouteAware {
       case 'Booking':
         AppRouter.pushNamed(Routes.spaceBookingScreen);
         break;
+    }
+  }
+
+  Future<void> getCards() async {
+    final cardsList = <Widget>[];
+    final result = await DixelsSDK.instance.cardsService.getCards();
+    if (result.isRight()) {
+      cardsList.add(const TodayStatus());
+      if (result.getRight()!.visits!.isNotEmpty) {
+        cardsList.addAll(
+          result
+              .getRight()!
+              .visits!
+              .map(
+                (visits) => ComingVisitorCard(
+                  visit: visits,
+                ),
+              )
+              .toList(),
+        );
+      }
+      if (result.getRight()!.orders!.isNotEmpty) {
+        cardsList.addAll(
+          result
+              .getRight()!
+              .orders!
+              .map(
+                (orders) => OrderStatusCard(
+                  order: orders,
+                ),
+              )
+              .toList(),
+        );
+      }
+
+      if (result.getRight()!.tickets!.isNotEmpty) {
+        cardsList.addAll(
+          result
+              .getRight()!
+              .tickets!
+              .map(
+                (tickets) => SupportStatusCard(
+                  tickets: tickets,
+                ),
+              )
+              .toList(),
+        );
+      }
+      if (result.getRight()!.bookings!.isNotEmpty) {
+        cardsList.addAll(
+          result
+              .getRight()!
+              .bookings!
+              .map(
+                (bookings) => MeetingCard(
+                  bookings: bookings,
+                ),
+              )
+              .toList(),
+        );
+      }
+      state = state.copyWith(cardList: AsyncData(cardsList));
     }
   }
 
