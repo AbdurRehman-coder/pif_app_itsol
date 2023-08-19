@@ -14,6 +14,10 @@ extension DateTimeExt on DateTime {
     return DateFormat(pattern, 'en').format(this);
   }
 
+  String getFormatForDate({String pattern = 'dd/MM/yyyy'}) {
+    return DateFormat(pattern, 'en').format(this);
+  }
+
   String getTime({String pattern = 'hh:mm a'}) {
     return DateFormat(pattern, 'en').format(this);
   }

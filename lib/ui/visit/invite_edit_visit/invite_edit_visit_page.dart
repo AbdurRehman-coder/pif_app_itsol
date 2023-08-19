@@ -276,19 +276,23 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                     context: context,
                     fromHomepage: widget.fromHomepage,
                   )
-              : () => notifier.sendAndEditInvitation(
-                    context: context,
-                    fromHomepage: widget.fromHomepage,
-                    isEditVisit: true,
-                    visitId: widget.selectedVisit?.id,
-                  ),
+              : !notifier.isEdited(widget.selectedVisit!)
+                  ? () => notifier.sendAndEditInvitation(
+                        context: context,
+                        fromHomepage: widget.fromHomepage,
+                        isEditVisit: true,
+                        visitId: widget.selectedVisit?.id,
+                      )
+                  : () {},
           style: Style.primaryButtonStyleSecond(
             context: context,
             primaryColor: widget.isInviteVisit
                 ? provider.isFieldDisable
                     ? primaryDisabledColor
                     : primaryColor
-                : primaryColor,
+                : notifier.isEdited(widget.selectedVisit!)
+                    ? primaryDisabledColor
+                    : primaryColor,
           ),
           child: Text(
             widget.isInviteVisit

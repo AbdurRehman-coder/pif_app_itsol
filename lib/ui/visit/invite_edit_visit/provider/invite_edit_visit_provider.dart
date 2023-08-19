@@ -85,6 +85,8 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         date: visitModel.visitEndDate!,
         context: context,
       );
+      updateStartTime(startTime: visitModel.visitStartDate);
+      updateEndTime(endTime: visitModel.visitEndDate);
     }
   }
 
@@ -600,6 +602,14 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         ),
       );
     }
+  }
+
+  bool isEdited(VisitModel visitModel) {
+    return startDateController.text ==
+            visitModel.visitStartDate?.getFormatForDate() &&
+        endDateController.text == visitModel.visitEndDate?.getFormatForDate() &&
+        startTimeController.text == visitModel.visitStartDate?.getTime() &&
+        endTimeController.text == visitModel.visitEndDate?.getTime();
   }
 
   void _onNameFocus() {
