@@ -20,8 +20,7 @@ import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/space_booking/provider/space_booking_provider.dart';
 import 'package:pif_flutter/widgets/day_calendar_widget/time_planner_task.dart';
 
-final bookingProvider =
-    StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {
+final bookingProvider = StateNotifierProvider.autoDispose<BookingNotifier, BookingState>((ref) {
   return BookingNotifier(ref: ref);
 });
 
@@ -386,21 +385,18 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   //Search Guest
-  void searchGuest(String searchText) {
+  Future<void> searchGuest(String searchText) async {
     state = state.copyWith(isVisibleAddGuestList: searchText.isNotEmpty);
     if (searchText.isNotEmpty) {
-      final data = filterAuoCompleteGuestData
-          .where(
-            (element) =>
-                element.name!
-                    .toLowerCase()
-                    .contains(searchText.toLowerCase()) ||
-                element.emailAddress!
-                    .toLowerCase()
-                    .contains(searchText.toLowerCase()),
-          )
-          .toList();
-      state = state.copyWith(lstAutoCompleteGuests: data);
+      final result = await DixelsSDK.instance.accountService.getSearchUserData(email: searchText);
+      if (result.isRight()) {
+        final data = result.getRight()!.items;
+        if (data != null && data.isNotEmpty) {
+          state = state.copyWith(lstAutoCompleteGuests: data);
+        } else {
+          state = state.copyWith(lstAutoCompleteGuests: <UserModel>[]);
+        }
+      }
     }
   }
 
@@ -424,8 +420,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
         return;
       }
 
-      if (state.startDate.isSameDate(DateTime.now()) &&
-          state.endTime!.isBefore(DateTime.now())) {
+      if (state.startDate.isSameDate(DateTime.now()) && state.endTime!.isBefore(DateTime.now())) {
         alertMessage(
           errorMessage: S.current.pastBookingAlert,
           context: context,
@@ -469,6 +464,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }) async {
     final appProgress = AppProgressDialog(context: context);
     final dayString = '\"${state.startDate.toFormattedString('yyyy-MM-dd')}\"';
+
     final requestModel = BookingRequestModel(
       subject: titleController.text,
       bookedDates: '[$dayString]',
@@ -481,8 +477,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
               givenName: e.givenName ?? '',
               familyName: e.familyName ?? '',
               emailAddress: e.emailAddress ?? '',
-              alternateName:
-                  e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
             ),
           )
           .toList(),
@@ -500,8 +495,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
         });
         final param = ParametersModel();
         param.query = '${state.bookingModel?.id!}';
-        final result =
-            await DixelsSDK.instance.bookingService.patchPageDataWithEither(
+        final result = await DixelsSDK.instance.bookingService.patchPageDataWithEither(
           reqModel: requestModel,
           fromJson: BookingModel.fromJson,
           params: param,
@@ -535,15 +529,12 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   bool isSlotAvailable() {
-    final data = allBookingTasks
-        .where((element) => element.dateTime.isSameDate(state.startDate))
-        .toList();
+    final data = allBookingTasks.where((element) => element.dateTime.isSameDate(state.startDate)).toList();
     var isAvailable = false;
     if (data.isNotEmpty) {
       for (final item in data) {
         final startTime = item.dateTime;
-        final endTime =
-            item.dateTime.add(Duration(minutes: item.minutesDuration));
+        final endTime = item.dateTime.add(Duration(minutes: item.minutesDuration));
 
         final stateStartTime = DateTime(
           startTime.year,
@@ -560,12 +551,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
           state.endTime!.hour,
           state.endTime!.minute,
         );
-        if ((startTime.isBefore(stateEndTime) &&
-                endTime.isAfter(stateStartTime)) ||
+        if ((startTime.isBefore(stateEndTime) && endTime.isAfter(stateStartTime)) ||
             (startTime.isAtSameMomentAs(stateStartTime)) ||
             (endTime.isAtSameMomentAs(stateEndTime))) {
-          isAvailable =
-              true; // Overlapping slot found, set availability to false
+          isAvailable = true; // Overlapping slot found, set availability to false
           break; // Exit the loop since availability is already determined
         }
       }
@@ -584,6 +573,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     required bool isFromScan,
   }) async {
     final appProgress = AppProgressDialog(context: context);
+    final selectGuestList = state.lstGuests.where((element) => element.id != null).toList();
+    final addGuestList = state.lstGuests.where((element) => element.id == null).toList();
 
     final dayString = '\"${state.startDate.toFormattedString('yyyy-MM-dd')}\"';
     final requestModel = BookingRequestModel(
@@ -592,28 +583,27 @@ class BookingNotifier extends StateNotifier<BookingState> {
       startTime: startTimeInMinutes,
       endTime: endTimeInMinutes,
       r_bookings_c_roomId: roomId,
-      attendees: state.lstGuests
+      attendees: <Visitors>[],
+    );
+
+    if (addGuestList.isNotEmpty) {
+      requestModel.attendees = addGuestList
           .map(
             (e) => Visitors(
               givenName: e.givenName ?? '',
               familyName: e.familyName ?? '',
               emailAddress: e.emailAddress ?? '',
-              alternateName:
-                  e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
+              alternateName: e.emailAddress!.substring(0, e.emailAddress!.indexOf('@')),
             ),
           )
-          .toList(),
-    );
+          .toList();
+    }
     showSuccessMessage(
       context: context,
-      titleText: isBookEnabled
-          ? S.of(context).requestBookTitle
-          : S.of(context).bookingRoom,
+      titleText: isBookEnabled ? S.of(context).requestBookTitle : S.of(context).bookingRoom,
       subTitle: S.of(context).bookedByMistake,
-      cancelText:
-          isBookEnabled ? S.of(context).cancelRequest : S.of(context).cancel,
-      image:
-          isBookEnabled ? Assets.requestBookingConf : Assets.bookConfirmation,
+      cancelText: isBookEnabled ? S.of(context).cancelRequest : S.of(context).cancel,
+      image: isBookEnabled ? Assets.requestBookingConf : Assets.bookConfirmation,
       navigateAfterEndTime: () async {
         Future.delayed(Duration.zero, () async {
           await appProgress.start();
@@ -623,6 +613,13 @@ class BookingNotifier extends StateNotifier<BookingState> {
           fromJson: BookingModel.fromJson,
         );
         if (result != null) {
+          if (selectGuestList.isNotEmpty) {
+            for (final item in selectGuestList) {
+              final result =
+                  await DixelsSDK.instance.bookingService.addGuestById(roomId: roomId, userId: item.id!);
+              if (result.isRight()) {}
+            }
+          }
           if (isFromSpace == true) {
             final notifier = ref.read(spaceBookingProvider.notifier);
             await notifier.getSpaceAsync();
@@ -674,13 +671,10 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(isVisibleAddGuestList: false);
     final data = state.lstAutoCompleteGuests.toList();
 
-    final isDataAvailable =
-        data.where((element) => element.isSelected == true).toList();
+    final isDataAvailable = data.where((element) => element.isSelected == true).toList();
     isDataAvailable.addAll(state.lstGuests);
     // Check if a selected guest is not already in lstGuests and then add it
-    final newGuests = isDataAvailable
-        .where((guest) => !state.lstGuests.contains(guest))
-        .toList();
+    final newGuests = isDataAvailable.where((guest) => !state.lstGuests.contains(guest)).toList();
     // Combine the new guests with invited guest
     final updatedGuests = [...state.lstGuests, ...newGuests];
     state = state.copyWith(lstGuests: updatedGuests);
@@ -698,19 +692,15 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
   //Filter Task Data
   void filterTaskData() {
-    final selectedDay =
-        state.lstDays.firstWhere((element) => element.isSelected! == true);
-    final taskData = allBookingTasks
-        .where((element) => element.dateTime.day == selectedDay.dateTime!.day)
-        .toList();
+    final selectedDay = state.lstDays.firstWhere((element) => element.isSelected! == true);
+    final taskData =
+        allBookingTasks.where((element) => element.dateTime.day == selectedDay.dateTime!.day).toList();
     state = state.copyWith(lstTasks: taskData);
   }
 
   // Get Booking Task Data
   Future<void> getBookings({required RoomModel? spaceData}) async {
-    if (spaceData != null &&
-        spaceData.bookings != null &&
-        spaceData.bookings!.isNotEmpty) {
+    if (spaceData != null && spaceData.bookings != null && spaceData.bookings!.isNotEmpty) {
       lstBookings = spaceData.bookings!;
       await bindCalendarData(lstBookings);
     } else {
@@ -730,8 +720,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
         for (final element in dateList) {
           final dateString = element as String;
           final taskDate = DateTime.parse(dateString);
-          final taskTime = DateTime(taskDate.year)
-              .add(Duration(minutes: mainElement.startTime!));
+          final taskTime = DateTime(taskDate.year).add(Duration(minutes: mainElement.startTime!));
           final bookingDateTime = DateTime(
             taskDate.year,
             taskDate.month,
@@ -781,8 +770,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final param = ParametersModel();
     param.filter = filterQuery;
     param.nestedFields = 'bookings';
-    final result = await DixelsSDK.instance.roomService
-        .getPageData(fromJson: RoomModel.fromJson, params: param);
+    final result =
+        await DixelsSDK.instance.roomService.getPageData(fromJson: RoomModel.fromJson, params: param);
 
     if (result != null && result.items!.isNotEmpty) {
       await bindCalendarData(result.items![0].bookings);
@@ -811,8 +800,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       roundedTime.minute,
     );
     state = state.copyWith(startTime: roundedTime);
-    state =
-        state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
+    state = state.copyWith(endTime: roundedTime.add(const Duration(minutes: 60)));
     updateStartTime(startTime: state.startTime);
     updateEndTime(endTime: state.endTime);
   }
