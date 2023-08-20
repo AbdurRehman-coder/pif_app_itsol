@@ -490,7 +490,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                     Visibility(
                       visible: provider.isOpenStartDatePicker,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 100.h),
+                        padding: EdgeInsets.only(top: 130.h),
                         child: DatePickerWidget(
                           selectedDate: provider.startDate,
                           onConfirm: notifier.updateStartDate,
@@ -499,7 +499,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 150.h),
+                      padding: EdgeInsets.only(top: 180.h),
                       child: TimePickerPopup(
                         timeData: provider.startTime ?? DateTime.now(),
                         onCancel: notifier.closeStartTimePickerDialog,
@@ -516,7 +516,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                     Visibility(
                       visible: provider.isOpenEndDatePicker,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 190.h),
+                        padding: EdgeInsets.only(top: 215.h),
                         child: DatePickerWidget(
                           selectedDate: provider.endDate,
                           onConfirm: notifier.updateEndDate,
@@ -525,7 +525,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 240.h),
+                      padding: EdgeInsets.only(top: 265.h),
                       child: TimePickerPopup(
                         timeData: provider.endTime ?? DateTime.now(),
                         onCancel: notifier.closeEndTimePickerDialog,

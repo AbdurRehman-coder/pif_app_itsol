@@ -133,9 +133,10 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                             textFieldBorderColor:
                                                 textFieldBorderColor,
                                             contentPadding: EdgeInsets.only(
-                                                bottom: 8.h,
-                                                left: 12.w,
-                                                right: 12.w,),
+                                              bottom: 8.h,
+                                              left: 12.w,
+                                              right: 12.w,
+                                            ),
                                             hintFontSize: 14.sp,
                                             hintTextColor: blackColorWith900
                                                 .withOpacity(0.45),
@@ -174,9 +175,10 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                                 textFieldBorderColor,
                                             borderRadius: 6.r,
                                             contentPadding: EdgeInsets.only(
-                                                bottom: 8.h,
-                                                left: 12.w,
-                                                right: 12.w,),
+                                              bottom: 8.h,
+                                              left: 12.w,
+                                              right: 12.w,
+                                            ),
                                             hintFontSize: 14.sp,
                                             hintTextColor: blackColorWith900
                                                 .withOpacity(0.45),
@@ -197,17 +199,24 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 visible: provider.isOpenStartDatePicker,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: 10.h, right: 16.w, left: 16.w,),
+                                    top: 10.h,
+                                    right: 16.w,
+                                    left: 16.w,
+                                  ),
                                   child: DatePickerWidget(
                                     selectedDate: provider.startDate,
                                     onConfirm: notifier.updateStartDate,
                                     onCancel: notifier.closeStartDatePicker,
+                                    isFilter: true,
                                   ),
                                 ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                    top: 60.h, right: 16.w, left: 16.w,),
+                                  top: 60.h,
+                                  right: 16.w,
+                                  left: 16.w,
+                                ),
                                 child: InkWell(
                                   onTap: () {},
                                   child: TimePickerPopup(
@@ -217,11 +226,13 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                         notifier.closeStartTimePickerDialog,
                                     onConfirm: (selectedTime) {
                                       notifier.updateStartTime(
-                                          startTime: selectedTime,);
+                                        startTime: selectedTime,
+                                      );
                                       notifier.closeStartTimePickerDialog();
                                     },
                                   ).visibility(
-                                      visible: provider.isOpenStartTimePicker,),
+                                    visible: provider.isOpenStartTimePicker,
+                                  ),
                                 ),
                               ),
                             ],
@@ -268,9 +279,10 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                             textFieldBorderColor:
                                                 textFieldBorderColor,
                                             contentPadding: EdgeInsets.only(
-                                                bottom: 8.h,
-                                                left: 12.w,
-                                                right: 12.w,),
+                                              bottom: 8.h,
+                                              left: 12.w,
+                                              right: 12.w,
+                                            ),
                                             hintFontSize: 14.sp,
                                             hintTextColor: blackColorWith900
                                                 .withOpacity(0.45),
@@ -310,9 +322,10 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                                 textFieldBorderColor,
                                             borderRadius: 6.r,
                                             contentPadding: EdgeInsets.only(
-                                                bottom: 8.h,
-                                                left: 12.w,
-                                                right: 12.w,),
+                                              bottom: 8.h,
+                                              left: 12.w,
+                                              right: 12.w,
+                                            ),
                                             hintFontSize: 14.sp,
                                             hintTextColor: blackColorWith900
                                                 .withOpacity(0.45),
@@ -333,17 +346,24 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                 visible: provider.isOpenEndDatePicker,
                                 child: Container(
                                   margin: EdgeInsets.only(
-                                      top: 10.h, right: 16.w, left: 16.w,),
+                                    top: 10.h,
+                                    right: 16.w,
+                                    left: 16.w,
+                                  ),
                                   child: DatePickerWidget(
                                     selectedDate: provider.endDate,
                                     onConfirm: notifier.updateEndDate,
                                     onCancel: notifier.closeEndDatePicker,
+                                    isFilter: true,
                                   ),
                                 ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                    top: 60.h, right: 16.w, left: 16.w,),
+                                  top: 60.h,
+                                  right: 16.w,
+                                  left: 16.w,
+                                ),
                                 child: InkWell(
                                   onTap: () {},
                                   child: TimePickerPopup(
@@ -352,12 +372,14 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                                     onCancel: notifier.closeEndTimePickerDialog,
                                     onConfirm: (selectedTime) {
                                       notifier.updateEndTime(
-                                          endTime: selectedTime,
-                                          context: context,);
+                                        endTime: selectedTime,
+                                        context: context,
+                                      );
                                       notifier.closeEndTimePickerDialog();
                                     },
                                   ).visibility(
-                                      visible: provider.isOpenEndTimePicker,),
+                                    visible: provider.isOpenEndTimePicker,
+                                  ),
                                 ),
                               ),
                             ],
@@ -409,7 +431,10 @@ Future<void> showFilterPopup({required BuildContext context}) async {
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                                right: 16.w, left: 16.w, bottom: 40.h,),
+                              right: 16.w,
+                              left: 16.w,
+                              bottom: 40.h,
+                            ),
                             child: ElevatedButton(
                               onPressed: AppRouter.pop,
                               style: Style.primaryButtonStyle(context: context),

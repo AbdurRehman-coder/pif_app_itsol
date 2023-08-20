@@ -12,7 +12,7 @@ import 'package:intl/intl.dart';
 import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
-import 'package:pif_flutter/common/shared/message/success_message.dart';
+import 'package:pif_flutter/common/shared/message/slider_success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/routes/routes.dart';
@@ -483,11 +483,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
       final visitorAddedLocallyList = state.lstData.isNotEmpty
           ? state.lstData.where((visitor) => !visitor.fromHistory).toList()
           : <InviteVisitorModel>[];
-
-      showSuccessMessage(
+      showSuccessSliding(
         context: context,
         titleText: S.current.inviteVisitor,
-        subTitle: S.current.inviteByMistake,
         navigateAfterEndTime: () async {
           await appProgressDialog.start();
           final result =

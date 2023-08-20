@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
-import 'package:pif_flutter/common/shared/message/success_message.dart';
+import 'package:pif_flutter/common/shared/message/slider_success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/generated/l10n.dart';
@@ -261,10 +261,9 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         Settings.orderRequestModel = orderParam;
       }
       await appProgressDialog.stop();
-      showSuccessMessage(
+      showSuccessSliding(
         context: context,
         titleText: S.current.drinkOrder,
-        subTitle: S.current.orderByMistake,
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();

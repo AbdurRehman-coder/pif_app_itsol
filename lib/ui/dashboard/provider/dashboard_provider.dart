@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
-import 'package:pif_flutter/common/shared/message/success_message.dart';
+import 'package:pif_flutter/common/shared/message/slider_success_message.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/helpers/common_utils.dart';
@@ -40,7 +40,6 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   AnimationController? animateController;
 
   void _initData() {
-
     final actions = List.generate(
       actionIcon.length,
       (index) => action_model.ActionModel(
@@ -150,10 +149,9 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       final orderParam = Settings.orderRequestModel!;
 
       await appProgressDialog.stop();
-      showSuccessMessage(
+      showSuccessSliding(
         context: context,
         titleText: S.of(context).drinkOrder,
-        subTitle: S.of(context).orderByMistake,
         onCancel: () {
           alertMessage(
             errorMessage: S.current.drinkCancelMessage,

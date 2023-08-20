@@ -9,12 +9,14 @@ class DatePickerWidget extends StatefulWidget {
     required this.onConfirm,
     required this.onCancel,
     required this.selectedDate,
+    this.isFilter = false,
     super.key,
   });
 
   final void Function(DateTime) onConfirm;
   final void Function() onCancel;
   final DateTime? selectedDate;
+  final bool isFilter;
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -27,7 +29,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   void initState() {
     super.initState();
-    _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    _focusedDay =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     _selectedDay = widget.selectedDate ?? DateTime.now();
   }
 
@@ -36,7 +39,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return Container(
       margin: EdgeInsets.only(left: 2.w, right: 2.w, top: 50.h),
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      height: 465.h,
+      height: widget.isFilter ? 420.h : 465.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
         color: Colors.white,
@@ -50,10 +53,14 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       child: Column(
         children: [
           SizedBox(
-            height: 395,
+            height: 395.h,
             child: TableCalendar<void>(
               firstDay: DateTime.now(),
-              lastDay: DateTime(DateTime.now().year + 2, DateTime.now().month, DateTime.now().day),
+              lastDay: DateTime(
+                DateTime.now().year + 2,
+                DateTime.now().month,
+                DateTime.now().day,
+              ),
               focusedDay: _focusedDay!,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
               availableGestures: AvailableGestures.none,
@@ -100,41 +107,43 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: widget.onCancel,
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  foregroundColor: primaryColor,
-                  backgroundColor: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    S.of(context).cancel,
+          if (!widget.isFilter) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: widget.onCancel,
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    foregroundColor: primaryColor,
+                    backgroundColor: Colors.white,
+                  ),
+                  child: Center(
+                    child: Text(
+                      S.of(context).cancel,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  widget.onConfirm.call(_selectedDay!);
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: primaryColor,
+                const SizedBox(
+                  width: 10,
                 ),
-                child: Center(
-                  child: Text(
-                    S.of(context).confirm,
+                ElevatedButton(
+                  onPressed: () {
+                    widget.onConfirm.call(_selectedDay!);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: primaryColor,
                   ),
-                ),
-              )
-            ],
-          )
+                  child: Center(
+                    child: Text(
+                      S.of(context).confirm,
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
         ],
       ),
     );
@@ -144,5 +153,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     setState(() {
       _selectedDay = selectedDay;
     });
+    if (widget.isFilter) {
+      widget.onConfirm(_selectedDay!);
+    }
   }
 }
