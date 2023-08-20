@@ -53,10 +53,6 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     }
   }
 
-  void updateIndexSelect() {
-    state = state.copyWith(selectedScreen: 1);
-  }
-
   Future<void> initializeCamera() async {
     await state.cameraController?.initialize();
     state = state.copyWith(cameraController: state.cameraController);
@@ -189,7 +185,7 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     await appProgressDialog.stop();
     if (result.isRight()) {
       if (result.getRight()?.status == 'NOT_FOUND') {
-        updateIndexSelect();
+        await AppRouter.pushNamed(Routes.scanFaceCameraScreen);
       } else {
         alertMessage(
           errorMessage: S.current.userAlreadyFound,

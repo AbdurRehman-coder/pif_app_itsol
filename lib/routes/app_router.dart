@@ -22,6 +22,7 @@ import 'package:pif_flutter/ui/home/widget/read_more/news_details_view.dart';
 import 'package:pif_flutter/ui/notifications/notification_page.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/fill_all_information.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/privacy_screen.dart';
+import 'package:pif_flutter/ui/on_boarding/fill_information/scan_face_camera.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/welcome_sceen.dart';
 import 'package:pif_flutter/ui/on_boarding/login/login_page.dart';
 import 'package:pif_flutter/ui/on_boarding/login/provider/login_provider.dart';
@@ -41,7 +42,8 @@ import 'package:pif_flutter/ui/visit/visit_list/visits_list_view.dart';
 class AppRouter {
   const AppRouter._();
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   /// The name of the route that loads on app startup
   static const String initialRoute = Routes.splashScreen;
@@ -88,7 +90,9 @@ class AppRouter {
           settings: settings,
         );
       case Routes.inviteVisitorScreen:
-        final lstArgs = settings.arguments != null ? settings.arguments! as List<dynamic> : null;
+        final lstArgs = settings.arguments != null
+            ? settings.arguments! as List<dynamic>
+            : null;
         final fromHomepage = lstArgs?[0] as bool;
         final isInviteVisit = lstArgs?[1] as bool;
         final visitInformation = lstArgs?[2] as VisitModel?;
@@ -107,13 +111,16 @@ class AppRouter {
       case Routes.companyAndNewsScreen:
         return _setPage(page: const CompanyAndNews(), settings: settings);
       case Routes.handbookView:
-        final pdfUrl = settings.arguments != null ? settings.arguments! as String : '';
+        final pdfUrl =
+            settings.arguments != null ? settings.arguments! as String : '';
         return _setPage(
           page: HandbookPDFView(pdfUrl: pdfUrl),
           settings: settings,
         );
       case Routes.addOrEditTicketScreen:
-        final addTicketModel = settings.arguments != null ? settings.arguments! as AddTicketModel : null;
+        final addTicketModel = settings.arguments != null
+            ? settings.arguments! as AddTicketModel
+            : null;
         return _setPage(
           page: AddTicketView(
             addTicketModel: addTicketModel,
@@ -126,6 +133,11 @@ class AppRouter {
           page: FillAllInformationScreen(
             userName: userName,
           ),
+          settings: settings,
+        );
+      case Routes.scanFaceCameraScreen:
+        return _setPage(
+          page: const ScanFaceCamera(),
           settings: settings,
         );
       case Routes.welcomeScreen:
@@ -166,7 +178,10 @@ class AppRouter {
         );
       case Routes.companyDetailsScreen:
         final data = settings.arguments! as CompanyManagementModel;
-        return _setPage(page: CompanyDetailsPage(data: data), settings: settings);
+        return _setPage(
+          page: CompanyDetailsPage(data: data),
+          settings: settings,
+        );
       case Routes.employeeDetailsScreen:
         final lstArgs = settings.arguments! as List<dynamic>;
         final isFromProfile = lstArgs[0] as bool;
@@ -189,7 +204,9 @@ class AppRouter {
       case Routes.notificationScreen:
         return _setPage(page: const NotificationPage(), settings: settings);
       case Routes.newsDetails:
-        final lstArgs = settings.arguments != null ? settings.arguments! as List<dynamic> : null;
+        final lstArgs = settings.arguments != null
+            ? settings.arguments! as List<dynamic>
+            : null;
         final creator = lstArgs?[0] as Structure.Creator;
         final dateCreated = lstArgs?[1] as DateTime;
         final contentField = lstArgs?[2] as List<ContentField>;
@@ -217,7 +234,10 @@ class AppRouter {
           settings: settings,
         );
       case Routes.editProfileDetailsScreen:
-        return _setPage(page: const EmployeeProfileEditPage(), settings: settings);
+        return _setPage(
+          page: const EmployeeProfileEditPage(),
+          settings: settings,
+        );
 
       default:
         return _errorRoute();
@@ -264,18 +284,21 @@ class AppRouter {
   }
 
   static Future<dynamic> pushReplacement(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.pushReplacementNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .pushReplacementNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamed(String routeName, {dynamic args}) {
-    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<dynamic> popAndPushNamedWithTransition(
     String routeName, {
     dynamic args,
   }) {
-    return navigatorKey.currentState!.popAndPushNamed(routeName, arguments: args);
+    return navigatorKey.currentState!
+        .popAndPushNamed(routeName, arguments: args);
   }
 
   static Future<void> pop([dynamic result]) async {

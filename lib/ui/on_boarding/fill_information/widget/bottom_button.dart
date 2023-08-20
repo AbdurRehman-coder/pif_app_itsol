@@ -5,7 +5,12 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 
 class BottomButton extends ConsumerWidget {
-  const BottomButton({super.key});
+  const BottomButton({
+    this.fromScanFace = false,
+    super.key,
+  });
+
+  final bool fromScanFace;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,7 +63,7 @@ class BottomButton extends ConsumerWidget {
                 ),
                 SizedBox(height: 40.h),
               ],
-            ).visibility(visible: provider.selectedScreen == 0),
+            ).visibility(visible: !fromScanFace),
             Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -113,8 +118,7 @@ class BottomButton extends ConsumerWidget {
                 ),
               ],
             ).visibility(
-              visible:
-                  provider.selectedScreen == 1 && provider.scanFace == null,
+              visible: fromScanFace && provider.scanFace == null,
             ),
             Column(
               mainAxisSize: MainAxisSize.min,
@@ -159,8 +163,7 @@ class BottomButton extends ConsumerWidget {
                 ),
               ],
             ).visibility(
-              visible:
-                  provider.selectedScreen == 1 && provider.scanFace != null,
+              visible: fromScanFace && provider.scanFace != null,
             ),
           ],
         ),

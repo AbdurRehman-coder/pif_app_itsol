@@ -52,27 +52,24 @@ class PersonalInformation extends ConsumerWidget {
           ),
           SizedBox(height: 10.h),
         ],
-        SizedBox(
-          height: 50.h,
-          child: SecondCustomTextField(
-            onTap: notifier.scrollToIndex,
-            focusNode: notifier.idNumberFocusNode,
-            textEditingController: notifier.iDController,
-            hintText: S.current.idNumber,
-            contentPadding: EdgeInsets.only(
-              bottom: 8.h,
-              top: 12.h,
-              left: 12.w,
-              right: 12.w,
-            ),
-            borderRadius: 16.r,
-            maxLength: provider.selectedNationality?.a2 == 'SA' ||
-                    provider.selectedType?.id == '2'
-                ? 10
-                : null,
-            fillColor: whiteColor,
-            onChanged: (val) => notifier.update(),
+        SecondCustomTextField(
+          onTap: notifier.scrollToIndex,
+          focusNode: notifier.idNumberFocusNode,
+          textEditingController: notifier.iDController,
+          hintText: S.current.idNumber,
+          contentPadding: EdgeInsets.only(
+            bottom: 8.h,
+            top: 12.h,
+            left: 12.w,
+            right: 12.w,
           ),
+          borderRadius: 16.r,
+          maxLength: provider.selectedNationality?.a2 == 'SA' ||
+                  provider.selectedType?.id == '2'
+              ? 10
+              : null,
+          fillColor: whiteColor,
+          onChanged: (val) => notifier.update(),
         ),
       ],
     );

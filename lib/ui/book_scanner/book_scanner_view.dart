@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
+import 'package:pif_flutter/common/shared/method/check_permission.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/book_scanner/index.dart';
 import 'package:sliding_up_panel2/sliding_up_panel2.dart';
@@ -14,6 +15,7 @@ class BookScannerView extends ConsumerStatefulWidget {
   });
 
   final bool isFromSpace;
+
   @override
   ConsumerState createState() => _BookScannerViewState();
 }
@@ -26,6 +28,7 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
   @override
   void initState() {
     super.initState();
+    CheckPermission.checkCameraPermission();
     controller = MobileScannerController();
   }
 
@@ -94,7 +97,9 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
             controller: controller,
             onDetect: (capture) async {
               final barcodes = capture.barcodes;
-              if (barcodes.isNotEmpty && barcodes.first.rawValue!.isNotEmpty && provider.isNumeric(barcodes.first.rawValue)) {
+              if (barcodes.isNotEmpty &&
+                  barcodes.first.rawValue!.isNotEmpty &&
+                  provider.isNumeric(barcodes.first.rawValue)) {
                 await controller.stop();
                 await provider.getBookingInformation(
                   roomId: barcodes[0].rawValue!.trim(),
@@ -107,7 +112,9 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
               } else {
                 controller.events?.pause();
                 alertMessage(
-                  errorMessage: S.of(context).pleaseMakeSureYouAreScanningAValidRoomQRCode,
+                  errorMessage: S
+                      .of(context)
+                      .pleaseMakeSureYouAreScanningAValidRoomQRCode,
                   context: context,
                 );
                 Future.delayed(const Duration(milliseconds: 500), () {

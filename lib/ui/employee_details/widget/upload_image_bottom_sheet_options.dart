@@ -29,7 +29,7 @@ class UploadImageOptions extends ConsumerWidget {
                 InkWell(
                   onTap: () async {
                     await AppRouter.pop();
-                    final status = await cameraPermission.request();
+                      final status = await cameraPermission.request();
                     if (status.isGranted) {
                       await notifier.uploadImage(
                         ImageSource.camera,

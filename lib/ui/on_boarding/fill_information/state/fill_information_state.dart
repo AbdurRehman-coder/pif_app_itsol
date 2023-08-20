@@ -11,7 +11,6 @@ part 'fill_information_state.freezed.dart';
 @freezed
 class FillInformationState with _$FillInformationState {
   const factory FillInformationState({
-    required int selectedScreen,
     required bool isVideoFinish,
     required bool acceptTermsAndCondition,
     required bool acceptNDA,
@@ -33,7 +32,6 @@ class FillInformationState with _$FillInformationState {
         acceptNDA: false,
         scrollControllerFillInformation: ScrollController(),
         cameraController: null,
-        selectedScreen: 0,
         typeList: const AsyncLoading(),
         countryList: const AsyncLoading(),
         contentModel: const AsyncLoading(),
