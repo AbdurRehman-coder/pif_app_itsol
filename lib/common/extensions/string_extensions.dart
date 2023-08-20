@@ -26,7 +26,7 @@ extension StringExt on String {
     return capitalizedWords.join(' ');
   }
 
-  String mandatory() {
+  String get mandatory {
     return '$this*';
   }
 

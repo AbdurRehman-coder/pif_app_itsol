@@ -23,7 +23,7 @@ class InviteVisitorFormListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cellHeight = provider.lstData.length * 75.h;
+    final cellHeight = provider.lstData.length * 80.h;
     return Column(
       children: [
         Column(
@@ -31,11 +31,12 @@ class InviteVisitorFormListView extends StatelessWidget {
             SecondCustomTextField(
               textEditingController: notifier.emailController,
               focusNode: notifier.emailFocus,
-              hintText: S.current.str_email.mandatory(),
+              hintText: S.current.str_email.mandatory,
               isEmailField: true,
               checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.onChangeText,
+              onRemoveFocus: () => notifier.onRemoveFocusEmail(context: context),
             ),
             SizedBox(
               height: 24.h,
@@ -47,7 +48,7 @@ class InviteVisitorFormListView extends StatelessWidget {
                   child: SecondCustomTextField(
                     textEditingController: notifier.firstNameController,
                     focusNode: notifier.firstNameFocus,
-                    hintText: S.current.firstName.mandatory(),
+                    hintText: S.current.firstName.mandatory,
                     checkEmpty: true,
                     onChanged: notifier.onChangeText,
                   ),
@@ -57,7 +58,7 @@ class InviteVisitorFormListView extends StatelessWidget {
                   child: SecondCustomTextField(
                     textEditingController: notifier.lastNameController,
                     focusNode: notifier.lastNameFocus,
-                    hintText: S.current.lastName.mandatory(),
+                    hintText: S.current.lastName.mandatory,
                     onChanged: notifier.onChangeText,
                     checkEmpty: true,
                   ),

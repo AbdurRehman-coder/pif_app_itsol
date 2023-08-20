@@ -33,9 +33,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   }
 
   final Ref ref;
-  late FocusNode firstNameFocus;
-  late FocusNode lastNameFocus;
-  late FocusNode emailFocus;
+  FocusNode firstNameFocus = FocusNode();
+  FocusNode lastNameFocus = FocusNode();
+  FocusNode emailFocus = FocusNode();
   late GlobalKey<FormState> formKeyForDate;
   late GlobalKey<FormState> formKeyForVisitor;
   late TextEditingController firstNameController;
@@ -49,14 +49,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   late TextEditingController endTimeController;
 
   void _initData() {
-    firstNameFocus = FocusNode();
-    lastNameFocus = FocusNode();
-    emailFocus = FocusNode();
-
     lastNameFocus.addListener(_onNameFocus);
     firstNameFocus.addListener(_onNameFocus);
     emailFocus.addListener(_onNameFocus);
-
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     emailController = TextEditingController();
@@ -95,7 +90,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     required BuildContext context,
   }) {
     if (state.lstData.isEmpty &&
-        !state.isFieldDisable &&
+        // !state.isFieldDisable &&
         emailController.text.isValidEmail()) {
       if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final lstData = state.lstData.toList();
@@ -453,6 +448,25 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
           )
           .toList(),
     );
+  }
+
+  void onRemoveFocusEmail({required BuildContext context}) {
+    if (emailController.text.isNotEmpty) {
+      final previousProvider = ref.read(previousVisitorProvider);
+      if (!visitorNotFoundFromVisitorHistory(email: emailController.text)) {
+        final visitor = previousProvider.previousVisitorList.value!
+            .where(
+              (visitor) =>
+                  visitor.email?.toLowerCase() ==
+                  emailController.text.toLowerCase(),
+            )
+            .first;
+        emailController.clear();
+        final lstData = state.lstData.toList();
+        lstData.add(visitor);
+        state = state.copyWith(lstData: lstData);
+      }
+    }
   }
 
   Future<void> inviteVisitorApi({

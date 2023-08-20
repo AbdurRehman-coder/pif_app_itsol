@@ -225,7 +225,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                         Visibility(
                           visible: provider.isOpenEndDatePicker,
                           child: Padding(
-                            padding: EdgeInsets.only(top: 130.h, left: 12.w),
+                            padding: EdgeInsets.only(top: 155.h, left: 12.w),
                             child: DatePickerWidget(
                               selectedDate: provider.endDate,
                               onConfirm: (dateTime) => notifier.updateEndDate(

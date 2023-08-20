@@ -151,15 +151,15 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         );
                         Scaffold.of(context).openDrawer();
                       },
-                      child: provider.userDetails!.image != null
+                      child: provider.userDetails?.image != null
                           ? CachedNetworkImage(
                               imageUrl:
                                   provider.userDetails!.image!.getImageUrl,
                               fit: BoxFit.cover,
                             )
                           : ImageProfileVisitor(
-                              firstName: provider.userDetails!.givenName ?? '',
-                              lastName: provider.userDetails!.familyName ?? '',
+                              firstName: provider.userDetails?.givenName ?? '',
+                              lastName: provider.userDetails?.familyName ?? '',
                             ),
                     ),
                   );

@@ -26,6 +26,7 @@ class SecondCustomTextField extends StatefulWidget {
     this.style,
     this.fillColor,
     this.contentPadding,
+    this.onRemoveFocus,
     this.isEmailField = false,
     this.keyboardType = TextInputType.text,
     this.isFocus = false,
@@ -49,6 +50,7 @@ class SecondCustomTextField extends StatefulWidget {
   final String? validateEmptyString;
   final void Function()? onEditingComplete;
   final void Function()? onSearch;
+  final void Function()? onRemoveFocus;
   final void Function(String)? onChanged;
   final TextStyle? labelStyle;
   final Widget? suffixIcon;
@@ -257,5 +259,25 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
         ],
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.focusNode != null) {
+      widget.focusNode!.addListener(() {
+        if (!widget.focusNode!.hasFocus) {
+          widget.onRemoveFocus?.call();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (widget.focusNode != null) {
+      widget.focusNode!.removeListener(() {});
+    }
   }
 }
