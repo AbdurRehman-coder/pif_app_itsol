@@ -158,9 +158,16 @@ class AppRouter {
           settings: settings,
         );
       case Routes.privacyScreen:
-        final fromNda = settings.arguments! as bool;
+        final lstArgs = settings.arguments != null
+            ? settings.arguments! as List<dynamic>
+            : null;
+        final fromNda = lstArgs?[0] as bool;
+        final fromDashboard = lstArgs?[1] as bool;
         return _setPage(
-          page: PrivacyScreen(fromNda: fromNda),
+          page: PrivacyScreen(
+            fromNda: fromNda,
+            isDashboard: fromDashboard,
+          ),
           settings: settings,
         );
       case Routes.ticketDetailsScreen:

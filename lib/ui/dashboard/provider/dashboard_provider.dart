@@ -54,6 +54,15 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       actionList: AsyncData(actions),
     );
     getUserDetails();
+    getInformation();
+  }
+
+  Future<void> getInformation() async {
+    final information = await DixelsSDK.instance.structureContentService
+        .getStructureContentByKey(webContentId: '199522', siteId: '20120');
+    if (information != null) {
+      state = state.copyWith(structureContent: AsyncData(information));
+    }
   }
 
   Future<void> getUserDetails() async {

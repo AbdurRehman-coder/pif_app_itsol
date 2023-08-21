@@ -22,8 +22,10 @@ class CheckPrivacy extends ConsumerWidget {
                   notifier.updateTermsAndCondition(termsAndCondition: value!),
             ),
             InkWell(
-              onTap: () =>
-                  AppRouter.pushNamed(Routes.privacyScreen, args: false),
+              onTap: () => AppRouter.pushNamed(
+                Routes.privacyScreen,
+                args: [false, false],
+              ),
               child: RichText(
                 text: TextSpan(
                   text: S.current.IAgreeToThe,
@@ -54,8 +56,10 @@ class CheckPrivacy extends ConsumerWidget {
               onChanged: (value) => notifier.updateNDA(nda: value!),
             ),
             InkWell(
-              onTap: () =>
-                  AppRouter.pushNamed(Routes.privacyScreen, args: true),
+              onTap: () => AppRouter.pushNamed(
+                Routes.privacyScreen,
+                args: [true, false],
+              ),
               child: RichText(
                 text: TextSpan(
                   text: S.current.IAgreeToTheCoBuilder,

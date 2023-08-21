@@ -77,7 +77,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
       await AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
     } else if (lstMenu[index].name == S.current.appTour) {
     } else if (lstMenu[index].name == S.current.TermsAndConditions) {
-      await AppRouter.pushNamed(Routes.privacyScreen, args: false);
+      await AppRouter.pushNamed(Routes.privacyScreen, args: [false, true]);
     } else if (lstMenu[index].name == S.current.faq) {
     } else if (lstMenu[index].name == S.current.arabic) {
     } else if (lstMenu[index].name == S.current.booking) {
