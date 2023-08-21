@@ -1,11 +1,9 @@
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/support_and_service/my_tickets/widget/ticket_status.dart';
-import 'package:flutter_html/flutter_html.dart' as html;
 
 class TicketCard extends StatelessWidget {
   const TicketCard({
@@ -89,6 +87,7 @@ class TicketCard extends StatelessWidget {
                 ),
                 Text(
                   ticketModel!.dateCreated!
+                      .toLocal()
                       .toFormattedString('hh:mm a - dd/MM/yyyy'),
                   style: Style.commonTextStyle(
                     color: grayTextColor,

@@ -1,9 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/features/commerce/tickets/model/ticket_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
+import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
-import 'package:pif_flutter/widgets/custom_image.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class ReceiverTextView extends StatelessWidget {
   const ReceiverTextView({required this.item, super.key});
@@ -15,15 +16,34 @@ class ReceiverTextView extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 50.w),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: 8.h),
-            child: CustomImage(
-              height: 24.h,
-              width: 24.w,
-              image: const NetworkImage('https://randomuser.me/api/portraits/men/41.jpg'),
-              shape: BoxShape.circle,
+            padding: EdgeInsets.only(bottom: 10.h),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: item.creator?.image != null
+                    ? item.creator!.image!.getImageUrl
+                    : '',
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                width: 24.w,
+                height: 24.w,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const SizedBox(),
+                errorWidget: (context, url, error) => ImageProfileVisitor(
+                  firstName: item.creator!.givenName.toString(),
+                  lastName: item.creator!.familyName.toString(),
+                  fontSize: 12,
+                ),
+              ),
             ),
           ),
           SizedBox(
@@ -35,7 +55,8 @@ class ReceiverTextView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
                   decoration: BoxDecoration(
                     color: expireBgColor,
                     border: Border.all(color: grayBorderColor),

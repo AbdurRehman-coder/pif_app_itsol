@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 
 class ReceiverImageView extends StatelessWidget {
   const ReceiverImageView({required this.item, super.key});
@@ -16,25 +17,30 @@ class ReceiverImageView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: 10.h),
-          child: CachedNetworkImage(
-            imageUrl: item.commentAttachment!.getImageUrl,
-            imageBuilder: (context, imageProvider) => Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+          padding: EdgeInsets.only(bottom: 25.h),
+          child: ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: item.creator?.image != null
+                  ? item.creator!.image!.getImageUrl
+                  : '',
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-            ),
-            width: 24.w,
-            height: 24.w,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const SizedBox(),
-            errorWidget: (context, url, error) => Image.asset(
-              Assets.spaceBg2,
-              fit: BoxFit.fill,
+              width: 24.w,
+              height: 24.w,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const SizedBox(),
+              errorWidget: (context, url, error) => ImageProfileVisitor(
+                firstName: item.creator!.givenName.toString(),
+                lastName: item.creator!.familyName.toString(),
+                fontSize: 12,
+              ),
             ),
           ),
         ),
