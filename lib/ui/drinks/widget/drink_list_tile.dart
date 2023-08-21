@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/dashboard/state/dashboard_state.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 
 class DrinkListTile extends StatelessWidget {
@@ -7,11 +8,13 @@ class DrinkListTile extends StatelessWidget {
     required this.item,
     required this.notifier,
     required this.provider,
+    required this.dashboardProviders,
     super.key,
   });
 
   final DrinksNotifier notifier;
   final DrinksState provider;
+  final DashboardState dashboardProviders;
   final DrinkModel item;
 
   @override
@@ -132,7 +135,7 @@ class DrinkListTile extends StatelessWidget {
                       SizedBox(width: 19.w),
                       InkWell(
                         onTap: () {
-                          if (!provider.storeClosed) {
+                          if (!dashboardProviders.storeClosed) {
                             if (provider.lstCarts.isNotEmpty) {
                               notifier.addItemToCart(
                                 item: item,
@@ -162,7 +165,7 @@ class DrinkListTile extends StatelessWidget {
                             color: whiteColor,
                           ),
                         ),
-                      ).visibility(visible: !provider.storeClosed),
+                      ).visibility(visible: !dashboardProviders.storeClosed),
                     ],
                   ),
                 ),

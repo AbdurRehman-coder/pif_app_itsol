@@ -2,10 +2,8 @@ import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pif_flutter/common/extensions/date_time_extension.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/alert_popup.dart';
-import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/visit/visit_list/provider/visit_list_provider.dart';
 
 class CustomPopupMenuButton extends StatelessWidget {
@@ -51,40 +49,42 @@ class CustomPopupMenuButton extends StatelessWidget {
                 ],
               ),
             ),
-            PopupMenuItem(
-              value: 2,
-              onTap: () => Future.delayed(
-                const Duration(milliseconds: 200),
-                () {
-                  alertPopup(
-                    context: context,
-                    deleteMessage: S.current.deleteVisitMessage,
-                    onClickYes: () => notifier.cancelVisit(
+            if (!selectedVisit!.visitStartDate!.isBeforeNow) ...[
+              PopupMenuItem(
+                value: 2,
+                onTap: () => Future.delayed(
+                  const Duration(milliseconds: 200),
+                  () {
+                    alertPopup(
                       context: context,
-                      visitId: selectedVisit!.id,
+                      deleteMessage: S.current.deleteVisitMessage,
+                      onClickYes: () => notifier.cancelVisit(
+                        context: context,
+                        visitId: selectedVisit!.id,
+                      ),
+                    );
+                  },
+                ),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      Assets.trashBit,
                     ),
-                  );
-                },
-              ),
-              child: Row(
-                children: [
-                  SvgPicture.asset(
-                    Assets.trashBit,
-                  ),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  Text(
-                    S.of(context).delete,
-                    style: Style.commonTextStyle(
-                      color: dayTextColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+                    SizedBox(
+                      width: 10.w,
                     ),
-                  )
-                ],
+                    Text(
+                      S.current.cancel,
+                      style: Style.commonTextStyle(
+                        color: dayTextColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
+            ],
           ],
           icon: Align(
             alignment: Alignment.topRight,

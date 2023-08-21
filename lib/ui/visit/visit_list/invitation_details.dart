@@ -17,12 +17,6 @@ class InvitationDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderRadius = 24.r;
-    final boldStyle = Style.commonTextStyle(
-      color: blackColor,
-      fontSize: 18.sp,
-      fontWeight: FontWeight.w500,
-    );
     return Scaffold(
       appBar: CustomAppBar(
         title: S.of(context).invitationDetails,
@@ -33,6 +27,8 @@ class InvitationDetailsView extends StatelessWidget {
               isFromDetails: true,
               selectedVisit: selectedVisit,
             ),
+          ).visibility(
+            visible: selectedVisit!.visitEndDate!.isAfterNow,
           ),
         ],
       ),

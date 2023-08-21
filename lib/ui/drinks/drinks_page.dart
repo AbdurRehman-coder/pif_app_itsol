@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/drinks/index.dart';
 import 'package:pif_flutter/ui/drinks/widget/drink_page_shimmer.dart';
 import 'package:pif_flutter/ui/drinks/widget/drinks_bag_view.dart';
@@ -19,6 +20,7 @@ class DrinkPage extends ConsumerStatefulWidget {
 class _DrinkPageState extends ConsumerState<DrinkPage> {
   @override
   Widget build(BuildContext context) {
+    final dashboardProviders = ref.watch(dashboardProvider);
     final provider = ref.watch(drinksProvider);
     final notifier = ref.read(drinksProvider.notifier);
     return Scaffold(
@@ -127,6 +129,7 @@ class _DrinkPageState extends ConsumerState<DrinkPage> {
                                         item: data[index],
                                         notifier: notifier,
                                         provider: provider,
+                                        dashboardProviders: dashboardProviders,
                                       );
                                     },
                                   ),

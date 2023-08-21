@@ -86,16 +86,14 @@ class _SideMenuPageState extends ConsumerState<SideMenuPage> {
                   SizedBox(
                     width: 50.w,
                   ),
-                  Expanded(
-                    child: IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).closeDrawer();
-                      },
-                      icon: SvgPicture.asset(
-                        Assets.cancelIcon,
-                        height: 24.h,
-                        width: 24.w,
-                      ),
+                  IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).closeDrawer();
+                    },
+                    icon: SvgPicture.asset(
+                      Assets.cancelIcon,
+                      height: 24.h,
+                      width: 24.w,
                     ),
                   ),
                 ],

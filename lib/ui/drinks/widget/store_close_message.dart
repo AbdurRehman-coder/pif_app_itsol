@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/dashboard/provider/dashboard_provider.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 
 class StoreCloseMessage extends StatelessWidget {
@@ -11,7 +12,7 @@ class StoreCloseMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final provider = ref.watch(drinksProvider);
+        final provider = ref.watch(dashboardProvider);
         return Visibility(
           visible: provider.storeClosed,
           child: Column(

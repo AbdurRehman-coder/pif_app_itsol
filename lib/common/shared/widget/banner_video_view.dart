@@ -44,7 +44,6 @@ class _BannerVideoViewState extends State<BannerVideoView> {
         isError = true;
       });
     });
-    ;
     videoController.addListener(() {
       Future.delayed(
         const Duration(seconds: 3),
