@@ -31,7 +31,7 @@ class _PinPutWidgetState extends ConsumerState<PinPutWidget> {
     const oneSec = Duration(seconds: 1);
     timer = Timer.periodic(
       oneSec,
-      (Timer timer) {
+      (timer) {
         if (startTimers == 0) {
           setState(() {
             timer.cancel();
@@ -49,14 +49,9 @@ class _PinPutWidgetState extends ConsumerState<PinPutWidget> {
   void initState() {
     super.initState();
     startTimers = widget.provider.expiryTime ?? 30;
-    startTimerFun();
-  }
-
-  @override
-  void dispose() {
-    timer.cancel();
-
-    super.dispose();
+    final notifier = ref.read(logInProvider.notifier);
+    notifier.startTimerFun();
+    // startTimerFun();
   }
 
   final focusNode = FocusNode();
@@ -79,94 +74,99 @@ class _PinPutWidgetState extends ConsumerState<PinPutWidget> {
       ),
     );
 
-    return Column(
-      children: [
-        Directionality(
-          textDirection: TextDirection.ltr,
-          child: Pinput(
-            autofocus: true,
-            length: widget.provider.otpLength ?? 5,
-            keyboardType: TextInputType.phone,
-            defaultPinTheme: defaultPinTheme,
-            onCompleted: (pin) => widget.notifier.verifyOTP(
-              otpCode: pin,
-              context: context,
+    return Consumer(
+      builder: (context, ref, child) {
+        final provider = ref.watch(logInProvider);
+        final notifier = ref.read(logInProvider.notifier);
+        return Column(
+          children: [
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Pinput(
+                autofocus: true,
+                length: widget.provider.otpLength ?? 5,
+                keyboardType: TextInputType.phone,
+                defaultPinTheme: defaultPinTheme,
+                onCompleted: (pin) => widget.notifier.verifyOTP(
+                  otpCode: pin,
+                  context: context,
+                ),
+                cursor: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 9),
+                      width: 22,
+                      height: 1,
+                      color: primaryColor,
+                    ),
+                  ],
+                ),
+                focusedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration!.copyWith(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: primaryColor),
+                  ),
+                ),
+                submittedPinTheme: defaultPinTheme.copyWith(
+                  decoration: defaultPinTheme.decoration!.copyWith(
+                    color: fillColor,
+                    borderRadius: BorderRadius.circular(19),
+                    border: Border.all(color: primaryColor),
+                  ),
+                ),
+                errorPinTheme: defaultPinTheme.copyBorderWith(
+                  border: Border.all(color: Colors.redAccent),
+                ),
+              ),
             ),
-            cursor: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            SizedBox(height: 8.h),
+            Text(
+              '${S.current.expiredIn} 00:${provider.timer.toString().padLeft(2, '0')}',
+              style: Style.commonTextStyle(
+                color: blackColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Wrap(
               children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 9),
-                  width: 22,
-                  height: 1,
-                  color: primaryColor,
+                Text(
+                  S.current.receiveAnEmail,
+                  style: TextStyle(
+                    color: dayTextColor,
+                    fontSize: 14.sp,
+                  ),
+                ),
+                InkWell(
+                  onTap: provider.timer == 0
+                      ? () {
+                          widget.notifier.createLogIn(
+                            context: context,
+                            notifier: widget.notifier,
+                            isResendOTP: true,
+                          );
+                          notifier.startTimerFun();
+                        }
+                      : null,
+                  child: Text(
+                    S.current.resendEmail,
+                    style: TextStyle(
+                      color:
+                          provider.timer == 0 ? primaryColor : lightGoldenColor,
+                      fontSize: 14.sp,
+                      fontWeight: provider.timer == 0
+                          ? FontWeight.w600
+                          : FontWeight.w400,
+                    ),
+                  ),
                 ),
               ],
             ),
-            focusedPinTheme: defaultPinTheme.copyWith(
-              decoration: defaultPinTheme.decoration!.copyWith(
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: primaryColor),
-              ),
-            ),
-            submittedPinTheme: defaultPinTheme.copyWith(
-              decoration: defaultPinTheme.decoration!.copyWith(
-                color: fillColor,
-                borderRadius: BorderRadius.circular(19),
-                border: Border.all(color: primaryColor),
-              ),
-            ),
-            errorPinTheme: defaultPinTheme.copyBorderWith(
-              border: Border.all(color: Colors.redAccent),
-            ),
-          ),
-        ),
-        SizedBox(height: 8.h),
-        Text(
-          '${S.current.expiredIn} 00:${startTimers.toString().padLeft(2, '0')}',
-          style: Style.commonTextStyle(
-            color: blackColor,
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        SizedBox(height: 20.h),
-        Wrap(
-          children: [
-            Text(
-              S.current.receiveAnEmail,
-              style: TextStyle(
-                color: dayTextColor,
-                fontSize: 14.sp,
-              ),
-            ),
-            InkWell(
-              onTap: startTimers == 0
-                  ? () {
-                      widget.notifier.createLogIn(
-                        context: context,
-                        notifier: widget.notifier,
-                        isResendOTP: true,
-                      );
-                      setState(() {
-                        startTimers = widget.provider.expiryTime ?? 30;
-                      });
-                      startTimerFun();
-                    }
-                  : null,
-              child: Text(
-                S.current.resendEmail,
-                style: TextStyle(
-                  color: startTimers == 0 ? primaryColor : lightGoldenColor,
-                  fontSize: 14.sp,
-                  fontWeight:
-                      startTimers == 0 ? FontWeight.w600 : FontWeight.w400,
-                ),
-              ),
-            ),
           ],
-        ),
-      ],
+        );
+      },
     );
   }
 }

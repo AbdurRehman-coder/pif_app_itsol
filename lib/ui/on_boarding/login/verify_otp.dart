@@ -17,10 +17,7 @@ class VerifyOTP extends ConsumerWidget {
     final provider = ref.watch(logInProvider);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: grayF5,
-      appBar: const CustomAppBar(
-        title: '',
-      ),
+      appBar: const CustomAppBar(),
       body: BackgroundWidgetWithLogo(
         child: SafeArea(
           child: Padding(

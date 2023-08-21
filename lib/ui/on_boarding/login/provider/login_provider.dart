@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/authentication/login/services/oauth_password_grant_password_less.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,11 +28,28 @@ class LogInNotifier extends StateNotifier<LogInState> {
   final passwordFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
 
+  late Timer timer;
+
   late TextEditingController pinController;
 
   void init() {
     emailController = TextEditingController();
     pinController = TextEditingController();
+  }
+
+  void startTimerFun() {
+    timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (state.timer == 0) {
+          timer.cancel();
+          state = state.copyWith(timer: state.timer);
+        } else {
+          var time = state.timer ?? 0;
+          state = state.copyWith(timer: --time);
+        }
+      },
+    );
   }
 
   Future<void> createLogIn({
@@ -44,8 +63,8 @@ class LogInNotifier extends StateNotifier<LogInState> {
       final result = await DixelsSDK.instance.sendOTP(
         baseUrl: Constants.baseUrl,
         auth: OAuth2PasswordGrantPasswordLess(
-          // email: 'alaa@appswave.io',
-          email: emailController.text,
+          email: 'alaa@appswave.io',
+          // email: emailController.text,
           clientId: Constants.clientId,
           clientSecret: Constants.clientSecret,
         ),
@@ -60,6 +79,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
         } else {
           state = state.copyWith(otpLength: result.getRight()?.otpLength);
           state = state.copyWith(expiryTime: result.getRight()?.expiryTime);
+          state = state.copyWith(timer: result.getRight()?.expiryTime);
           if (!isResendOTP) {
             await AppRouter.pushNamed(
               Routes.verifyOTPScreen,
@@ -76,6 +96,11 @@ class LogInNotifier extends StateNotifier<LogInState> {
     }
   }
 
+  void resendOTP() {
+    state = state.copyWith(timer: state.expiryTime);
+    startTimerFun();
+  }
+
   Future<void> verifyOTP({
     required String otpCode,
     required BuildContext context,
@@ -85,8 +110,8 @@ class LogInNotifier extends StateNotifier<LogInState> {
     final result = await DixelsSDK.instance.verifyOTP(
       baseUrl: Constants.baseUrl,
       auth: OAuth2PasswordGrantPasswordLess(
-        // email: 'alaa@appswave.io',
-        email: emailController.text,
+        email: 'alaa@appswave.io',
+        // email: emailController.text,
         clientId: Constants.clientId,
         clientSecret: Constants.clientSecret,
         otp: otpCode,
@@ -131,5 +156,11 @@ class LogInNotifier extends StateNotifier<LogInState> {
         args: data?.givenName,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
   }
 }

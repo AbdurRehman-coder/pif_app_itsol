@@ -33,7 +33,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 return CarouselSlider(
                   options: CarouselOptions(
                     height: 120.h,
-                    // autoPlay: true,
+                    autoPlay: true,
                     viewportFraction: 1,
                   ),
                   items: data.map((card) {

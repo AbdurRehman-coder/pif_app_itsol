@@ -7,10 +7,12 @@ class LogInState with _$LogInState {
   const factory LogInState({
     required int? otpLength,
     required int? expiryTime,
+    required int? timer,
   }) = _LogInState;
 
   factory LogInState.initial() => const LogInState(
         otpLength: null,
         expiryTime: null,
+        timer: null,
       );
 }
