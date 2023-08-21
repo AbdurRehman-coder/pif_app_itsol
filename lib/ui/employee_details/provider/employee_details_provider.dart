@@ -10,8 +10,7 @@ import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/widget/upload_image_bottom_sheet_options.dart';
 
-final employeeDetailsProvider =
-    StateNotifierProvider.autoDispose<EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
+final employeeDetailsProvider = StateNotifierProvider.autoDispose<EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
   return EmployeeDetailsNotifier(ref: ref);
 });
 
@@ -42,15 +41,28 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
 
   Future<void> getSpaceAsync(UserModel data) async {
     if (data.allocatedResidentRoomId != null) {
-      final result = await DixelsSDK.instance.companyManagementServices
-          .getRoomDetailsByExternalRefCode(refCode: data.allocatedResidentRoomId!);
+      final result = await DixelsSDK.instance.companyManagementServices.getRoomDetailsByExternalRefCode(
+        refCode: data.allocatedResidentRoomId!,
+      );
       if (result.isRight()) {
         final item = result.getRight();
         state = state.copyWith(
           spaceImage: item!.imagePrimary!.getImageUrl,
           spaceName: item.name,
-          spaceSinceYear: 'Incubated since 2022',
         );
+      }
+    } else {
+      if (data.allocatedResidentDeskId != null) {
+        final result = await DixelsSDK.instance.companyManagementServices.getSpaceDetailsByExternalRefCode(
+          refCode: data.allocatedResidentDeskId!,
+        );
+        if (result.isRight()) {
+          final item = result.getRight();
+          state = state.copyWith(
+            spaceImage: item!.imagePrimary!.getImageUrl,
+            spaceName: item.name,
+          );
+        }
       }
     }
   }

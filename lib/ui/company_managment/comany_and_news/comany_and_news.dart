@@ -27,12 +27,13 @@ class _CompanyAndNewsState extends ConsumerState<CompanyAndNews> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(companyAndNewsProvider);
+    final notifier = ref.read(companyAndNewsProvider.notifier);
     return SafeArea(
       bottom: false,
       child: Column(
         children: [
           SizedBox(height: 30.h),
-          CompanyListWidget(provider: provider),
+          CompanyListWidget(provider: provider, notifier: notifier),
           SizedBox(height: 16.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),

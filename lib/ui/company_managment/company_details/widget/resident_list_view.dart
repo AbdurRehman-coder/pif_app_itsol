@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/helpers/assets.dart';
-import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/utils/colors.dart';
@@ -23,13 +22,16 @@ class ResidentListView extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         final item = data.residents![index];
-        final isVIP = item.customFields != null
-            ? item.customFields!.firstWhere((element) => element.name == 'Is VIP').customValue.data.toString()
-            : '';
+        final isVIP =
+            item.customFields != null ? item.customFields!.firstWhere((element) => element.name == 'Is VIP').customValue.data.toString() : '';
         return InkWell(
           onTap: () => AppRouter.pushNamed(
             Routes.employeeDetailsScreen,
-            args: [false, item, '${Constants.baseUrl}${data.logo!.link!.href ?? ''}', data.startDate?.year],
+            args: [
+              false,
+              item,
+              data,
+            ],
           ),
           child: Row(
             children: [

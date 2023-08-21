@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/commerce/company_managment/model/company_management_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 
@@ -12,15 +14,13 @@ class EmployeeDetailsPage extends ConsumerStatefulWidget {
   const EmployeeDetailsPage({
     required this.isFromProfile,
     required this.data,
-    required this.companyImageUrl,
-    required this.sinceYear,
+    required this.companyManagementModel,
     super.key,
   });
 
   final bool isFromProfile;
   final UserModel data;
-  final String companyImageUrl;
-  final int sinceYear;
+  final CompanyManagementModel? companyManagementModel;
 
   @override
   ConsumerState createState() => _EmployeeDetailsPageState();
@@ -31,7 +31,9 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(employeeDetailsProvider.notifier).getSpaceAsync(widget.data);
+      ref.read(employeeDetailsProvider.notifier).getSpaceAsync(
+            widget.data,
+          );
     });
   }
 
@@ -41,15 +43,10 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
     final notifier = ref.read(employeeDetailsProvider.notifier);
 
     final isVIP = widget.data.customFields != null
-        ? widget.data.customFields!
-            .firstWhere((element) => element.name == 'Is VIP')
-            .customValue
-            .data
-            .toString()
+        ? widget.data.customFields!.firstWhere((element) => element.name == 'Is VIP').customValue.data.toString()
         : '';
-    final bio = widget.data.customFields != null
-        ? widget.data.customFields!.firstWhere((element) => element.name == 'Bio').customValue.data.toString()
-        : '';
+    final bio =
+        widget.data.customFields != null ? widget.data.customFields!.firstWhere((element) => element.name == 'Bio').customValue.data.toString() : '';
     return Scaffold(
       body: Stack(
         children: [
@@ -72,7 +69,7 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                     child: CachedNetworkImage(
                       height: 80.h,
                       width: 80.w,
-                      imageUrl: widget.companyImageUrl,
+                      imageUrl: '${Constants.baseUrl}${widget.companyManagementModel?.logo!.link!.href ?? ''}',
                       placeholder: (context, url) => Image.asset(
                         Assets.placeHolder,
                         fit: BoxFit.fill,
@@ -103,9 +100,7 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                       ),
                       child: ClipOval(
                         child: CachedNetworkImage(
-                          imageUrl: widget.data.image != null && widget.data.image!.isNotEmpty
-                              ? widget.data.image!.getImageUrl
-                              : '',
+                          imageUrl: widget.data.image != null && widget.data.image!.isNotEmpty ? widget.data.image!.getImageUrl : '',
                           fit: BoxFit.contain,
                           placeholder: (context, url) => Image.asset(
                             Assets.placeHolder,
@@ -354,7 +349,7 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                                   ),
                                 ),
                                 Text(
-                                  '${S.of(context).incubatedSince} ${widget.sinceYear}',
+                                  '${S.of(context).incubatedSince} ${widget.companyManagementModel?.startDate?.year}',
                                   style: Style.commonTextStyle(
                                     color: grayTextColor,
                                     fontSize: 14.sp,

@@ -9,10 +9,12 @@ class CompanyAndNewsState with _$CompanyAndNewsState {
   const factory CompanyAndNewsState({
     required AsyncValue<List<String>> companyList,
     required AsyncValue<List<CompanyManagementModel>> companyManagementList,
+    required bool isLoading,
   }) = _CompanyAndNewsState;
 
   factory CompanyAndNewsState.initial() => const CompanyAndNewsState(
         companyList: AsyncLoading(),
         companyManagementList: AsyncLoading(),
+        isLoading: false,
       );
 }

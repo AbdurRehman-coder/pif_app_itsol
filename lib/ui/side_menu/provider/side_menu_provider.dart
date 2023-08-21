@@ -6,8 +6,7 @@ import 'package:pif_flutter/ui/side_menu/model/side_menu_model.dart';
 import 'package:pif_flutter/ui/side_menu/model/theme_model.dart';
 import 'package:pif_flutter/ui/side_menu/state/side_menu_state.dart';
 
-final sideMenuProvider =
-    StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
+final sideMenuProvider = StateNotifierProvider.autoDispose<SideMenuNotifier, SideMenuState>((ref) {
   return SideMenuNotifier(ref: ref);
 });
 
@@ -72,7 +71,7 @@ class SideMenuNotifier extends StateNotifier<SideMenuState> {
       final userDetails = await DixelsSDK.instance.userDetails;
       await AppRouter.pushNamed(
         Routes.employeeDetailsScreen,
-        args: [true, userDetails, '', 2022],
+        args: [true, userDetails, null],
       );
     } else if (lstMenu[index].name == S.current.handBook) {
       await AppRouter.pushNamed(Routes.handbookView, args: pdfUrl);
