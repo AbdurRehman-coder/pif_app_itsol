@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/ui/book_scanner/provider/scan_booking_list_provider.dart';
 
-void scanHelpBottomSheet({required BuildContext context}) {
+void scanHelpBottomSheet({
+  required BuildContext context,
+  required ScanBookingListNotifier notifier,
+}) {
   showModalBottomSheet<dynamic>(
     useSafeArea: true,
     isScrollControlled: true,
@@ -67,23 +71,26 @@ void scanHelpBottomSheet({required BuildContext context}) {
           ),
           Padding(
             padding: EdgeInsets.only(right: 16.w, left: 16.w),
-            child: Container(
-              height: 48.h,
-              width: context.screenWidth,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                borderRadius: BorderRadius.circular(6.r),
-                border: Border.all(
-                  color: greenBorderColor,
+            child: GestureDetector(
+              onTap: () => notifier.setScannedFirstTime(false),
+              child: Container(
+                height: 48.h,
+                width: context.screenWidth,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: primaryColor,
+                  borderRadius: BorderRadius.circular(6.r),
+                  border: Border.all(
+                    color: greenBorderColor,
+                  ),
                 ),
-              ),
-              child: Text(
-                S.of(context).gotIt,
-                style: Style.commonTextStyle(
-                  color: whiteColor,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w400,
+                child: Text(
+                  S.of(context).gotIt,
+                  style: Style.commonTextStyle(
+                    color: whiteColor,
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
             ),

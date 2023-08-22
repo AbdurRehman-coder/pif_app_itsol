@@ -30,11 +30,19 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
     super.initState();
     CheckPermission.checkCameraPermission();
     controller = MobileScannerController();
+    Future.delayed(Duration.zero, () {
+      final notifier = ref.read(scanBookingListProvider.notifier);
+      final isScanned = ref.read(scanBookingListProvider).isScanFirstTime;
+      if (isScanned!) {
+        scanHelpBottomSheet(context: context, notifier: notifier);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(bookingScannerProvider);
+    final notifier = ref.read(scanBookingListProvider.notifier);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: grayF5,
@@ -71,7 +79,8 @@ class _BookScannerViewState extends ConsumerState<BookScannerView> {
         ),
         actions: [
           InkWell(
-            onTap: () => {scanHelpBottomSheet(context: context)},
+            onTap: () =>
+                scanHelpBottomSheet(context: context, notifier: notifier),
             child: Padding(
               padding: EdgeInsets.only(right: 16.w),
               child: Container(

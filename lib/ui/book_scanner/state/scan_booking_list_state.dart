@@ -8,9 +8,11 @@ part 'scan_booking_list_state.freezed.dart';
 class ScanBookingListState with _$ScanBookingListState {
   const factory ScanBookingListState({
     required AsyncValue<List<RoomModel>> lstData,
+    bool? isScanFirstTime,
   }) = _ScanBookingListState;
 
   factory ScanBookingListState.initial() => const ScanBookingListState(
         lstData: AsyncLoading(),
+        isScanFirstTime: true,
       );
 }
