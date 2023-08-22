@@ -9,7 +9,6 @@ class DatePickerWidget extends StatefulWidget {
     required this.onConfirm,
     required this.onCancel,
     required this.selectedDate,
-    this.isFilter = false,
     this.lastDay,
     super.key,
   });
@@ -17,7 +16,6 @@ class DatePickerWidget extends StatefulWidget {
   final void Function(DateTime) onConfirm;
   final void Function() onCancel;
   final DateTime? selectedDate;
-  final bool isFilter;
   DateTime? lastDay;
 
   @override
@@ -31,7 +29,8 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   void initState() {
     super.initState();
-    _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    _focusedDay =
+        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     _selectedDay = widget.selectedDate ?? DateTime.now();
   }
 
@@ -40,10 +39,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return Container(
       margin: EdgeInsets.only(left: 2.w, right: 2.w, top: 50.h),
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-      height: widget.isFilter ? 420.h : 465.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16.r),
-        color: Colors.white,
+        color: whiteColor,
         boxShadow: const [
           BoxShadow(
             blurRadius: 10,
@@ -51,102 +49,57 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           ),
         ],
       ),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 395.h,
-            child: TableCalendar<void>(
-              firstDay: DateTime.now(),
-              lastDay: widget.lastDay ??
-                  DateTime(
-                    DateTime.now().year + 2,
-                    DateTime.now().month,
-                    DateTime.now().day,
-                  ),
-              focusedDay: _focusedDay!,
-              selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-              availableGestures: AvailableGestures.none,
-              onDaySelected: _onDaySelected,
-              onPageChanged: (focusedDay) {
-                _focusedDay = focusedDay;
-              },
-              daysOfWeekStyle: const DaysOfWeekStyle(
-                weekdayStyle: TextStyle(color: darkBorderColor),
-                weekendStyle: TextStyle(color: darkBorderColor),
-              ),
-              headerStyle: HeaderStyle(
-                headerPadding: EdgeInsets.only(bottom: 20.h),
-                titleTextFormatter: (date, locale) {
-                  return DateFormat('MMMM yyyy').format(date);
-                },
-                leftChevronMargin: EdgeInsets.symmetric(horizontal: 4.w),
-                leftChevronPadding: EdgeInsets.all(8.r),
-                leftChevronIcon: RotatedBox(
-                  quarterTurns: 1,
-                  child: SvgPicture.asset(
-                    Assets.arrowDown,
-                  ),
-                ),
-                rightChevronMargin: EdgeInsets.symmetric(horizontal: 4.w),
-                rightChevronPadding: EdgeInsets.all(8.r),
-                rightChevronIcon: RotatedBox(
-                  quarterTurns: -1,
-                  child: SvgPicture.asset(
-                    Assets.arrowDown,
-                  ),
-                ),
-                titleCentered: true,
-                formatButtonShowsNext: false,
-                formatButtonVisible: false,
-              ),
-              calendarStyle: const CalendarStyle(
-                outsideDaysVisible: false,
-                isTodayHighlighted: false,
-                selectedDecoration: BoxDecoration(
-                  color: primaryColor,
-                  shape: BoxShape.circle,
-                ),
-              ),
+      child: TableCalendar<void>(
+        firstDay: DateTime.now(),
+        lastDay: DateTime(
+          DateTime.now().year + 2,
+          DateTime.now().month,
+          DateTime.now().day,
+        ),
+        focusedDay: _focusedDay!,
+        selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
+        availableGestures: AvailableGestures.none,
+        onDaySelected: _onDaySelected,
+        onPageChanged: (focusedDay) {
+          _focusedDay = focusedDay;
+        },
+        daysOfWeekStyle: const DaysOfWeekStyle(
+          weekdayStyle: TextStyle(color: darkBorderColor),
+          weekendStyle: TextStyle(color: darkBorderColor),
+        ),
+        headerStyle: HeaderStyle(
+          headerPadding: EdgeInsets.only(bottom: 20.h),
+          titleTextFormatter: (date, locale) {
+            return DateFormat('MMMM yyyy').format(date);
+          },
+          leftChevronMargin: EdgeInsets.symmetric(horizontal: 4.w),
+          leftChevronPadding: EdgeInsets.all(8.r),
+          leftChevronIcon: RotatedBox(
+            quarterTurns: 1,
+            child: SvgPicture.asset(
+              Assets.arrowDown,
             ),
           ),
-          if (!widget.isFilter) ...[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: widget.onCancel,
-                  style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    foregroundColor: primaryColor,
-                    backgroundColor: Colors.white,
-                  ),
-                  child: Center(
-                    child: Text(
-                      S.of(context).cancel,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.onConfirm.call(_selectedDay!);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: primaryColor,
-                  ),
-                  child: Center(
-                    child: Text(
-                      S.of(context).confirm,
-                    ),
-                  ),
-                )
-              ],
-            )
-          ],
-        ],
+          rightChevronMargin: EdgeInsets.symmetric(horizontal: 4.w),
+          rightChevronPadding: EdgeInsets.all(8.r),
+          rightChevronIcon: RotatedBox(
+            quarterTurns: -1,
+            child: SvgPicture.asset(
+              Assets.arrowDown,
+            ),
+          ),
+          titleCentered: true,
+          formatButtonShowsNext: false,
+          formatButtonVisible: false,
+        ),
+        calendarStyle: const CalendarStyle(
+          outsideDaysVisible: false,
+          isTodayHighlighted: false,
+          selectedDecoration: BoxDecoration(
+            color: primaryColor,
+            shape: BoxShape.circle,
+          ),
+        ),
       ),
     );
   }
@@ -155,8 +108,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     setState(() {
       _selectedDay = selectedDay;
     });
-    if (widget.isFilter) {
-      widget.onConfirm(_selectedDay!);
-    }
+    widget.onConfirm(_selectedDay!);
   }
 }

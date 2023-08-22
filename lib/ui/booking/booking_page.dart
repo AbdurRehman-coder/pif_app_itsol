@@ -490,7 +490,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                     Visibility(
                       visible: provider.isOpenStartDatePicker,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 130.h),
+                        padding: EdgeInsets.only(top: 130.h, bottom: 12.h),
                         child: DatePickerWidget(
                           selectedDate: provider.startDate,
                           onConfirm: notifier.updateStartDate,
@@ -517,7 +517,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                     Visibility(
                       visible: provider.isOpenEndDatePicker,
                       child: Padding(
-                        padding: EdgeInsets.only(top: 215.h),
+                        padding: EdgeInsets.only(top: 215.h, bottom: 12.h),
                         child: DatePickerWidget(
                           selectedDate: provider.endDate,
                           onConfirm: notifier.updateEndDate,

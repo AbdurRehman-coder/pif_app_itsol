@@ -67,83 +67,89 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding:
-          EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16.r),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-            blurRadius: 10,
-            color: grayE3,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            S.of(context).selectTime,
-            style: Style.commonTextStyle(
-              color: textColor,
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
+    return GestureDetector(
+      /// pass empty because to prevent the time picker hiding,
+      /// when click inside the container
+      onTap: () {},
+      child: Container(
+        padding:
+            EdgeInsets.only(left: 24.w, right: 24.w, top: 16.h, bottom: 16.h),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.r),
+          color: whiteColor,
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 10,
+              color: grayE3,
             ),
-          ),
-          Center(
-            child: WheelChooser<DateTime>.choices(
-              choices: lstData,
-              itemSize: 40.h,
-              listWidth: 120.w,
-              listHeight: 200.h,
-              isInfinite: true,
-              startPosition: selectedTimeIndex,
-              selectTextStyle: TextStyle(color: primaryColor, fontSize: 15.sp),
-              unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),
-              onChoiceChanged: (value) {
-                selectedDateTime = value as DateTime;
-              },
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              S.of(context).selectTime,
+              style: Style.commonTextStyle(
+                color: textColor,
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  widget.onCancel.call();
+            Center(
+              child: WheelChooser<DateTime>.choices(
+                choices: lstData,
+                itemSize: 40.h,
+                listWidth: 120.w,
+                listHeight: 200.h,
+                isInfinite: true,
+                startPosition: selectedTimeIndex,
+                selectTextStyle:
+                    TextStyle(color: primaryColor, fontSize: 15.sp),
+                unSelectTextStyle: TextStyle(color: grayD1, fontSize: 13.sp),
+                onChoiceChanged: (value) {
+                  selectedDateTime = value as DateTime;
                 },
-                style: ElevatedButton.styleFrom(
-                  elevation: 0,
-                  foregroundColor: primaryColor,
-                  backgroundColor: Colors.white,
-                ),
-                child: Center(
-                  child: Text(
-                    S.of(context).cancel,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    widget.onCancel.call();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    elevation: 0,
+                    foregroundColor: primaryColor,
+                    backgroundColor: whiteColor,
+                  ),
+                  child: Center(
+                    child: Text(
+                      S.of(context).cancel,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  widget.onConfirm.call(selectedDateTime);
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: primaryColor,
+                const SizedBox(
+                  width: 10,
                 ),
-                child: Center(
-                  child: Text(
-                    S.of(context).confirm,
+                ElevatedButton(
+                  onPressed: () {
+                    widget.onConfirm.call(selectedDateTime);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: whiteColor,
+                    backgroundColor: primaryColor,
                   ),
-                ),
-              )
-            ],
-          )
-        ],
+                  child: Center(
+                    child: Text(
+                      S.of(context).confirm,
+                    ),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

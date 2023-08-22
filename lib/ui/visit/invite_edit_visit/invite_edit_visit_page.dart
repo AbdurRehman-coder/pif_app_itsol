@@ -227,6 +227,7 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                           child: Padding(
                             padding: EdgeInsets.only(
                               top: 152.h,
+                              bottom: 70.h,
                             ),
                             child: DatePickerWidget(
                               selectedDate: provider.endDate,
