@@ -5,11 +5,12 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class DatePickerWidget extends StatefulWidget {
-  const DatePickerWidget({
+  DatePickerWidget({
     required this.onConfirm,
     required this.onCancel,
     required this.selectedDate,
     this.isFilter = false,
+    this.lastDay,
     super.key,
   });
 
@@ -17,6 +18,7 @@ class DatePickerWidget extends StatefulWidget {
   final void Function() onCancel;
   final DateTime? selectedDate;
   final bool isFilter;
+  DateTime? lastDay;
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -29,8 +31,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   void initState() {
     super.initState();
-    _focusedDay =
-        DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    _focusedDay = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
     _selectedDay = widget.selectedDate ?? DateTime.now();
   }
 
@@ -56,11 +57,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             height: 395.h,
             child: TableCalendar<void>(
               firstDay: DateTime.now(),
-              lastDay: DateTime(
-                DateTime.now().year + 2,
-                DateTime.now().month,
-                DateTime.now().day,
-              ),
+              lastDay: widget.lastDay ??
+                  DateTime(
+                    DateTime.now().year + 2,
+                    DateTime.now().month,
+                    DateTime.now().day,
+                  ),
               focusedDay: _focusedDay!,
               selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
               availableGestures: AvailableGestures.none,

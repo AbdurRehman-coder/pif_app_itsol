@@ -107,6 +107,8 @@ void showOrderCartAndDetails({
                                         value: value!,
                                       );
                                     },
+                                  ).visibility(
+                                    visible: provider.lstCarts.length <= 1,
                                   ),
                                   SizedBox(
                                     height: 24.h,
