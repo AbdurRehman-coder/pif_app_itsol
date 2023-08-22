@@ -12,20 +12,18 @@ import 'package:pif_flutter/common/extensions/file_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
-import 'package:pif_flutter/helpers/filter_utils.dart';
 import 'package:pif_flutter/main.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/model/nationality_model.dart';
 import 'package:pif_flutter/ui/on_boarding/fill_information/state/fill_information_state.dart';
 
-final fillInformationProvider = StateNotifierProvider.autoDispose<
-    FillInformationNotifier, FillInformationState>((ref) {
+final fillInformationProvider =
+    StateNotifierProvider.autoDispose<FillInformationNotifier, FillInformationState>((ref) {
   return FillInformationNotifier(ref: ref);
 });
 
 class FillInformationNotifier extends StateNotifier<FillInformationState> {
-  FillInformationNotifier({required this.ref})
-      : super(FillInformationState.initial()) {
+  FillInformationNotifier({required this.ref}) : super(FillInformationState.initial()) {
     init();
   }
 
@@ -118,9 +116,9 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
     }
   }
 
-  Future<void> scrollToIndex() async {
+  Future<void> scrollToIndex({required double offset}) async {
     await state.scrollControllerFillInformation.animateTo(
-      100,
+      offset,
       duration: const Duration(seconds: 2),
       curve: Curves.easeIn,
     );
@@ -178,8 +176,7 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
         : isPassport
             ? '?passportId=${iDController.text}'
             : '?residentId=${iDController.text}';
-    final result =
-        await DixelsSDK.instance.verifyUserService.checkIfUserAlreadyFound(
+    final result = await DixelsSDK.instance.verifyUserService.checkIfUserAlreadyFound(
       params: param,
     );
     await appProgressDialog.stop();
@@ -207,9 +204,7 @@ class FillInformationNotifier extends StateNotifier<FillInformationState> {
         nationalId: isSaudi ? iDController.text : '',
         passportId: isPassport ? iDController.text : '',
         residentId: isIqama ? iDController.text : '',
-        base64Image: state.scanFace != null
-            ? File(state.scanFace!.path).convertFileToBase64
-            : '',
+        base64Image: state.scanFace != null ? File(state.scanFace!.path).convertFileToBase64 : '',
       ),
     );
     await appProgress.stop();

@@ -8,8 +8,9 @@ import 'package:pif_flutter/ui/on_boarding/fill_information/model/nationality_mo
 import 'package:pif_flutter/ui/on_boarding/fill_information/provider/fill_information_provider.dart';
 
 class PersonalInformation extends ConsumerWidget {
-  const PersonalInformation({super.key});
+  const PersonalInformation({required this.isKeyBoardVisible, super.key});
 
+  final bool isKeyBoardVisible;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(fillInformationProvider.notifier);
@@ -24,6 +25,8 @@ class PersonalInformation extends ConsumerWidget {
             hintText: S.current.nationality,
             hintSearchWidget: S.current.search,
             selectedItem: provider.selectedNationality,
+            enabled: !isKeyBoardVisible,
+            fit: FlexFit.tight,
             onChanged: (country) => notifier.updateCountry(country!),
             vDropdownSearchController: VDropdownSearchController(),
             itemAsString: (val) {
@@ -37,13 +40,13 @@ class PersonalInformation extends ConsumerWidget {
           ),
         ],
         SizedBox(height: 10.h),
-        if (provider.selectedNationality != null &&
-            provider.selectedNationality?.a2 != 'SA') ...[
+        if (provider.selectedNationality != null && provider.selectedNationality?.a2 != 'SA') ...[
           DropDownSearchApp<TypeModel>(
             items: provider.typeList.value,
             hintText: S.current.idType,
             selectedItem: provider.selectedType,
             withSearch: false,
+            enabled: !isKeyBoardVisible,
             vDropdownSearchController: VDropdownSearchController(),
             onChanged: (type) => notifier.updateIDType(typeSelected: type!),
             itemAsString: (val) {
@@ -53,7 +56,9 @@ class PersonalInformation extends ConsumerWidget {
           SizedBox(height: 10.h),
         ],
         SecondCustomTextField(
-          onTap: notifier.scrollToIndex,
+          onTap: () {
+            notifier.scrollToIndex(offset: 320);
+          },
           focusNode: notifier.idNumberFocusNode,
           textEditingController: notifier.iDController,
           hintText: S.current.idNumber,
@@ -64,10 +69,7 @@ class PersonalInformation extends ConsumerWidget {
             right: 12.w,
           ),
           borderRadius: 16.r,
-          maxLength: provider.selectedNationality?.a2 == 'SA' ||
-                  provider.selectedType?.id == '2'
-              ? 10
-              : null,
+          maxLength: provider.selectedNationality?.a2 == 'SA' || provider.selectedType?.id == '2' ? 10 : null,
           fillColor: whiteColor,
           onChanged: (val) => notifier.update(),
         ),

@@ -115,9 +115,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
     }
     lstData[index].isSelected = true;
 
-    final lstDrink = allDrinks
-        .where((element) => element.categoryId == int.parse(lstData[index].id!))
-        .toList();
+    final lstDrink =
+        allDrinks.where((element) => element.categoryId == int.parse(lstData[index].id!)).toList();
 
     selectedCatDrinks = lstDrink;
     state = state.copyWith(lstDrinks: AsyncData(lstDrink));
@@ -229,10 +228,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
               .toList()
               .map(
             (e) {
-              final listString = e.valueOptionModel
-                  .where((element) => element.valueOptionSelected)
-                  .first
-                  .valueOptionKey;
+              final listString =
+                  e.valueOptionModel.where((element) => element.valueOptionSelected).first.valueOptionKey;
               return DrinksOptions(
                 key: e.productOptionsModel.key!,
                 required: false,
@@ -255,12 +252,23 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         printedNote: notesController.text,
         orderItems: itemCart,
         orderStatus: 2,
-        roomId: state.deliveryLocation != null ? state.deliveryLocation?.id : 0,
       );
+
+      if (state.deliveryLocation != null) {
+        if (state.deliveryLocation!.spaceType == 'Room') {
+          orderParam.roomId = state.deliveryLocation!.id;
+        } else if (state.deliveryLocation!.spaceType == 'Desk') {
+          orderParam.deskId = state.deliveryLocation!.id;
+        } else {
+          orderParam.areaId = state.deliveryLocation!.id;
+        }
+      }
 
       if (state.isSelectedPinOrder == true) {
         Settings.orderRequestModel = orderParam;
       }
+      final jsonRequest = orderParam.toJson();
+      jsonRequest.removeWhere((key, value) => value == null);
       await appProgressDialog.stop();
       showSuccessSliding(
         context: context,
@@ -268,9 +276,8 @@ class DrinksNotifier extends StateNotifier<DrinksState> {
         navigateAfterEndTime: () {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
-            final result =
-                await DixelsSDK.instance.ordersService.postPageDataWithEither(
-              reqModel: orderParam.toJson(),
+            final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
+              reqModel: jsonRequest,
               fromJson: OrdersModel.fromJson,
             );
             if (result.isRight()) {

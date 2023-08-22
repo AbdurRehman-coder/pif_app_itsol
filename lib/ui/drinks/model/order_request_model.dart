@@ -14,6 +14,8 @@ class OrderRequestModel {
     this.currencyCode,
     this.orderStatus,
     this.roomId,
+    this.areaId,
+    this.deskId,
   });
 
   factory OrderRequestModel.fromJson(JSON json) => _$OrderRequestModelFromJson(json);
@@ -44,8 +46,17 @@ class OrderRequestModel {
   @JsonKey(name: 'orderStatus')
   int? orderStatus;
 
+  @HiveField(6)
   @JsonKey(name: 'r_roomOrders_c_roomId')
   int? roomId;
+
+  @HiveField(7)
+  @JsonKey(name: 'r_deskOrders_c_deskId')
+  int? deskId;
+
+  @HiveField(8)
+  @JsonKey(name: 'r_areaOrders_c_areaId')
+  int? areaId;
 }
 
 @JsonSerializable()

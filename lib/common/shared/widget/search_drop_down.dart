@@ -16,6 +16,7 @@ class DropDownSearchApp<T> extends StatefulWidget {
     this.itemAsString,
     this.selectedItem,
     this.filterFn,
+    this.fit = FlexFit.loose,
     this.dropDownBorderRadius = const BorderRadius.all(
       Radius.circular(15),
     ),
@@ -35,6 +36,7 @@ class DropDownSearchApp<T> extends StatefulWidget {
   final String? hintSearchWidget;
   final Widget Function(BuildContext, T, bool)? itemBuilder;
   BorderRadius dropDownBorderRadius;
+  FlexFit fit;
 
   @override
   State<DropDownSearchApp<T>> createState() => _DropDownSearchAppState<T>();
@@ -69,7 +71,7 @@ class _DropDownSearchAppState<T> extends State<DropDownSearchApp<T>> {
               radius: Radius.circular(20.r),
             ),
             showSearchBox: widget.withSearch,
-            fit: FlexFit.loose,
+            fit: widget.fit,
             searchFieldProps: TextFieldProps(
               scrollPadding: EdgeInsets.zero,
               cursorColor: primaryColor,
