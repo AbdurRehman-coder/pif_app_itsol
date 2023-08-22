@@ -158,7 +158,13 @@ class _TimePickerPopupState extends State<TimePickerPopup> {
       selectedTimeIndex = lstData?.indexOf(data);
       selectedDateTime = data.value;
     } else {
-      selectedDateTime = DateTime(2001, 1, 1);
+      /// now it will get the date from the timeData
+      final initialDate = DateTime(
+        widget.timeData.year,
+        widget.timeData.month,
+        widget.timeData.day,
+      );
+      selectedDateTime = initialDate;
     }
   }
 }

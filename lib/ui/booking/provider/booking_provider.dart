@@ -728,9 +728,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
         roomId: spaceData!.id!.toString(),
       );
     }
-    // final updatedBookingModel =
-    //     state.bookingModel?.copyWith(roomModel: spaceData);
-    // state = state.copyWith(bookingModel: updatedBookingModel);
   }
 
   Future<void> bindCalendarData(List<BookingModel>? data) async {

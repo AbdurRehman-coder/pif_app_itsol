@@ -157,7 +157,7 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                             ? CachedNetworkImage(
                                 imageUrl:
                                     provider.userDetails!.image!.getImageUrl,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.contain,
                               )
                             : ImageProfileVisitor(
                                 firstName:
