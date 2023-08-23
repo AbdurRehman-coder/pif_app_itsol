@@ -172,7 +172,7 @@
   "lang":"العربية",
   "weOfferPasswordExperience":"We offer a password-less experience to authorized users",
    "verification":"Verification",
-   "receiveAnEmail":"Didn’t receive an email? ",
+   "receiveAnEmail":"Do you need a new OTP?",
    "resendEmail":"Resend Email",
    "hi":"Hi ",
    "OnBehalfOfCoBuilderTeam":"On behalf of the Co-builder team, we are thrilled to have you onboard.",
@@ -208,7 +208,7 @@
   "idType" : "ID Type",
   "searchService": "Search Services",
   "capture":"Capture",
-  "takePhoto":"Take a Photo",
+  "takePhoto":"Enroll Face ID",
   "deleteVisitMessage":"Are you sure you want to cancel the visit?",
   "pinOrderQuickActions" : "Pin Order To Quick Actions",
   "otpIsNotCorrect":"Incorrect OTP",
@@ -263,7 +263,7 @@
   "readLess" : "Read Less",
   "noSpacesToShow": "No Available Spaces",
   "noStoreAvailableMsg": "The catering services are out of working hours",
- "dateTimeCompareMsgTime":"End time should be greater than start time",
+ "dateTimeCompareMsgTime":"End date and time should be greater than start date and time",
  "noNotificationToShow":"NO NOTIFICATIONS TO SHOW",
  "noNotificationsDemandYourAttention":"Currently, no notifications demand your attention.",
   "drinkCancelMessage" : "Drink request cancelled successfully",
@@ -279,5 +279,6 @@
   "findMeAt" : "Find me at",
   "general" : "General",
   "preferences" : "Preferences",
-  "incubatedSince" : "Incubated since "
+  "incubatedSince" : "Incubated since ",
+  "selectStartDateAndTime" : "Please select start date and time"
 }

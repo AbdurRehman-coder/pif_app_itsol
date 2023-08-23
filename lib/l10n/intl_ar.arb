@@ -275,6 +275,7 @@
   "findMeAt" : "Find me at",
   "general" : "General",
   "preferences" : "Preferences",
-  "incubatedSince" : "Incubated since "
+  "incubatedSince" : "Incubated since ",
+  "selectStartDateAndTime" : "Please select start date and time"
 
 }
