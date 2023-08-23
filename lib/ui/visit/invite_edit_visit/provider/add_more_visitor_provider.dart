@@ -16,6 +16,7 @@ class AddMoreVisitorNotifier {
   final Ref ref;
 
   late GlobalKey<FormState> formKey;
+  FocusNode emailFocus = FocusNode();
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
   late TextEditingController emailController;

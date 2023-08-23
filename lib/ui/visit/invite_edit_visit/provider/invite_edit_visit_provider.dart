@@ -62,7 +62,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     startDateSelectController = TextEditingController();
     endDateSelectController = TextEditingController();
     formKeyForDate = GlobalKey<FormState>();
-    _setDefaultDateTime();
     getVisitorHistory();
   }
 
@@ -81,7 +80,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         context: context,
       );
       updateStartTime(startTime: visitModel.visitStartDate);
-      updateEndTime(endTime: visitModel.visitEndDate);
+      updateEndTime(endTime: visitModel.visitEndDate, context: context);
     }
   }
 
@@ -90,7 +89,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     required BuildContext context,
   }) {
     if (state.lstData.isEmpty &&
-        // !state.isFieldDisable &&
+        !state.isFieldDisable &&
         emailController.text.isValidEmail()) {
       if (visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final lstData = state.lstData.toList();
@@ -301,10 +300,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     startDateController.text = DateFormat('dd/MM/yyyy').format(date);
     startDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
 
-    state = state.copyWith(endDate: date);
-    endDateController.text = DateFormat('dd/MM/yyyy').format(date);
-    endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
-
     closeStartDatePickerDialog();
   }
 
@@ -313,7 +308,26 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     required DateTime date,
     required BuildContext context,
   }) {
-    if (!(startDateController.text.isEmpty || startDateController.text == '')) {
+    if (startDateController.text != '' && startTimeController.text != '') {
+      final startDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
+        '${startDateSelectController.text} ${startTimeController.text}'
+            .replaceAll('pm', 'PM')
+            .replaceAll('am', 'AM'),
+      );
+      final endDate = endTimeController.text != ''
+          ? DateFormat('yyyy-MM-dd hh:mm a').parse(
+              '${DateFormat('yyyy-MM-dd').format(date)} ${endTimeController.text}'
+                  .replaceAll('pm', 'PM')
+                  .replaceAll('am', 'AM'),
+            )
+          : date;
+      if (startDate.isAfter(endDate) || startDate.isAtSameMomentAs(endDate)) {
+        alertMessage(
+          context: context,
+          errorMessage: S.current.dateTimeCompareMsgTime,
+        );
+        return;
+      }
       state = state.copyWith(endDate: date);
       endDateController.text = DateFormat('dd/MM/yyyy').format(date);
       endDateSelectController.text = DateFormat('yyyy-MM-dd').format(date);
@@ -321,7 +335,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
       closeEndDatePickerDialog();
     } else {
       alertMessage(
-        errorMessage: S.current.selectStartDate,
+        errorMessage: S.current.selectStartDateAndTime,
         context: context,
       );
     }
@@ -343,7 +357,10 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
   }
 
   //Update End Time
-  void updateEndTime({required DateTime? endTime}) {
+  void updateEndTime({
+    required DateTime? endTime,
+    required BuildContext context,
+  }) {
     endTime = DateTime(
       endTime!.year,
       endTime.month,
@@ -351,9 +368,38 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
       endTime.hour,
       endTime.minute,
     );
-    state = state.copyWith(endTime: endTime);
-    final endTimeString = DateFormat('hh:mm a').format(endTime);
-    endTimeController.text = endTimeString;
+    if (startTimeController.text != '' &&
+        startDateSelectController.text != '') {
+      final endTimeString = DateFormat('hh:mm a').format(endTime);
+      final startDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
+        '${startDateSelectController.text} ${startTimeController.text}'
+            .replaceAll('pm', 'PM')
+            .replaceAll('am', 'AM'),
+      );
+      if (endDateController.text != '') {
+        final endDate = DateFormat('yyyy-MM-dd hh:mm a').parse(
+          '${endDateSelectController.text} $endTimeString'
+              .replaceAll('pm', 'PM')
+              .replaceAll('am', 'AM'),
+        );
+        if (startDate.isAfter(endDate) || startDate.isAtSameMomentAs(endDate)) {
+          alertMessage(
+            context: context,
+            errorMessage: S.current.dateTimeCompareMsgTime,
+          );
+          return;
+        }
+      }
+      state = state.copyWith(endTime: endTime);
+
+      endTimeController.text = endTimeString;
+      closeEndTimePickerDialog();
+    } else {
+      alertMessage(
+        errorMessage: S.current.selectStartDateAndTime,
+        context: context,
+      );
+    }
   }
 
   //Open Start DatePicker Dialog
@@ -416,7 +462,7 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     state = state.copyWith(isOpenEndTimePicker: false);
   }
 
-  void _setDefaultDateTime() {
+  void setDefaultDateTime() {
     final dateTime = DateTime.now();
     final minute = dateTime.minute;
     final minuteModulo = minute % 60;
@@ -431,7 +477,6 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     );
 
     updateStartTime(startTime: roundedTime);
-    updateEndTime(endTime: roundedTime.add(const Duration(hours: 1)));
   }
 
   void fetchVisitor({required VisitModel selectedVisit}) {
@@ -450,8 +495,21 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     );
   }
 
-  void onRemoveFocusEmail({required BuildContext context}) {
+  void onRemoveFocusEmail({
+    required BuildContext context,
+    required TextEditingController emailController,
+    bool isFromAddMoreVisitor = false,
+  }) {
     if (emailController.text.isNotEmpty) {
+      if (isFromAddMoreVisitor) {
+        if (!visitorNotFoundLocally(email: emailController.text ?? '')) {
+          alertMessage(
+            errorMessage: S.current.visitorAlreadyFound,
+            context: context,
+          );
+          return;
+        }
+      }
       final previousProvider = ref.read(previousVisitorProvider);
       if (!visitorNotFoundFromVisitorHistory(email: emailController.text)) {
         final visitor = previousProvider.previousVisitorList.value!
@@ -464,6 +522,9 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
         emailController.clear();
         final lstData = state.lstData.toList();
         lstData.add(visitor);
+        if (isFromAddMoreVisitor) {
+          AppRouter.pop();
+        }
         state = state.copyWith(lstData: lstData);
       }
     }
@@ -545,16 +606,15 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
           await appProgressDialog.stop();
           if (result.isRight()) {
             final notifier = ref.read(visitListProvider.notifier);
+            alertMessage(
+              errorMessage: S.current.inviteVisitorSuccess,
+              context: context,
+              statusEnum: AlertStatusEnum.success,
+            );
             if (fromHomepage) {
               AppRouter.popUntil(Routes.dashboardScreen);
             } else {
-              alertMessage(
-                errorMessage: S.current.inviteVisitorSuccess,
-                context: context,
-                statusEnum: AlertStatusEnum.success,
-              );
               AppRouter.popUntil(Routes.visitListScreen);
-
               await notifier.getVisits();
             }
           } else {

@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/add_more_visitor_provider.dart';
+import 'package:pif_flutter/ui/visit/invite_edit_visit/provider/invite_edit_visit_provider.dart';
 import 'package:pif_flutter/widgets/margin_widget.dart';
 
 void addMoreVisitorPopup({
@@ -21,7 +22,8 @@ void addMoreVisitorPopup({
     builder: (BuildContext context) {
       return Consumer(
         builder: (context, ref, child) {
-          final notifier = ref.watch(addMoreVisitorProvider);
+          final provider = ref.watch(addMoreVisitorProvider);
+          final notifierVisitor = ref.read(inviteVisitorProvider.notifier);
           return Container(
             padding: EdgeInsets.symmetric(
               horizontal: 16.w,
@@ -31,7 +33,7 @@ void addMoreVisitorPopup({
               padding: MediaQuery.of(context).viewInsets,
               child: SingleChildScrollView(
                 child: Form(
-                  key: notifier.formKey,
+                  key: provider.formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -46,7 +48,7 @@ void addMoreVisitorPopup({
                       ),
                       SizedBox(height: 24.h),
                       Text(
-                        S.of(context).addMoreVisitors,
+                        S.current.addMoreVisitors,
                         style: Style.commonTextStyle(
                           color: textColor,
                           fontSize: 22.sp,
@@ -54,7 +56,7 @@ void addMoreVisitorPopup({
                         ),
                       ),
                       Text(
-                        S.of(context).visitorOutsideCoBuilder,
+                        S.current.visitorOutsideCoBuilder,
                         style: Style.commonTextStyle(
                           color: grayTextColor,
                           fontSize: 16.sp,
@@ -75,9 +77,15 @@ void addMoreVisitorPopup({
                         height: 12.h,
                       ),
                       SecondCustomTextField(
-                        textEditingController: notifier.emailController,
+                        textEditingController: provider.emailController,
                         checkEmpty: true,
                         isFocus: true,
+                        focusNode: provider.emailFocus,
+                        onRemoveFocus: () => notifierVisitor.onRemoveFocusEmail(
+                          context: context,
+                          emailController: provider.emailController,
+                          isFromAddMoreVisitor: true,
+                        ),
                         autoFocus: true,
                         hintText: S.current.email,
                         isEmailField: true,
@@ -92,7 +100,7 @@ void addMoreVisitorPopup({
                           Expanded(
                             child: SecondCustomTextField(
                               textEditingController:
-                                  notifier.firstNameController,
+                                  provider.firstNameController,
                               isFocus: true,
                               hintText: S.current.firstName,
                               checkEmpty: true,
@@ -102,7 +110,7 @@ void addMoreVisitorPopup({
                           Expanded(
                             child: SecondCustomTextField(
                               textEditingController:
-                                  notifier.lastNameController,
+                                  provider.lastNameController,
                               isFocus: true,
                               hintText: S.current.lastName,
                               checkEmpty: true,
@@ -114,12 +122,12 @@ void addMoreVisitorPopup({
                         height: 24.h,
                       ),
                       ElevatedButton(
-                        onPressed: () => notifier.addVisitor(context: context),
+                        onPressed: () => provider.addVisitor(context: context),
                         style: Style.primaryButtonStyle(
                           context: context,
                         ),
                         child: Text(
-                          S.of(context).add,
+                          S.current.add,
                         ),
                       ),
                       SizedBox(

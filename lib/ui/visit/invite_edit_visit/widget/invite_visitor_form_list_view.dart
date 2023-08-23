@@ -36,7 +36,10 @@ class InviteVisitorFormListView extends StatelessWidget {
               checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.onChangeText,
-              onRemoveFocus: () => notifier.onRemoveFocusEmail(context: context),
+              onRemoveFocus: () => notifier.onRemoveFocusEmail(
+                context: context,
+                emailController: notifier.emailController,
+              ),
             ),
             SizedBox(
               height: 24.h,

@@ -155,25 +155,31 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                             ),
                             SizedBox(height: 20.h),
                             ElevatedButton(
-                              style:
-                                  Style.secondaryButtonStyle(context: context),
-                              onPressed: provider.isFieldDisable
-                                  ? () {}
-                                  : () =>
+                              style: Style.secondaryButtonStyle(
+                                context: context,
+                                secondColor: provider.isFieldDisable
+                                    ? grayF5
+                                    : whiteColor,
+                              ),
+                              onPressed:  () =>
                                       notifier.addMoreVisitor(context: context),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Icon(
+                                   Icon(
                                     Icons.add,
-                                    color: primaryColor,
+                                    color: provider.isFieldDisable
+                                        ? primaryDisabledColor
+                                        : primaryColor,
                                     size: 20,
                                   ),
                                   SizedBox(width: 5.w),
                                   Text(
                                     S.current.moreVisitors,
                                     style: Style.commonTextStyle(
-                                      color: primaryColor,
+                                      color: provider.isFieldDisable
+                                          ? primaryDisabledColor
+                                          : primaryColor,
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w400,
                                     ),
@@ -249,12 +255,11 @@ class _InviteVisitorPageState extends ConsumerState<InviteEditVisitPage> {
                                 timeData: provider.endTime,
                                 timeGap: TimeGap.oneHour,
                                 onCancel: notifier.closeEndTimePickerDialog,
-                                onConfirm: (selectedTime) {
-                                  notifier.updateEndTime(
-                                    endTime: selectedTime,
-                                  );
-                                  notifier.closeEndTimePickerDialog();
-                                },
+                                onConfirm: (selectedTime) =>
+                                    notifier.updateEndTime(
+                                  endTime: selectedTime,
+                                  context: context,
+                                ),
                               ),
                             ),
                           ),

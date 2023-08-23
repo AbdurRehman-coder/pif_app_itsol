@@ -138,7 +138,7 @@ class Style {
 
   static ButtonStyle secondaryButtonStyle({
     required BuildContext context,
-    Color primaryColor = primaryColor,
+    Color secondColor = whiteColor,
     EdgeInsetsGeometry? padding,
     double? width,
   }) {
@@ -146,8 +146,8 @@ class Style {
     return ElevatedButton.styleFrom(
       elevation: 0,
       fixedSize: Size(btnWidth, 52.h),
-      backgroundColor: whiteColor,
-      side: BorderSide(color: primaryColor),
+      backgroundColor: secondColor,
+      side: const BorderSide(color: primaryColor),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.r), // <-- Radius
       ),
