@@ -34,9 +34,12 @@ class AddCommentView extends StatelessWidget {
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
                     ),
+                    maxLength: 300,
                     decoration: Style.inputDecoration(
                       text: S.of(context).addComment,
                       hintColor: hintColor,
+                    ).copyWith(
+                      counterText: '',
                     ),
                   ),
                 ),

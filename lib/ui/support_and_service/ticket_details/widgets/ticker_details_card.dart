@@ -82,6 +82,5 @@ class TicketDetailsCard extends StatelessWidget {
         ],
       ),
     );
-    ;
   }
 }

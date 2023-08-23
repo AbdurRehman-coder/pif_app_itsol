@@ -6,10 +6,12 @@ import 'package:pif_flutter/ui/support_and_service/my_tickets/extensions/tickets
 class TicketStatus extends StatelessWidget {
   const TicketStatus({
     required this.ticketStatus,
+    this.isFromAction = false,
     super.key,
   });
 
   final TicketPriority ticketStatus;
+  final bool isFromAction;
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +22,15 @@ class TicketStatus extends StatelessWidget {
           19.r,
         ),
       ),
-      padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
+      padding: EdgeInsets.symmetric(
+        vertical: 8.h,
+        horizontal: 16.w,
+      ),
       child: Text(
         ticketStatus.getTicketStatusName,
         style: Style.commonTextStyle(
           color: ticketStatus.getTicketStatusColor,
-          fontSize: 14.sp,
+          fontSize: isFromAction ? 12.sp : 14.sp,
           fontWeight: FontWeight.w400,
         ),
       ),

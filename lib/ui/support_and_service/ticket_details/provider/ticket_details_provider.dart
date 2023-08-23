@@ -148,6 +148,10 @@ class TicketDetailsNotifier extends StateNotifier<TicketDetailsState> {
     });
   }
 
+  void setScrollDown(bool value) {
+    state = state.copyWith(isScrollDown: value);
+  }
+
   @override
   void dispose() {
     commentFocusNode.removeListener(onFocusChange);
