@@ -11,6 +11,7 @@ class UserLocation {
     required this.floorId,
     required this.xPos,
     required this.yPos,
+    required this.edgeId,
   });
 
   factory UserLocation.fromJson(JSON json) => _$UserLocationFromJson(json);
@@ -25,4 +26,7 @@ class UserLocation {
 
   @HiveField(2)
   String floorId;
+
+  @HiveField(3)
+  String edgeId;
 }

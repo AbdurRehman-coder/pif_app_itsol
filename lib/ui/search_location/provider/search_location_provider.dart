@@ -4,6 +4,7 @@ import 'package:dixels_sdk/features/commerce/booking/model/deliver_space_model.d
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/ui/drinks/provider/drinks_provider.dart';
 import 'package:pif_flutter/ui/search_location/index.dart';
 
@@ -32,14 +33,22 @@ class SearchLocationNotifier extends StateNotifier<SearchLocationState> {
 
   // get location data
   Future<void> getLocationData() async {
-    final result = await DixelsSDK.instance.bookingService.getDeliveryAddress();
-    if (result != null && result.items != null) {
-      lstSearchLocation = result.items!;
-      state = state.copyWith(lstSearchLocation: AsyncData(result.items!));
-      final provider = ref.read(drinksProvider);
-      if (provider.deliveryLocation != null) {
-        final index = lstSearchLocation.indexWhere((element) => element.id == provider.deliveryLocation!.id);
-        updateLocationSelected(index);
+    final result = await DixelsSDK.instance.bookingService.getDeliveryAddress(
+      edgeId: Settings.userLocation?.edgeId ?? '0',
+      floorId: Settings.userLocation?.floorId ?? '0',
+      xAxis: Settings.userLocation?.xPos ?? '0',
+      yAxis: Settings.userLocation?.yPos ?? '0',
+    );
+    if (result.isRight()) {
+      final data = result.getRight()!.items;
+      if (data != null && data.isNotEmpty) {
+        lstSearchLocation = data;
+        state = state.copyWith(lstSearchLocation: AsyncData(data));
+        final provider = ref.read(drinksProvider);
+        if (provider.deliveryLocation != null) {
+          final index = lstSearchLocation.indexWhere((element) => element.id == provider.deliveryLocation!.id);
+          updateLocationSelected(index);
+        }
       }
     }
   }
