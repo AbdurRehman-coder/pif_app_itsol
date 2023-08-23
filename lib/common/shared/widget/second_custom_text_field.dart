@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pif_flutter/common/extensions/string_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
 
@@ -36,6 +37,7 @@ class SecondCustomTextField extends StatefulWidget {
     this.hintFontSize = 14,
     this.hintTextColor = hintColor,
     this.isDateAndTime = false,
+    this.inputFormatter,
     super.key,
   });
 
@@ -71,6 +73,7 @@ class SecondCustomTextField extends StatefulWidget {
   final Color hintTextColor;
   final EdgeInsets? contentPadding;
   final bool? isDateAndTime;
+  final List<TextInputFormatter>? inputFormatter;
 
   @override
   State<SecondCustomTextField> createState() => _SecondCustomTextFieldState();
@@ -79,8 +82,7 @@ class SecondCustomTextField extends StatefulWidget {
 class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
   @override
   Widget build(BuildContext context) {
-    final isEnableFiled =
-        widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
+    final isEnableFiled = widget.focusNode == null ? widget.isFocus : widget.focusNode?.hasFocus;
     return Stack(
       children: [
         Column(
@@ -105,8 +107,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
               validator: (val) {
                 if (widget.checkEmpty) {
                   if (val!.isEmpty) {
-                    return widget.validateEmptyString ??
-                        S.of(context).thisFieldIsRequired;
+                    return widget.validateEmptyString ?? S.of(context).thisFieldIsRequired;
                   }
                   if (widget.isEmailField && !val.isValidEmail()) {
                     return S.of(context).enterValidEmail;
@@ -118,10 +119,9 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                 }
               },
               maxLength: widget.maxLength,
+              inputFormatters: widget.inputFormatter,
               enabled: widget.enabled,
-              textAlignVertical: widget.textEditingController.text.isNotEmpty
-                  ? TextAlignVertical.bottom
-                  : null,
+              textAlignVertical: widget.textEditingController.text.isNotEmpty ? TextAlignVertical.bottom : null,
               focusNode: widget.focusNode,
               maxLines: widget.maxLines,
               onEditingComplete: widget.onEditingComplete,
@@ -134,10 +134,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                           left: 12.w,
                           right: 12.w,
                           top: 25.h,
-                          bottom: widget.prefixIcon != null ||
-                                  widget.suffixIcon != null
-                              ? 5.h
-                              : 6.h,
+                          bottom: widget.prefixIcon != null || widget.suffixIcon != null ? 5.h : 6.h,
                         ),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -156,14 +153,11 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                       borderRadius: BorderRadius.all(
                         Radius.circular(widget.borderRadius),
                       ),
-                      borderSide:
-                          BorderSide(color: grayBorderColor, width: 1.w),
+                      borderSide: BorderSide(color: grayBorderColor, width: 1.w),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                        color: isEnableFiled
-                            ? primaryColor
-                            : widget.textFieldBorderColor,
+                        color: isEnableFiled ? primaryColor : widget.textFieldBorderColor,
                         width: 1.w,
                       ),
                       borderRadius: BorderRadius.all(
@@ -189,9 +183,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     prefixIcon: widget.prefixIcon != null
                         ? Padding(
                             padding: EdgeInsets.only(
-                              top: widget.textEditingController.text.isEmpty
-                                  ? 0
-                                  : 20.h,
+                              top: widget.textEditingController.text.isEmpty ? 0 : 20.h,
                             ),
                             child: widget.prefixIcon,
                           )

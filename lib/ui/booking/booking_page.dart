@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,6 +13,7 @@ import 'package:pif_flutter/common/shared/widget/search_text_field.dart';
 import 'package:pif_flutter/common/shared/widget/second_custom_text_field.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
+import 'package:pif_flutter/widgets/debouncer.dart';
 import 'package:pif_flutter/widgets/time_picker_popup.dart';
 
 class BookingPage extends ConsumerStatefulWidget {
@@ -33,24 +35,18 @@ class BookingPage extends ConsumerStatefulWidget {
 }
 
 class _BookingPageState extends ConsumerState<BookingPage> {
+  final _debouncer = Debouncer(milliseconds: 500);
   @override
   void initState() {
     Future.delayed(
       Duration.zero,
       () {
         if (widget.bookingModel != null) {
-          ref
-              .read(bookingProvider.notifier)
-              .bindEditData(spaceData: widget.bookingModel!, context: context);
-          ref
-              .read(bookingProvider.notifier)
-              .getBookings(spaceData: widget.bookingModel!.roomModel);
-          ref.read(bookingProvider.notifier).roomModel =
-              widget.bookingModel?.roomModel;
+          ref.read(bookingProvider.notifier).bindEditData(spaceData: widget.bookingModel!, context: context);
+          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.bookingModel!.roomModel);
+          ref.read(bookingProvider.notifier).roomModel = widget.bookingModel?.roomModel;
         } else {
-          ref
-              .read(bookingProvider.notifier)
-              .getBookings(spaceData: widget.spaceData);
+          ref.read(bookingProvider.notifier).getBookings(spaceData: widget.spaceData);
           ref.read(bookingProvider.notifier).roomModel = widget.spaceData;
         }
 
@@ -172,6 +168,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                           textEditingController: notifier.titleController,
                           focusNode: notifier.titleFocus,
                           textFieldBorderColor: textFieldBorderColor,
+                          inputFormatter: [LengthLimitingTextInputFormatter(100)],
                           hintText: S.of(context).bookingSubject,
                           fillColor: whiteColor,
                           borderRadius: 6.r,
@@ -215,8 +212,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     disabledColor: textColor,
                                   ),
                                   child: SecondCustomTextField(
-                                    textEditingController:
-                                        notifier.startDateController,
+                                    textEditingController: notifier.startDateController,
                                     hintText: S.of(context).date,
                                     checkEmpty: true,
                                     enabled: false,
@@ -231,8 +227,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                       right: 12.w,
                                     ),
                                     hintFontSize: 14.sp,
-                                    hintTextColor:
-                                        blackColorWith900.withOpacity(0.45),
+                                    hintTextColor: blackColorWith900.withOpacity(0.45),
                                     suffixIcon: SvgPicture.asset(
                                       Assets.calenderTodaySvg,
                                       fit: BoxFit.scaleDown,
@@ -256,8 +251,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     disabledColor: textColor,
                                   ),
                                   child: SecondCustomTextField(
-                                    textEditingController:
-                                        notifier.startTimeController,
+                                    textEditingController: notifier.startTimeController,
                                     hintText: S.of(context).time,
                                     fillColor: whiteColor,
                                     enabled: false,
@@ -272,13 +266,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                       right: 12.w,
                                     ),
                                     hintFontSize: 14.sp,
-                                    hintTextColor:
-                                        blackColorWith900.withOpacity(0.45),
+                                    hintTextColor: blackColorWith900.withOpacity(0.45),
                                     suffixIcon: Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 22.sp,
-                                      color:
-                                          blackColorWith900.withOpacity(0.45),
+                                      color: blackColorWith900.withOpacity(0.45),
                                     ),
                                   ),
                                 ),
@@ -311,8 +303,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     disabledColor: textColor,
                                   ),
                                   child: SecondCustomTextField(
-                                    textEditingController:
-                                        notifier.endDateController,
+                                    textEditingController: notifier.endDateController,
                                     hintText: S.of(context).date,
                                     checkEmpty: true,
                                     enabled: false,
@@ -327,8 +318,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                       right: 12.w,
                                     ),
                                     hintFontSize: 14.sp,
-                                    hintTextColor:
-                                        blackColorWith900.withOpacity(0.45),
+                                    hintTextColor: blackColorWith900.withOpacity(0.45),
                                     suffixIcon: SvgPicture.asset(
                                       Assets.calenderTodaySvg,
                                       height: 20.h,
@@ -354,8 +344,7 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                     disabledColor: textColor,
                                   ),
                                   child: SecondCustomTextField(
-                                    textEditingController:
-                                        notifier.endTimeController,
+                                    textEditingController: notifier.endTimeController,
                                     hintText: S.of(context).time,
                                     fillColor: whiteColor,
                                     enabled: false,
@@ -370,13 +359,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                                       right: 12.w,
                                     ),
                                     hintFontSize: 14.sp,
-                                    hintTextColor:
-                                        blackColorWith900.withOpacity(0.45),
+                                    hintTextColor: blackColorWith900.withOpacity(0.45),
                                     suffixIcon: Icon(
                                       Icons.keyboard_arrow_down,
                                       size: 22.sp,
-                                      color:
-                                          blackColorWith900.withOpacity(0.45),
+                                      color: blackColorWith900.withOpacity(0.45),
                                     ),
                                   ),
                                 ),
@@ -457,7 +444,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                             top: 30.h,
                           ),
                           fillColor: whiteColor,
-                          onChanged: notifier.searchGuest,
+                          onChanged: (txt) {
+                            _debouncer.run(() {
+                              notifier.searchGuest(txt);
+                            });
+                          },
                           height: 50.h,
                           hintTextStyle: Style.commonTextStyle(
                             color: blackColorWith900.withOpacity(0.45),

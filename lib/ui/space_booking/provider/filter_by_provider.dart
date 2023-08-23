@@ -194,8 +194,10 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     state = state.copyWith(startDate: date);
     startDateController.text = DateFormat('dd MMM yyyy').format(date);
 
-    state = state.copyWith(endDate: date);
-    endDateController.text = DateFormat('dd MMM yyyy').format(date);
+    if (endDateController.text.isEmpty) {
+      state = state.copyWith(endDate: date);
+      endDateController.text = DateFormat('dd MMM yyyy').format(date);
+    }
 
     closeStartDatePicker();
   }
