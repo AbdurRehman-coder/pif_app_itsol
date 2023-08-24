@@ -44,7 +44,7 @@ class StartDateAndTime extends StatelessWidget {
                   textEditingController: notifier.startDateController,
                   isFocus: provider.isOpenStartDatePicker,
                   enabled: false,
-                  checkEmpty: true,
+                  
                   isDateAndTime: true,
                   fillColor: selectedVisit != null &&
                           selectedVisit!.visitStartDate!.isBeforeNow
@@ -75,7 +75,7 @@ class StartDateAndTime extends StatelessWidget {
                           selectedVisit!.visitStartDate!.isBeforeNow
                       ? grayE3
                       : whiteColor,
-                  checkEmpty: true,
+                  
                   isDateAndTime: true,
                   isFocus: provider.isOpenStartTimePicker,
                   hintText: S.current.time,

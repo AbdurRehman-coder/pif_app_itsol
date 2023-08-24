@@ -33,12 +33,11 @@ class InviteVisitorFormListView extends StatelessWidget {
               focusNode: notifier.emailFocus,
               hintText: S.current.str_email.mandatory,
               isEmailField: true,
-              checkEmpty: true,
               keyboardType: TextInputType.emailAddress,
               onChanged: notifier.onChangeText,
-              onRemoveFocus: () => notifier.onRemoveFocusEmail(
+              onRemoveFocus: () => notifier.checkIfUserIsVisitor(
                 context: context,
-                emailController: notifier.emailController,
+                emailControllerInput: notifier.emailController,
               ),
             ),
             SizedBox(
@@ -52,7 +51,6 @@ class InviteVisitorFormListView extends StatelessWidget {
                     textEditingController: notifier.firstNameController,
                     focusNode: notifier.firstNameFocus,
                     hintText: S.current.firstName.mandatory,
-                    checkEmpty: true,
                     onChanged: notifier.onChangeText,
                   ),
                 ),
@@ -63,7 +61,6 @@ class InviteVisitorFormListView extends StatelessWidget {
                     focusNode: notifier.lastNameFocus,
                     hintText: S.current.lastName.mandatory,
                     onChanged: notifier.onChangeText,
-                    checkEmpty: true,
                   ),
                 ),
               ],

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/authentication/login/services/oauth_password_grant_password_less.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
@@ -110,8 +111,7 @@ class LogInNotifier extends StateNotifier<LogInState> {
     final result = await DixelsSDK.instance.verifyOTP(
       baseUrl: Constants.baseUrl,
       auth: OAuth2PasswordGrantPasswordLess(
-        email: 'alaa@appswave.io',
-        // email: emailController.text,
+        email: kDebugMode ? 'alaa@appswave.io' : emailController.text,
         clientId: Constants.clientId,
         clientSecret: Constants.clientSecret,
         otp: otpCode,

@@ -530,6 +530,53 @@ class InviteVisitorNotifier extends StateNotifier<InviteEditVisitState> {
     }
   }
 
+  Future<void> checkIfUserIsVisitor({
+    required BuildContext context,
+    required TextEditingController emailControllerInput,
+    bool isFromAddMoreVisitor = false,
+  }) async {
+    if (emailControllerInput.text != '') {
+      final appProgress = AppProgressDialog(context: context);
+      await appProgress.start();
+      final param = ParametersModel();
+      param.query = '?email=${emailControllerInput.text}';
+      final result =
+          await DixelsSDK.instance.verifyUserService.checkIfUserAlreadyFound(
+        params: param,
+      );
+      await appProgress.stop();
+      if (result.isRight()) {
+        if (result.getRight()?.status == 'OK' &&
+            result.getRight()!.user != null &&
+            result
+                    .getRight()!
+                    .user!
+                    .roleBriefs!
+                    .where(
+                      (element) => element.name == 'Visitor',
+                    )
+                    .firstOrNull ==
+                null) {
+          alertMessage(
+            errorMessage: S.current.userAlreadyFound,
+            context: context,
+          );
+          return;
+        }
+        onRemoveFocusEmail(
+          context: context,
+          emailController: emailControllerInput,
+          isFromAddMoreVisitor: isFromAddMoreVisitor,
+        );
+      } else {
+        alertMessage(
+          errorMessage: result.getLeft().message,
+          context: context,
+        );
+      }
+    }
+  }
+
   Future<void> inviteVisitorApi({
     required BuildContext context,
     required DateTime startDate,

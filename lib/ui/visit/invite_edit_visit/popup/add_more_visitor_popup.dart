@@ -81,9 +81,10 @@ void addMoreVisitorPopup({
                         checkEmpty: true,
                         isFocus: true,
                         focusNode: provider.emailFocus,
-                        onRemoveFocus: () => notifierVisitor.onRemoveFocusEmail(
+                        onRemoveFocus: () =>
+                            notifierVisitor.checkIfUserIsVisitor(
                           context: context,
-                          emailController: provider.emailController,
+                          emailControllerInput: provider.emailController,
                           isFromAddMoreVisitor: true,
                         ),
                         autoFocus: true,
