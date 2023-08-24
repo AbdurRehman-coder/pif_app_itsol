@@ -1,4 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:dixels_sdk/dixels_sdk.dart';
+import 'package:dixels_sdk/features/users/update_informartion/model/update_information_param.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,16 +9,19 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/widget/upload_image_bottom_sheet_options.dart';
 
-final employeeDetailsProvider = StateNotifierProvider.autoDispose<EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
+final employeeDetailsProvider = StateNotifierProvider.autoDispose<
+    EmployeeDetailsNotifier, EmployeeDetailsState>((ref) {
   return EmployeeDetailsNotifier(ref: ref);
 });
 
 class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
-  EmployeeDetailsNotifier({required this.ref}) : super(EmployeeDetailsState.initial()) {
+  EmployeeDetailsNotifier({required this.ref})
+      : super(EmployeeDetailsState.initial()) {
     _initData();
   }
 
@@ -26,6 +32,8 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
   String? textJobTitle;
   final textBriefController = TextEditingController();
   final textEmailController = TextEditingController();
+  String? profileImage;
+  bool isUpdateImage=false;
   final List<String> jobTitleList = [
     'JobTitle List',
     'sss two',
@@ -41,7 +49,8 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
 
   Future<void> getSpaceAsync(UserModel data) async {
     if (data.allocatedResidentRoomId != null) {
-      final result = await DixelsSDK.instance.companyManagementServices.getRoomDetailsByExternalRefCode(
+      final result = await DixelsSDK.instance.companyManagementServices
+          .getRoomDetailsByExternalRefCode(
         refCode: data.allocatedResidentRoomId!,
       );
       if (result.isRight()) {
@@ -53,7 +62,8 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
       }
     } else {
       if (data.allocatedResidentDeskId != null) {
-        final result = await DixelsSDK.instance.companyManagementServices.getSpaceDetailsByExternalRefCode(
+        final result = await DixelsSDK.instance.companyManagementServices
+            .getSpaceDetailsByExternalRefCode(
           refCode: data.allocatedResidentDeskId!,
         );
         if (result.isRight()) {
@@ -94,7 +104,8 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
 
   Future<PermissionStatus> _getContactPermission() async {
     final permission = await Permission.contacts.status;
-    if (permission != PermissionStatus.granted && permission != PermissionStatus.permanentlyDenied) {
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.permanentlyDenied) {
       final permissionStatus = await Permission.contacts.request();
       return permissionStatus;
     } else {
@@ -109,14 +120,18 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
           S.of(AppRouter.navigatorKey.currentContext!).accessContactDenied,
         ),
       );
-      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(snackBar);
+      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
+          .showSnackBar(snackBar);
     } else if (permissionStatus == PermissionStatus.permanentlyDenied) {
       final snackBar = SnackBar(
         content: Text(
-          S.of(AppRouter.navigatorKey.currentContext!).enablePermissionsFromSettings,
+          S
+              .of(AppRouter.navigatorKey.currentContext!)
+              .enablePermissionsFromSettings,
         ),
       );
-      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!).showSnackBar(snackBar);
+      ScaffoldMessenger.of(AppRouter.navigatorKey.currentContext!)
+          .showSnackBar(snackBar);
     }
   }
 
@@ -148,16 +163,65 @@ class EmployeeDetailsNotifier extends StateNotifier<EmployeeDetailsState> {
     );
   }
 
-  Future<void> uploadImage(ImageSource imageSource, BuildContext context) async {
+  Future<void> uploadImage(
+    ImageSource imageSource,
+    BuildContext context,
+  ) async {
     const maxImageSize = 95000;
     final imageSelected = await picker.pickImage(source: imageSource);
     if (imageSelected != null) {
       final imageSelectedSize = (await imageSelected.readAsBytes()).length;
       if (imageSelectedSize <= maxImageSize) {
         state = state.copyWith(userProfileImage: imageSelected.path);
+        profileImage=imageSelected.path;
+        isUpdateImage=true;
+        updateDisableButton();
       } else {
         alertMessage(context: context, errorMessage: 'Image is too large');
       }
     }
+  }
+
+  Future<void> updateInformationUser({required BuildContext context}) async {
+    final progressDialog = AppProgressDialog(context: context);
+    await progressDialog.start();
+    final result =
+      await DixelsSDK.instance.updateInformationService.updateInformation(
+       updateInformationParam: UpdateInformationParam(
+        bio: textBriefController.text,
+        firstName: textfirstNameController.text,
+        image: convertImageBaseTo64(),
+        jobTitle: textJobTitle,
+        lastName: textlastNameController.text,
+        nationality: '',
+      ),
+    );
+    await progressDialog.stop();
+    if (result.isRight()) {
+      alertMessage(
+        errorMessage: 'Update Succesffully',
+        context: context,
+        statusEnum: AlertStatusEnum.success,
+      );
+    } else {
+      alertMessage(errorMessage: result.getLeft().message, context: context);
+    }
+  }
+
+ String convertImageBaseTo64()
+ {
+  isUpdateImage==true?
+  profileImage = base64Encode(File(profileImage!).readAsBytesSync()):
+  profileImage='';
+  return profileImage!;
+}
+
+  void updateDisableButton({bool isChanged=false}) {
+    bool isDisableButton; 
+    if (isChanged ||isUpdateImage )
+    {isDisableButton=false;}
+    else
+    {isDisableButton=true;}
+    state = state.copyWith(isDisable: isDisableButton);
   }
 }

@@ -8,10 +8,9 @@ import 'package:pif_flutter/ui/employee_details/index.dart';
 import 'package:pif_flutter/ui/employee_details/widget/edit_profile_image.dart';
 
 class EmployeeProfileEditPage extends ConsumerWidget {
-  const EmployeeProfileEditPage({
+  EmployeeProfileEditPage({
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifier = ref.read(employeeDetailsProvider.notifier);
@@ -48,6 +47,9 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                         fillColor: whiteColor,
                         hintText: S.current.firstName,
                         checkEmpty: true,
+                        onChanged: (val) {
+                          notifier.updateDisableButton(isChanged: true);
+                        },
                       ),
                     ),
                     SizedBox(
@@ -59,6 +61,9 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                         fillColor: whiteColor,
                         hintText: S.current.lastName,
                         checkEmpty: true,
+                        onChanged: (val) {
+                        notifier.updateDisableButton(isChanged: true);
+                        },
                       ),
                     ),
                   ],
@@ -73,6 +78,9 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   hintText: S.current.jobTitle,
                   selectedItem: notifier.textJobTitle,
                   dropDownBorderRadius: BorderRadius.circular(6.r),
+                  onChanged: (val) {
+                  notifier.updateDisableButton(isChanged: true);
+                  },
                 ),
                 SizedBox(
                   height: 16.h,
@@ -82,6 +90,9 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   fillColor: whiteColor,
                   hintText: S.current.breif,
                   maxLines: 5,
+                  onChanged: (val) {
+                  notifier.updateDisableButton(isChanged: true);
+                  },
                 ),
                 SizedBox(
                   height: 16.h,
@@ -92,6 +103,9 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   vDropdownSearchController: VDropdownSearchController(),
                   hintText: 'Country',
                   dropDownBorderRadius: BorderRadius.circular(6.r),
+                  onChanged: (val) {
+                  notifier.updateDisableButton(isChanged: true);
+                  },
                 ),
                 SizedBox(
                   height: 16.h,
@@ -103,35 +117,42 @@ class EmployeeProfileEditPage extends ConsumerWidget {
                   fillColor: grayEB,
                   keyboardType: TextInputType.emailAddress,
                   hintText: S.current.email,
+                  onChanged: (val) {
+                  notifier.updateDisableButton(isChanged: true);
+                  },
                 ),
                 SizedBox(
                   height: 50.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (notifier.formKeyEditProfile.currentState!.validate()) {}
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: primaryColor,
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                      ),
-                      child: Text(
-                        'Save',
-                        style: Style.commonTextStyle(
-                          color: whiteColor,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 10.h),
+        color: expireBgColor,
+        width: double.infinity,
+        child: ElevatedButton(
+          onPressed: 
+          !provider.isDisable!
+              ? () {
+                 if (notifier.formKeyEditProfile.currentState!.validate())
+                  {
+                  notifier.updateInformationUser(context: context);
+                  notifier.isUpdateImage = false;
+                  notifier.updateDisableButton();
+                }}
+              : null,
+          style: Style.primaryButtonStyleSecond(
+            context: context,
+            primaryColor: provider.isDisable!
+                ? primaryDisabledColor
+                : primaryColor,
+          ),
+          child: Text(
+            S.current.save,
           ),
         ),
       ),

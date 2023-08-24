@@ -231,7 +231,7 @@ class AppRouter {
         );
       case Routes.editProfileDetailsScreen:
         return _setPage(
-          page: const EmployeeProfileEditPage(),
+          page: EmployeeProfileEditPage(),
           settings: settings,
         );
 

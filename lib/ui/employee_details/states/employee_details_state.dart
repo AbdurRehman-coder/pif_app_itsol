@@ -11,11 +11,13 @@ class EmployeeDetailsState with _$EmployeeDetailsState {
     String? spaceName,
     String? spaceImage,
     String? spaceSinceYear,
+    bool? isDisable,
   }) = _EmployeeDetailsState;
 
   factory EmployeeDetailsState.initial() => const EmployeeDetailsState(
         isGeneralVisible: true,
         isPreferenceVisible: false,
         userProfileImage: '',
+        isDisable:true,
       );
 }
