@@ -23,15 +23,17 @@ class SpaceBookingEmptyView extends StatelessWidget {
           SizedBox(
             height: 10.h,
           ),
-          Text(
-            isFromEdit == false ? S.of(context).noRoomToShow : 'no booking available',
-            textAlign: TextAlign.center,
-            style: Style.commonTextStyle(
-              color: primaryColor,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.w400,
+          if (isFromEdit == true) ...[
+            Text(
+              S.current.noBookingAvailable,
+              textAlign: TextAlign.center,
+              style: Style.commonTextStyle(
+                color: primaryColor,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+              ),
             ),
-          ),
+          ],
           SizedBox(
             height: 3.h,
           ),

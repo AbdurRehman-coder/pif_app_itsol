@@ -276,6 +276,8 @@
   "general" : "General",
   "preferences" : "Preferences",
   "incubatedSince" : "Incubated since ",
-  "selectStartDateAndTime" : "Please select start date and time"
+  "selectStartDateAndTime" : "Please select start date and time",
+    "noBookingAvailable" : "No booking available"
+
 
 }

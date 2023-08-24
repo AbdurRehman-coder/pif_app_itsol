@@ -6,6 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/extensions/context_extensions.dart';
 import 'package:pif_flutter/common/extensions/image_extensions.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/widget/image_profile_visitor.dart';
 import 'package:pif_flutter/helpers/constants.dart';
 import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/employee_details/index.dart';
@@ -43,10 +44,19 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
     final notifier = ref.read(employeeDetailsProvider.notifier);
 
     final isVIP = widget.data.customFields != null
-        ? widget.data.customFields!.firstWhere((element) => element.name == 'Is VIP').customValue.data.toString()
+        ? widget.data.customFields!
+            .firstWhere((element) => element.name == 'Is VIP')
+            .customValue
+            .data
+            .toString()
         : '';
-    final bio =
-        widget.data.customFields != null ? widget.data.customFields!.firstWhere((element) => element.name == 'Bio').customValue.data.toString() : '';
+    final bio = widget.data.customFields != null
+        ? widget.data.customFields!
+            .firstWhere((element) => element.name == 'Bio')
+            .customValue
+            .data
+            .toString()
+        : '';
     return Scaffold(
       body: Stack(
         children: [
@@ -69,7 +79,8 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                     child: CachedNetworkImage(
                       height: 80.h,
                       width: 80.w,
-                      imageUrl: '${Constants.baseUrl}${widget.companyManagementModel?.logo!.link!.href ?? ''}',
+                      imageUrl:
+                          '${Constants.baseUrl}${widget.companyManagementModel?.logo!.link!.href ?? ''}',
                       placeholder: (context, url) => Image.asset(
                         Assets.placeHolder,
                         fit: BoxFit.fill,
@@ -98,46 +109,24 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                           ),
                         ),
                       ),
-                      child: ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl: widget.data.image != null && widget.data.image!.isNotEmpty ? widget.data.image!.getImageUrl : '',
-                          fit: BoxFit.contain,
-                          placeholder: (context, url) => Image.asset(
-                            Assets.placeHolder,
-                            fit: BoxFit.fill,
-                            height: 42.r,
-                            width: 42.r,
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: RegExp(r'^[A-E_.]+$').hasMatch(
-                                widget.data.givenName![0].toUpperCase(),
-                              )
-                                  ? primary800
-                                  : RegExp(r'^[J-M_.]+$').hasMatch(
-                                      widget.data.givenName![0].toUpperCase(),
-                                    )
-                                      ? blue400
-                                      : RegExp(r'^[N-S_.]+$').hasMatch(
-                                          widget.data.givenName![0].toUpperCase(),
-                                        )
-                                          ? pink200
-                                          : primary300,
-                            ),
-                            child: Text(
-                              ' ${widget.data.givenName![0]}${widget.data.familyName![0]}'.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: Style.commonTextStyle(
-                                color: whiteColor,
-                                fontSize: 28.sp,
-                                fontWeight: FontWeight.w500,
+                      child: widget.data.image != null
+                          ? Container(
+                              width: 40.r,
+                              height: 40.r,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
+                                    widget.data.image!.getImageUrl,
+                                  ),
+                                ),
                               ),
+                            )
+                          : ImageProfileVisitor(
+                              firstName: widget.data.givenName! ?? '',
+                              lastName: widget.data.familyName ?? '',
                             ),
-                          ),
-                        ),
-                      ),
                     ),
                   ),
                 ],
@@ -228,7 +217,9 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                                     child: Text(
                                       S.of(context).general,
                                       style: Style.commonTextStyle(
-                                        color: provider.isGeneralVisible ? textColor : grayTextColor,
+                                        color: provider.isGeneralVisible
+                                            ? textColor
+                                            : grayTextColor,
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w400,
                                       ),
@@ -258,7 +249,8 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                               height: 1.h,
                               color: textColor,
                               thickness: 4,
-                              endIndent: MediaQuery.of(context).size.width * 0.75,
+                              endIndent:
+                                  MediaQuery.of(context).size.width * 0.75,
                             ).visibility(visible: provider.isGeneralVisible),
                             Divider(
                               height: 1.h,
@@ -266,7 +258,8 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                               thickness: 4,
                               indent: MediaQuery.of(context).size.width * 0.24,
                               // 30% of the screen width
-                              endIndent: MediaQuery.of(context).size.width * 0.44,
+                              endIndent:
+                                  MediaQuery.of(context).size.width * 0.44,
                             ).visibility(visible: provider.isPreferenceVisible),
                             Divider(
                               height: 1.h,
@@ -297,7 +290,10 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w400,
                           ),
-                        ).visibility(visible: provider.spaceName != null && provider.spaceName!.isNotEmpty),
+                        ).visibility(
+                          visible: provider.spaceName != null &&
+                              provider.spaceName!.isNotEmpty,
+                        ),
                         SizedBox(
                           height: 8.h,
                         ),
@@ -325,7 +321,8 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                                     height: 56.h,
                                     width: 56.w,
                                   ),
-                                  errorWidget: (context, url, error) => Image.asset(
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
                                     Assets.placeHolder,
                                     fit: BoxFit.fill,
                                     height: 56.h,
@@ -359,7 +356,10 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                               ],
                             )
                           ],
-                        ).visibility(visible: provider.spaceName != null && provider.spaceName!.isNotEmpty),
+                        ).visibility(
+                          visible: provider.spaceName != null &&
+                              provider.spaceName!.isNotEmpty,
+                        ),
                         // SizedBox(
                         //   height: 16.h,
                         // ),
@@ -436,7 +436,8 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                 child: Container(
                   height: 33.h,
                   width: 33.h,
-                  margin: EdgeInsets.only(top: context.statusBarHeight, left: 20.w),
+                  margin:
+                      EdgeInsets.only(top: context.statusBarHeight, left: 20.w),
                   decoration: const BoxDecoration(
                     color: activeBgColor,
                     shape: BoxShape.circle,
@@ -467,7 +468,9 @@ class _EmployeeDetailsPageState extends ConsumerState<EmployeeDetailsPage> {
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
-                    widget.isFromProfile ? Icons.edit : Icons.file_download_outlined,
+                    widget.isFromProfile
+                        ? Icons.edit
+                        : Icons.file_download_outlined,
                     color: dayTextColor,
                     size: 22,
                   ),

@@ -50,23 +50,27 @@ class _SideMenuPageState extends ConsumerState<SideMenuPage> {
                       shape: BoxShape.circle,
                       border: Border.all(color: grayBorder),
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(21.r),
-                      child: providerDashboard.userDetails!.image != null
-                          ? CachedNetworkImage(
-                              imageUrl: providerDashboard
-                                  .userDetails!.image!.getImageUrl,
-                              fit: BoxFit.cover,
-                            )
-                          : ImageProfileVisitor(
-                              firstName:
-                                  providerDashboard.userDetails!.givenName ??
-                                      '',
-                              lastName:
-                                  providerDashboard.userDetails!.familyName ??
-                                      '',
+                    child: providerDashboard.userDetails?.image != null
+                        ? Container(
+                            width: 40.r,
+                            height: 40.r,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: CachedNetworkImageProvider(
+                                  providerDashboard
+                                      .userDetails!.image!.getImageUrl,
+                                ),
+                              ),
                             ),
-                    ),
+                          )
+                        : ImageProfileVisitor(
+                            firstName:
+                                providerDashboard.userDetails?.givenName ?? '',
+                            lastName:
+                                providerDashboard.userDetails?.familyName ?? '',
+                          ),
                   ),
                   SizedBox(
                     width: 15.w,

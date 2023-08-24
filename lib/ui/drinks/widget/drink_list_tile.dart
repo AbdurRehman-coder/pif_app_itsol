@@ -143,6 +143,8 @@ class DrinkListTile extends StatelessWidget {
                               );
                             } else {
                               item.count = 1;
+                              notifier.notesController.clear();
+                              notifier.updatePinOrderQuickActions(value: false);
                               showOrderCartAndDetails(
                                 context: context,
                                 drinkModel: item,

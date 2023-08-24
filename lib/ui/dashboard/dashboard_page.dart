@@ -151,21 +151,24 @@ class _DashboardPageState extends ConsumerState<DashboardPage>
                         );
                         Scaffold.of(context).openDrawer();
                       },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(21.r),
-                        child: provider.userDetails?.image != null
-                            ? CachedNetworkImage(
-                                imageUrl:
+                      child: provider.userDetails?.image != null
+                          ? Container(
+                              width: 40.r,
+                              height: 40.r,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: CachedNetworkImageProvider(
                                     provider.userDetails!.image!.getImageUrl,
-                                fit: BoxFit.contain,
-                              )
-                            : ImageProfileVisitor(
-                                firstName:
-                                    provider.userDetails?.givenName ?? '',
-                                lastName:
-                                    provider.userDetails?.familyName ?? '',
+                                  ),
+                                ),
                               ),
-                      ),
+                            )
+                          : ImageProfileVisitor(
+                              firstName: provider.userDetails?.givenName ?? '',
+                              lastName: provider.userDetails?.familyName ?? '',
+                            ),
                     ),
                   );
                 },
