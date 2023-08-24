@@ -5,6 +5,7 @@ import 'package:dixels_sdk/common/models/parameters_model.dart';
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_request_model.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/nearest_room_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_param.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,10 +76,8 @@ class BookingNotifier extends StateNotifier<BookingState> {
     if (data.filterData != null) {
       updateStartTime(startTime: data.filterData!.startTime);
       updateEndTime(endTime: data.filterData!.endTime);
-      state = state.copyWith(selectedDates: data.filterData!.selectedDates);
-
-      selectedDateLst.addAll(data.filterData!.selectedDates);
-      confirmDateLst.addAll(data.filterData!.selectedDates);
+      updateStartDate(data.filterData!.startDate);
+      updateEndDate(data.filterData!.endDate);
     }
   }
 
@@ -98,6 +97,49 @@ class BookingNotifier extends StateNotifier<BookingState> {
     _setNearestTimeSlot();
   }
 
+  // bind InstanceBooking data
+  Future<void> bindInstanceBookingData({
+    required NearestRoomModel model,
+    required BuildContext context,
+  }) async {
+    titleController.text = '${S.current.bookingFor} ${model.bookingSubject!}';
+
+    final currentTime = DateTime.now();
+    var startTime = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+    );
+    startTime = startTime.add(
+      Duration(minutes: model.startTime != null ? int.parse(model.startTime!) : 0),
+    );
+
+    var endTime = DateTime(
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+    );
+    endTime = endTime.add(
+      Duration(minutes: model.endTime != null ? int.parse(model.endTime!) : 0),
+    );
+
+    updateStartTime(
+      startTime: startTime,
+      model: model,
+    );
+    updateEndTime(
+      endTime: endTime,
+      maxDuration: model.roomMaxDuration != null ? int.parse(model.roomMaxDuration ?? '') : 0,
+      context: context,
+    );
+    updateStartDate(
+      model.startDate != null ? DateTime.parse(model.startDate ?? '') : DateTime.now(),
+    );
+    updateEndDate(
+      model.endDate != null ? DateTime.parse(model.endDate ?? '') : DateTime.now(),
+    );
+  }
+
   //Set Default Data For Edit
   Future<void> bindEditData({
     required BookingModel spaceData,
@@ -115,7 +157,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
       currentDateTime.day,
     );
     startTime = startTime.add(Duration(minutes: spaceData.startTime!));
-    updateStartTime(startTime: startTime);
 
     //bind thr end time
     var endTime = DateTime(
@@ -172,7 +213,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   //Update Start Time
-  void updateStartTime({required DateTime? startTime}) {
+  void updateStartTime({required DateTime? startTime, NearestRoomModel? model}) {
     if (startTime == null) {
       return;
     }
@@ -186,15 +227,17 @@ class BookingNotifier extends StateNotifier<BookingState> {
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
-    if (state.bookingModel == null) {
+
+    if (state.bookingModel == null && model == null) {
       updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
     }
+
     startTimeController.text = startTimeString;
     formKey.currentState?.validate();
   }
 
   //Update End Time
-  void updateEndTime({required DateTime? endTime, BuildContext? context}) {
+  void updateEndTime({required DateTime? endTime, BuildContext? context, int? maxDuration}) {
     if (endTime == null) {
       return;
     }
@@ -202,6 +245,14 @@ class BookingNotifier extends StateNotifier<BookingState> {
     final duration = endTime.difference(state.startTime ?? DateTime.now());
     if (roomModel?.maximumBookingDurationInMinutes != null) {
       if (duration.inMinutes > roomModel!.maximumBookingDurationInMinutes!) {
+        alertMessage(
+          errorMessage: S.current.exceedMaxBookingDuration,
+          context: context ?? AppRouter.navigatorKey.currentContext!,
+        );
+        return;
+      }
+    } else {
+      if (maxDuration != null && duration.inMinutes > maxDuration) {
         alertMessage(
           errorMessage: S.current.exceedMaxBookingDuration,
           context: context ?? AppRouter.navigatorKey.currentContext!,

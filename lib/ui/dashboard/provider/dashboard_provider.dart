@@ -155,6 +155,8 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
       closedTime: availableTime.storeEndTime,
     )) {
       final orderParam = Settings.orderRequestModel!;
+      final jsonRequest = orderParam.toJson();
+      jsonRequest.removeWhere((key, value) => value == null);
 
       await appProgressDialog.stop();
       showSuccessSliding(
@@ -170,7 +172,7 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
           Future.delayed(Duration.zero, () async {
             await appProgressDialog.start();
             final result = await DixelsSDK.instance.ordersService.postPageDataWithEither(
-              reqModel: orderParam.toJson(),
+              reqModel: jsonRequest,
               fromJson: OrdersModel.fromJson,
             );
             if (result.isRight()) {

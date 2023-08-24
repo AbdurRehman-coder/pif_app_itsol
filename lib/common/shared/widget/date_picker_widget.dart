@@ -51,11 +51,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       ),
       child: TableCalendar<void>(
         firstDay: DateTime.now(),
-        lastDay: DateTime(
-          DateTime.now().year + 2,
-          DateTime.now().month,
-          DateTime.now().day,
-        ),
+        lastDay: widget.lastDay ??
+            DateTime(
+              DateTime.now().year + 2,
+              DateTime.now().month,
+              DateTime.now().day,
+            ),
         focusedDay: _focusedDay!,
         selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
         availableGestures: AvailableGestures.none,

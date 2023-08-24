@@ -23,9 +23,7 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
       Duration.zero,
       () async {
         ref.read(spaceBookingProvider.notifier).getSpaceAsync();
-        await ref
-            .read(spaceBookingProvider.notifier)
-            .openFilterPopUp(context: context);
+        await ref.read(spaceBookingProvider.notifier).openFilterPopUp(context: context);
       },
     );
     super.initState();
@@ -160,28 +158,32 @@ class _SpaceBookingPageState extends ConsumerState<SpaceBookingPage> {
         child: Row(
           children: [
             Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    Assets.instant,
-                    height: 16.h,
-                    width: 16.w,
-                    colorFilter:
-                        const ColorFilter.mode(textColor, BlendMode.srcIn),
-                  ),
-                  SizedBox(
-                    width: 8.w,
-                  ),
-                  Text(
-                    S.current.instanceBooking,
-                    style: Style.commonTextStyle(
-                      color: textColor,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w400,
+              child: InkWell(
+                onTap: () {
+                  notifier.getInstanceData(context: context);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      Assets.instant,
+                      height: 16.h,
+                      width: 16.w,
+                      colorFilter: const ColorFilter.mode(textColor, BlendMode.srcIn),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 8.w,
+                    ),
+                    Text(
+                      S.current.instanceBooking,
+                      style: Style.commonTextStyle(
+                        color: textColor,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             Container(

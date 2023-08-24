@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/nearest_room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -22,6 +23,7 @@ class BookingPage extends ConsumerStatefulWidget {
     required this.isFromScan,
     required this.isFromSpace,
     this.bookingModel,
+    this.instanceModel,
     super.key,
   });
 
@@ -29,6 +31,7 @@ class BookingPage extends ConsumerStatefulWidget {
   final bool isFromScan;
   final bool isFromSpace;
   final BookingModel? bookingModel;
+  final NearestRoomModel? instanceModel;
 
   @override
   ConsumerState createState() => _BookingPageState();
@@ -45,6 +48,11 @@ class _BookingPageState extends ConsumerState<BookingPage> {
           ref.read(bookingProvider.notifier).bindEditData(spaceData: widget.bookingModel!, context: context);
           ref.read(bookingProvider.notifier).getBookings(spaceData: widget.bookingModel!.roomModel);
           ref.read(bookingProvider.notifier).roomModel = widget.bookingModel?.roomModel;
+        } else if (widget.instanceModel != null) {
+          ref.read(bookingProvider.notifier).bindInstanceBookingData(
+                model: widget.instanceModel!,
+                context: context,
+              );
         } else {
           ref.read(bookingProvider.notifier).getBookings(spaceData: widget.spaceData);
           ref.read(bookingProvider.notifier).roomModel = widget.spaceData;
@@ -91,7 +99,9 @@ class _BookingPageState extends ConsumerState<BookingPage> {
           ),
         ),
         title: Text(
-          'Book ${widget.spaceData.name}',
+          widget.instanceModel != null && widget.instanceModel?.roomName != null
+              ? 'Book ${widget.instanceModel?.roomName ?? ''}'
+              : 'Book ${widget.spaceData.name}',
           style: Style.commonTextStyle(
             color: textColor,
             fontSize: 18.sp,
@@ -551,6 +561,14 @@ class _BookingPageState extends ConsumerState<BookingPage> {
                 roomId: widget.bookingModel!.id!,
                 isFromSpace: false,
                 isFromScan: widget.isFromScan,
+              );
+            } else if (widget.instanceModel != null) {
+              notifier.bookNowAsync(
+                context: context,
+                isBookEnabled: false,
+                roomId: widget.instanceModel != null && widget.instanceModel?.roomId != null ? int.parse(widget.instanceModel?.roomId ?? '') : 0,
+                isFromSpace: false,
+                isFromScan: false,
               );
             } else {
               notifier.bookNowAsync(

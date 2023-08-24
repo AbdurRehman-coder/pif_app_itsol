@@ -49,7 +49,7 @@ class BookingScannerNotifier {
     if (result != null && result.items!.isNotEmpty) {
       await AppRouter.pushNamed(
         Routes.bookingScreen,
-        args: [result.items![0], true, null, isFromSpace],
+        args: [result.items![0], true, null, isFromSpace, null],
       );
     } else {
       alertMessage(

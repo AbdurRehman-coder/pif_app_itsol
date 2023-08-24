@@ -1,5 +1,6 @@
 import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:dixels_sdk/features/commerce/booking/model/booking_model.dart';
+import 'package:dixels_sdk/features/commerce/booking/model/nearest_room_model.dart';
 import 'package:dixels_sdk/features/commerce/company_managment/model/company_management_model.dart';
 import 'package:dixels_sdk/features/commerce/support/model/support_ticket_model.dart';
 import 'package:dixels_sdk/features/commerce/visit/models/visit_model.dart';
@@ -70,12 +71,14 @@ class AppRouter {
         final isFromScan = lstArgs[1] as bool;
         final bookingModel = lstArgs[2] as BookingModel?;
         final isFromSpace = lstArgs[3] as bool;
+        final instanceModel = lstArgs[4] as NearestRoomModel?;
         return _setPage(
           page: BookingPage(
             spaceData: roomModel,
             isFromScan: isFromScan,
             bookingModel: bookingModel,
             isFromSpace: isFromSpace,
+            instanceModel: instanceModel,
           ),
           settings: settings,
         );

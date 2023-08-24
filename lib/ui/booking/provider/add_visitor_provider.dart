@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:dixels_sdk/features/commerce/account/model/user_model.dart';
+import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
@@ -8,9 +8,7 @@ import 'package:pif_flutter/routes/app_router.dart';
 import 'package:pif_flutter/ui/booking/index.dart';
 import 'package:pif_flutter/ui/booking/state/add_visitor_state.dart';
 
-final addVisitorProvider =
-    StateNotifierProvider.autoDispose<AddVisitorNotifier, AddVisitorState>(
-        (ref) {
+final addVisitorProvider = StateNotifierProvider.autoDispose<AddVisitorNotifier, AddVisitorState>((ref) {
   return AddVisitorNotifier(ref: ref);
 });
 
@@ -51,7 +49,7 @@ class AddVisitorNotifier extends StateNotifier<AddVisitorState> {
   void onChangeText(String? text) {}
 
   // Invite Now Event
-  void inviteAsync({required BuildContext context}) {
+  Future<void> inviteAsync({required BuildContext context}) async {
     if (formKey.currentState!.validate()) {
       final provider = ref.read(bookingProvider);
       final notifier = ref.read(bookingProvider.notifier);
@@ -66,6 +64,14 @@ class AddVisitorNotifier extends StateNotifier<AddVisitorState> {
         name: '$firstName $lastName',
       );
       final lstData = provider.lstGuests.toList();
+      final userData = await DixelsSDK.instance.userDetails;
+      if (userData != null && userData.emailAddress == email) {
+        alertMessage(
+          errorMessage: S.of(context).userAlreadyExist,
+          context: context,
+        );
+        return;
+      }
       final isDataAvailable = lstData.firstWhereOrNull(
         (element) => element.emailAddress == model.emailAddress,
       );

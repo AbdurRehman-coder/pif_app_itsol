@@ -73,7 +73,7 @@ class SpaceBookingListTile extends StatelessWidget {
                   onTap: () {
                     AppRouter.pushNamed(
                       Routes.bookingScreen,
-                      args: [item, false, null, false],
+                      args: [item, false, null, false, null],
                     );
                   },
                   child: Container(

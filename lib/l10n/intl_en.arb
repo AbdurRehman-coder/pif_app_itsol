@@ -281,5 +281,6 @@
   "preferences" : "Preferences",
   "incubatedSince" : "Incubated since ",
   "selectStartDateAndTime" : "Please select start date and time",
+  "userAlreadyExist": "This user is already a resident in Co-Builder",
   "noBookingAvailable" : "No booking available"
 }

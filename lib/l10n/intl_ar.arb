@@ -277,7 +277,6 @@
   "preferences" : "Preferences",
   "incubatedSince" : "Incubated since ",
   "selectStartDateAndTime" : "Please select start date and time",
-    "noBookingAvailable" : "No booking available"
-
-
+  "userAlreadyExist": "هذا المستخدم مقيم في الحاضنة ",
+  "noBookingAvailable" : "No booking available"
 }

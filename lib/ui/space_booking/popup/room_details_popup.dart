@@ -36,8 +36,7 @@ void roomDetailsPopUp({
           if (image1.link != null || image1.link!.href!.isNotEmpty) {
             final endIndex = image1.link!.href!.indexOf(image1.link!.label!);
             if (endIndex != -1) {
-              final url = image1.link!.href!.substring(0, endIndex) +
-                  image1.link!.label!;
+              final url = image1.link!.href!.substring(0, endIndex) + image1.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -46,8 +45,7 @@ void roomDetailsPopUp({
           if (image2.link != null || image2.link!.href!.isNotEmpty) {
             final endIndex = image2.link!.href!.indexOf(image2.link!.label!);
             if (endIndex != -1) {
-              final url = image2.link!.href!.substring(0, endIndex) +
-                  image2.link!.label!;
+              final url = image2.link!.href!.substring(0, endIndex) + image2.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -56,8 +54,7 @@ void roomDetailsPopUp({
           if (image3.link != null || image3.link!.href!.isNotEmpty) {
             final endIndex = image3.link!.href!.indexOf(image3.link!.label!);
             if (endIndex != -1) {
-              final url = image3.link!.href!.substring(0, endIndex) +
-                  image3.link!.label!;
+              final url = image3.link!.href!.substring(0, endIndex) + image3.link!.label!;
               lstData.add(Constant.imageBaseUrl + url);
             }
           }
@@ -267,7 +264,7 @@ void roomDetailsPopUp({
               onPressed: () {
                 AppRouter.pushNamed(
                   Routes.bookingScreen,
-                  args: [spaceData, false, null, false],
+                  args: [spaceData, false, null, false, null],
                 );
               },
               style: ElevatedButton.styleFrom(

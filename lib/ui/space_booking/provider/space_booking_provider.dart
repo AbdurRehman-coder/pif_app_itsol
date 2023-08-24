@@ -3,18 +3,18 @@ import 'package:dixels_sdk/dixels_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pif_flutter/common/index.dart';
+import 'package:pif_flutter/common/shared/message/progress_dialog.dart';
+import 'package:pif_flutter/database/settings.dart';
 import 'package:pif_flutter/helpers/filter_utils.dart';
+import 'package:pif_flutter/routes/routes.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
-final spaceBookingProvider =
-    StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>(
-        (ref) {
+final spaceBookingProvider = StateNotifierProvider.autoDispose<SpaceBookingNotifier, SpaceBookingState>((ref) {
   return SpaceBookingNotifier(ref: ref);
 });
 
 class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
-  SpaceBookingNotifier({required this.ref})
-      : super(SpaceBookingState.initial()) {
+  SpaceBookingNotifier({required this.ref}) : super(SpaceBookingState.initial()) {
     _initData();
   }
 
@@ -50,9 +50,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     if (isFilter) {
       final filterProvider = ref.read(filterByProvider);
       final filterNotifier = ref.read(filterByProvider.notifier);
-      final selectedFloor = filterProvider.lstFloors
-          .where((element) => element.isSelected ?? false == true)
-          .toList();
+      final selectedFloor = filterProvider.lstFloors.where((element) => element.isSelected ?? false == true).toList();
 
       if (filterProvider.selectedDateList.isNotEmpty) {
         // Date Filter Query
@@ -113,27 +111,21 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
       String? timeString = '';
       String? filterString = '';
       if (filterModel.startTime != null && filterModel.endTime != null) {
-        final startTimeString =
-            filterModel.startTime?.toFormattedString('hh:mm a');
+        final startTimeString = filterModel.startTime?.toFormattedString('hh:mm a');
         final endTimeString = filterModel.endTime?.toFormattedString('hh:mm a');
         timeString = '$startTimeString - $endTimeString - ';
       }
 
-      final firstDateString = filterModel.selectedDates.isNotEmpty
-          ? filterModel.selectedDates.first.toFormattedString('d MMM')
-          : '';
+      final firstDateString = filterModel.selectedDates.isNotEmpty ? filterModel.selectedDates.first.toFormattedString('d MMM') : '';
 
       if (firstDateString.isNotEmpty) {
-        filterString =
-            '$timeString${filterModel.selectedDates.length} repeats from $firstDateString';
+        filterString = '$timeString${filterModel.selectedDates.length} repeats from $firstDateString';
       } else {
         filterString = selectedFloor.map((e) => e.name).join(' - ');
       }
 
       state = state.copyWith(
-        filterData: filterString.isNotEmpty || filterProvider.capacity > 1
-            ? filterModel
-            : null,
+        filterData: filterString.isNotEmpty || filterProvider.capacity > 1 ? filterModel : null,
       );
       state = state.copyWith(filterDataString: filterString);
     }
@@ -166,8 +158,7 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
     if (searchText.isNotEmpty) {
       final data = allListData!
           .where(
-            (element) =>
-                element.name!.toLowerCase().contains(searchText.toLowerCase()),
+            (element) => element.name!.toLowerCase().contains(searchText.toLowerCase()),
           )
           .toList();
       state = state.copyWith(lstData: AsyncData(data));
@@ -179,6 +170,28 @@ class SpaceBookingNotifier extends StateNotifier<SpaceBookingState> {
   /// toggle read more for room description
   void toggleReadMore() {
     state = state.copyWith(isReadMore: !state.isReadMore!);
+  }
+
+  Future<void> getInstanceData({required BuildContext context}) async {
+    final appProgress = AppProgressDialog(context: context);
+
+    await appProgress.start();
+    final result = await DixelsSDK.instance.bookingService.instanceBooking(
+      edgeId: Settings.userLocation?.edgeId ?? '0',
+      floorId: Settings.userLocation?.floorId ?? '0',
+      xAxis: Settings.userLocation?.xPos ?? '0',
+      yAxis: Settings.userLocation?.yPos ?? '0',
+    );
+    await appProgress.stop();
+    if (result.isRight()) {
+      final data = result.getRight()!.items;
+      if (data != null && data.isNotEmpty) {
+        await AppRouter.pushNamed(
+          Routes.bookingScreen,
+          args: [RoomModel(), false, null, false, data.first],
+        );
+      }
+    }
   }
 
   @override

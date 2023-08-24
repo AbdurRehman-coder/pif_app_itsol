@@ -94,11 +94,7 @@ class BookingListTile extends ConsumerWidget {
                     SizedBox(
                       width: context.screenWidth - 134,
                       child: Text(
-                        data.roomModel != null &&
-                                data.roomModel!.name != null &&
-                                data.roomModel!.name!.isNotEmpty
-                            ? data.roomModel?.name ?? ''
-                            : '-',
+                        data.roomModel != null && data.roomModel!.name != null && data.roomModel!.name!.isNotEmpty ? data.roomModel?.name ?? '' : '-',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Style.commonTextStyle(
@@ -190,7 +186,7 @@ class BookingListTile extends ConsumerWidget {
             PopupMenuButton(
               onSelected: (value) {
                 if (value == 1) {
-                  AppRouter.pushNamed(Routes.bookingScreen, args: [data.roomModel, false, data, false]);
+                  AppRouter.pushNamed(Routes.bookingScreen, args: [data.roomModel, false, data, false, null]);
                 }
               },
               itemBuilder: (context) => [

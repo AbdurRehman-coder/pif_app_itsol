@@ -108,7 +108,8 @@ void showOrderCartAndDetails({
                                       );
                                     },
                                   ).visibility(
-                                    visible: provider.lstCarts.length <= 1,
+                                    visible: provider.lstCarts.length <= 1 &&
+                                        (drinkModel?.count == 1 || (provider.lstCarts.isNotEmpty && provider.lstCarts.first.count == 1)),
                                   ),
                                   SizedBox(
                                     height: 24.h,
