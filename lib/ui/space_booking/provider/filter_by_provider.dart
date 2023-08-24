@@ -6,7 +6,8 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/common/shared/message/toast_message.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
-final filterByProvider = StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
+final filterByProvider =
+    StateNotifierProvider.autoDispose<FilterByNotifier, FilterByState>((ref) {
   return FilterByNotifier(ref: ref);
 });
 
@@ -33,9 +34,15 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
     endTimeController = TextEditingController();
     await _getFloors();
     final currentDateTime = DateTime.now();
-    final currentDate = DateTime(currentDateTime.year, currentDateTime.month, currentDateTime.day, 12);
+    final currentDate = DateTime(
+      currentDateTime.year,
+      currentDateTime.month,
+      currentDateTime.day,
+      12,
+    );
     selectedDateLst.add(currentDate);
-    if (currentDate.weekday != DateTime.friday && currentDate.weekday != DateTime.saturday) {
+    if (currentDate.weekday != DateTime.friday &&
+        currentDate.weekday != DateTime.saturday) {
       confirmDateLst.addAll(selectedDateLst);
       state = state.copyWith(selectedDateList: confirmDateLst);
     }
@@ -45,19 +52,23 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
       state = state.copyWith(capacity: int.parse(data.filterData!.capacity));
 
       state = state.copyWith(startDate: data.filterData!.startDate);
-      startDateController.text = DateFormat('dd MMM yyyy').format(data.filterData!.startDate);
+      startDateController.text =
+          DateFormat('dd MMM yyyy').format(data.filterData!.startDate);
 
       state = state.copyWith(endDate: data.filterData!.endDate);
-      endDateController.text = DateFormat('dd MMM yyyy').format(data.filterData!.endDate);
+      endDateController.text =
+          DateFormat('dd MMM yyyy').format(data.filterData!.endDate);
 
       if (data.filterData!.startTime != null) {
-        final startTimeString = DateFormat('hh:mm a').format(data.filterData!.startTime!);
+        final startTimeString =
+            DateFormat('hh:mm a').format(data.filterData!.startTime!);
         startTimeController.text = startTimeString;
         state = state.copyWith(startTime: data.filterData!.startTime);
       }
 
       if (data.filterData!.endTime != null) {
-        final endTimeString = DateFormat('hh:mm a').format(data.filterData!.endTime!);
+        final endTimeString =
+            DateFormat('hh:mm a').format(data.filterData!.endTime!);
         endTimeController.text = endTimeString;
         state = state.copyWith(endTime: data.filterData!.endTime);
       }
@@ -74,7 +85,8 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Get Foors Data
   Future<void> _getFloors() async {
-    final result = await DixelsSDK.instance.floorService.getPageData(fromJson: FloorModel.fromJson);
+    final result = await DixelsSDK.instance.floorService
+        .getPageData(fromJson: FloorModel.fromJson);
     if (result != null) {
       state = state.copyWith(lstFloors: result.items!);
     }
@@ -98,7 +110,7 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Remove Capacity
   void removeCapacity() {
-    if (state.capacity <= 1) {
+    if (state.capacity <= 0) {
       return;
     }
     final capacityCount = state.capacity - 1;
@@ -239,7 +251,13 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
   //Update Start Time
   void updateStartTime({required DateTime? startTime}) {
-    startTime = DateTime(startTime!.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
+    startTime = DateTime(
+      startTime!.year,
+      startTime.month,
+      startTime.day,
+      startTime.hour,
+      startTime.minute,
+    );
     state = state.copyWith(startTime: startTime);
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
@@ -247,13 +265,23 @@ class FilterByNotifier extends StateNotifier<FilterByState> {
 
     state = state.copyWith(endTime: startTime.add(const Duration(minutes: 15)));
 
-    final endTimeString = DateFormat('hh:mm a').format(startTime.add(const Duration(minutes: 15)));
+    final endTimeString = DateFormat('hh:mm a')
+        .format(startTime.add(const Duration(minutes: 15)));
     endTimeController.text = endTimeString;
   }
 
   //Update End Time
-  void updateEndTime({required DateTime? endTime, required BuildContext context}) {
-    endTime = DateTime(endTime!.year, endTime.month, endTime.day, endTime.hour, endTime.minute);
+  void updateEndTime({
+    required DateTime? endTime,
+    required BuildContext context,
+  }) {
+    endTime = DateTime(
+      endTime!.year,
+      endTime.month,
+      endTime.day,
+      endTime.hour,
+      endTime.minute,
+    );
     if (state.startTime != null && state.startTime!.isAfter(endTime)) {
       alertMessage(errorMessage: S.current.timeValidation, context: context);
       return;

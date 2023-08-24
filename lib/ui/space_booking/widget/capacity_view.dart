@@ -3,7 +3,11 @@ import 'package:pif_flutter/common/index.dart';
 import 'package:pif_flutter/ui/space_booking/index.dart';
 
 class CapacityView extends StatelessWidget {
-  const CapacityView({required this.provider, required this.notifier, super.key});
+  const CapacityView({
+    required this.provider,
+    required this.notifier,
+    super.key,
+  });
 
   final FilterByState provider;
   final FilterByNotifier notifier;
@@ -29,8 +33,8 @@ class CapacityView extends StatelessWidget {
               height: 36.h,
               width: 36.w,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: primaryColor,
+              decoration: BoxDecoration(
+                color: provider.capacity == 0 ? grayBgColor : primaryColor,
                 shape: BoxShape.circle,
               ),
               child: Icon(
