@@ -114,6 +114,23 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
     }
   }
 
+  Future<String> getNearestLocation() async {
+    var roomName = '';
+    final result = await DixelsSDK.instance.penguinService.getVIPNearestLocation(
+      edgeId: Settings.userLocation?.edgeId ?? '0',
+      floorId: Settings.userLocation?.floorId ?? '0',
+      xAxis: Settings.userLocation?.xPos ?? '0',
+      yAxis: Settings.userLocation?.yPos ?? '0',
+    );
+    if (result.isRight()) {
+      final data = result.getRight()!.items;
+      if (data != null && data.isNotEmpty) {
+        roomName = data.first.spaceName ?? '';
+      }
+    }
+    return roomName;
+  }
+
   Future<AvailableTime> getStoreInformation() async {
     final storeInformation = await DixelsSDK.instance.structureContentService.getStructureContentByKey(
       webContentId: '147637',
@@ -203,18 +220,14 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
 
   Future<void> digitalVipSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
-
-    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
-    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
-
+    final roomName = await getNearestLocation();
     final requestModel = {
       'categoryId': '180101',
       'subCategoryId': '200984',
-      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
+      'description': '[${data!.name}] is around [$roomName] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();
-
     final result = await DixelsSDK.instance.supportService.postPageData(
       reqModel: requestModel,
       fromJson: SupportTicketModel.fromJson,
@@ -232,13 +245,12 @@ class DashboardNotifier extends StateNotifier<DashboardState> {
   Future<void> operationalSupportAsync({required BuildContext context}) async {
     final data = await DixelsSDK.instance.userDetails;
 
-    final xPos = Settings.userLocation != null ? Settings.userLocation!.xPos : 0;
-    final yPos = Settings.userLocation != null ? Settings.userLocation!.yPos : 0;
+    final roomName = await getNearestLocation();
 
     final requestModel = {
       'categoryId': '180104',
       'subCategoryId': '200995',
-      'description': '[${data!.name}] is around [$xPos, $yPos] and requesting immediate support',
+      'description': '[${data!.name}] is around [$roomName] and requesting immediate support',
     };
     final appProgress = AppProgressDialog(context: context);
     await appProgress.start();

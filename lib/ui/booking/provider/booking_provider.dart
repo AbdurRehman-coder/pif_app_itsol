@@ -125,7 +125,6 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     updateStartTime(
       startTime: startTime,
-      model: model,
     );
     updateEndTime(
       endTime: endTime,
@@ -157,7 +156,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
       currentDateTime.day,
     );
     startTime = startTime.add(Duration(minutes: spaceData.startTime!));
-
+    updateStartTime(startTime: startTime);
     //bind thr end time
     var endTime = DateTime(
       currentDateTime.year,
@@ -213,7 +212,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
   }
 
   //Update Start Time
-  void updateStartTime({required DateTime? startTime, NearestRoomModel? model}) {
+  void updateStartTime({required DateTime? startTime}) {
     if (startTime == null) {
       return;
     }
@@ -228,7 +227,7 @@ class BookingNotifier extends StateNotifier<BookingState> {
 
     final startTimeString = DateFormat('hh:mm a').format(startTime);
 
-    if (state.bookingModel == null && model == null) {
+    if (state.bookingModel == null) {
       updateEndTime(endTime: startTime.add(const Duration(minutes: 15)));
     }
 
