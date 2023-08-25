@@ -27,7 +27,8 @@ class BannerTextView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+      padding:
+          EdgeInsets.only(left: 20.w, right: 20.w, top: 20.h, bottom: 20.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(
           Radius.circular(14.r),
@@ -42,7 +43,6 @@ class BannerTextView extends StatelessWidget {
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Column(
@@ -93,11 +93,15 @@ class BannerTextView extends StatelessWidget {
               ],
             ),
           ),
+          SizedBox(
+            width: 22.w,
+          ),
           if (imageCompany != null) ...[
             CachedNetworkImage(
               imageUrl: Constant.imageBaseUrl + imageCompany!,
-              width: 70.w,
-              height: 70.h,
+              fit: BoxFit.fill,
+              width: 75.w,
+              height: 93.h,
             ),
           ],
         ],

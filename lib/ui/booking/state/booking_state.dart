@@ -29,6 +29,10 @@ class BookingState with _$BookingState {
     required List<TimePlannerTask> lstTasks,
     required bool isFromEdit,
     required BookingModel? bookingModel,
+    required bool isStartDateFilled,
+    required bool isStartTimeFilled,
+    required bool isEndDateFilled,
+    required bool isEndTimeFilled,
   }) = _BookingState;
 
   factory BookingState.initial() => BookingState(
@@ -52,5 +56,9 @@ class BookingState with _$BookingState {
         isVisibleAddGuestList: false,
         lstTasks: <TimePlannerTask>[],
         bookingModel: null,
+        isStartDateFilled: false,
+        isStartTimeFilled: false,
+        isEndDateFilled: false,
+        isEndTimeFilled: false,
       );
 }

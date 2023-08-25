@@ -9,6 +9,7 @@ class SecondCustomTextField extends StatefulWidget {
     this.onTap,
     this.labelText,
     this.hintText,
+    this.errorText,
     this.labelStyle,
     this.onSearch,
     this.focusNode,
@@ -44,6 +45,7 @@ class SecondCustomTextField extends StatefulWidget {
   final TextEditingController textEditingController;
   final String? labelText;
   final String? hintText;
+  final String? errorText;
   final bool filled;
   final bool enabled;
   final int? maxLength;
@@ -219,6 +221,7 @@ class _SecondCustomTextFieldState extends State<SecondCustomTextField> {
                     ),
                     filled: widget.filled,
                     hintText: widget.hintText,
+                    errorText: widget.errorText,
                     hintStyle: Style.commonTextStyle(
                       color: widget.hintTextColor,
                       fontSize: widget.hintFontSize,
